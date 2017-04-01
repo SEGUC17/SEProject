@@ -36,7 +36,9 @@ var ServiceProviderSchema=mongoose.Schema({
 		unique:true
 	},
 	email :{
-		{type: mongoose.SchemaTypes.Email, required: true, unique:true}
+		type: mongoose.SchemaTypes.Email, 
+		required: true, 
+		unique:true
 	},
 	address :{
 		type:String,

@@ -17,6 +17,8 @@ db.once("open", function(callback) {
 
 var Schema = mongoose.Schema;
 
+require('mongoose-type-email');
+
 var studentSchema = new Schema({
 	username: {
 		type: String,
@@ -28,8 +30,8 @@ var studentSchema = new Schema({
 		required:true
 	},
 	email: {
-		type: String,
-		required:true
+		type: mongoose.SchemaTypes.Email, 
+		required: true
 	},
 	name: {
 		type: String

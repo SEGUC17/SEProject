@@ -1,64 +1,80 @@
 var mongoose = require('mongoose');
 
-mongoose.connect("mongodb://localhost/platform");
-
-var db = mongoose.connection;
-
- 
-
-db.on("error", console.error.bind(console, "connection error"));
-
-db.once("open", function(callback) {
-
-    console.log("Connection succeeded.");
-
-   });
-
+var ServiceProvider = require('./ServiceProvider');
+var Student = require('./Student');
 
 var Schema = mongoose.Schema;
 
-var Courses = new Schema({
-
-    title: { type: String, required: true,unique: true },
-    centerName: {type:String,required:true},
-    centerLocation: {type:String,required:true},
-    type: {type:String,required:true},
-    description: {type:String,required:true},
-    startDate: {type:Date,required:true},
-    endDate: {type:Date,required:true},
-    capacity:{type:Number ,required:true },
-    announcement:{type:String},
-    fees:{type:String ,required:true},
-    enrolledStudents:[{type:mongoose.Schema.Types.ObjectId, ref: 'Student'}],
-    serviceProviderName:{type:mongoose.Schema.Types.ObjectId, ref: 'ServerProvider'},
-    listOfReviews:[{type:mongoose.Schema.Types.ObjectId, ref: 'Reviews'}],
-    listOfannouncements:[{type:String}]
-
-});
-
-Courses.methods.add = function(){
-
-    console.log("enteredd");
-
-    //var rev = new review({"review": "Hell", "isNeg":true, courses:["58de7687f72024611ebaad7f"]});
-
-    this.save(function(err){
-
-        console.log("saved");
-
-        if(err){
-
-
-
-            console.log(err);
-
-        }
-
-    })
-
-    console.log("done");
-
-}
+var Courses = mongoose.Schema({
+ 
+    title: { 
+        type: String,
+        required: true,
+        unique: true 
+    },
+ 
+    centerName: {
+        type:String,
+        required:true
+    },
+ 
+    centerLocation: {
+        type:String,
+        required:true
+    },
+ 
+    type: {
+        type:String,
+        required:true
+    },
+ 
+    description: {
+        type:String,
+        required:true
+    },
+ 
+    startDate: {
+        type:Date,
+        required:true
+    },
+ 
+    endDate: {
+        type:Date,
+        required:true
+    },
+ 
+    capacity:{
+        type:Number,
+        required:true 
+    },
+ 
+    fees:{
+        type:String,
+        required:true
+    },
+ 
+// holds the announcements of this course
+    announcements: [{
+        type:String
+    }],
+ 
+// holds all the IDs of students that are taking this course
+    enrolledStudentsIDs : [{
+        type: String
+    }],
+ 
+// holds the ID of the service provider that provides this course
+    serviceProviderID:{
+        type:String
+    },
+ 
+// hold the IDs of the reviews of this course
+    ReviewsIDs: [{
+        type: String
+    }]
+ 
+ 
+})
 
 var Courses = mongoose.model("Course", Courses);
 

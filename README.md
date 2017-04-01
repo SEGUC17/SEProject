@@ -9,6 +9,7 @@ now that you have the base project set up on your machine, your work flow is goi
 1) copy paste your already implemented methods so far in their corresponding controllers and test them, the main controller will just contain the functions of the visitor
 2) add any dependencies that you already had in your package.json file in this project's package.json file and run the "npm install" command again
 3) I wrote an example for you in the serviceProvider controller, and called the function in the server file.
+4) when you add a function in the controller, make sure that you add a coma ba3d kol function, zat el attributes fel schema kda, ma3da a5er function mat7tosh ba3dha coma.
 
 
 now, ezay han-test ? 

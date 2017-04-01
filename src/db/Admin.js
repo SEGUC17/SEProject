@@ -11,7 +11,8 @@ var adminSchema = Schema({
   name: String,
   picture:String,
   email:{type: mongoose.SchemaTypes.Email, required: true},
-  Birthdate: {type: Date}
+  Birthdate: {type: Date},
+  listOfNotification: [{type:String}]
 
 });
 

@@ -54,8 +54,10 @@ var ServiceProviderSchema=mongoose.Schema({
 	},
 	listOfCourses:
 
-		[{type:String}] // carries the IDs of the courses which are provided with this service provider
-	
+		[{type:String}], 
+		// carries the IDs of the courses which are provided with this service provider
+		
+	listOfNotification: [{type:String}]
 
 });
  

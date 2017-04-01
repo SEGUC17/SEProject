@@ -1,20 +1,4 @@
 var mongoose = require('mongoose');
-
-mongoose.connect("mongodb://localhost/platform");
-
-var db = mongoose.connection;
-
- 
-
-db.on("error", console.error.bind(console, "connection error"));
-
-db.once("open", function(callback) {
-
-    console.log("Connection succeeded.");
-
-   });
-
-
 var Schema = mongoose.Schema;
 
 require('mongoose-type-email');
@@ -37,10 +21,10 @@ var studentSchema = new Schema({
 		type: String
 	},
 	birthdate:{
-  type:Date},
+     type:Date},
 
-	ListOfCourses:
-		[{type:mongoose.Schema.Types.ObjectId, ref:'Course'}]
+	ListOfCourses:  // holds the course IDs that the student is taking
+		[{type:String}]
 	,
 
 	profilePicture:{
@@ -49,28 +33,5 @@ var studentSchema = new Schema({
 
 });
 
-studentSchema.methods.add = function(){
-
-	console.log("enteredd");
-
-	//var rev = new review({"review": "Hell", "isNeg":true, courses:["58de7687f72024611ebaad7f"]});
-
-	this.save(function(err){
-
-		console.log("saved");
-
-		if(err){
-
-
-
-			console.log(err);
-
-		}
-
-	})
-
-	console.log("done");
-
-}
 
 var student = module.exports = mongoose.model('Student', studentSchema);

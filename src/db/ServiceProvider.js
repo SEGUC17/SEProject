@@ -3,6 +3,7 @@ var mongoose=require('mongoose');
 //var bcrypt   = require('bcrypt-nodejs');
 var Course=require('./Courses');
 
+require('mongoose-type-email');
 
 var ServiceProviderSchema=mongoose.Schema({
 
@@ -35,9 +36,7 @@ var ServiceProviderSchema=mongoose.Schema({
 		unique:true
 	},
 	email :{
-		type:String,
-		required:true,
-		unique:true
+		{type: mongoose.SchemaTypes.Email, required: true, unique:true}
 	},
 	address :{
 		type:String,

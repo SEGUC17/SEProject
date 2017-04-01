@@ -22,3 +22,6 @@ this will make merging a lot easier for us, so please stick with this :D
 
 do not worry about the routes right now just focus on implementing and testing your functions.
 I also changed the emails in all schemas to use mongoose-email
+
+I need all the functions finished by tomorrow 3:00 pm isa, because starting from 3:00 pm we will start integrating isa and probably we will stay afterhours.
+P.s the notification functions are the only functions that are allowed to be still under construction tomorrow but everything else must be done CORRECTLY WITHOUT ERRORS. GOOD LUCK

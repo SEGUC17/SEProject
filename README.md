@@ -28,3 +28,6 @@ now, if you decide for any reason to add a schema, make sure you do the followin
 
 please make sure that you test your methods, and when you finish push to a branch
 this will make merging a lot easier for us, so please stick with this :D
+
+do not worry about the routes right now just focus on implementing and testing your functions.
+and I changes the emails in all schemas to use mongoose-email

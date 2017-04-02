@@ -36,8 +36,8 @@ var ServiceProviderSchema=mongoose.Schema({
 		unique:true
 	},
 	email :{
-		type: mongoose.SchemaTypes.Email, 
-		required: true, 
+		type: mongoose.SchemaTypes.Email,
+		required: true,
 		unique:true
 	},
 	address :{
@@ -54,15 +54,19 @@ var ServiceProviderSchema=mongoose.Schema({
 	},
 	listOfCourses:
 
+<<<<<<< Updated upstream
 		[{type:String}], 
 		// carries the IDs of the courses which are provided with this service provider
 		
 	listOfNotification: [{type:String}]
+=======
+		[{type:String}] // carries the IDs of the courses which are provided with this service provider
+>>>>>>> Stashed changes
+
 
 });
- 
-var ServiceProvider = module.exports = mongoose.model('ServiceProvider', ServiceProviderSchema);
 
+ // var ServiceProvider = module.exports = mongoose.model('ServiceProvider', ServiceProviderSchema);
+ var ServiceProvider = mongoose.model("ServiceProvider", ServiceProviderSchema);
 
-    
-
+ module.exports = ServiceProvider;

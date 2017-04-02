@@ -14,7 +14,7 @@ var studentSchema = new Schema({
 		required:true
 	},
 	email: {
-		type: mongoose.SchemaTypes.Email, 
+		type: mongoose.SchemaTypes.Email,
 		required: true
 	},
 	name: {
@@ -34,4 +34,7 @@ var studentSchema = new Schema({
 });
 
 
-var student = module.exports = mongoose.model('Student', studentSchema);
+//var student = module.exports = mongoose.model('Student', studentSchema);
+var student = mongoose.model("student", studentSchema);
+
+module.exports = student;

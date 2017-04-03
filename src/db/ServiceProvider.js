@@ -54,7 +54,7 @@ var ServiceProviderSchema=mongoose.Schema({
 		type:String,
 
 	},
-	listOfCoursesIDs:
+	listOfCourses:
 
 		[{type:String}], 
 		// carries the IDs of the courses which are provided with this service provider

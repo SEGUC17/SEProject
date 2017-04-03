@@ -1,7 +1,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var Courses = require('./Courses');
+var bcrypt = require("bcrypt-nodejs");
+var SALT_FACTOR = 10;
 
-require('mongoose-type-email');
 
 var studentSchema = new Schema({
 	username: {
@@ -14,14 +16,15 @@ var studentSchema = new Schema({
 		required:true
 	},
 	email: {
-		type: mongoose.SchemaTypes.Email,
+		type: String, 
 		required: true
 	},
 	name: {
 		type: String
 	},
 	birthdate:{
-     type:Date},
+       type:Date
+   },
 
 	ListOfCourses:  // holds the course IDs that the student is taking
 		[{type:String}]
@@ -33,8 +36,26 @@ var studentSchema = new Schema({
 
 });
 
+studentSchema.pre("save", function(done) {
+  var student = this;
+  if (!student.isModified("password")) {
+    return done();
+  }
+  bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
+    if (err) { return done(err); }
+    bcrypt.hash(student.password, 
+salt, noop, function(err, hashedPassword) {
+      if (err) { return done(err); }
+      student.password = hashedPassword;
+      done();
+    });
+  });
+});
+studentSchema.methods.checkPassword = function(guess, done) {
+  bcrypt.compare(guess, this.password, function(err, isMatch) {
+    done(err, isMatch);
+  });
+};
 
-//var student = module.exports = mongoose.model('Student', studentSchema);
-var student = mongoose.model("student", studentSchema);
 
-module.exports = student;
+var student = module.exports = mongoose.model('Student', studentSchema);

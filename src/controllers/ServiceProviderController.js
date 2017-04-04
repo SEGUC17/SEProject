@@ -15,27 +15,7 @@ let ServiceProviderController = {
 	})
  },
 
-//   getAllServiceProvider:function(req, res){
-//       if(req.session.passport !== null && req.session.passport.user !== null){
-//         sp.find(function(err, user) {
-//
-//           if(err){
-//             //  res.send(err.message)
-//               console.log(err);
-//           }
-//           else{
-//             filtered_ServiceProviders = [];
-//             console.log(req.body);
-//             for(var i=0; i<ServiceProviders.length;i++){
-//
-//                 filtered_ServiceProviders.push(ServiceProviders[i])
-//                 console.log("filtered_ServiceProviders",filtered_ServiceProvide);
-//               }
-//
-//             }
-//       })
-//   }
-// }
+
   getAllVerifiedServiceProvider:function(username, password){
     //  let ServiceProvider = new sp(username);
       sp.find({username:!undefined},function(err,spUsers) {

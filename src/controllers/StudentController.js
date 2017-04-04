@@ -22,9 +22,6 @@ let StudentController = {
 
              return console.log(studentuser2);
               });
-
-
-
       });
 
     },
@@ -41,7 +38,7 @@ let StudentController = {
     //
     //   })
     //
-    // }
+    // },
 
 
 }

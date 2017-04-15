@@ -173,7 +173,7 @@ var flag =0;
 Student.findById(req.sesssion._id,function(err,student){
  if(err) throw err;
   for(var i=0;i< student.ListOfCourses.length;i++){
-    Course.findOne(title:req.body.courseTitle,function(err,coursetitle){
+    Course.findOne({title:req.body.courseTitle},function(err,coursetitle){
 
 
   if(student.ListOfCourses[i] == coursetitle)

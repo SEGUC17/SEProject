@@ -8,6 +8,8 @@ var adminSchema = Schema({
   password: { type: String, required: true },
   name: { type: String},
   picture:{ type: String},
+  email:{type: String, required: true},
+  Birthdate: {type: Date},
   listOfNotification: [{
   	typeOfNotification:String,
   	ServiceProviderUsername:String

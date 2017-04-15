@@ -14,9 +14,6 @@ let ServiceProviderController = {
        ServiceProvider.remove(function(err){
        	if(err)
 
-
-
-
        		console.log(err);
        	else
        		console.log("cleared");
@@ -66,7 +63,7 @@ let ServiceProviderController = {
 	//uncomment before submission//uncomment ends here
 
 	//for testing replaace the id with object id from the database
-	var serciveProviderIDSession=req.session._id;
+	var serciveProviderIDSession=req.decoded.id;
 	//testing ends
 
 		//for testing
@@ -369,7 +366,7 @@ if(err) throw err;
   else {
 
 for(var i=0 ; i< SP.listOfCourses.length ; i++){
-  Course.findOne(title:req.body.courseTitle,function(err,coursetitle){
+  Course.findOne({title:req.body.courseTitle},function(err,coursetitle){
   if(SP.listOfCourses[i] == courseTitle.id){
     Course.findById(courseID,function(err,course){
 
@@ -377,7 +374,7 @@ for(var i=0 ; i< SP.listOfCourses.length ; i++){
 
       Review.findById(course.ReviewsIDs[j],function(err,review){
       if(review==null)
-      req.flash('error_msg'.'No Reviews to display');
+      req.flash('error_msg','No Reviews to display');
         });
       }
      });
@@ -395,7 +392,7 @@ for(var i=0 ; i< SP.listOfCourses.length ; i++){
    if(err) throw err;
 
  serviceprovider.polices=req.body.policy;
- req.flash('success_msg',;'Your policy has been updated successfully');
+ req.flash('success_msg','Your policy has been updated successfully');
  serviceprovider.save(function(err,serviceprovider){
    if(err) throw err;
  });
@@ -487,10 +484,10 @@ Course.findOne({title:courseTitle},(err,courseFound)=>{
 
 //the service provider could login
 
-	  SPLogin:function(req, res) { 
+	  SPLogin:function(req, res, cb) { 
 	  	//the service provider is found in the schema 
-      ServiceProvider.findOne( {username :req.body.username },function(err, sp) {
-        if (err) {
+      ServiceProvider.findOne( {username :req.body.username },function(err1, sp) {
+        if (err1) {
           return console.log(err);
         }
 
@@ -501,10 +498,11 @@ Course.findOne({title:courseTitle},(err,courseFound)=>{
             
      
    //match the password 
-	      sp.checkPassword (req.body.password, function(err,isMatch){
-	  
+	      sp.checkPassword (req.body.password, function(err2,isMatch){
+	     
 	        if(isMatch && isMatch==true){
 	           console.log("you are logged in");
+	           
              //  var mytoken = jwt.sign({id: sp.id, username: req.username, type: "ServiceProvider"}, 'mysecret');
                //var decoded = jwt_decode(mytoken);
                req.session._id = sp._id;
@@ -512,10 +510,10 @@ Course.findOne({title:courseTitle},(err,courseFound)=>{
                req.session.type = "ServiceProvider";
 	          }else
 	           return  console.log("wrong password");
+	              cb(sp, err2)     
 	       });
           
        
-          
    });
 
   }

@@ -9,10 +9,31 @@ var StudentController = require('./controllers/StudentController');
 var ServiceProviderController = require('./controllers/ServiceProviderController');
 var app = require('./server.js')
 
-router.post('/forbussinus/login', function(req,res){ServiceProviderController.SPLogin(req,res,function(sp, error){
+router.post('/forbussinus/login', function(req,res){
+
+	ServiceProviderController.SPLogin(req,res,function(sp, error){
 
 //check if match username pwd 
-	var token = app.jwt.sign({username: sp.username, id: sp._id, type:"ServiceProvider"}, app.app.get('super-secret'), {
+	var token = app.jwt.sign({username: sp.username, id: sp._id, orgName: sp.organizationName, type:"ServiceProvider"}, app.app.get('super-secret'), {
+          //expiresInMinutes: 1440 // expires in 24 hours
+        });
+
+	res.json({
+		success:true,
+		token :token
+
+
+	})
+
+})
+});
+//login bta3 el student
+router.post('/login', function(req,res){
+
+	StudentController.checkStudentLogin(req,res,function(student, error){
+
+//check if match username pwd 
+	var token = app.jwt.sign({username: student.username, id: student._id, type:"Student"}, app.app.get('super-secret'), {
           //expiresInMinutes: 1440 // expires in 24 hours
         });
 
@@ -26,9 +47,9 @@ router.post('/forbussinus/login', function(req,res){ServiceProviderController.SP
 })
 });
 
-router.use(function(req,res,next){
-
-
+router.use(function(req,res,next){ //this middleware adds the decoded token the req before continuing to any other routes
+                                   //so if you need to access an attribute saved in the token,
+                                   //use req.decoded.attrName
 	var token = req.body.token;
 
 	if(token){

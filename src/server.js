@@ -9,28 +9,47 @@ var flash    = require('connect-flash');
 var cookieParser = require('cookie-parser');
 var multer = require('multer');
 var upload = multer({ dest: './uploads' });
+var Cookies = require( "cookies" );
+
+// var expressJWT = require('express-jwt');
+// var jwt = require('jsonwebtoken');
+
+
+var Admin = require('./db/Admin');
+var AdminController = require('./controllers/AdminController');
+
+var ServiceProviderController = require('./controllers/ServiceProviderController');
+var StudentController = require('./controllers/StudentController');
+var ServiceProvider =require('./db/ServiceProvider');
 
 var app = express();
 
-mongoose.connect('mongodb://localhost/platform');
+
+
+
+mongoose.connect('mongodb://localhost:27017/platform');
 
 // configure app
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
-app.use(cookieParser()); // read cookies (needed for auth)
-app.use(session({
-	secret: 'keyboard cat',
-	resave: false,
-	saveUninitialized: true,
-}));
+//app.use(expressJWT({secret: 'mysecret'}));
+
+
 
 app.use(flash()); // use connect-flash for flash messages stored in session
 
-app.use(passport.initialize());  
-app.use(passport.session());  
+
+app.use(session({secret: "secret", resave: false, saveUninitialized: false}));
 
 app.use(router);
 
+// console.log("hhhhhh");
 
+
+ //var sp = new ServiceProvider ({username: "youmna",
+   //                             password: "balabizooo"
+ //});
+ //ServiceProviderController.SPLogin(sp);
 
 // start the server
 app.listen(8080, function(){

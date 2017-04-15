@@ -1,60 +1,70 @@
 var mongoose = require("mongoose");
-
-mongoose.connect("mongodb://localhost/platform");
-
-var db = mongoose.connection;
-
- 
-
-db.on("error", console.error.bind(console, "connection error"));
-
-db.once("open", function(callback) {
-
-    console.log("Connection succeeded.");
-
-   });
-
-
+var bcrypt = require("bcrypt-nodejs");
+var SALT_FACTOR = 10;
 var Schema = mongoose.Schema;
-//To use DateOnly we should write npm i mongoose-type-email --save
-require('mongoose-type-email');
-
 
 var adminSchema = Schema({
-  username: { type: String, required: true, unique: true },
+  username: { type: String, unique: true, default: "Admin"},
   password: { type: String, required: true },
-  name: String,
-  picture:String,
-  email:{type: mongoose.SchemaTypes.Email, required: true},
-  Birthdate: {type: Date}
+  name: { type: String},
+  picture:{ type: String},
+  listOfNotification: [{
+  	typeOfNotification:String,
+  	ServiceProviderUsername:String
+  }]
 
 });
 
-adminSchema.methods.add = function(){
-
-	console.log("enteredd");
-
-	//var rev = new review({"review": "Hell", "isNeg":true, courses:["58de7687f72024611ebaad7f"]});
-
-	this.save(function(err){
-
-		console.log("saved");
-
-		if(err){
 
 
-
-			console.log(err);
-
-		}
-
-	})
-
-	console.log("done");
-
-}
-
-//adminSchema.methods.verifySP = 
+adminSchema.pre("save", function(done) {
+  var admin = this;
+  if (!admin.isModified("password")) {
+    return done();
+  }
+  bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
+    if (err) { return done(err); }
+    bcrypt.hash(admin.password, 
+salt, null, function(err, hashedPassword) {
+      if (err) { return done(err); }
+      admin.password = hashedPassword;
+      done();
+    });
+  });
+});
+adminSchema.methods.checkPassword = function(guess, done) {
+  bcrypt.compare(guess, this.password, function(err, isMatch) {
+    done(err, isMatch);
+  });
+};
 
 var Admin = mongoose.model("Admin", adminSchema);
 module.exports = Admin ;
+
+var a = new Admin({
+   username: "Admin",
+
+  password: "Admin",
+
+  email:"habibahshm11@gmail.com"
+});
+
+var InsertAdmin=function(a){
+  a.save((err)=>{
+    if(err)
+      throw err
+    else
+      console.log("ADDED");
+
+  })
+}
+//InsertAdmin(a);
+
+
+
+
+
+
+
+
+

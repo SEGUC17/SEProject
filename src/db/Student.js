@@ -1,21 +1,9 @@
 var mongoose = require('mongoose');
-
-mongoose.connect("mongodb://localhost/platform");
-
-var db = mongoose.connection;
-
- 
-
-db.on("error", console.error.bind(console, "connection error"));
-
-db.once("open", function(callback) {
-
-    console.log("Connection succeeded.");
-
-   });
-
-
 var Schema = mongoose.Schema;
+var Courses = require('./Courses');
+var bcrypt = require("bcrypt-nodejs");
+var SALT_FACTOR = 10;
+
 
 var studentSchema = new Schema({
 	username: {
@@ -28,17 +16,18 @@ var studentSchema = new Schema({
 		required:true
 	},
 	email: {
-		type: String,
-		required:true
+		type: String, 
+		required: true
 	},
 	name: {
 		type: String
 	},
 	birthdate:{
-  type:Date},
+       type:Date
+   },
 
-	ListOfCourses:
-		[{type:mongoose.Schema.Types.ObjectId, ref:'Course'}]
+	ListOfCourses:  // holds the course IDs that the student is taking
+		[{type:String}]
 	,
 
 	profilePicture:{
@@ -47,28 +36,32 @@ var studentSchema = new Schema({
 
 });
 
-studentSchema.methods.add = function(){
 
-	console.log("enteredd");
+studentSchema.pre("save", function(done) {
+  var student = this;
+  if (!student.isModified("password")) {
+    return done();
+  }
+  bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
+    if (err) { return done(err); }
+    bcrypt.hash(student.password, salt, null, function(err, hashedPassword) {
+      if (err) { return done(err); }
+      student.password = hashedPassword;
+      done();
+    });
+  });
+});
 
-	//var rev = new review({"review": "Hell", "isNeg":true, courses:["58de7687f72024611ebaad7f"]});
+studentSchema.methods.checkPassword = function(guess, done) {
+  bcrypt.compare(guess, this.password, function(err, isMatch) {
+  	if(err)
+  		console.log(err)
+  	else{
+  		console.log(isMatch);
+         done(err, isMatch);
+  	}
+  });
+};
 
-	this.save(function(err){
-
-		console.log("saved");
-
-		if(err){
-
-
-
-			console.log(err);
-
-		}
-
-	})
-
-	console.log("done");
-
-}
 
 var student = module.exports = mongoose.model('Student', studentSchema);

@@ -30,6 +30,7 @@ let StudentController = {
               else{
      
                 var found = 5;
+
                 for(var i = 0; i < docs.ListOfCourses.length; i++){
                   if(docs.ListOfCourses[i].toString() == result._id){
                     found = -100;
@@ -86,19 +87,21 @@ let StudentController = {
       Student.findOne( {username :req.body.username },function(err1, studentuser) {
         if (err1) {
           console.log(err1);
+
         }
 
         if(!studentuser)
              console.log("user not found");
      
-    
     //else
       studentuser.checkPassword (req.body.password, function(err2,isMatch){
+
         if(isMatch && isMatch==true){
            return  console.log("you are logged in");
           }else
            return  console.log("wrong password");
            cb(studentuser, err2);
+
        });
           
        
@@ -118,6 +121,7 @@ let StudentController = {
     },
 
 //getStudentProfile function displays for the student his username,profile pictures and his list of courses
+
    getStudentProfile : function(req,res) {
     var array=[];
   Student.findOne({username:req.session.username}).lean().exec(function(err,student){
@@ -251,6 +255,7 @@ Student.findById(req.sesssion._id,function(err,student){
 
           Student.findById(studentID, function(err, StudentFound){
             console.log(StudentFound);
+
             for(var i = 0; i < StudentFound.ListOfCourses.length;i++){
               var CourseID=StudentFound.ListOfCourses[i];
               Course.findById(CourseID,(err,CourseFound)=>{
@@ -266,8 +271,7 @@ Student.findById(req.sesssion._id,function(err,student){
       },
   
   //student is beging signed to the system 
-  studentSignUP:function(req,res)
-	 {  
+  studentSignUP:function(req,res){  
 	  
 	 
 //match this student to one in the database
@@ -298,12 +302,6 @@ Student.findById(req.sesssion._id,function(err,student){
 	  });
 	  
 	}
-
-
-	
-
-
-
 
 }
 

@@ -13,7 +13,6 @@ let ServiceProviderController = {
     clearUNverSP: function(){
        ServiceProvider.remove(function(err){
        	if(err)
-
        		console.log(err);
        	else
        		console.log("cleared");
@@ -102,11 +101,13 @@ let ServiceProviderController = {
 			});
 		//uncomment ends here
 
+
 	newCourse.save((err,savedCourse)=>{
 		if(err){
 			console.log('Cant save the Course');
 			throw err;
 		}else{
+
 		   		ServiceProvider.findById(serciveProviderIDSession,(err,ServiceProviderResult)=>{
 		   		if(err){
 		   			console.log('error in the addCourse Function :(');
@@ -120,7 +121,6 @@ let ServiceProviderController = {
 		   		console.log('Length');
 		   		console.log(lengthofCourse);
 		   		var found=0;
-
 		   		for(var i=0;i<lengthofCourse;i++){
 		   			if(ServiceProviderResult.listOfCourses[i]==cousreid)
 		   			{
@@ -130,6 +130,7 @@ let ServiceProviderController = {
 		   			}
 		   		}
 		   		if(found==0){
+
 		   		ServiceProviderResult.listOfCourses.push(cousreid);
 		   		ServiceProviderResult.save();
 		   		console.log('After the push FINALLY');
@@ -163,6 +164,7 @@ let ServiceProviderController = {
 			//FOR TESTING REPLACE WITH THE ObjectId from the databas
 			var serciveProviderIDSession= req.session._id;
 			//TESTING ENDS HERE
+
 			ServiceProvider.findById(serciveProviderIDSession,(err,serviceProviderFound)=>{
 				if(err){
 					console.log('service provider cant be found ');
@@ -170,6 +172,7 @@ let ServiceProviderController = {
 				}else{
 			var serviceProviderListCoursesLength=serviceProviderFound.listOfCourses.length;
 			console.log(serviceProviderListCoursesLength);
+
 			Course.findOne({title:courseTitleToBeRemoved},(err,resultCourse)=>{
 				if(err){
 					throw err;
@@ -204,6 +207,7 @@ let ServiceProviderController = {
 				});
 			 }
 			}
+
 			resultCourse.remove((err)=>{
 				if(err)
 				throw err;
@@ -258,6 +262,7 @@ let ServiceProviderController = {
 		}else{
 
 		    console.log(courseFound);
+
 		    courseFound.announcements.push(newAnnouncement);
 		    courseFound.save();
 		    console.log('AFTER THE PUSH');
@@ -269,6 +274,7 @@ let ServiceProviderController = {
 
 	},
 	//the service provider can remove announcmet by passing the course title to be removeed 
+
 		removeAnnouncements:function(req,res){
 		//FOR SUBMISSION UNCOMMENT HERE
 		var courseTitleToBeRemoved=req.body.courseTitle;
@@ -278,7 +284,6 @@ let ServiceProviderController = {
 		//var courseTitleToBeRemoved='added2';
 		var announcmmentToBeRemoved=req.body.announcement;
 	    //TESTING ENDS HERE
-
 		Course.findOne({title:courseTitleToBeRemoved},(err,courseFound)=>{
 	   if(err){
 	    console.log('error in remove announcement Function ');
@@ -294,7 +299,6 @@ let ServiceProviderController = {
 		console.log(update);
 
 		var opts= { safe: true, upsert: true };
-
 		Course.update(condition,update,opts,(err,response)=>{
 			if(err)
 				throw err;
@@ -321,8 +325,8 @@ let ServiceProviderController = {
 		var title=req.body.title;
 
 
-		var objForUpdate = {};
 
+		var objForUpdate = {};
 		objForUpdate.centerName = req.body.centerName;
 		objForUpdate.type = req.body.type;
 	    objForUpdate.centerLocation =req.body.centerLocation;
@@ -336,16 +340,17 @@ let ServiceProviderController = {
 		console.log(objForUpdate);
 
 			Course.update(title,objForUpdate,{upsert:true},function(err,objForUpdate){
+
 				if(err){
 					console.log(err)
 				}
 				else{
-					console.log('success')
+             	console.log('success')
 				}
 			})
 
 		},
-		// Nada bahaa
+
 	  getAllVerifiedServiceProvider:function(){ // leh bta5od username we password ?
        //  let ServiceProvider = new sp(username);
       
@@ -359,6 +364,7 @@ let ServiceProviderController = {
 
    },
 // ViewReviews function makes the service provider able to view the reviews written about a specific course that he's providing
+
   ViewReviews: function(req,res){
 ServiceProvider.findOne({organizationName:req.body.organizationName}).lean().exec(function(err,SP){
 
@@ -398,6 +404,7 @@ for(var i=0 ; i< SP.listOfCourses.length ; i++){
  });
 
 });
+
 },
 
 //the service provider could view all the enroller students in the course by passing the course titile 
@@ -450,6 +457,7 @@ Course.findOne({title:courseTitle},(err,courseFound)=>{
 
 	   });
 
+
 	      ServiceProvider.findOne({email:req.body.email},function(err,email)
 	   {
 	     if(err){ return next(err);}
@@ -470,6 +478,7 @@ Course.findOne({title:courseTitle},(err,courseFound)=>{
 	        address: req.body.address,
 	        polices :req.body.polices,
 	        logo :req.body.logo
+
 	     
 	    });                              
 	    newOrganization.save((err,spSaved)=>{

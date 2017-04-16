@@ -11,6 +11,7 @@ let AdminController = {
                                    // and an email is sent to him
 
       ServiceProvider.remove({email: req.body.email}, function(err, DeletedSP){
+
          if(err)
             console.log(err);
          else{
@@ -71,6 +72,7 @@ let AdminController = {
 
       },
 
+
    verifySP : function(req,res)//when a service provider is verified, it is assigned 
             {                                                    // a username and password and an email is sent with those credtials
           ServiceProvider.findOne({email: req.body.email}, function(err, sp){
@@ -118,6 +120,7 @@ let AdminController = {
    },
 
    //DeleteServiceProvider function makes the admin able to delete the service provider from the system and its corresponding courses
+
   DeleteServiceProvider:function(req,res){
 
 ServiceProvider.findOne({organizationName:req.body.organizationName}).lean().exec(function(err,SP){
@@ -151,6 +154,7 @@ ServiceProvider.remove({organizationName:req.body.organizationName},function(err
 {
    if (err) throw err;
 });
+
 });
 
 },

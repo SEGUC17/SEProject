@@ -70,6 +70,7 @@ ServiceProviderSchema.pre("save", function(done) { // cryption for password
   var ServiceProvider = this;
   if (!ServiceProvider.isModified("password")) {
   	console.log("not changed");
+
     return done();
   }
   bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
@@ -170,11 +171,6 @@ module.exports.sendNotification=function(username){
 
 // to run the notification system
 //ServiceProvider.loop();
- 
-
-
-    
-
   
 var InsertServiceProvider=function(sp){
 	sp.save((err)=>{
@@ -185,6 +181,7 @@ var InsertServiceProvider=function(sp){
 
 	})
 }
+
 
 
 var ServiceProvider = module.exports = mongoose.model('ServiceProvider', ServiceProviderSchema);

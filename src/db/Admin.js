@@ -18,7 +18,6 @@ var adminSchema = Schema({
 });
 
 
-
 adminSchema.pre("save", function(done) {
   var admin = this;
   if (!admin.isModified("password")) {
@@ -26,8 +25,7 @@ adminSchema.pre("save", function(done) {
   }
   bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
     if (err) { return done(err); }
-    bcrypt.hash(admin.password, 
-salt, null, function(err, hashedPassword) {
+    bcrypt.hash(admin.password, salt, null, function(err, hashedPassword) {
       if (err) { return done(err); }
       admin.password = hashedPassword;
       done();
@@ -51,6 +49,7 @@ var a = new Admin({
   email:"habibahshm11@gmail.com"
 });
 
+
 var InsertAdmin=function(a){
   a.save((err)=>{
     if(err)
@@ -60,7 +59,9 @@ var InsertAdmin=function(a){
 
   })
 }
+
 //InsertAdmin(a);
+
 
 
 

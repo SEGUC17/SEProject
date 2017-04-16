@@ -81,11 +81,11 @@ let StudentController = {
     },
 
 //ckecks tht this student was previously signed up or not
-    checkStudentLogin:function(req,res) {
+    checkStudentLogin:function(req,res,cb) {
   
-      Student.findOne( {username :req.body.username },function(err, studentuser) {
-        if (err) {
-          console.log(err);
+      Student.findOne( {username :req.body.username },function(err1, studentuser) {
+        if (err1) {
+          console.log(err1);
         }
 
         if(!studentuser)
@@ -93,14 +93,12 @@ let StudentController = {
      
     
     //else
-      studentuser.checkPassword (req.body.password, function(err,isMatch){
+      studentuser.checkPassword (req.body.password, function(err2,isMatch){
         if(isMatch && isMatch==true){
-          req.session._id = studentuser._id;
-          req.session.username = req.body.username;
-          req.session.type = "Student"; 
            return  console.log("you are logged in");
           }else
            return  console.log("wrong password");
+           cb(studentuser, err2);
        });
           
        
@@ -296,11 +294,7 @@ Student.findById(req.sesssion._id,function(err,student){
           throw err;
         else
           console.log(StudentSaved);
-      });  
-
-      req.session._id = newStudent._id;
-      req.session.username = req.body.username;
-      req.session.type = "Student";                     
+      });                     
 	  });
 	  
 	}

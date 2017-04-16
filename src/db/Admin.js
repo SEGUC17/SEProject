@@ -17,9 +17,6 @@ var adminSchema = Schema({
 
 });
 
-var noop = function(){
-
-};
 
 adminSchema.pre("save", function(done) {
   var admin = this;
@@ -28,8 +25,7 @@ adminSchema.pre("save", function(done) {
   }
   bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
     if (err) { return done(err); }
-    bcrypt.hash(admin.password, 
-salt, noop, function(err, hashedPassword) {
+    bcrypt.hash(admin.password, salt, null, function(err, hashedPassword) {
       if (err) { return done(err); }
       admin.password = hashedPassword;
       done();
@@ -46,12 +42,13 @@ var Admin = mongoose.model("Admin", adminSchema);
 module.exports = Admin ;
 
 var a = new Admin({
-   username: "habiba",
+   username: "Admin",
 
-  password: "1111",
+  password: "Admin",
 
-  email:"habibahshm@gmail.com"
-})
+  email:"habibahshm11@gmail.com"
+});
+
 
 var InsertAdmin=function(a){
   a.save((err)=>{
@@ -62,6 +59,9 @@ var InsertAdmin=function(a){
 
   })
 }
+
+//InsertAdmin(a);
+
 
 
 

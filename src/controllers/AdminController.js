@@ -7,10 +7,11 @@ const nodemailer = require('nodemailer');
 
 let AdminController = {
 
-   declineSP: function(SPemail){ //when the admin declines a serviceprovider, the service provider is removed from the database 
+   declineSP: function(req,res){ //when the admin declines a serviceprovider, the service provider is removed from the database 
                                    // and an email is sent to him
 
-      ServiceProvider.remove({email: SPemail}, function(err, DeletedSP){
+      ServiceProvider.remove({email: req.body.email}, function(err, DeletedSP){
+
          if(err)
             console.log(err);
          else{
@@ -71,12 +72,13 @@ let AdminController = {
 
       },
 
-   verifySP : function(SPemail,assignedUsername,assignedPassword)//when a service provider is verified, it is assigned 
+
+   verifySP : function(req,res)//when a service provider is verified, it is assigned 
             {                                                    // a username and password and an email is sent with those credtials
-          ServiceProvider.findOne({email: SPemail}, function(err, sp){
+          ServiceProvider.findOne({email: req.body.email}, function(err, sp){
            if (err) { return next(err); }
-           sp.password = assignedPassword;
-           sp.username=assignedUsername;
+           sp.password = req.body.assignedPassword;
+           sp.username = req.body.assignedUsername;
            sp.save(function(err,user) {
 
              if (err) { return next(err); }
@@ -118,66 +120,41 @@ let AdminController = {
    },
 
    //DeleteServiceProvider function makes the admin able to delete the service provider from the system and its corresponding courses
-   DeleteServiceProvider:function(Serviceprovider){
 
-   ServiceProvider.findOne({organizationName:Serviceprovider}).lean().exec(function(err,SP){
-      if(SP==null)
-      console.log("Sevice Provider does not exist");
-      else{
-        //deleting the courses from each student
+  DeleteServiceProvider:function(req,res){
 
-         Student.find().lean().exec(function(err,students){
-           for(var i=0;i<SP.listOfCourses.length;i++){
+ServiceProvider.findOne({organizationName:req.body.organizationName}).lean().exec(function(err,SP){
 
-         for(var j=0;j<students.length;j++){
-          console.log("gowa for1");
-           for(var k=0;k<students[j].ListOfCourses.length;k++) {
-                 console.log("gowa for2");
-                 console.log(students[j].ListOfCourses[k]);
-                 console.log(SP);
-                 console.log(SP.listOfCourses);
-                 console.log(SP.listOfCourses[0]);
-             if(students[j].ListOfCourses[k]==(SP.listOfCourses[i])){
-            console.log("gowa el if");
-               var condition={username:students[j].username};
-               var update={ $pull: { ListOfCourses: SP.listOfCourses[i] } };
-               var opts= { safe: true, upsert: true };
-             Student.update(condition,update,opts,(err,response)=>{
-             if(err)
-                 throw err;
-               else{
-             console.log('FINALLY REMOVED FROM THE STUDENT LIST');
-             console.log(response);
-          }
-            });
-          }
-     }
+Student.find().lean().exec(function(err,students){
+  for(var i=0;i<SP.listOfCourses.length;i++){
+
+for(var j=0;j<students.length;j++){
+  for(var k=0;k<students[j].ListOfCourses.length;k++) {
+    if(students[j].ListOfCourses[k]==(SP.listOfCourses[i])){
+      var condition={username:students[j].username};
+      var update={ $pull: { ListOfCourses: SP.listOfCourses[i] } };
+      var opts= { safe: true, upsert: true };
+    Student.update(condition,update,opts,(err,response)=>{
+    if(err) throw err;
+   });
+ }
+  }
 
 }
-Course.remove({_id:SP.listOfCourses[i]},function(err)
- {
-    if (err)
-       console.log(err);
-    else
-       console.log("Course removed");
+Course.remove({_id:SP.listOfCourses[i]._id},function(err)
+{
+ if (err) throw err;
 
- });
-
-
+});
 }
 });
 
 //deleting service provider
-  ServiceProvider.remove({organizationName:Serviceprovider},function(err)
-   {
-      if (err)
-         console.log(err);
-      else
-         console.log("SP removed")
+ServiceProvider.remove({organizationName:req.body.organizationName},function(err)
+{
+   if (err) throw err;
+});
 
-   });
-
- }
 });
 
 },

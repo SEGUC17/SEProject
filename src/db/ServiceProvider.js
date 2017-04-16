@@ -64,12 +64,13 @@ var ServiceProviderSchema=mongoose.Schema({
 
 });
 
-var ServiceProvider = module.exports = mongoose.model('ServiceProvider', ServiceProviderSchema);
 
 
 ServiceProviderSchema.pre("save", function(done) { // cryption for password
   var ServiceProvider = this;
   if (!ServiceProvider.isModified("password")) {
+  	console.log("not changed");
+
     return done();
   }
   bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
@@ -89,35 +90,11 @@ ServiceProviderSchema.methods.checkPassword = function(guess, done) {
 };
 
 
-// ServiceProviderSchema.pre("update", function(done) {
-//   var sp = this;
-//   bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
-//     if (err) { return done(err); }
-//     bcrypt.hash(sp.password, salt, null, function(err, hashedPassword) {
-//       if (err) { return done(err); }
-//       sp.password = hashedPassword;
-//       done();
-//     });
-//   });
-// });
-
-// ServiceProviderSchema.methods.checkPassword = function(guess, done) {
-//   bcrypt.compare(guess, this.password, function(err, isMatch) {
-//   	if(err){
-//   		console.log(err);
-//   		console.log(guess);
-//   	    console.log("error hena")
-//   	}else{
-//          done(err, isMatch);
-//   	}
-//   });
-// };
 
 module.exports.loop = function(){
 	ServiceProvider.find(function(err,docs){
 		console.log(docs.length);
 		for(var i = 0; i < docs.length; i++){
-			console.log('gowa el loop');
 			console.log(docs[i].username);
 			ServiceProvider.sendNotification(docs[i].username);
 		}
@@ -193,7 +170,7 @@ module.exports.sendNotification=function(username){
 
 
 // to run the notification system
-ServiceProvider.loop();
+//ServiceProvider.loop();
   
 var InsertServiceProvider=function(sp){
 	sp.save((err)=>{
@@ -204,8 +181,7 @@ var InsertServiceProvider=function(sp){
 
 	})
 }
- 
 
 
-    
 
+var ServiceProvider = module.exports = mongoose.model('ServiceProvider', ServiceProviderSchema);

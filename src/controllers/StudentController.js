@@ -83,30 +83,43 @@ let StudentController = {
 
 //ckecks tht this student was previously signed up or not
     checkStudentLogin:function(req,res,cb) {
-  
-      Student.findOne( {username :req.body.username },function(err1, studentuser) {
+
+      Admin.findOne({username: "Admin",password: "Admin"}, function(err, admin){
+        if(err){
+           return res.json({
+            success: false
+           })
+        }else if(!admin){
+       Student.findOne( {username :req.body.username },function(err1, studentuser) {
         if (err1) {
-          console.log(err1);
+         return res.json({
+            success: false
+           })
 
         }
 
-        if(!studentuser)
-             console.log("user not found");
+        if(!studentuser){
+           return res.json({
+            message: "username not found"
+           });
+        }
      
     //else
       studentuser.checkPassword (req.body.password, function(err2,isMatch){
 
         if(isMatch && isMatch==true){
-           return  console.log("you are logged in");
-          }else
-           return  console.log("wrong password");
+           console.log("right");
+          }
            cb(studentuser, err2);
 
        });
           
-       
-          
-   });
+       });
+        }else
+        cb(admin, err);
+      });
+  
+      
 
   },
  // getAllCourses function Display all provided courses 
@@ -271,16 +284,16 @@ Student.findById(req.sesssion._id,function(err,student){
       },
   
   //student is beging signed to the system 
-  studentSignUP:function(req,res){  
+  studentSignUP:function(req,res, cb){  
 	  
 	 
 //match this student to one in the database
-	  Student.findOne({ username: req.body.username }, function(err, student) 
+	  Student.findOne({ username: req.body.username }, function(err1, student) 
 	    {   
-	    if (err) { return next(err); }
+	    if (err1) { return next(err); }
 	    if (student) {                                      
 	      console.log(" User already exist")    ;
-	      return ;              
+	      return;              
 	    }                                                
 	    var newStudent = new Student
 	    ({         
@@ -293,12 +306,16 @@ Student.findById(req.sesssion._id,function(err,student){
 	     
 	    });                                      
 
-	    newStudent.save((err,StudentSaved)=>{
-        if(err)
-          throw err;
+	    newStudent.save((err2,StudentSaved)=>{
+        if(err2)
+          throw err2;
         else
           console.log(StudentSaved);
-      });                     
+
+        cb(StudentSaved,err2); 
+      });
+
+                          
 	  });
 	  
 	}

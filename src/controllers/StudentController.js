@@ -99,10 +99,13 @@ let StudentController = {
         }
 
         if(!studentuser){
-           return res.json({
-            message: "username not found"
-           });
+          cb(err,"username not found");
+           return 
+           // res.json({
+           //  message: "username not found"
+           // });
         }
+        if(err) cb(err,"err ");
      
     //else
       studentuser.checkPassword (req.body.password, function(err2,isMatch){
@@ -110,13 +113,13 @@ let StudentController = {
         if(isMatch && isMatch==true){
            console.log("right");
           }
-           cb(studentuser, err2);
+           cb(err2,studentuser);
 
        });
           
        });
         }else
-        cb(admin, err);
+        cb(err,admin);
       });
   
       

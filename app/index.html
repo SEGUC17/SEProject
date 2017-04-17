@@ -1,4 +1,11 @@
-<html>
+
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="utf-8">
+<title>EduDEV</title>
+
+
 <style>
 .navbarnavbar-defaultnavbar-static-top{
     color: white;
@@ -6,22 +13,31 @@
 }
 </style>
 
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.js">
+</script> -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular-route.min.js"></script> -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular-route.min.js"></script> -->
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>EduDEV</title>
-
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.js">
-</script>
-
-
+<!-- <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular-route.js"></script> -->
+<script src="/lib/jquery-2.2.0.min.js"></script>
+    <script src="/lib/angular.min.js"></script>
+    <script src="/lib/angular-route.min.js"></script>
+    <script src="/lib/bootstrap.min.js"></script>
+    <script src="/lib/ui-bootstrap-tpls-1.2.5.min.js"></script>
+<!-- Modules -->
+<script src="starter.js"></script>
+<!-- Controllers -->
+<script src="/controllers/MainController.js"></script>
+<!-- services -->
+<script src="/services/indexSrv.js"></script>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   
 </head>
-<body ng-app="myApp"> 
+<body ng-controller="MainController"> 
+<!-- <h>{{1+2}}</h>
+<h1>{{title}}</h1> -->
 <div class="navbarnavbar-defaultnavbar-static-top" role="navigation">
   <div class="container">
     <div class="navbar-header" ng-controller="MainController">
@@ -34,30 +50,31 @@
         <a class="dropdown-toggle" data-toggle="dropdown" href="/forbusiness">For Business
         <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="/forbusiness/login">login</a></li>
-          <li><a href=/forbusiness/Register>Register</a></li>
+          <li><a "/forbusiness/login">login</a></li>
+          <li><a "/forbusiness/Register">Register</a></li>
          
         </ul>
       </li>
-      <li><a href="/login">Log in</a></li>    
-      <li><a href="/signup">Sign up</a></li>  
+      <li><a "/login">Log in</a></li>    
+      <li><a "/signup">Sign up</a></li>  
       </ul>
        <ul class="nav navbar-nav navbar-left"> 
+
       <li><a href="/catalog">Catalog</a></li>    
       </ul>
       <form class="navbar-form navbar-left" role="search">
       <div class="form-group">
         <input type="text" class="form-control" placeholder="Search">
      </div>
-    <button type="submit" class="btn btn-default">Search</button>
+    <button type="submit" class="btn btn-default" ng-click="search()">Search</button>
 </form>
   </div>
+
 </div>
 
-<!-- Modules -->
-<script src="../app/starter.js"></script>
-<!-- Controllers -->
-<script src="./app/controllers/MainController.js"></script>
+    <div ng-view></div>
+
+
 </body>   
 </html>
 

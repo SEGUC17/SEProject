@@ -15,13 +15,7 @@ var path=require('path');
 
 router.get('/',function (req,res){
         res.sendFile(path.join(__dirname,'../','app','index.html'))
-})
-
-router.get('*',function (req,res){
-        res.sendFile(path.join(__dirname,'../','app','index.html'))
-})
-
-
+});
 
     router.post('/forbussinus/login', function(req,res){
     	ServiceProviderController.SPLogin(req,res,function(sp, error){
@@ -56,7 +50,7 @@ router.post('/login', function(req,res){
       if(error){
 		return res.json({
 			success: false,
-			message:"wrong username or passwo"
+			message:"wrong username or password"
 		});
 	}
 
@@ -95,8 +89,13 @@ router.post('/register', function(req,res){
  router.post('/serviceprovider/register',function(req,res){
     	return ServiceProviderController.spRegister(req,res);
     });
-router.get('/home/viewreg',function(req,res){
-    	return ServiceProviderController.getAllVerifiedServiceProvider(req,res);
+
+
+     router.get('/home/viewreg',function(req,res){
+      
+     ServiceProviderController.getAllVerifiedServiceProvider(req,res, function(err, sp){
+          res.send(sp);
+     });
     });
  
 
@@ -132,6 +131,10 @@ router.use(function(req,res,next){ //this middleware adds the decoded token the 
 	}
 })
 
+  router.post('/adminhomepage/verify', function(req,res){
+       return AdminController.verifySP(req,res);
+    });
+
 
 
  router.post('/ServiceProvider/courses/removeCourse',function(req,res){
@@ -147,9 +150,7 @@ router.use(function(req,res,next){ //this middleware adds the decoded token the 
      
     });
 
-    router.post('/adminhomepage/verify', function(req,res){
-       return AdminController.verifySP(req,res);
-    });
+  
 
     router.post('/adminhomepage/viewunreg', function(req,res){
     	return AdminController.viewUnregSP(req,res);
@@ -159,6 +160,10 @@ router.use(function(req,res,next){ //this middleware adds the decoded token the 
     router.post('/adminhomepage/decline', function(req,res){
        return AdminController.declineSP(req,res);
     });
+
+//  router.get('*',function (req,res){
+//         res.sendFile(path.join(__dirname,'../','app','index.html'))
+// })
 
 
 module.exports =router;

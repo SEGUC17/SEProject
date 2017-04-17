@@ -10,6 +10,17 @@ var AdminController = require('./controllers/AdminController');
 
 var app = require('./server.js');
 
+var path=require('path');
+
+
+router.get('/',function (req,res){
+        res.sendFile(path.join(__dirname,'../','app','index.html'))
+})
+
+router.get('*',function (req,res){
+        res.sendFile(path.join(__dirname,'../','app','index.html'))
+})
+
 
 
     router.post('/forbussinus/login', function(req,res){
@@ -41,7 +52,6 @@ var app = require('./server.js');
     });
 //login bta3 el student
 router.post('/login', function(req,res){
-
 	StudentController.checkStudentLogin(req,res,function(student, error){
       if(error){
 		return res.json({
@@ -121,6 +131,13 @@ router.use(function(req,res,next){ //this middleware adds the decoded token the 
 				})
 	}
 })
+
+
+
+ router.post('/ServiceProvider/courses/removeCourse',function(req,res){
+ 	console.log(re.decoded);
+ 	return ServiceProviderController.removeCourse(req,res);
+ });
 
 
 

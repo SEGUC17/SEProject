@@ -344,7 +344,7 @@ let ServiceProviderController = {
 
 		},
 
-	  getAllVerifiedServiceProvider:function(req,res){ // leh bta5od username we password ?
+	  getAllVerifiedServiceProvider:function(req,res , cb){ // leh bta5od username we password ?
        //  let ServiceProvider = new sp(username);
       
        ServiceProvider.find({username:{$ne:''}},function(err,spUsers) { // change undefined to empty string
@@ -352,7 +352,8 @@ let ServiceProviderController = {
           return res.json({success: false,
           	       message: "error"});
         } else 
-         return res.json(spUsers);
+        cb(err,spUsers);
+         return ; //res.json(spUsers);
     });
 
    },

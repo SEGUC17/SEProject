@@ -79,9 +79,12 @@ let AdminController = {
    verifySP : function(req,res)//when a service provider is verified, it is assigned 
             {                     
 
-           assignedPassword = req.body.assignedPassword;
-           assignedUsername = req.body.assignedUsername; 
-           email = req.body.email;
+           var assignedPassword = req.body.assignedPassword;
+           // console.log("reqqqqq spppp");
+           
+           // console.log(req);
+           var assignedUsername = req.body.assignedUsername; 
+           var email = req.body.email;
 
                                          // a username and password and an email is sent with those credtials
           ServiceProvider.findOne({email: req.body.email}, function(err, sp){

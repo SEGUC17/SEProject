@@ -1,15 +1,51 @@
 
-console.log("appp")
+// console.log("appp")
 
-var myApp = angular.module('myApp', []);
+myApp = angular.module('myApp', ['ui.bootstrap','ngRoute']);
 
 
+myApp.config(function($routeProvider) {
+  $routeProvider
 
-angular.module('myApp', []).controller('myAppCtrl', function($scope) {
+  // route for the landingPage page
+    .when('/', {
+    templateUrl: '/index.html',
+    controller: 'MainController',
+    controllerAs: 'MainController'
+               })
+    .when('/catalog',{
 
-    $scope.title = 'Nothing beats a pocket protector!';
+    templateUrl:'/catalog.html'
+
+    }).when('/welcome',{
+
+    templateUrl:'views/welcome.html',
+      controller: 'MainController',
+    controllerAs: 'MainController'
+
+    }).
+   when('/search',{
+
+    templateUrl:'views/search.html',
+   
+
+    })
 
 });
+
+
+// myApp.controller('MainController',['$scope',function($scope){
+  
+//   $scope.title='Top Sellers in Books' ;
+  
+// }])
+	
+
+// angular.module('myApp', []).controller('myAppCtrl', function($scope) {
+
+//     $scope.title = 'Nothing beats a pocket protector!';
+
+// });
 
  // myApp.factory('myApp', function(){
  //        return { message: "I'm Data from a Service" }

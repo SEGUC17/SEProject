@@ -8,6 +8,7 @@ indexSrv.getVerifiedServiceProvider().then(function(res){
 
 
 
+
 	if(indexSrv.IsLoggedIn()){
 		console.log("user logged in")
 		indexSrv.GetCurrentUser().then(function(response){
@@ -41,22 +42,25 @@ indexSrv.getVerifiedServiceProvider().then(function(res){
 
 
 
-
-  //
-  // indexSrv.getCatalogPage();
-//$location.url('/welcome');
-// $scope.search = function() {
-       
-//         $location.url('/search');
-        
-//     };
-
-
 // indexSrv.spRegister($scope.sp).then(function)(res){
 //         $location.url('/register');
 
-// }
 
+$scope.catalog = function() {
+       
+        $location.url('/catalog');
+        
+    };
+$scope.login = function() {
+       
+        $location.url('/login');
+        
+    };
+    $scope.Signup = function() {
+       
+        $location.url('/Popup');
+        
+    };
 
   
 });

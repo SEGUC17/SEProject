@@ -1,4 +1,4 @@
-
+ 
 // console.log("appp")
 
 var myApp = angular.module('myApp', ['ui.bootstrap','ngRoute','MainController','indexSrv','spctr','businessServ','spAuthServ']);
@@ -13,23 +13,32 @@ myApp.config(function($routeProvider) {
     // controller: 'MainController',
     // controllerAs: 'MainController'
                })
-    .when('/catalog',{
+    .
+    when('/catalog',{
 
-    templateUrl:'/catalog.html'
+    templateUrl:'views/catalog.html'
 
-    }).when('/welcome',{
+    }).
+    when('/welcome',{
 
     templateUrl:'views/welcome.html',
       controller: 'MainController',
     controllerAs: 'MainController'
 
     }).
-   when('/search',{
+    when('/search',{
 
     templateUrl:'views/search.html',
    
 
+    }).
+    when('/login',{
+
+    templateUrl:'views/login.html',
+   
+
     })
+
    .when('/registeredSP',{
 
     templateUrl:'views/registeredSp.html',
@@ -71,9 +80,6 @@ myApp.config(function($routeProvider) {
     .otherwise({
     redirectTo: "/"
   });
-
-    
-  
 
 });
 

@@ -349,11 +349,12 @@ let ServiceProviderController = {
       
        ServiceProvider.find({username:{$ne:''}},function(err,spUsers) { // change undefined to empty string
         if (err) {
-          return res.json({success: false,
-          	       message: "error"});
+         
+            cb(err,"Error");
         } else 
+        console.log("in my");
         cb(err,spUsers);
-         return ; //res.json(spUsers);
+         //res.json(spUsers);
     });
 
    },

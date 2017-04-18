@@ -100,10 +100,11 @@ router.post('/register', function(req,res){
     });
 
 
-     router.get('/home/viewreg',function(req,res){
+router.get('/home/viewreg',function(req,res){
       
      ServiceProviderController.getAllVerifiedServiceProvider(req,res, function(err, sp){
-          res.send(sp);
+      console.log("in routes");
+          res.json(sp);
      });
     });
  

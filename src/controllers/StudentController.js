@@ -83,60 +83,120 @@ let StudentController = {
 
 //ckecks tht this student was previously signed up or not
     checkStudentLogin:function(req,res,cb) {
-  
-      Student.findOne( {username :req.body.username },function(err1, studentuser) {
-        if (err1) {
-          console.log(err1);
+      if(req.body.username === "Admin" || req.body.username === "admin" || req.body.username === "mariam"){
+        Admin.findOne({username: req.body.username },(err,admin)=>{
 
+          if(err){
+            cb(err,"ERROR","ERROR");
+          }else{
+            if(admin){
+              admin.checkPassword (req.body.password,(err2,isMatch)=>{
+              if(err2){
+                cb(err,"ERROR","ERROR");
+              }else{
+
+                  if(isMatch && isMatch==true){
+                     console.log("right");
+
+                     cb(err,admin,"Admin");
+                    // cb(err2,student,"SUCCESS");
+                    }else{
+                       cb(err2,"WRONG PASSWORD","ERROR");
+                    }
+
+
+            }
+            });
+          }else {
+
+            cb(err,"USERNAME NOT FOUND","ERROR")
+
+          }
+          }
+
+        })
+      }else{
+        Student.findOne({username :req.body.username },(err,student)=>{
+
+          if(err){
+            cb(err,"ERROR","ERROR");
+          }else{
+            if(student){
+            student.checkPassword (req.body.password,(err2,isMatch)=>{
+              if(err2){
+                cb(err,"ERROR","ERROR");
+              }else{
+
+                  if(isMatch && isMatch==true){
+                     console.log("right");
+                       cb(err,student,"Student");
+                    // cb(err2,student,"SUCCESS");
+                    }else{
+                       cb(err2,"WRONG PASSWORD","ERROR");
+                    }
+
+
+            }
+            });
+
+          }else{
+            cb(err,"USERNAME NOT FOUND","ERROR")
+          }
         }
+        });
+      }
 
-        if(!studentuser)
-             console.log("user not found");
-     
-    //else
-      studentuser.checkPassword (req.body.password, function(err2,isMatch){
 
-        if(isMatch && isMatch==true){
-           return  console.log("you are logged in");
-          }else
-           return  console.log("wrong password");
-           cb(studentuser, err2);
-
-       });
-          
-       
-          
-   });
 
   },
- // getAllCourses function Display all provided courses 
-  getAllCourses:function(){
+  // getAllCourses function Display all provided courses
+  getAllCourses:function(req,res,cb){
 
       Course.find(function(err, courses){
 
-           if(err) throw err;
+           if(err)
+					 cb(err,"ERROR","ERROR");
           else
-          console.log({courses});
+        cb(err,courses,"SUCCESS");
       });
     },
 
 //getStudentProfile function displays for the student his username,profile pictures and his list of courses
+     //var courses =[];
+   getStudentProfile : function(req,res,cb) {
 
-   getStudentProfile : function(req,res) {
-    var array=[];
-  Student.findOne({username:req.session.username}).lean().exec(function(err,student){
-    if (err) throw err
- else {
-         for(var i=0;i<student.ListOfCourses.length;i++){
-           Course.findById(student.ListOfCourses[i]._id,function(err,course){
-             array = array.concat([course.title]);
-           })
+  Student.findOne({username:req.decoded.username}).lean().exec(function(err,student){
+
+		console.log(student);
+    if (err){
+		cb(err,"ERROR","ERROR");}
+ else{
+	x[0]=student.username;
+
+	 x[1]=student.profilePicture;
+  //window.courses = [];
+         for(var i=0; i<student.ListOfCourses.length;i++){
+
+           Course.findById(student.ListOfCourses[i],function(err,course){
+
+
+              x = x.concat([course.title]);
+							if(i==student.ListOfCourses.length-1){
+								console.log("GOWAA");
+							cb(err,x,"SUCCESS");
+						}
+
+           });
          }
+				//console.log(x);
+				// console.log(array);
+				 //console.log(courses);
+
+
       }
   });
 
 },
-
 
 // search function can make the student or the visitor search for a specific course by its title,type,center name,or center location 
   search:function(req,res){

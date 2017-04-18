@@ -81,46 +81,74 @@ let StudentController = {
      
     },
 
+
+
+
 //ckecks tht this student was previously signed up or not
     checkStudentLogin:function(req,res,cb) {
+      if(req.body.username == "Admin" || req.body.username == "mariam"){
+        Admin.findOne({username: req.body.username },(err,admin)=>{
 
-      Admin.findOne({username: "Admin",password: "Admin"}, function(err, admin){
-        if(err){
-           return res.json({
-            success: false
-           })
-        }else if(!admin){
-       Student.findOne( {username :req.body.username },function(err1, studentuser) {
-        if (err1) {
-         return res.json({
-            success: false
-           })
+          if(err){
+            cb(err,"ERROR","ERROR");
+          }else{
+            if(admin){
+              admin.checkPassword (req.body.password,(err2,isMatch)=>{
+              if(err2){
+                cb(err,"ERROR","ERROR");
+              }else{
 
-        }
+                  if(isMatch && isMatch==true){
+                     console.log("right");
+                       
+                     cb(err,admin,"Admin");
+                    // cb(err2,student,"SUCCESS");
+                    }else{
+                       cb(err2,"WRONG PASSWORD","ERROR");
+                    }
 
-        if(!studentuser){
-          cb(err,"username not found");
-           return 
-           // res.json({
-           //  message: "username not found"
-           // });
-        }
-        if(err) cb(err,"err ");
-     
-    //else
-      studentuser.checkPassword (req.body.password, function(err2,isMatch){
+            
+            }
+            });
+          }else {
 
-        if(isMatch && isMatch==true){
-           console.log("right");
+
+            cb(err,"USERNAME NOT FOUND","ERROR")
+            
           }
-           cb(err2,studentuser);
+          }
 
-       });
+        })
+      }else{
+        Student.findOne({username :req.body.username },(err,student)=>{
           
-       });
-        }else
-        cb(err,admin);
-      });
+          if(err){
+            cb(err,"ERROR","ERROR");
+          }else{
+            if(student){
+            student.checkPassword (req.body.password,(err2,isMatch)=>{
+              if(err2){
+                cb(err,"ERROR","ERROR");
+              }else{
+
+                  if(isMatch && isMatch==true){
+                     console.log("right");
+                       cb(err,student,"Student");
+                    // cb(err2,student,"SUCCESS");
+                    }else{
+                       cb(err2,"WRONG PASSWORD","ERROR");
+                    }
+
+            
+            }
+            });
+            
+          }else{
+            cb(err,"USERNAME NOT FOUND","ERROR")
+          }
+        }
+        });
+      }
   
       
 
@@ -185,6 +213,32 @@ let StudentController = {
   }
 },
 
+ViewCourseReviews:function(req,res){
+Student.findOne({username:req.decoded.username}).lean().exec(function(err,student){
+ 
+if(err) throw err;
+  else {
+ 
+for(var i=0 ; i< student.ListOfCourses.length ; i++){
+  Course.findOne({title:req.body.courseTitle},function(err,coursetitle){
+  if(student.ListOfCourses[i] == courseTitle.id){
+    Course.findById(courseID,function(err,course){
+ 
+    for(var j = 0 ; j< course.ReviewsIDs.length ;j++){ //just return the list of reviews
+ 
+      Review.findById(course.ReviewsIDs[j],function(err,review){
+      if(review==null)
+     res.json({success:false, message:'No reviews to be viewed!'});
+ else
+  res.json(review);
+        });
+      }
+     });
+   }
+ });
+}
+ }
+});},
 // typeReview function makes the student able to write a review for a course that he took
 typeReview: function(req,res){
 var flag =0;
@@ -289,34 +343,38 @@ Student.findById(req.sesssion._id,function(err,student){
   //student is beging signed to the system 
   studentSignUP:function(req,res, cb){  
 	  
-	 
 //match this student to one in the database
 	  Student.findOne({ username: req.body.username }, function(err1, student) 
 	    {   
-	    if (err1) { return next(err); }
-	    if (student) {                                      
-	      console.log(" User already exist")    ;
-	      return;              
-	    }                                                
-	    var newStudent = new Student
-	    ({         
-	      username: req.body.username,            
-	      password: req.body.password,
-	      email:req.body.email,
-	      birthdate:req.body.birthdate ,
-	      ListOfCourses:[],
-	      profilePicture:req.body.profilePicture
-	     
-	    });                                      
+	    if (!student) { 
+          var newStudent = new Student
+      ({         
+        username: req.body.username,            
+        password: req.body.password,
+        email:req.body.email,
+        birthdate:req.body.birthdate ,
+        ListOfCourses:[],
+        profilePicture:req.body.profilePicture
+       
+      });                                      
 
-	    newStudent.save((err2,StudentSaved)=>{
-        if(err2)
-          throw err2;
-        else
+      newStudent.save((err2,StudentSaved)=>{
+        if(err2){
+           cb(err2,"ERROR"); 
+        }else{
           console.log(StudentSaved);
-
-        cb(StudentSaved,err2); 
+        cb(err2,StudentSaved); 
+      }
       });
+
+      }
+	    else{           
+
+	      console.log(" User already exist");
+        cb(err1,"USERNAME ALREADY EXIST");              
+
+	    }                                                
+	  
 
                           
 	  });

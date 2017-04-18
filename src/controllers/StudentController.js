@@ -85,9 +85,6 @@ let StudentController = {
     },
 
 
-
-
-
 //ckecks tht this student was previously signed up or not
     checkStudentLogin:function(req,res,cb) {
       if(req.body.username === "Admin" || req.body.username === "admin" || req.body.username === "mariam"){

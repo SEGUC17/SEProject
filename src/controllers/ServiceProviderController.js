@@ -5,7 +5,7 @@ var Admin = require('../db/Admin');
 var Review = require('../db/Reviews');
 var jwt = require('jsonwebtoken');
 var jwt_decode = require('jwt-decode');
-
+array = [1,1,1,1,1,1,1,1];
 
 let ServiceProviderController = {
 
@@ -36,8 +36,7 @@ let ServiceProviderController = {
 	createAndUpdatePortofolio : function (req,res,cb) {
 		if(req.decoded.type=="ServiceProvider"){
 		var ServiceProviderID = req.decoded.id; 
-
-		var toBeUpdated = {
+        var toBeUpdated = {
 			password : req.body.password,
 		    field : req.body.field,
 			description : req.body.description,
@@ -115,11 +114,11 @@ let ServiceProviderController = {
     		if(err){
     			
     			console.log('Cant save the Course');
-    			cb(err,"THIS COURSE HAS BEEN ADDED BEFORE SAVE","ERROR");
+    			cb(err,"THIS COURSE HAS BEEN ADDED BEFORE","ERROR");
     		}else{
     		   		ServiceProvider.findById(serciveProviderIDSession,(err,ServiceProviderResult)=>{
     		   		if(err){
-    		   			cb(err,"THIS COURSE HAS BEEN ADDED BEFORE FIND","ERROR");
+    		   			cb(err,"THIS COURSE HAS BEEN ADDED BEFORE","ERROR");
     		   			console.log('error in the addCourse Function :(');
     		   		}else{
     		   		console.log('Service Provider Found :)');
@@ -158,7 +157,9 @@ let ServiceProviderController = {
     	});
      
     },
+
     //done
+
 //service provider removes a course by passong in the parameter and his id
 		removeCourse: function(req,res){
  
@@ -289,7 +290,7 @@ let ServiceProviderController = {
 	},
 	//the service provider can remove announcmet by passing the course title to be removeed 
 
-		removeAnnouncements:function(req,res){
+	removeAnnouncements:function(req,res){
 		//FOR SUBMISSION UNCOMMENT HERE
 		var courseTitleToBeRemoved=req.body.courseTitle;
 		//UNCOMMENT ENDS HERE 
@@ -299,11 +300,8 @@ let ServiceProviderController = {
 		var announcmmentToBeRemoved=req.body.announcement;
 	    //TESTING ENDS HERE
 		Course.findOne({title:courseTitleToBeRemoved},(err,courseFound)=>{
-	   if(err){
-	    console.log('error in remove announcement Function ');
-	    throw err;
-	   }else{
-	    console.log(courseFound);
+	   if(courseFound){
+			console.log(courseFound);
 
 	    var condition={title:courseFound.title};
 		console.log('Course title to be REMOVED');
@@ -365,16 +363,17 @@ let ServiceProviderController = {
 
 		},
 
-		//done
-	  getAllVerifiedServiceProvider:function(req,res , cb){ 
-       ServiceProvider.find({username:{$ne:''}},function(err,spUsers) { 
-        if (err) {
-           cb(err,"NO SERVICE PROVIDERS","ERROR");
-        } else {
-        cb(err,spUsers,"SUCCESS");
-    }
+
+
+//DONE
+	getAllVerifiedServiceProvider:function(req,res , cb){ 
+    	ServiceProvider.find({username:{$ne:''}},function(err,spUsers) { 
+    		if (err) 
+         		cb(err,"NO SERVICE PROVIDERS FOUND","ERROR");
+        	else 
+        		cb(err,spUsers,"SUCCESS");
        
-    });
+    	});
 
    },
 
@@ -386,68 +385,110 @@ let ServiceProviderController = {
 			throw err;
  		else {
 
+		if(SP){
+
 			for(var i=0 ; i< SP.listOfCourses.length ; i++){
  				Course.findOne({title:req.body.courseTitle},function(err,coursetitle){
-  				if(SP.listOfCourses[i] == courseTitle.id){
-  				  Course.findById(courseID,function(err,course){
-   	 				for(var j = 0 ; j< course.ReviewsIDs.length ;j++){ //just return the list of reviews
+  					if(SP.listOfCourses[i] == courseTitle.id){
+  				  		Course.findById(courseID,function(err,course){
+   	 						for(var j = 0 ; j< course.ReviewsIDs.length ;j++){ //just return the list of reviews
 
-      					Review.findById(course.ReviewsIDs[j],function(err,review){
-      						if(review==null)
-      							req.flash('error_msg','No Reviews to display');
-        				});
-      				}
-     			});
-   				}
+      							Review.findById(course.ReviewsIDs[j],function(err,review){
+      								if(review==null)
+      									req.flash('error_msg','No Reviews to display');
+        						});
+      						}
+     					});
+   					}
  				});
 			}
  		}
+ 	}
 		});
 
 	},
 
+
+//DONE
 //definePolicy function makes the service provider able to update the refund policy of his organization
- updatePolicy: function(req,res){
-  ServiceProvider.findOne({organizationName:req.body.organizationName},function(err,serviceprovider){
-   if(err) throw err;
+updatePolicy: function(req,res){
+	if(req.decoded.type == "ServiceProvider"){
+		ServiceProvider.findById(req.decoded.id,function(err,serviceprovider){
+			if(serviceprovider){
+	 			serviceprovider.polices = req.body.policy;
+	 			serviceprovider.save(function(err,serviceprovider){
+	   				if(err) 
+	 					res.send(err,'ERROR',"ERROR");
+	 				else
+	 					res.send(err,'Your policy has been updated successfully',"SUCCESS");
 
- serviceprovider.polices=req.body.policy;
- req.flash('success_msg','Your policy has been updated successfully');
- serviceprovider.save(function(err,serviceprovider){
-   if(err) throw err;
- });
-
-});
-
-},
-
-//the service provider could view all the enroller students in the course by passing the course titile 
-
-viewAllEnrolledStudents : function(req,res){
-	
-var courseTitle=req.body.title;
-Course.findOne({title:courseTitle},(err,courseFound)=>{
-	if(err)
-		throw err;
-	else{
-	var lengthOfEnrolledStudents=courseFound.enrolledStudentsIDs.length;
-	for(var i=0;i<lengthOfEnrolledStudents;i++){
-		var studentID=courseFound.enrolledStudentsIDs[i];
-		Student.findById(studentID,(err,studentFound)=>{
-			if(err)
-				throw err;
-			else
-				console.log(studentFound);
+	 			});
+	 		}else 
+	 			res.send(err,'Service Provider not found',"ERROR");
 
 		});
 	}
-}
-});
-},
+
+	},
+
+
+//lsa
+//the service provider could view all the enroller students in the course by passing the course titile 
+	viewAllEnrolledStudents : function(req,res,cb){
+		
+    	//array.clear();
+
+    	//array.splice(0, array.length);
+		
+		var x = 0;
+
+		if(req.decoded.type == "ServiceProvider"){
+			var courseTitle=req.body.title;
+			Course.findOne({title:courseTitle},(err,courseFound)=>{
+				if(courseFound){
+
+					var lengthOfEnrolledStudents=courseFound.enrolledStudentsIDs.length;
+
+					for(var i = 0; i < lengthOfEnrolledStudents; i++){
+						var studentID = courseFound.enrolledStudentsIDs[i];
+
+						
+						Student.findById(studentID,(err,studentFound)=>{
+
+							console.log(studentFound);
+							if(studentFound){
+								array[x] = studentFound;
+								x++;
+							}
+							else{
+								cb(err,"Student not found", "ERROR");
+
+							}
+
+						});
+
+						for(var y = array.length-1; y > x; y--)
+							array.pop();
+					
+					}
+					
+					console.log(array);
+					if(array.length == 0)
+						cb(err, "No students found", "ERROR");
+					else 
+						cb(err, array, "SUCCESS");
+
+				}else
+					cb(err, "Course not found", "ERROR");
+
+			});
+		}else
+			cb("", "You are not a Service Provider","ERROR");
+	},
+
 
 
 //DONE BAS HASSA FE HAGA GHALAAT 
-
 
 //the servicde provider could register to the system by passing the field 
     spRegister: function(req,res,cb){
@@ -498,6 +539,8 @@ Course.findOne({title:courseTitle},(err,courseFound)=>{
 
 
 
+//DONE 
+
 //the service provider could login
 	SPLogin:function(req, res, cb) { 
 	  	//the service provider is found in the schema
@@ -524,7 +567,21 @@ Course.findOne({title:courseTitle},(err,courseFound)=>{
  
   	});
 
+ 	},
+
+ 	get:function(ID){ 
+    	Student.findById(ID,function(err,students) { 
+    		if (err) 
+         		cb(err,"NO SERVICE PROVIDERS FOUND","ERROR");
+        	else 
+        		cb(err,students,"SUCCESS");
+       
+    	});
+
+   }
+
  	}
 }
 
 module.exports = ServiceProviderController;
+

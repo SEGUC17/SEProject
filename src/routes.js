@@ -85,6 +85,62 @@ router.post('/ServiceProvider/courses/addCourse',(req,res)=>{
 	ServiceProviderController.addCourse(req,res);
 });
 
+router.post('/home/search',function(req,res){
+  StudentController.search(req,res,(err,course,type)=>{
+    if(type==="ERROR")
+    res.send(course);
+    else {
+      res.json(course);
+    }
+  });
+
+
+});
+
+
+router.post('/studentprofile/review',function(req,res){
+
+StudentController.typeReview(req,res,(err,review,type)=>{
+if(type==="ERROR")
+res.send(review);
+else {
+  res.json(review);
+}
+
+});
+
+
+});
+// getting without entering the tokenn??
+router.get('/studentprofile/review',function(req,res){
+
+StudentController.ViewCourseReviews(req,res,(err,review,type)=>{
+if(type==="ERROR")
+res.send(review);
+else {
+  res.json(review);
+}
+
+});
+
+
+});
+
+router.post('/register', function(req,res){
+
+	StudentController.studentSignUP(req,res,function(error,student,type){
+     if(type === "ERROR")
+          res.send(student);
+     else
+          res.json(student);
+
+});
+
+});
+
+
+
+
 // router.post('/ServiceProvider/courses/removeCourse',SPController.removeCourse);
 
 // router.post('/ServiceProvider/courses/postAnnouncment',SPController.postAnnouncements);

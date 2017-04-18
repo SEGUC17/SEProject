@@ -19,6 +19,7 @@ router.get('/',function (req,res){
 
 
 
+
 //AKEED DONE
 
 router.post('/forbussinus/login', function(req,res){
@@ -102,7 +103,6 @@ router.post('/register', function(req,res){
 
 });
 
-
 //AKEED DONE
 
 router.post('/serviceprovider/register',function(req,res){
@@ -126,7 +126,6 @@ router.post('/serviceprovider/register',function(req,res){
 
 
 //AKEED DONE
-
 router.get('/home/viewreg',function(req,res){
       
   ServiceProviderController.getAllVerifiedServiceProvider(req,res, function(err,sp,type){
@@ -182,7 +181,6 @@ router.use(function(req,res,next){ //this middleware adds the decoded token the 
 });
 
 
-
 router.post('/adminhomepage/verify', function(req,res){
 
   return AdminController.verifySP(req,res);
@@ -220,7 +218,33 @@ router.post('/ServiceProvider/courses/addCourse',function(req,res){
         content : course
       });
   });
-     
+
+
+
+
+router.post('/ServiceProvider/courses/removeCourse',function(req,res){
+
+  console.log(req.decoded);
+  if(req.decoded.type=="ServiceProvider"){
+ServiceProviderController.removeCourse(req,res,(err,result,type)=>{
+  if(!(type=="ERROR")){
+    res.json({type:type,
+      message:"Course has been successfully removed ",
+      content:result
+    });
+  }else{
+      res.json({type:type,
+      message:result
+    });
+  }
+
+});
+}else{
+    res.json({type:"ERROR",
+      message:"YOU ARE NOT A SERVICE PROVIDER ",
+        });
+}
+
 });
 
 
@@ -276,9 +300,68 @@ router.post('/adminhomepage/decline', function(req,res){
 
 
 
-//  router.get('*',function (req,res){
-//         res.sendFile(path.join(__dirname,'../','app','index.html'))
-// })
+//done
+router.post('/admin/clearUnverfiedSP',(req,res)=>{
+  ServiceProviderController.clearUNverSP(req,res,(err,result,type)=>{
+    if(type=="ERROR"){
+      res.send(result);
+    }else{
+      res.json(result);
+    }
+
+  });
+
+});
+
+router.post('/ServiceProvider/update',(req,res)=>{
+  console.log('in');
+  // res.send("HELLO");
+  ServiceProviderController.createAndUpdatePortofolio(req,res,(err,result,type)=>{
+    if(type=="ERROR"){
+      res.send(result);
+    }else{
+      res.json(result);
+    }
+    
+
+  });
+
+})
+
+
+
+
+router.post('/coursepage/bookcourse',function(req,res){
+if(req.decoded.type=="Student"){
+StudentController.bookCourse(req,res,(err,book,type)=>{
+  if(type=="ERROR"){
+res.json({
+  type:type,
+  message:book
+});
+    
+  }else{
+    res.json({
+      type:type,
+      message:"YOU HAVE SUCCESSFULLY BOOKED THE COURSE",
+      content:book
+
+    });
+  }
+
+});
+}else{
+   res.json({type:"ERROR",
+      message:"YOU ARE NOT A STUDENT"
+    });
+}
+
+
+});
+
+
+
 
 
 module.exports =router;
+

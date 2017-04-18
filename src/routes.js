@@ -19,7 +19,7 @@ router.get('/',function (req,res){
 
 
 
-//DONE
+//AKEED DONE
 
 router.post('/forbussinus/login', function(req,res){
   ServiceProviderController.SPLogin(req,res,function(error,sp,type){
@@ -30,86 +30,115 @@ router.post('/forbussinus/login', function(req,res){
     });
      
     res.json({
+      type : type,
       token : token,
-      ServiceProvider : sp
+      message : "You are successfully logged in !",
+      content : sp
     });
 
-    // console.log({
-    //   token : token,
-    //   ServiceProvider : sp
-    // }.token);
-
-    //  console.log({
-    //   token : token,
-    //   ServiceProvider : sp
-    // }.ServiceProvider.username);
-
   } else 
-    res.send(sp);
+    res.json({
+      type : type,
+      message : sp
+    });
 
   });
 
 });
 
 
-//DONE
+//AKEED DONE
 
 router.post('/login', function(req,res){
-	StudentController.checkStudentLogin(req,res,function(error,student,type){
-  if(type == "ERROR"){
-		 res.send(student);
-	} else {
-     var token = app.jwt.sign({username: student.username, id: student._id, type:type}, app.app.get('super-secret'), {
-          //expiresInMinutes: 1440 // expires in 24 hours
-        });
-      res.json({
-        token : token,
-        type : type
+  StudentController.checkStudentLogin(req,res,function(error,message,type){
+    if(type == "ERROR")
+		  res.json({
+        type : type,
+        message : message
       });
-  }
+    else {
+      var token = app.jwt.sign({username: student.username, id: student._id, type:type}, app.app.get('super-secret'), {
+          //expiresInMinutes: 1440 // expires in 24 hours
+      });
+
+      if(type == "Admin")
+        res.json({
+          token : token,
+          type : "SUCCESS",
+          message : "You are successfully logged in !",
+          content : message
+        });
+      else 
+         res.json({
+          token : token,
+          type : "SUCCESS",
+          message : "You are successfully logged in !",
+          content : message
+        });
+    }
+
+  });
 
 });
 
-});
-
+//NOT SURE 
 
 router.post('/register', function(req,res){
 
 	StudentController.studentSignUP(req,res,function(error,student,type){
      if(type === "ERROR")
-          res.send(student);
+          res.json({
+            type : type,
+            message : student
+          });
      else
-          res.json(student);
+          res.json({
+            type : type,
+            message : "You are registered successfully !",
+            content : student
+          });
         
 });
 
 });
 
 
-//DONE
+//AKEED DONE
 
 router.post('/serviceprovider/register',function(req,res){
 
   ServiceProviderController.spRegister(req,res,(err,sp,type)=>{
     if(type === "ERROR")
-          res.send(sp);
+          res.json({
+            type : type,
+            message : sp
+
+          });
     else
-          res.send(sp); 
+          res.json({
+            type : type,
+            message : "You are registered successfully !",
+            content : sp
+          }); 
   });
 
 });
 
 
-//DONE
+//AKEED DONE
 
 router.get('/home/viewreg',function(req,res){
       
   ServiceProviderController.getAllVerifiedServiceProvider(req,res, function(err,sp,type){
     if(type === "ERROR")
-      res.send(sp);
+      res.json({
+        type : type,
+        message : sp
+      });
     else
       res.json({
-        ServiceProviders : sp
+        type : type,
+        content : sp
       });
          
   });
@@ -172,28 +201,60 @@ router.post('/ServiceProvider/courses/removeCourse',function(req,res){
 
 //router.post('/ServiceProvider/update)
 
+
+
+//AKEED DONE
+
 router.post('/ServiceProvider/courses/addCourse',function(req,res){
   console.log(req.decoded);
   ServiceProviderController.addCourse(req,res,(err,course,type)=>{
-    if(type=="ERROR")
-      res.send(course);
+    if(type == "ERROR")
+      res.json({
+        type : type,
+        message : course
+      });
     else 
-      res.json(course);
+      res.json({
+        type : type,
+        message : "Course is added successfully !",
+        content : course
+      });
   });
      
 });
 
 
+//AKEED DONE
 router.post('/ServiceProvider/ViewReviews', function(req,res){
+  ServiceProviderController.ViewReviews(req,res,function(err,reviews,type){
+      if(type === "ERROR")
+        res.json({
+          type : type,
+          message : reviews
+        });
+      else
+        res.json({
+          type : type,
+          content : reviews
+        });
+  });
 
 });
+
+
+
+
 
 router.post('/ServiceProvider/viewAllEnrolledStudents', function(req,res){
   ServiceProviderController.viewAllEnrolledStudents(req,res,function(err,message,type){
     if(type == "ERROR")
-      res.send(message);
+      res.send({
+        type : type,
+        message : message
+      });
     else
       res.json({
+        type : type,
         enrolledStudents : message
       });
   });

@@ -5,7 +5,7 @@ var Admin = require('../db/Admin');
 var Review = require('../db/Reviews');
 var jwt = require('jsonwebtoken');
 var jwt_decode = require('jwt-decode');
-
+array = [1,1,1,1,1,1,1,1];
 
 let ServiceProviderController = {
 
@@ -123,7 +123,7 @@ let ServiceProviderController = {
     		   				console.log('Length');
     		   				console.log(lengthofCourse);
     		   				console.log(ServiceProviderResult);
-    		   				cb(err,newCOurseSaved,"SUCCESS");
+    		   				cb(err,newCourse,"SUCCESS");
     	
     		   			}
 					});
@@ -264,7 +264,7 @@ let ServiceProviderController = {
 	},
 	//the service provider can remove announcmet by passing the course title to be removeed 
 
-		removeAnnouncements:function(req,res){
+	removeAnnouncements:function(req,res){
 		//FOR SUBMISSION UNCOMMENT HERE
 		var courseTitleToBeRemoved=req.body.courseTitle;
 		//UNCOMMENT ENDS HERE 
@@ -274,11 +274,8 @@ let ServiceProviderController = {
 		var announcmmentToBeRemoved=req.body.announcement;
 	    //TESTING ENDS HERE
 		Course.findOne({title:courseTitleToBeRemoved},(err,courseFound)=>{
-	   if(err){
-	    console.log('error in remove announcement Function ');
-	    throw err;
-	   }else{
-	    console.log(courseFound);
+	   if(courseFound){
+			console.log(courseFound);
 
 	    var condition={title:courseFound.title};
 		console.log('Course title to be REMOVED');
@@ -357,23 +354,21 @@ let ServiceProviderController = {
 	ViewReviews: function(req,res){
 		ServiceProvider.findOne({organizationName:req.body.organizationName}).lean().exec(function(err,SP){
 
-		if(err) 
-			throw err;
- 		else {
+		if(SP){
 
 			for(var i=0 ; i< SP.listOfCourses.length ; i++){
  				Course.findOne({title:req.body.courseTitle},function(err,coursetitle){
-  				if(SP.listOfCourses[i] == courseTitle.id){
-  				  Course.findById(courseID,function(err,course){
-   	 				for(var j = 0 ; j< course.ReviewsIDs.length ;j++){ //just return the list of reviews
+  					if(SP.listOfCourses[i] == courseTitle.id){
+  				  		Course.findById(courseID,function(err,course){
+   	 						for(var j = 0 ; j< course.ReviewsIDs.length ;j++){ //just return the list of reviews
 
-      					Review.findById(course.ReviewsIDs[j],function(err,review){
-      						if(review==null)
-      							req.flash('error_msg','No Reviews to display');
-        				});
-      				}
-     			});
-   				}
+      							Review.findById(course.ReviewsIDs[j],function(err,review){
+      								if(review==null)
+      									req.flash('error_msg','No Reviews to display');
+        						});
+      						}
+     					});
+   					}
  				});
 			}
  		}
@@ -408,35 +403,48 @@ updatePolicy: function(req,res){
 //lsa
 //the service provider could view all the enroller students in the course by passing the course titile 
 	viewAllEnrolledStudents : function(req,res,cb){
+		
+    	//array.clear();
+
+    	//array.splice(0, array.length);
+		
+		var x = 0;
+
 		if(req.decoded.type == "ServiceProvider"){
-			tempoo = 0;
 			var courseTitle=req.body.title;
 			Course.findOne({title:courseTitle},(err,courseFound)=>{
 				if(courseFound){
+
 					var lengthOfEnrolledStudents=courseFound.enrolledStudentsIDs.length;
-					var array = [];
 
 					for(var i = 0; i < lengthOfEnrolledStudents; i++){
-						var studentID=courseFound.enrolledStudentsIDs[i];
+						var studentID = courseFound.enrolledStudentsIDs[i];
 
+						
 						Student.findById(studentID,(err,studentFound)=>{
 
-							// console.log(studentFound);
+							console.log(studentFound);
 							if(studentFound){
-								tempoo = array.concat([studentFound]);
-								console.log(tempoo);
+								array[x] = studentFound;
+								x++;
 							}
-							else
+							else{
 								cb(err,"Student not found", "ERROR");
 
+							}
+
 						});
+
+						for(var y = array.length-1; y > x; y--)
+							array.pop();
+					
 					}
 					
-					console.log(tempoo);
-					if(tempoo == 0)
+					console.log(array);
+					if(array.length == 0)
 						cb(err, "No students found", "ERROR");
 					else 
-						cb(err, tempoo, "SUCCESS");
+						cb(err, array, "SUCCESS");
 
 				}else
 					cb(err, "Course not found", "ERROR");
@@ -526,7 +534,19 @@ updatePolicy: function(req,res){
  
   	});
 
- 	}
+ 	},
+
+ 	get:function(ID){ 
+    	Student.findById(ID,function(err,students) { 
+    		if (err) 
+         		cb(err,"NO SERVICE PROVIDERS FOUND","ERROR");
+        	else 
+        		cb(err,students,"SUCCESS");
+       
+    	});
+
+   }
+
 }
 
 module.exports = ServiceProviderController;

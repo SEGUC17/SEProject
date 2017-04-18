@@ -82,9 +82,9 @@ let AdminController = {
    verifySP : function(req,res){//when a service provider is verified, it is assigned 
                                  
 
-          var assignedPassword = req.body.assignedPassword;
+          var assignedPassword = req.body.password;
 
-          var assignedUsername = req.body.assignedUsername; 
+          var assignedUsername = req.body.username; 
           var email = req.body.email;
 
           // a username and password and an email is sent with those credtials

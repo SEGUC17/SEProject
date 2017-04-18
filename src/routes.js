@@ -34,16 +34,6 @@ router.post('/forbussinus/login', function(req,res){
       ServiceProvider : sp
     });
 
-    // console.log({
-    //   token : token,
-    //   ServiceProvider : sp
-    // }.token);
-
-    //  console.log({
-    //   token : token,
-    //   ServiceProvider : sp
-    // }.ServiceProvider.username);
-
   } else 
     res.send(sp);
 
@@ -166,12 +156,30 @@ router.use(function(req,res,next){ //this middleware adds the decoded token the 
 
 
 
-// router.post('/ServiceProvider/courses/removeCourse',function(req,res){
+router.post('/ServiceProvider/courses/removeCourse',function(req,res){
 
-//   console.log(re.decoded);
-//    return ServiceProviderController.removeCourse(req,res);
+  console.log(req.decoded);
+  if(req.decoded.type=="ServiceProvider"){
+ServiceProviderController.removeCourse(req,res,(err,result,type)=>{
+  if(!(type=="ERROR")){
+    res.json({type:type,
+      message:"Course has been successfully removed ",
+      content:result
+    });
+  }else{
+      res.json({type:type,
+      message:result
+    });
+  }
 
-// });
+});
+}else{
+    res.json({type:"ERROR",
+      message:"YOU ARE NOT A SERVICE PROVIDER ",
+        });
+}
+
+});
 
 
 
@@ -231,6 +239,37 @@ router.post('/ServiceProvider/update',(req,res)=>{
   });
 
 })
+
+
+
+
+router.post('/coursepage/bookcourse',function(req,res){
+if(req.decoded.type=="Student"){
+StudentController.bookCourse(req,res,(err,book,type)=>{
+  if(type=="ERROR"){
+res.json({
+  type:type,
+  message:book
+});
+    
+  }else{
+    res.json({
+      type:type,
+      message:"YOU HAVE SUCCESSFULLY BOOKED THE COURSE",
+      content:book
+
+    });
+  }
+
+});
+}else{
+   res.json({type:"ERROR",
+      message:"YOU ARE NOT A STUDENT"
+    });
+}
+
+
+});
 
 //  router.get('*',function (req,res){
 //         res.sendFile(path.join(__dirname,'../','app','index.html'))

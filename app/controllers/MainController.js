@@ -1,46 +1,50 @@
+angular.module('MainController', ['indexSrv'])
+.controller('MainController',function($scope,indexSrv,$location) {
+//console.log('main')
 
-
-myApp.controller('MainController', function($scope,indexSrv,$location) {
-
-  $location.url('/welcome');
-  // /$scope.title ="" ;
-
-  //   $scope.title = function(){
-  // indexSrv.getVerifiedServiceProvider();
-  // } ;
- 
-  // console.log(  $scope.title) ;
-  getServiceProvider();
-
-  //$scope.title  =indexSrv.getServiceProviderInstant(); // dah 3`alt 
-  console.log($scope.title);
-  
-  function getServiceProvider(){
-
- indexSrv.getUnverifiedServiceProvider().success(function(Sp) {
-
- 		
-    indexSrv.setServiceProviderInstant(Sp);
-
-console.log(Sp);
- $scope.title  =indexSrv.getServiceProviderInstant(); // sh sa7 3lshan  7ateto gwa l cb
-// console.log("in ctrl");p
- 	Sp.forEach(function(c) {
+indexSrv.getVerifiedServiceProvider().then(function(res){
+	$scope.title=res.data
+})
 
 
 
 
- 		});
+	if(indexSrv.IsLoggedIn()){
+		console.log("user logged in")
+		indexSrv.GetCurrentUser().then(function(response){
+			console.log(response);
+		});
+	}else
+	{
+	console.log("user not  logged in")
 
- });
+	}
 
-  };
 
-$scope.search = function() {
-       
-        $location.url('/search');
-        
-    };
+	this.login=function(data){
+		indexSrv.ServiceProviderLogin(this.data).then(function(response){
+		//	console.log(response.data)
+			//console.log("the token is: "+response.data.token)
+
+			if(response.data.success==true)
+			$location.path('/welcome')
+
+		})
+	};
+
+	this.logout=function(){
+		indexSrv.LogOut();
+		console.log("log")
+	   // $location.path('/')
+
+
+	}
+
+
+
+// indexSrv.spRegister($scope.sp).then(function)(res){
+//         $location.url('/register');
+
 
 $scope.catalog = function() {
        
@@ -57,6 +61,7 @@ $scope.login = function() {
         $location.url('/Popup');
         
     };
+
   
 });
 	

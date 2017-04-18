@@ -17,28 +17,37 @@ router.get('/',function (req,res){
         res.sendFile(path.join(__dirname,'../','app','index.html'))
 });
 
+
+
+
+router.get('/x',function(req,res){
+  res.json({
+    name:"heba",
+    age:90
+  });
+});
     router.post('/forbussinus/login', function(req,res){
-    	ServiceProviderController.SPLogin(req,res,function(sp, error){
+      ServiceProviderController.SPLogin(req,res,function(sp, error){
      
     if(!error){
     //check if match username pwd 
-    	var token = app.jwt.sign(
-    		{username: sp.username,
-    		 id: sp._id,
-    		  type:"ServiceProvider"}, 
-    		  app.app.get('super-secret'), {
+      var token = app.jwt.sign(
+        {username: sp.username,
+         id: sp._id,
+          type:"ServiceProvider"}, 
+          app.app.get('super-secret'), {
      
             });
      
-    	return res.json({
-    		success:true,
-    		token :token
+      return res.json({
+        success:true,
+        token :token
      
-    	})
+      })
     } else{
-    	return res.json({
-    		success:false,
-    		message:"wrong username or password"
+      return res.json({
+        success:false,
+        message:"wrong username or password"
        });
      
        }
@@ -46,48 +55,48 @@ router.get('/',function (req,res){
     });
 //login bta3 el student
 router.post('/login', function(req,res){
-	StudentController.checkStudentLogin(req,res,function(student, error){
+  StudentController.checkStudentLogin(req,res,function(student, error){
       if(error){
-		return res.json({
-			success: false,
-			message:"wrong username or password"
-		});
-	}
+    return res.json({
+      success: false,
+      message:"wrong username or password"
+    });
+  }
 
 //check if match username pwd 
-	var token = app.jwt.sign({username: student.username, id: student._id, type:"Student"}, app.app.get('super-secret'), {
+  var token = app.jwt.sign({username: student.username, id: student._id, type:"Student"}, app.app.get('super-secret'), {
           //expiresInMinutes: 1440 // expires in 24 hours
         });
 
-	return res.json({
-		success:true,
-		token :token
+  return res.json({
+    success:true,
+    token :token
 
-	})
+  })
 
 })
 });
 
 router.post('/register', function(req,res){
 
-	StudentController.studentSignUP(req,res,function(student, error){
+  StudentController.studentSignUP(req,res,function(student, error){
 
 //check if match username pwd 
-	var token = app.jwt.sign({username: student.username, id: student._id, type:"Student"}, app.app.get('super-secret'), {
+  var token = app.jwt.sign({username: student.username, id: student._id, type:"Student"}, app.app.get('super-secret'), {
           //expiresInMinutes: 1440 // expires in 24 hours
         });
 
-	return res.json({
-		success:true,
-		token :token
+  return res.json({
+    success:true,
+    token :token
 
-	})
+  })
 
 })
 });
 
  router.post('/serviceprovider/register',function(req,res){
-    	return ServiceProviderController.spRegister(req,res);
+      return ServiceProviderController.spRegister(req,res);
     });
 
 
@@ -104,32 +113,32 @@ router.get('/home/viewreg',function(req,res){
 router.use(function(req,res,next){ //this middleware adds the decoded token the req before continuing to any other routes
                                    //so if you need to access an attribute saved in the token,
                                    //use req.decoded.attrName
-	var token = req.body.token;
+  var token = req.body.token || req.headers['x-access-token'];
 
-	if(token){
-		app.jwt.verify(token, app.app.get('super-secret'),function(err,decoded){
+  if(token){
+    app.jwt.verify(token, app.app.get('super-secret'),function(err,decoded){
 
-			if(!err){
-				req.decoded = decoded
-				console.log(req.decoded)
-				console.log("worked !!")
-				next()
+      if(!err){
+        req.decoded = decoded
+        console.log(req.decoded)
+        console.log("worked !!")
+        next()
 
-			}
-			else{
-				return res.json({
-					success:false,
-					message:"Token not verfied;"
-				})
-			}
-		})
-	}
-	else{
-				return res.status("401").json({
-					success:false,
-					message:"No token;"
-				})
-	}
+      }
+      else{
+        return res.json({
+          success:false,
+          message:"Token not verfied;"
+        })
+      }
+    })
+  }
+  else{
+        return res.status("401").json({
+          success:false,
+          message:"No token;"
+        })
+  }
 })
 
   router.post('/adminhomepage/verify', function(req,res){
@@ -139,22 +148,22 @@ router.use(function(req,res,next){ //this middleware adds the decoded token the 
 
 
  router.post('/ServiceProvider/courses/removeCourse',function(req,res){
- 	console.log(re.decoded);
- 	return ServiceProviderController.removeCourse(req,res);
+  console.log(re.decoded);
+  return ServiceProviderController.removeCourse(req,res);
  });
 
 
 
     router.post('/ServiceProvider/courses/addCourse',function(req,res){
-    	console.log(req.decoded);
-    	return ServiceProviderController.addCourse(req,res);
+      console.log(req.decoded);
+      return ServiceProviderController.addCourse(req,res);
      
     });
 
   
 
     router.post('/adminhomepage/viewunreg', function(req,res){
-    	return AdminController.viewUnregSP(req,res);
+      return AdminController.viewUnregSP(req,res);
     });
 
     
@@ -166,7 +175,10 @@ router.use(function(req,res,next){ //this middleware adds the decoded token the 
 //         res.sendFile(path.join(__dirname,'../','app','index.html'))
 // })
 
+router.post('/ServiceProvider/me',function(req,res){
+  res.send(req.decoded);
+})
+
 
 module.exports =router;
-
 

@@ -137,22 +137,35 @@ let StudentController = {
     },
 
 //getStudentProfile function displays for the student his username,profile pictures and his list of courses
+     //var courses =[];
+   getStudentProfile : function(req,res,cb) {
 
-   getStudentProfile : function(req,res) {
-    var array=[];
-  Student.findOne({username:req.session.username}).lean().exec(function(err,student){
-    if (err) throw err
- else {
-         for(var i=0;i<student.ListOfCourses.length;i++){
-           Course.findById(student.ListOfCourses[i]._id,function(err,course){
-             array = array.concat([course.title]);
-           })
-         }
-      }
-  });
+	var indx=2;
+  Student.findOne({username:req.decoded.username}).lean().exec(function(err,student){
+	 for(var i=0; i<student.ListOfCourses.length;i++){
 
-},
+		 Course.findById(student.ListOfCourses[i],function(err,course){
+			 //console.log(course);
 
+				 //glo.push(course.title);
+					glo[indx] = course.title;
+						indx++;
+
+
+			});
+
+
+}
+glo[0]=student.username;
+glo[1]=student.profilePicture;
+
+
+	cb(err,glo,"SUCCESS");
+	for(var w=glo.length-1;w>=0;w--){
+	glo.pop();}
+
+		     });
+			 },
 
 // search function can make the student or the visitor search for a specific course by its title,type,center name,or center location 
   search:function(req,res){
@@ -186,84 +199,113 @@ let StudentController = {
 },
 
 // typeReview function makes the student able to write a review for a course that he took
-typeReview: function(req,res){
-var flag =0;
-Student.findById(req.sesssion._id,function(err,student){
- if(err) throw err;
-  for(var i=0;i< student.ListOfCourses.length;i++){
-    Course.findOne({title:req.body.courseTitle},function(err,coursetitle){
+
+typeReview: function(req,res,cb){
+	var w=[];
+  Student.findById(req.decoded.id,function(err,student){
+   if(err)
+	 cb(err,"ERROR","ERROR");
+	 Course.findOne({title:req.body.courseTitle},function(err,c){
+		 if(err)
+		 cb(err,"ERROR","ERROR");
+
+ var courseID=c.id;
+var f=0;
+
+    for(var i=0;i< student.ListOfCourses.length;i++){
+		if(student.ListOfCourses[i] == courseID)
+		{
+			f=1;
+		  Course.findById(student.ListOfCourses[i],function(err,course){
+		  var newReview = new Review({
+		    StudentID:req.decoded.id,
+		    review:req.body.review,
+		    isNeg:req.body.isNeg,
+		    courseID:courseID
+		  });
+		  newReview.save(function(err,newReview){
+		    if(err)
+				cb(err,"ERROR","ERROR");
 
 
-  if(student.ListOfCourses[i] == coursetitle)
-  {
-    flag=1;
-    Course.findById(student.ListOfCourses[i]._id,function(err,course){
-    var newReview = new Review({
-      StudentID:req.session._id,
-      review:req.body.review,
-      isNeg:req.body.isNeg,
-      courseID:coursetitle._id
-    });
-    newReview.save(function(err,newReview){
-      if(err) throw err;
-      req.flash('success_msg','Your review is added');
-    });
-    var courseTitle = course.title ;
-   var array = course.ReviewsIDs.concat([newReview._id]);
-    course.ReviewsIDs= array;
-    if(req.body.isNeg==1){
-    course.countNeg=course.countNeg+1;
-    course.totalCount=course.totalCount+1;
-    course.save(function(err,course){
-      if(err) throw err;
-    });
-
-  if((course.countNeg/course.totalCount)>=0.5){
-    ServiceProvider.findById(course.serviceProviderID,function(err,SP){
-
-      var item = {
-        typeOfNotification:"BAD REVIEWS ON **"+course.title
-      }
-      ServiceProvider.update(SP,{"$addToSet":{listOfNotification:item}} ,function(err,res){
-        if(err)throw err;
-      })
-
-      SP.save(function(err,SP){
-        if(err) throw err;
-      });
+		  });
 
 
-            var item2={
-            typeOfNotification:"BAD REVIEWS on " +course.title,
-            ServiceProviderUsername:SP.username
-            }
+var indx2=0;
 
-            Admin.findOne({username:"Admin"},function(err,resx){
-
-              Admin.update(resx,{$push:{ listOfNotification :item2}},{safe:true,upsert:true},function(err,ress) {
-              if(err) throw err;
+			for(var i=0;i<course.ReviewsIDs.length;i++){
+		 	 Review.findById(course.ReviewsIDs[i],function(err,rouu){
+		 		 glo2[indx2]=rouu;
+		 	 });
+		  }
 
 
-            resx.save(function(err,resx){
-              if(err) throw err;
-            });   });
+
+			cb(err,glo2,"SUCCESS");
+			for(var w=glo2.length-1;w>=0;w--){
+			glo.pop();}
+
+		  var courseTitle = course.title ;
+		 var array = course.ReviewsIDs.concat([newReview.id]);
+		  course.ReviewsIDs= array;
+		  if(req.body.isNeg==1){
+		  course.countNeg=course.countNeg+1;
+		  course.totalCount=course.totalCount+1;
+		  course.save(function(err,course){
+		    if(err) cb(err,"ERROR","ERROR");
+		  });
+
+		if((course.countNeg/course.totalCount)>=0.5){
+		  ServiceProvider.findById(course.serviceProviderID,function(err,SP){
+		   // SP.listOfNotification=SP.listOfNotification.concat(course.title+" has exceeded the maximum number of negative reviews");
+        var item = {
+					typeOfNotification:"BAD REVIEWS ON **"+course.title
+				}
+				ServiceProvider.update(SP,{"$addToSet":{listOfNotification:item}} ,function(err,res){
+					if(err)
+				cb(err,"ERROR","ERROR");
+				})
+
+
+//console.log(SP.listOfNotification.typeOfNotification);
+				SP.save(function(err,SP){
+		      if(err) cb(err,"ERROR","ERROR");
+		    });
+
+
+							var item2={
+							typeOfNotification:"BAD REVIEWS on " +course.title,
+							ServiceProviderUsername:SP.username
+							}
+
+							Admin.findOne({username:"Admin"},function(err,resx){
+
+								Admin.update(resx,{$push:{ listOfNotification :item2}},{safe:true,upsert:true},function(err,ress) {
+								if(err)
+							cb(err,"ERROR","ERROR");
+
+							resx.save(function(err,resx){
+								if(err) cb(err,"ERROR","ERROR");
+							});		});
 });
 
 
-    });
+		  });
 
+		 }
    }
-   }
-
-  });
+	  });
 }
-});
- }
- if(flag==0){
-   req.flash('error_msg','You Can not review this course');
- }
-});
-},
+}
+if(f==0)
+cb(err,"You can't review this course","ERROR");
+		});
+
+	});
+
+
+
+ },
 
    //the student view all the courses he is enrolled to 
        viewStudentListOfCourses : function(req, res){

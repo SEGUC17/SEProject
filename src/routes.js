@@ -131,6 +131,16 @@ router.use(function(req,res,next){ //this middleware adds the decoded token the 
 	}
 })
 
+router.post('/coursepage/bookcourse',function(req,res){
+
+StudentController.bookCourse(req,res,(err,book,type)=>{
+res.send(book);
+
+});
+
+
+});
+
   router.post('/adminhomepage/verify', function(req,res){
        return AdminController.verifySP(req,res);
     });

@@ -6,29 +6,31 @@ let Admin=require('../db/Admin');
 
 let StudentController = {
 //the student could book a course 
-	     bookCourse :function(req, res){
-          
-       
+	     bookCourse :function(req, res,cb){
+
+
         var courseTitle = req.body.title;
-        var StudentID = req.session._id;
-     
+       var StudentID = req.decoded.id;
+
         Course.findOne({title : courseTitle}, function(err,result){
+
+
           console.log(result.capacity);
-     
+
         if(err){
-          console.log('Error');
+          cb(err,"ERROR","ERROR");
         } else {
-     
+
           course = result;
           if(result.capacity > 0){
-     
-     
-            Student.findOne({_id : StudentID},function(err, docs){
+
+
+            Student.findById({_id : StudentID},function(err, docs){
               //console.log(docs);
-              if(err)
-                console.log("error");
+              if(!docs)
+            cb(err,"ERROR","ERROR");
               else{
-     
+
                 var found = 5;
 
                 for(var i = 0; i < docs.ListOfCourses.length; i++){
@@ -38,49 +40,48 @@ let StudentController = {
                   }
                 }
               }
-     
+
                 if(found < 0){
-                  console.log("This course is already taken by this student");
+                  cb(err,"This course is already taken by this student","ERROR");
                 } else {
                       var xxx = result._id;
                       console.log(xxx)
 
-                    
+
                   var tempo = docs.ListOfCourses.concat([xxx]);
-     
+
                   Student.update({_id : StudentID },{ListOfCourses : tempo }, function(err,affected) {
                       console.log('affected rows %d', affected);
-                  });   
-     
-                  console.log("student is added to the course");
-    
+                  });
+
+                  cb(err,"student is added to the course","SUCESS");
+
 
                   var tempoo = result.enrolledStudentsIDs.concat([StudentID]);
-     
+
                   Course.update({title : courseTitle },{enrolledStudentsIDs : tempoo }, function(err,affected) {
-                      console.log('affected rows %d', affected);
+                      //console.log('affected rows %d', affected);
                   });
-     
+
                   var temp = result.capacity;
                   temp = temp -1;
                   Course.update({title : courseTitle },{capacity : temp }, function(err,affected) {
-                      console.log('affected rows %d', affected);
-                  }); 
-     
-              }
-     
-     
-            });
-     
-          } else
-     
-            console.log("No Space");
-        }
-     
-      });
-     
-    },
+                      //console.log('affected rows %d', affected);
+                  });
 
+              }
+
+
+            });
+
+          } else
+
+            cb(err,"No Space","ERROR");
+        }
+
+      });
+
+    },
 //ckecks tht this student was previously signed up or not
     checkStudentLogin:function(req,res,cb) {
 

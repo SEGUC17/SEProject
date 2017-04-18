@@ -9,37 +9,39 @@ myApp.config(function($routeProvider) {
 
   // route for the landingPage page
     .when('/', {
-    templateUrl: '/index.html',
-    controller: 'MainController',
-    controllerAs: 'MainController'
-               })
-    .when('/catalog',{
+      templateUrl: '/index.html',
+      controller: 'MainController',
+      controllerAs: 'MainController'
 
-    templateUrl:'/catalog.html'
+    }).when('/catalog',{
+
+      templateUrl:'/catalog.html'
 
     }).when('/welcome',{
 
-    templateUrl:'views/welcome.html',
+      templateUrl:'views/welcome.html',
       controller: 'MainController',
-    controllerAs: 'MainController'
+      controllerAs: 'MainController'
 
-    }).
-   when('/search',{
+    }).when('/search',{
 
-    templateUrl:'views/search.html',
-   
+     templateUrl:'views/search.html',
 
-    })
+    }).when('/adminPage',{
+      templateUrl:'views/adminPage.html',
+      controller: 'AdminController',
+      controllerAs: 'AdminController'
+  })
 
 });
 
 
 // myApp.controller('MainController',['$scope',function($scope){
-  
+
 //   $scope.title='Top Sellers in Books' ;
-  
+
 // }])
-	
+
 
 // angular.module('myApp', []).controller('myAppCtrl', function($scope) {
 
@@ -53,7 +55,7 @@ myApp.config(function($routeProvider) {
 
 
 // app.controller('MainController',['$scope',function($scope){
-  
+
 //   $scope.title='Top Sellers in Books' ;
-  
+
 // }])

@@ -3,13 +3,12 @@ let  Course = require('../db/Courses');
 let Review = require('../db/Reviews');
 let ServiceProvider = require('../db/ServiceProvider');
 let Admin=require('../db/Admin');
-let window = require('window');
 glo=[];
 gl=[];
 let StudentController = {
 //the student could book a course
 
-	     bookCourse :function(req, res,cb){
+       bookCourse :function(req, res,cb){
 
 
         var courseTitle = req.body.title;
@@ -163,7 +162,7 @@ let StudentController = {
       Course.find(function(err, courses){
 
            if(err)
-					 cb(err,"ERROR","ERROR");
+           cb(err,"ERROR","ERROR");
           else
         cb(err,courses,"SUCCESS");
       });
@@ -173,19 +172,19 @@ let StudentController = {
      //var courses =[];
    getStudentProfile : function(req,res,cb) {
 
-	var indx=2;
+  var indx=2;
   Student.findOne({username:req.decoded.username}).lean().exec(function(err,student){
-	 for(var i=0; i<student.ListOfCourses.length;i++){
+   for(var i=0; i<student.ListOfCourses.length;i++){
 
-		 Course.findById(student.ListOfCourses[i],function(err,course){
-			 //console.log(course);
+     Course.findById(student.ListOfCourses[i],function(err,course){
+       //console.log(course);
 
-				 //glo.push(course.title);
-					glo[indx] = course.title;
-						indx++;
+         //glo.push(course.title);
+          glo[indx] = course.title;
+            indx++;
 
 
-			});
+      });
 
 
 }
@@ -193,12 +192,12 @@ glo[0]=student.username;
 glo[1]=student.profilePicture;
 
 
-	cb(err,glo,"SUCCESS");
-	for(var w=glo.length-1;w>=0;w--){
-	glo.pop();}
+  cb(err,glo,"SUCCESS");
+  for(var w=glo.length-1;w>=0;w--){
+  glo.pop();}
 
-		     });
-			 },
+         });
+       },
 
 
 
@@ -211,30 +210,30 @@ glo[1]=student.profilePicture;
  Course.find({title:req.body.key},function(err, courses){
 
           if(err)
-					cb(err,"ERROR","ERROR");
-					else {
-						cb(err,courses,"SUCCESS");
-					}
+          cb(err,"ERROR","ERROR");
+          else {
+            cb(err,courses,"SUCCESS");
+          }
       });
   }
   if(req.body.searchBy=='type'){
     Course.find({type:req.body.key},function(err, courses){
 
               if(err)
-							cb(err,"ERROR","ERROR");
-							else {
-								cb(err,courses,"SUCCESS");
-							}
+              cb(err,"ERROR","ERROR");
+              else {
+                cb(err,courses,"SUCCESS");
+              }
           });
   }
   if(req.body.searchBy=='centerLocation'){
     Course.find({centerLocation:req.body.key},function(err, courses){
 
               if(err)
-							cb(err,"ERROR","ERROR");
-							else {
-								cb(err,courses,"SUCCESS");
-							}
+              cb(err,"ERROR","ERROR");
+              else {
+                cb(err,courses,"SUCCESS");
+              }
 
           });
   }
@@ -242,10 +241,10 @@ glo[1]=student.profilePicture;
     Course.find({centerName:req.body.key},function(err, courses){
 
               if(err)
-							cb(err,"ERROR","ERROR");
-							else {
-								cb(err,courses,"SUCCESS");
-							}
+              cb(err,"ERROR","ERROR");
+              else {
+                cb(err,courses,"SUCCESS");
+              }
 
                             });
   }
@@ -253,7 +252,7 @@ glo[1]=student.profilePicture;
 
 /*ViewCourseReviews:function(req,res,cb){
 
-	var array=[];
+  var array=[];
 Student.findOne({username:req.decoded.username}).lean().exec(function(err,student){
 
 if(err)
@@ -273,7 +272,7 @@ for(var i=0 ; i< student.ListOfCourses.length ; i++){
         });
       }
 
-			cb(err,array,"SUCCESS");
+      cb(err,array,"SUCCESS");
      });
    }
  });
@@ -423,9 +422,9 @@ else
   studentSignUP:function(req,res, cb){
 
 //match this student to one in the database
-	  Student.findOne({ username: req.body.username }, function(err1, student)
-	    {
-	    if (!student) {
+    Student.findOne({ username: req.body.username }, function(err1, student)
+      {
+      if (!student) {
           var newStudent = new Student
       ({
         username: req.body.username,
@@ -440,33 +439,32 @@ else
       /*newStudent.save((err2,newStudent)=>{
         if(err2){
       //     cb(err2,"ERROR","ERROR");
-		}*/
-				newStudent.save(function(err,student){
-					if(err)
-					  cb(err,"ERROR","ERROR");
-				else{
+    }*/
+        newStudent.save(function(err,student){
+          if(err)
+            cb(err,"ERROR","ERROR");
+        else{
           console.log(student);
         cb(err,student,"SUCCESS");
       }
       });
 
       }
-	    else{
+      else{
 
-	      console.log(" User already exist");
+        console.log(" User already exist");
         cb(err1,"USERNAME ALREADY EXIST","ERROR");
 
-	    }
+      }
 
 
 
-	  });
+    });
 
-	}
+  }
 
 
 
 }
 
 module.exports = StudentController;
-

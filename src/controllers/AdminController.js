@@ -76,17 +76,19 @@ let AdminController = {
       },
 
 
-   verifySP : function(req,res)//when a service provider is verified, it is assigned 
-            {                     
 
-           var assignedPassword = req.body.assignedPassword;
-           // console.log("reqqqqq spppp");
-           
-           // console.log(req);
-           var assignedUsername = req.body.assignedUsername; 
-           var email = req.body.email;
+//DONE
 
-                                         // a username and password and an email is sent with those credtials
+   verifySP : function(req,res){//when a service provider is verified, it is assigned 
+                                 
+
+          var assignedPassword = req.body.assignedPassword;
+
+          var assignedUsername = req.body.assignedUsername; 
+          var email = req.body.email;
+
+          // a username and password and an email is sent with those credtials
+
           ServiceProvider.findOne({email: req.body.email}, function(err, sp){
            if (err) { 
             return res.json({success: false,
@@ -143,7 +145,7 @@ let AdminController = {
 
    //DeleteServiceProvider function makes the admin able to delete the service provider from the system and its corresponding courses
 
-  DeleteServiceProvider:function(req,res){
+  DeleteServiceProvider:function(req,res,cb){
 
 ServiceProvider.findOne({organizationName:req.body.organizationName}).lean().exec(function(err,SP){
 
@@ -157,7 +159,8 @@ for(var j=0;j<students.length;j++){
       var update={ $pull: { ListOfCourses: SP.listOfCourses[i] } };
       var opts= { safe: true, upsert: true };
     Student.update(condition,update,opts,(err,response)=>{
-    if(err) throw err;
+    if(err)
+     cb(err,"ERROR","ERROR") ;
    });
  }
   }
@@ -165,7 +168,8 @@ for(var j=0;j<students.length;j++){
 }
 Course.remove({_id:SP.listOfCourses[i]._id},function(err)
 {
- if (err) throw err;
+ if (err) 
+  cb(err,"ERROR","ERROR");
 
 });
 }
@@ -174,7 +178,10 @@ Course.remove({_id:SP.listOfCourses[i]._id},function(err)
 //deleting service provider
 ServiceProvider.remove({organizationName:req.body.organizationName},function(err)
 {
-   if (err) throw err;
+   if (err) 
+    cb(err,"ERROR","ERROR");
+  else
+    cb(err,"Service Provider is deleted","SUCCESS");
 });
 
 });

@@ -17,19 +17,23 @@ myApp.config(function($routeProvider) {
 
     templateUrl:'/catalog.html'
 
-    }).when('/welcome',{
+    })
+    .when('/welcome',{
 
-    templateUrl:'views/welcome.html',
+    templateUrl:'app/views/welcome.html',
       controller: 'MainController',
     controllerAs: 'MainController'
 
-    }).
-   when('/search',{
-
-    templateUrl:'views/search.html',
-   
-
     })
+   .when('/search',{
+
+    templateUrl:'app/views/search.html',
+   })
+
+   .when('/catalog',{
+
+    templateUrl:'app/views/catalog.html',
+   })
 
 });
 

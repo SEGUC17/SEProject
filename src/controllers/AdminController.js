@@ -13,9 +13,15 @@ let AdminController = {
       ServiceProvider.remove({email: req.body.email}, function(err, DeletedSP){
 
          if(err)
-            console.log(err);
+            return res.json({
+              success: false,
+              message: "error"
+            });
          else{
-            console.log("deleted");
+            return res.json({
+              success: true,
+              message:"service provider declined"
+            });
          }
       })
 
@@ -32,7 +38,7 @@ let AdminController = {
                // setup email data with unicode symbols
                let mailOptions = {
                    from: 'seprojecta@gmail.com', // sender address
-                   to: SPemail, // list of receivers
+                   to: req.body.email, // list of receivers
                    subject: 'Sorry, you are not verified', // Subject line
                    text: 'Better luck next time  \n'
                };
@@ -51,38 +57,49 @@ let AdminController = {
    },
 
 
- viewUnregSP :function(){   //views all unverified service provider, those who have no username and password yet
+ viewUnregSP :function(req,res){   //views all unverified service provider, those who have no username and password yet
           ServiceProvider.find({username:""}).lean().exec(function(err,unRegSP)
             {
-             if(err)
-             {
-              throw err;
+             if(err){
+               return res.json({
+                success: false,
+                message: "error"
+               });
              }
              else
              {
-           var i;
-              for ( i =0; i < unRegSP.length ; i++) 
-              {
-        
-            console.log(unRegSP[i])
-              }
+              return res.json(unRegSP);
              }
-
+            
             });
 
       },
 
 
    verifySP : function(req,res)//when a service provider is verified, it is assigned 
-            {                                                    // a username and password and an email is sent with those credtials
-          ServiceProvider.findOne({email: req.body.email}, function(err, sp){
-           if (err) { return next(err); }
-           sp.password = req.body.assignedPassword;
-           sp.username = req.body.assignedUsername;
-           sp.save(function(err,user) {
+            {                     
 
-             if (err) { return next(err); }
-             console.log(user);
+           var assignedPassword = req.body.assignedPassword;
+           // console.log("reqqqqq spppp");
+           
+           // console.log(req);
+           var assignedUsername = req.body.assignedUsername; 
+           var email = req.body.email;
+
+                                         // a username and password and an email is sent with those credtials
+          ServiceProvider.findOne({email: req.body.email}, function(err, sp){
+           if (err) { 
+            return res.json({success: false,
+                              message: "service provider not found"}); 
+          }
+
+            sp.password = assignedPassword;
+           sp.username = assignedUsername; 
+          
+           sp.save(function(err,user) {
+            if (err) { return res.json({success:false,
+                                         message:"could not save"
+             }); }
            });
          });
          
@@ -99,7 +116,7 @@ let AdminController = {
                // setup email data with unicode symbols
                let mailOptions = {
                    from: 'seprojecta@gmail.com', // sender address
-                   to: SPemail, // list of receivers
+                   to: email, // list of receivers
                    subject: 'you are verified ✔', // Subject line
                    text: 'Welcome to our platform 💪'+"\n"+
                         'your username: ' + assignedUsername+"\n"+
@@ -115,6 +132,11 @@ let AdminController = {
                    console.log('Message %s sent: %s', info.messageId, info.response);
 
                });
+
+          return res.json({
+                success: true,
+                message: "service provider verified"
+               })
 
 
    },
@@ -172,7 +194,8 @@ ServiceProvider.remove({organizationName:req.body.organizationName},function(err
         console.log(array);
         return array;
         });
-      }
+      },
+
 
 }
 

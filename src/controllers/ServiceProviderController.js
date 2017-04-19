@@ -54,97 +54,90 @@ let ServiceProviderController = {
 	},
 
 	//the service provider can add a course and passing his Id 
-
-	addCourse:function(req,res){
-
-	//var serciveProviderIDSession=req.ServiceProvider.serviceProviderName;
-	
-	//uncomment before submission//uncomment ends here
-
-	//for testing replaace the id with object id from the database
-	var serciveProviderIDSession=req.decoded.id;
-	//testing ends
-
-		//for testing
-		// var newCourse=new Course({
-		// 		title:'added2',
-		// 		centerName:'hhhh',
-		// 		centerLocation:'Zoo',
-		// 		type:'Animal',
-		// 		description:'yalla men hena',
-		// 		startDate:'2014-12-08',
-		// 		endDate:'2014-12-08',
-		// 		capacity:10,
-		// 		announcements:[],
-		// 		fees:100,
-		// 		enrolledStudents:[],
-		// 		serviceProviderID:'58e5112f7f4f731eb82c3d37'
-				
-		// 	});
-		//testing ends
-
-		//for submitting uncomment
-		var newCourse=new Course({
-				title:req.body.title,
-				centerName:req.body.centerName,
-				centerLocation:req.body.centerLocation,
-				type:req.body.type,
-				description:req.body.description,
-				startDate:req.body.startDate,
-				endDate:req.body.endDate,
-				capacity:req.body.capacity,
-				announcement:req.body.announcement,
-				fees:req.body.fees,
-				enrolledStudents:req.body.enrolledStudents,
-				serviceProviderName:serciveProviderIDSession
-				
-			});
-		//uncomment ends here
-
-
-	newCourse.save((err,savedCourse)=>{
-		if(err){
-			console.log('Cant save the Course');
-			throw err;
-		}else{
-
-		   		ServiceProvider.findById(serciveProviderIDSession,(err,ServiceProviderResult)=>{
-		   		if(err){
-		   			console.log('error in the addCourse Function :(');
-		   			throw err;
-		   		}else{
-		   		console.log('Service Provider Found :)');
-		   		console.log(ServiceProviderResult);
-		   		console.log(savedCourse._id);
-		   		var cousreid=savedCourse._id;
-		   		var lengthofCourse=ServiceProviderResult.listOfCourses.length;
-		   		console.log('Length');
-		   		console.log(lengthofCourse);
-		   		var found=0;
-		   		for(var i=0;i<lengthofCourse;i++){
-		   			if(ServiceProviderResult.listOfCourses[i]==cousreid)
-		   			{
-		   				console.log('this course has been added before SORRY');
-		   				found=1;
-		   				break;
-		   			}
-		   		}
-		   		if(found==0){
-
-		   		ServiceProviderResult.listOfCourses.push(cousreid);
-		   		ServiceProviderResult.save();
-		   		console.log('After the push FINALLY');
-		   		lengthofCourse=ServiceProviderResult.listOfCourses.length;
-		   		console.log('Length');
-		   		console.log(lengthofCourse);
-		   		console.log(ServiceProviderResult);
-		   	}
-				}
-		   	});
-		   }
-		  });
-
-		},
+    addCourse:function(req,res){
+     
+    	//uncomment before submission//uncomment ends here
+     
+    	//for testing replaace the id with object id from the database
+    	var serciveProviderIDSession=req.decoded.id;
+    	//testing ends
+    	console.log(serciveProviderIDSession);
+     
+    		//for submitting uncomment
+    		var newCourse=new Course({
+    				title:req.body.title,
+    				centerName:req.body.centerName,
+    				centerLocation:req.body.centerLocation,
+    				type:req.body.type,
+    				description:req.body.description,
+    				startDate:req.body.startDate,
+    				endDate:req.body.endDate,
+    				capacity:req.body.capacity,
+    				announcement:req.body.announcement,
+    				fees:req.body.fees,
+    				enrolledStudents:req.body.enrolledStudents,
+    				serviceProviderID:serciveProviderIDSession
+     
+    			});
+    		//uncomment ends here
+     
+    		var headerToBeSet=false;
+     
+    	newCourse.save((err,savedCourse)=>{
+    		if(err){
+    			headerToBeSet=true;
+    			console.log('Cant save the Course');
+     
+    			return res.json({
+    				success:false,
+    				message:"No Save"
+    			})
+    		}else{
+    		   		ServiceProvider.findById(serciveProviderIDSession,(err,ServiceProviderResult)=>{
+    		   		if(err){
+    		   			if(!headerToBeSet){
+    		   				headerToBeSet=true;
+    		   					return res.json({
+    								success:false,
+    								message:"No service provider"
+    							})
+    		   			}
+    		   			console.log('error in the addCourse Function :(');
+     
+    		   		}else{
+    		   		console.log('Service Provider Found :)');
+    		   		console.log(ServiceProviderResult);
+    		   		console.log(savedCourse._id);
+    		   		var cousreid=savedCourse._id;
+    		   		var lengthofCourse=ServiceProviderResult.listOfCourses.length;
+    		   		console.log('Length');
+    		   		console.log(lengthofCourse);
+    		   		var found=0;
+     
+    		   		for(var i=0;i<lengthofCourse;i++){
+    		   			if(ServiceProviderResult.listOfCourses[i]==cousreid)
+    		   			{
+    		   				console.log('this course has been added before SORRY');
+    		   				found=1;
+    		   				break;
+    		   			}
+    		   		}
+    		   		if(found==0){
+    		   		ServiceProviderResult.listOfCourses.push(cousreid);
+    		   		ServiceProviderResult.save();
+    		   		console.log('After the push FINALLY');
+    		   		lengthofCourse=ServiceProviderResult.listOfCourses.length;
+    		   		console.log('Length');
+    		   		console.log(lengthofCourse);
+    		   		console.log(ServiceProviderResult);
+    		   		return res.json({success:true,message:ServiceProviderResult.listOfCourses});
+    		   	}
+    				}
+    		   	});
+    		   }
+    		  });
+     
+    		},
 //service provider removes a course by passong in the parameter and his id
 		removeCourse: function(req,res){
  
@@ -351,15 +344,17 @@ let ServiceProviderController = {
 
 		},
 
-	  getAllVerifiedServiceProvider:function(){ // leh bta5od username we password ?
+	  getAllVerifiedServiceProvider:function(req,res , cb){ // leh bta5od username we password ?
        //  let ServiceProvider = new sp(username);
       
        ServiceProvider.find({username:{$ne:''}},function(err,spUsers) { // change undefined to empty string
         if (err) {
-          console.log(err);
-          console.log("errooooorrrrrrr");
+         
+            cb(err,"Error");
         } else 
-         console.log("filtered_ServiceProviders",spUsers);
+        console.log("in my");
+        cb(err,spUsers);
+         //res.json(spUsers);
     });
 
    },
@@ -431,42 +426,83 @@ Course.findOne({title:courseTitle},(err,courseFound)=>{
 });
 },
 //the servicde provider could register to the system by passing the field 
-  spRegister: function(req,res)
+    spRegister: function(req,res)
     {
-
+    	console.log("HENA");
+var headerToBeSet=false;
 //checks first tht this Service provider was not perviously registered to the system
 	   ServiceProvider.findOne({organizationName:req.body.organizationName},function(err,organizationName)
 	   {
-	     if(err){ return next(err);}
+	   	console.log("organizationName");
+ 
+	     if(err){ 
+		headerToBeSet=true;
+	     	return 
+	     	res.json({
+	     	success:false,
+	     	message:"ERROR organizationName"	
+	     })
+ 
+	     }
+ 
 	     if(organizationName)
 	     {
 	       console.log('Organization name already exists');
-	       return ;
+	       if(!headerToBeSet){
+	       	headerToBeSet=true;
+	       return res.json({
+	       	success:false,
+	       	message:"Organization name already exists"
+	       });
 	     }
-
+	 }
+ 
 	   });
-
+ 
 	    ServiceProvider.findOne({mobileNumber:req.body.mobileNumber},function(err,mobileNumber)
 	   {
-	     if(err){ return next(err);}
-	     if(mobileNumber)
-	     {
-	       console.log('Mobile number already exists');
-	       return;
+ 
+	      if(err && !headerToBeSet){ 
+	      	headerToBeSet=true;
+	     	return 
+	     	res.json({
+	     	success:false,
+	     	message:"ERROR mobileNumber"	
+	     })
+ 
 	     }
-
+	     if(mobileNumber && !headerToBeSet)
+	     {
+	     	headerToBeSet=true;
+	       console.log('Mobile number already exists');
+	         return res.json({
+	       	success:false,
+	       	message:"Mobile number already exists"
+	       });
+	     }
+ 
 	   });
-
-
+ 
 	      ServiceProvider.findOne({email:req.body.email},function(err,email)
 	   {
-	     if(err){ return next(err);}
-	     if(email)
+	      if(err && !headerToBeSet){ 
+	      	headerToBeSet=true;
+	      return res.json({
+	     	success:false,
+	     	message:"ERROR EMAIL"
+	     })
+	     	}
+	     if(email && !headerToBeSet)
 	     {
+	     	headerToBeSet=true;
 	       console.log('email already exists');
-	       return;
+ 
+	       return res.json({
+	       	success:false,
+	       	message:"email already exists"
+	       });
 	     }
-
+ 
 	   });
 	      //creates a service provider to be added
 	  var newOrganization = new ServiceProvider({         
@@ -478,54 +514,88 @@ Course.findOne({title:courseTitle},(err,courseFound)=>{
 	        address: req.body.address,
 	        polices :req.body.polices,
 	        logo :req.body.logo
-
-	     
+ 
 	    });                              
 	    newOrganization.save((err,spSaved)=>{
-	    	if(err)
-	    		throw err;
-	    	else
+	    	if(err && !headerToBeSet){ 
+	      	headerToBeSet=true;
+	    		return res.json({
+ 
+	     	success:false,
+	     	message:"ERROR SAVE"
+	     })
+	    	throw err;
+	    }
+	    	else{
 	    		console.log(spSaved);
-
+	    		if(!headerToBeSet)
+	    		return res.json({
+	    			success:true,
+	    			message:"you are registered expect an email soon ;)"
+	    		});
+	    	}
+ 
 	    });
-
+ 
 },
 
 //the service provider could login
-
-	  SPLogin:function(req, res, cb) { 
-	  	//the service provider is found in the schema 
+  SPLogin:function(req, res, cb) { 
+	  	//the service provider is found in the schema
+	  	var headerToBeSet=false; 
       ServiceProvider.findOne( {username :req.body.username },function(err1, sp) {
         if (err1) {
-          return console.log(err);
+          return res.json({
+          	 success:false,
+          	 message:'error'
+          })
         }
-
-        if(!sp){
-        	//console.log(req.body.username);
-        	 return console.log("user not found");
+ 
+        if(!sp && !headerToBeSet){
+        	headerToBeSet=true;
+       return res.json({
+		success:false,
+		message:'user not found'
+ 
+			})
+        	
         }
-            
-     
+ 
+ 
    //match the password 
 	      sp.checkPassword (req.body.password, function(err2,isMatch){
-	     
+	     cb(sp, err2) 
 	        if(isMatch && isMatch==true){
 	           console.log("you are logged in");
-	           
-             //  var mytoken = jwt.sign({id: sp.id, username: req.username, type: "ServiceProvider"}, 'mysecret');
-               //var decoded = jwt_decode(mytoken);
-               req.session._id = sp._id;
-               req.session.username = req.body.username;
-               req.session.type = "ServiceProvider";
-	          }else
-	           return  console.log("wrong password");
-	              cb(sp, err2)     
+	          if(!headerToBeSet){
+	          	headerToBeSet=true;
+	          	return
+	           res.json({
+					success:true,
+					message:'user found',
+					sp:sp
+ 
+						})
+	       }
+ 
+ 
+	          }else{
+	          	if(!headerToBeSet)
+	           return
+	             res.json({
+					success:false,
+					message:'password incorrect'
+ 
+						})
+	         }
+ 
 	       });
-          
-       
+ 
+ 
    });
-
+ 
   }
+ 
 		
 
 

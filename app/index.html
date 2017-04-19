@@ -27,6 +27,8 @@
     <script src="/lib/ui-bootstrap-tpls-1.2.5.min.js"></script>
 <!-- Modules -->
 <script src="starter.js"></script>
+<script src="routes.js"></script>
+
 <!-- Controllers -->
 <script src="/controllers/MainController.js"></script>
 <script src="/controllers/serviceProviderController.js"></script>
@@ -40,7 +42,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   
 </head>
-<body ng-app="myApp" ng-controller="MainController" > 
+<body ng-app="myApp" ng-controller="MainController as MainController" > 
  
 
 <div class="navbarnavbar-defaultnavbar-static-top" role="navigation">
@@ -52,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right"> 
 
      <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="/forbusiness">For Business
+        <a ng-show ="!MainController.islogged" class="dropdown-toggle" data-toggle="dropdown" href="/forbusiness">For Business
         <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href= "#/login">login</a></li>
@@ -60,7 +62,7 @@
          
         </ul>
       </li>
-      <li><a href= "#/logout" ng-click="MainController.logout()">logout</a></li>    
+      <li><a ng-show ="MainController.islogged" href= "#/logout" ng-click="MainController.logout()">logout</a></li>    
       <li><a href= "#/test">test</a></li>    
 
       <li><a href= "#/registeredSP">VIEW REGISTERED SP</a></li>    

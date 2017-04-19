@@ -112,7 +112,7 @@ router.post('/register', function(req,res){
 router.use(function(req,res,next){ //this middleware adds the decoded token the req before continuing to any other routes
                                    //so if you need to access an attribute saved in the token,
                                    //use req.decoded.attrName
-  var token = req.body.token || req.headers['x-access-token'];
+  var token = req.body.token || req.headers['x-access-token'] || req.body.query;
 
   if(token){
     app.jwt.verify(token, app.app.get('super-secret'),function(err,decoded){
@@ -174,10 +174,11 @@ router.use(function(req,res,next){ //this middleware adds the decoded token the 
 //         res.sendFile(path.join(__dirname,'../','app','index.html'))
 // })
 
-router.post('/ServiceProvider/me',function(req,res){
+router.post('/me',function(req,res){
   res.send(req.decoded);
 })
 
 
 module.exports =router;
+
 

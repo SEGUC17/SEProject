@@ -7,19 +7,26 @@ var jwt = require('jsonwebtoken');
 var jwt_decode = require('jwt-decode');
 array = [];
 
+
+
 let ServiceProviderController = {
 
-
-    clearUNverSP: function(){
+//done
+    clearUNverSP: function(req,res,cb){ // this method removes all
+    
        ServiceProvider.remove(function(err){
-       	if(err)
-       		console.log(err);
-       	else
-       		console.log("cleared");
+       	if(err){
+       		console.log("CAN'T REMOVE");
+       		cb(err,"CANT REMOVE SERVICE PROVIDERS","ERROR");
+       	}
+       	else{
+       		console.log("DONE");
+       		cb(err,"REMOVED ALL SERVICE PROVIDERS","SUCCESS")
+       	}
+
        });
+ 
     },
-
-
 
     viewCourses : function(req,res,cb){
 		var ServiceProviderID = req.decoded.id; 
@@ -53,6 +60,7 @@ let ServiceProviderController = {
 // Service Provider can create or update his protofiolo
 
 	updatePortofolio : function (req,res,cb) {
+
 		var ServiceProviderID = req.decoded.id; 
 
 
@@ -67,6 +75,7 @@ let ServiceProviderController = {
 		if (req.body.field) toBeUpdated.field = req.body.field;
 
 		ServiceProvider.findById(ServiceProviderID, function(err,docs) {
+
 			if(docs){
 				ServiceProvider.update({_id : ServiceProviderID}, toBeUpdated, function(err,res){
 					if(err)
@@ -77,6 +86,7 @@ let ServiceProviderController = {
 							if(dox)
 								cb(err,dox,"SUCCESS");
 						});
+
 					}
 
 				});
@@ -85,7 +95,6 @@ let ServiceProviderController = {
 
 				cb(err,"Service Provider not found !", "ERROR");
 		});
-
 	},
 
 	//the service provider can add a course and passing his Id 
@@ -122,16 +131,15 @@ let ServiceProviderController = {
     		if(err){
     			
     			console.log('Cant save the Course');
-    			cb(err,"THIS COURSE HAS BEEN ADDED BEFORE","ERROR");
+    			cb(err,"THIS COURSE HAS BEEN ADDED BEFORE SAVE","ERROR");
     		}else{
     		   		ServiceProvider.findById(serciveProviderIDSession,(err,ServiceProviderResult)=>{
     		   		if(err){
-    		   			cb(err,"THIS COURSE HAS BEEN ADDED BEFORE","ERROR");
+    		   			cb(err,"THIS COURSE HAS BEEN ADDED BEFORE FIND","ERROR");
     		   			console.log('error in the addCourse Function :(');
     		   		}else{
     		   		console.log('Service Provider Found :)');
     		   		console.log(ServiceProviderResult);
-    		   		console.log(savedCourse._id);
     		   		var cousreid=savedCourse._id;
     		   		var lengthofCourse=ServiceProviderResult.listOfCourses.length;
     		   		console.log('Length');
@@ -150,14 +158,12 @@ let ServiceProviderController = {
     		   		ServiceProviderResult.listOfCourses.push(cousreid);
     		   		ServiceProviderResult.save((err,newCOurseSaved)=>{
     		   			if(err)
-    		   				cb(err,"THIS COURSE HAS BEEN ADDED BEFORE","ERROR");
+    		   				cb(err,"THIS COURSE HAS BEEN ADDED BEFORE SERVICE PROVIDER ","ERROR");
     		   			else {
     		   				console.log('After the push FINALLY');
     		   				lengthofCourse=ServiceProviderResult.listOfCourses.length;
-    		   				console.log('Length');
-    		   				console.log(lengthofCourse);
     		   				console.log(ServiceProviderResult);
-    		   				cb(err,newCourse,"SUCCESS");
+    		   				cb(err,savedCourse,"SUCCESS");
     	
     		   			}
 					});
@@ -168,126 +174,97 @@ let ServiceProviderController = {
     	});
      
     },
+    //done
 //service provider removes a course by passong in the parameter and his id
-		removeCourse: function(req,res){
+		removeCourse: function(req,res,cb){
  
-			//uncomment before submission
-			//var courseTitleToBeRemoved=req.Course.title;
-			//uncomment ends here
- 
-			//FOR TESTING replace the name of the course that u have just added
-			// var courseTitleToBeRemoved='remove';
-			//TESTING ENDS HERE
- 
- 
-			//uncomment before submission
-			//var serciveProviderIDSession=req.user.serviceProviderName;
-			//uncomment ends here
- 
-			//FOR TESTING REPLACE WITH THE ObjectId from the databas
-			var serciveProviderIDSession= req.session._id;
-			//TESTING ENDS HERE
-
+			var courseTitleToBeRemoved=req.body.title;
+			var serciveProviderIDSession=req.decoded.id;
 			ServiceProvider.findById(serciveProviderIDSession,(err,serviceProviderFound)=>{
-				if(err){
-					console.log('service provider cant be found ');
-					throw err;
-				}else{
-			var serviceProviderListCoursesLength=serviceProviderFound.listOfCourses.length;
-			console.log(serviceProviderListCoursesLength);
-
+ 				if(err){
+ 				console.log('service provider cant be found ');
+				 cb(err,"SERVICE PROVIDER CANT BE FOUND","ERROR");
+				 return ;
+ 						}else{
+ 							var serviceProviderListCoursesLength=serviceProviderFound.listOfCourses.length;
+							console.log(serviceProviderListCoursesLength);
 			Course.findOne({title:courseTitleToBeRemoved},(err,resultCourse)=>{
 				if(err){
-					throw err;
+				console.log('service provider cant be found ');
+				cb(err,"COURSE CAN'T BE FOUND","ERROR");
+				return ;
 				}else{
-					var xx = resultCourse.enrolledStudentsIDs.length;
- 	                 console.log(xx);
-					for(var i=0;i<xx;i++){
-						var StudentIDtoBeFound=resultCourse.enrolledStudentsIDs[i];
-						console.log(resultCourse);
-						console.log('Student ID will be:')
-						console.log(StudentIDtoBeFound);
-						Student.findById(StudentIDtoBeFound,(err,studentFound)=>{
-							var condition={username:studentFound.username};
-							console.log('STUDENT FOUND USERNAME :');
-							console.log(condition);
-							var iddd=resultCourse._id;
-							console.log('COURSE ID SAVED IN THE STUDENT LIST');
-							console.log(iddd);
-							var update={ $pull: { ListOfCourses: iddd } };
- 
-							var opts= { safe: true, upsert: true };
+				console.log(resultCourse);
+				var xx = resultCourse.enrolledStudentsIDs.length;
+				for(var i=0;i<xx;i++){
+					var StudentIDtoBeFound=resultCourse.enrolledStudentsIDs[i];
+					Student.findById(StudentIDtoBeFound,(err,studentFound)=>{
+						var condition={username:studentFound.username};
+						var iddd=resultCourse._id;
+						var update={ $pull: { ListOfCourses: iddd } };
+						var opts= { safe: true, upsert: true };
 						Student.update(condition,update,opts,(err,response)=>{
-						if(err)
-								throw err;
-							else{
-					console.log('FINALLY REMOVED FROM THE STUDENT LIST');
-					console.log(response);
- 
+							if(err)
+							{
+								console.log("CANT REMOVE THE COURSE FROM THE STUDENT LIST OF COURSES");
+								cb(err,"CANT REMOVE THE COURSE FROM THE STUDENT LIST OF COURSES","ERROR");
+								return ;
 							}
- 
 						});
-				});
-			 }
+					});
+				}
+					resultCourse.remove((err)=>{
+							if(err){
+							cb(err,"CANT REMOVE COURSE ","ERROR");
+							return ;
+								}else{
+									var condition={username:serviceProviderFound.username};
+									var iddd=resultCourse._id;
+									console.log('COURSE ID SAVED IN THE SERVICE PROVIDER LIST');
+									console.log(iddd);
+									var update={ $pull: { listOfCourses: iddd } };
+									var opts= { safe: true, upsert: true };
+								ServiceProvider.update(condition,update,opts,(err,response)=>{
+									if(err){
+									cb(err,"CANT REMOVE THE COURSE FROM SERVICE PROVIDER LIST OF COURSES","ERROR");
+									return ;
+											}else{
+												console.log('FINALLY REMOVED FROM THE SERVICE PROVIDER LIST');
+												return cb(err,resultCourse,"SUCCESS");
+											}
+
+								});
+	
+									
+								}
+	
+					});
+
 			}
 
-			resultCourse.remove((err)=>{
-				if(err)
-				throw err;
 			});
-			var condition={username:serviceProviderFound.username};
-			console.log('SERVICE PROVIDER USERNAME :');
-			console.log(condition);
-			var iddd=resultCourse._id;
-			console.log('COURSE ID SAVED IN THE SERVICE PROVIDER LIST');
-			console.log(iddd);
-			var update={ $pull: { listOfCourses: iddd } };
- 
-			var opts= { safe: true, upsert: true };
- 
-			ServiceProvider.update(condition,update,opts,(err,response)=>{
-				if(err)
-					throw err;
-				else{
-					console.log('FINALLY REMOVED FROM THE SERVICE PROVIDER LIST');
-					console.log(response);
- 
-				}
-  
-			  });
- 
- 
-		    });
- 
-		   }
- 
-	     });
+ 						}
+		   });
+
        },
 //the service provider can post announcment bt passing his course title 
-		postAnnouncements:function(req,res){
-		//FOR SUBMISSION UNCOMMENT HERE
-		 var newAnnouncement=req.body.newAnnouncement;
-		 var Coursetitle=req.body.Coursetitle;
-		//UNCOMMENT ENDS HERE 
-
-		//FOR TESTING
-		//var newAnnouncement='STRING ANNOUN';
-		//var Coursetitle='added2';
-		//ENDS TESTING
-
+		postAnnouncements:function(req,res,cb){
+		 var newAnnouncement=req.body.announcement;
+		 var Coursetitle=req.body.title;
 		Course.findOne({title:Coursetitle},(err,courseFound)=>{
 		if(err){
-		    console.log('error in postannouncement Function ');
-		    throw err;
+		    cb(err,"CANT FIND THE REQUESTED COURSE","ERROR");
+		    return;
 		}else{
-
 		    console.log(courseFound);
-
 		    courseFound.announcements.push(newAnnouncement);
-		    courseFound.save();
-		    console.log('AFTER THE PUSH');
-		    console.log(courseFound);
-
+		    courseFound.save((err,result)=>{
+		    	if(err){
+		    		cb(err,"SORRY CANT SAVE THE NEW ANNOUNCMET TO THE COURSE");
+		    	}else{
+		    		cb(err,result,"SUCCESS");
+		    	}
+		    });
 		}
 
 	 });
@@ -295,35 +272,36 @@ let ServiceProviderController = {
 	},
 	//the service provider can remove announcmet by passing the course title to be removeed 
 
-	removeAnnouncements:function(req,res){
-		//FOR SUBMISSION UNCOMMENT HERE
+		removeAnnouncements:function(req,res,cb){
+	
 		var courseTitleToBeRemoved=req.body.courseTitle;
-		//UNCOMMENT ENDS HERE 
-
-	    // TESTING
-		//var courseTitleToBeRemoved='added2';
-		var announcmmentToBeRemoved=req.body.announcement;
-	    //TESTING ENDS HERE
-		Course.findOne({title:courseTitleToBeRemoved},(err,courseFound)=>{
-	   if(courseFound){
-			console.log(courseFound);
-
-	    var condition={title:courseFound.title};
-		console.log('Course title to be REMOVED');
-		console.log(condition);
 		
-		var update={ $pullAll: { announcements : [announcmmentToBeRemoved]}};
-		console.log(update);
+		var announcmmentToBeRemoved=req.body.announcement;
 
+		Course.findOne({title:courseTitleToBeRemoved},(err,courseFound)=>{
+	   if(err){
+	    cb(err,"CANT FIND THE COURSE","ERROR")
+	   }else{
+	   
+	    var condition={title:courseFound.title};
+		console.log('Course title to be REMOVED');	
+		var update={ $pullAll: { announcements : [announcmmentToBeRemoved]}};
 		var opts= { safe: true, upsert: true };
 		Course.update(condition,update,opts,(err,response)=>{
 			if(err)
-				throw err;
+				{
+					cb(err,"CANT POST THE ANNOUNCMET","ERROR");
+				}
 			else{
-				console.log('FINALLY REMOVED FROM THE COURSE LIST');
-				console.log(response);
-				
+				Course.findOne({title:courseTitleToBeRemoved},(err,result)=>{
+					if(err){
+				cb(err,"NO COURSE FOUND","ERROR");
+			}else{
+				cb(err,result.announcements,"SUCCESS");
 			}
+				});
+			}
+
 
 		});
 
@@ -334,11 +312,24 @@ let ServiceProviderController = {
 	},
 
 
+viewAnnouncemnets:function(req,res,cb){
+	var Coursetitle=req.body.title;
+	Course.findOne({title:Coursetitle},(err,result)=>{
+		if(err){
+			cb(err,"COURSE NOT FOUND","ERROR");
+		}else{
+			cb(err,result.announcements,"SUCCESS");
+		}
+	});
+
+},
+
 //update the parameteres of the course however we have taken all the parameters as in the view part we will then check if the req.body is 
 //empty or not 
 
-   	updateCourse : function(req,res,cb){
- 
+
+   updateCourse : function(req,res,cb){
+
 		var title=req.body.title;
 		var objForUpdate = {};
 
@@ -352,8 +343,6 @@ let ServiceProviderController = {
 		if (req.body.announcement) objForUpdate.announcement = announcement;
 		if (req.body.fees) objForUpdate.fees = req.body.fees;
  
-		console.log(objForUpdate);
- 
 			Course.update({title:title},objForUpdate,{upsert:true},function(err,objForUpdate){
  
 				if(err){
@@ -365,77 +354,32 @@ let ServiceProviderController = {
              					cb(err,"CAN NOT FIND COURSE","ERROR");
              				}else{
              					cb(err,result,"SUCCESS");
- 
              				}
- 
              			});
 				}
 			})
  
 		},
 
-//DONE
-	getAllVerifiedServiceProvider:function(req,res , cb){ 
-    	ServiceProvider.find({username:{$ne:''}},function(err,spUsers) { 
-    		if (err) 
-         		cb(err,"NO SERVICE PROVIDERS FOUND","ERROR");
-        	else 
-        		cb(err,spUsers,"SUCCESS");
-       
-    	});
+		updatePolicy: function(req,res){
+			if(req.decoded.type == "ServiceProvider"){
+				ServiceProvider.findById(req.decoded.id,function(err,serviceprovider){
+					if(serviceprovider){
+			 			serviceprovider.polices = req.body.policy;
+			 			serviceprovider.save(function(err,serviceprovider){
+			   				if(err) 
+			 					res.send(err,'ERROR',"ERROR");
+			 				else
+			 					res.send(err,'Your policy has been updated successfully',"SUCCESS");
 
-   },
+			 			});
+			 		}else 
+			 			res.send(err,'Service Provider not found',"ERROR");
 
-// ViewReviews function makes the service provider able to view the reviews written about a specific course that he's providing
-	ViewReviews: function(req,res){
-		ServiceProvider.findOne({organizationName:req.body.organizationName}).lean().exec(function(err,SP){
-
-		if(SP){
-
-			for(var i=0 ; i< SP.listOfCourses.length ; i++){
- 				Course.findOne({title:req.body.courseTitle},function(err,coursetitle){
-  					if(SP.listOfCourses[i] == courseTitle.id){
-  				  		Course.findById(courseID,function(err,course){
-   	 						for(var j = 0 ; j< course.ReviewsIDs.length ;j++){ //just return the list of reviews
-
-      							Review.findById(course.ReviewsIDs[j],function(err,review){
-      								if(review==null)
-      									req.flash('error_msg','No Reviews to display');
-        						});
-      						}
-     					});
-   					}
- 				});
+				});
 			}
- 		}
-		});
 
-	},
-
-
-//DONE
-//definePolicy function makes the service provider able to update the refund policy of his organization
-updatePolicy: function(req,res){
-	if(req.decoded.type == "ServiceProvider"){
-		ServiceProvider.findById(req.decoded.id,function(err,serviceprovider){
-			if(serviceprovider){
-	 			serviceprovider.polices = req.body.policy;
-	 			serviceprovider.save(function(err,serviceprovider){
-	   				if(err) 
-	 					res.send(err,'ERROR',"ERROR");
-	 				else
-	 					res.send(err,'Your policy has been updated successfully',"SUCCESS");
-
-	 			});
-	 		}else 
-	 			res.send(err,'Service Provider not found',"ERROR");
-
-		});
-	}
-
-},
-
-
+		},
 //lsa
 //the service provider could view all the enroller students in the course by passing the course titile 
 	viewAllEnrolledStudents : function(req,res,cb){
@@ -526,6 +470,7 @@ updatePolicy: function(req,res){
      
     	   							 newOrganization.save((err,spSaved)=>{
 
+
     	    							if(err)
     	     								cb(err,"YOU HAVE PREVIOUSLY REGISTERED","ERROR");
     	    							else
@@ -542,7 +487,7 @@ updatePolicy: function(req,res){
      
     	 	});
     	},
-//DONE 
+
 
 //the service provider could login
 	SPLogin:function(req, res, cb) { 
@@ -572,18 +517,18 @@ updatePolicy: function(req,res){
 
  	},
 
- 	get:function(ID){ 
-    	Student.findById(ID,function(err,students) { 
-    		if (err) 
-         		cb(err,"NO SERVICE PROVIDERS FOUND","ERROR");
-        	else 
-        		cb(err,students,"SUCCESS");
-       
-    	});
+ 	viewPortofolio:function(req,res,cb){
+ 		var serciveProviderIDSession=req.decoded.id;
+ 		ServiceProvider.findById(serciveProviderIDSession,(err,result)=>{
+ 			if(err){
+ 				cb(err,"NO SERVICE PROVIDER FOUND","ERROR");
+ 			}else{
+ 				cb(err,result,"SUCCESS");
+ 			}
 
-   }
+ 		});
 
+ 	}
 }
 
 module.exports = ServiceProviderController;
-

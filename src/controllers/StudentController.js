@@ -8,7 +8,6 @@ glo2=[];
 
 
 let StudentController = {
-//the student could book a course
 
        bookCourse :function(req, res,cb){
 
@@ -22,7 +21,9 @@ let StudentController = {
           console.log(result.capacity);
 
         if(err){
-          cb(err,"ERROR","ERROR");
+
+          cb(err,"CANT FIND THE COURSE","ERROR");
+
         } else {
 
           course = result;
@@ -31,8 +32,9 @@ let StudentController = {
 
             Student.findById({_id : StudentID},function(err, docs){
               //console.log(docs);
-              if(!docs)
-                cb(err,"ERROR","ERROR");
+
+              if(!docs || err)
+            cb(err,"CANT FIND THE STUDENT","ERROR");
               else{
 
                 var found = 5;
@@ -46,7 +48,9 @@ let StudentController = {
               }
 
                 if(found < 0){
-                  cb(err,"This course is already taken by this student","ERROR");
+
+                  cb(err,"THIS COURSE IS ALREADY TAKEN BY YOU","ERROR");
+
                 } else {
                       var xxx = result._id;
                       console.log(xxx)
@@ -58,8 +62,7 @@ let StudentController = {
                       console.log('affected rows %d', affected);
                   });
 
-                  cb(err,"student is added to the course","SUCCESS");
-
+                  cb(err,result,"SUCESS");
 
                   var tempoo = result.enrolledStudentsIDs.concat([StudentID]);
 
@@ -86,6 +89,7 @@ let StudentController = {
       });
 
     },
+
 
 
 
@@ -416,35 +420,27 @@ cb(err,"You can't review this course","ERROR");
   studentSignUP:function(req,res, cb){
 
 //match this student to one in the database
-    Student.findOne({ username: req.body.username }, function(err1, student)
-      {
+    Student.findOne({ username: req.body.username }, function(err1, student){
       if (!student) {
           var newStudent = new Student
-      ({
-        username: req.body.username,
-        password: req.body.password,
-        email:req.body.email,
-        birthdate:req.body.birthdate ,
-        ListOfCourses:[],
-        profilePicture:req.body.profilePicture
+            ({
+              username: req.body.username,
+              password: req.body.password,
+              email:req.body.email,
+              birthdate:req.body.birthdate ,
+              ListOfCourses:[],
+              profilePicture:req.body.profilePicture
 
-      });
+            });
 
-      /*newStudent.save((err2,newStudent)=>{
-        if(err2){
-      //     cb(err2,"ERROR","ERROR");
-    }*/
         newStudent.save(function(err,student){
           if(err)
-            cb(err,"ERROR","ERROR");
-        else{
-          console.log(student);
+            cb(err2,"ERROR CAN NOT SAVE ","ERROR"); 
+        else
         cb(err,student,"SUCCESS");
-      }
       });
 
-      }
-      else{
+      }else{
 
         console.log(" User already exist");
         cb(err1,"USERNAME ALREADY EXIST","ERROR");

@@ -159,63 +159,68 @@ let AdminController = {
 
   },
 
+
+
+// STILL NOT SURE
    //DeleteServiceProvider function makes the admin able to delete the service provider from the system and its corresponding courses
 
-
   DeleteServiceProvider:function(req,res,cb){
-    var falg = false;
+    //var falg = false;
     ServiceProvider.findOne({organizationName:req.body.organizationName}).lean().exec(function(err,SP){
-      if(err)
-        cb(err,"NO SERVICE PROVIDER FOUND","ERROR");
-      else{
+      if(SP){
         if(SP.username != "" || SP.username){
-          Student.find().lean().exec(function(err,students){
-            if(err)
-              cb(err,"ERROR IN PROCESS","ERROR");
-            else{
-              for(var i = 0; i < SP.listOfCourses.length; i++){
+		      var SPCourses = SP.listOfCourses;
+
+
+
+		      for(var i = 0; i < SPCourses.length; i++){
+
+              Course.findById(SPCourses[i],function(err,course){
+                var students = course.enrolledStudentsIDs;
                 for(var j = 0; j < students.length; j++){
-                  for(var k = 0; k < students[j].ListOfCourses.length ;k++) {
-                    if(students[j].ListOfCourses[k] === (SP.listOfCourses[i])){
-                      var condition = {username:students[j].username};
-                      var update = { $pull: { ListOfCourses: SP.listOfCourses[i] } };
-                      var opts = { safe: true, upsert: true };
+
+                  Student.findById(students[j],function(err,student){
+                    var condition = {_id : students[j]};
+                    var update = { $pull: { ListOfCourses: SPCourses[i] } };
+                    var opts = { safe: true, upsert: true };
                       Student.update(condition,update,opts,(err,response)=>{
-                        if(err)
-                          cb(err,"CANT REMOVE THE COURSE FROM STUDENT LIST OF COURSE ","ERROR")
+                        if(err){
+                          cb(err,"ERROR REMOVING COURSE FROM STUDENT LIST OF COURSE ","ERROR");
+                          return;
+                        }
                       });
-                    }
-                  }
+                  });
+                }					
+              });
+
+
+              Course.remove({_id:SPCourses[i]._id},function(err,res){
+                if(err){
+                  cb(err,"ERROR REMOVING COURSE FROM SERVICE PROVIDER LIST OF COURSES","ERROR");
+                  return;
                 }
+              });
 
-            Course.remove({_id:SP.listOfCourses[i]._id},function(err){
-             if(err){
-              // flag=true;
-              cb(err,"CANT REMOVE THE COURSE FROM SERVICE PROVIDER LIST OF COURSES","ERROR");
-              return;
-             }
-            });            
             }
-            }
-        });
 
+
+
+            //deleting service provider
+            ServiceProvider.remove({organizationName:req.body.organizationName},function(err){
+              if (!err)
+                cb(err,"SERVICE PROVIDER HAS BEEN DELETED :(","SUCCESS");
+            });
+
+          }else
+            cb(err,"SERVICE PROVIDER WAS NOT PREVIOUSLY VERFIED","ERROR");
+              
         }else
-          cb(err,"SERVICE PROVIDER WAS NOT PREVIOUSLY VERFIED","ERROR");
-      
-      //deleting service provider
-      ServiceProvider.remove({organizationName:req.body.organizationName},function(err){
-        if (err)
-          cb(err,"ERROR","ERROR");  
-        else
-          cb(err,"SERVICE PROVIDER HAS BEEN DELETED :(","SUCCESS");
+        cb(err,"NO SERVICE PROVIDER FOUND","ERROR");
 
-      });
-      }
-    });
+      }); 
 
-  },
-
-
+    },      
+                
     getAllVerifiedServiceProvider:function(req,res , cb){ 
        ServiceProvider.find({username:{$ne:''}},function(err,spUsers) { 
         if (err) {
@@ -229,25 +234,18 @@ let AdminController = {
    },
     // GetPoorServiceProvidersNotifications function notifies the admin of the poor service providers 
     //existing on the system who exceeded the maximum number of bad reviews
-       GetPoorServiceProvidersNotifications: function(){ 
-        var array =[];
-        Admin.findOne({username:"Admin"},function(err,a){
-          if (err)throw err ;
-
-        for(var i=0;i<a.listOfNotification.length;i++){
-
-          if(a.listOfNotification[i].typeOfNotification[0]=='B')
-          array=array.concat(a.listOfNotification[i]);
-        }
-        if(array.length == 0)
-          cb(err,"No notifications found !", "ERROR");
-        else 
-          cb(err,array,"SUCCESS");
-      // }else
-      //   cb(err,"Admin is not found !", "ERROR");
-    });
-  }
-
+    getNotifications: function(req,res,cb){ 
+        Admin.findOne({username:"Admin"},function(err,admin){
+          if (admin){
+            var array = admin.listOfNotification;
+            if(array.length == 0)
+              cb(err,"No notifications found !", "ERROR");
+            else 
+              cb(err,array,"SUCCESS");
+          }else
+              cb(err,"Admin is not found !", "ERROR");
+        });
+    }
 
 }
 

@@ -312,17 +312,17 @@ let ServiceProviderController = {
 	},
 
 
-viewAnnouncemnets:function(req,res,cb){
-	var Coursetitle=req.body.title;
-	Course.findOne({title:Coursetitle},(err,result)=>{
-		if(err){
-			cb(err,"COURSE NOT FOUND","ERROR");
-		}else{
-			cb(err,result.announcements,"SUCCESS");
-		}
-	});
+	viewAnnouncemnets:function(req,res,cb){
+		var Coursetitle=req.body.title;
+		Course.findOne({title:Coursetitle},(err,result)=>{
+			if(err){
+				cb(err,"COURSE NOT FOUND","ERROR");
+			}else{
+				cb(err,result.announcements,"SUCCESS");
+			}
+		});
 
-},
+	},
 
 //update the parameteres of the course however we have taken all the parameters as in the view part we will then check if the req.body is 
 //empty or not 
@@ -343,43 +343,43 @@ viewAnnouncemnets:function(req,res,cb){
 		if (req.body.announcement) objForUpdate.announcement = announcement;
 		if (req.body.fees) objForUpdate.fees = req.body.fees;
  
-			Course.update({title:title},objForUpdate,{upsert:true},function(err,objForUpdate){
+		Course.update({title:title},objForUpdate,{upsert:true},function(err,objForUpdate){
  
-				if(err){
+			if(err)
 					cb(err,"CAN NOT UPDATE COURSE","ERROR");
-				}
-				else{
-             			Course.findOne({title:title},(err,result)=>{
-             				if(err){
-             					cb(err,"CAN NOT FIND COURSE","ERROR");
-             				}else{
-             					cb(err,result,"SUCCESS");
-             				}
-             			});
-				}
-			})
- 
-		},
-
-		updatePolicy: function(req,res){
-			if(req.decoded.type == "ServiceProvider"){
-				ServiceProvider.findById(req.decoded.id,function(err,serviceprovider){
-					if(serviceprovider){
-			 			serviceprovider.polices = req.body.policy;
-			 			serviceprovider.save(function(err,serviceprovider){
-			   				if(err) 
-			 					res.send(err,'ERROR',"ERROR");
-			 				else
-			 					res.send(err,'Your policy has been updated successfully',"SUCCESS");
-
-			 			});
-			 		}else 
-			 			res.send(err,'Service Provider not found',"ERROR");
-
-				});
+			
+			else{
+           			Course.findOne({title:title},(err,result)=>{
+           				if(err){
+             				cb(err,"CAN NOT FIND COURSE","ERROR");
+             			}else{
+             				cb(err,result,"SUCCESS");
+             			}
+             		});
 			}
+		});
+ 
+	},
 
-		},
+	updatePolicy: function(req,res){
+		if(req.decoded.type == "ServiceProvider"){
+			ServiceProvider.findById(req.decoded.id,function(err,serviceprovider){
+				if(serviceprovider){
+			 		serviceprovider.polices = req.body.policy;
+			 		serviceprovider.save(function(err,serviceprovider){
+			   			if(err) 
+			 				res.send(err,'ERROR',"ERROR");
+			 			else
+			 				res.send(err,'Your policy has been updated successfully',"SUCCESS");
+
+			 		});
+			 	}else 
+			 		res.send(err,'Service Provider not found',"ERROR");
+
+			});
+		}
+
+	},
 //lsa
 //the service provider could view all the enroller students in the course by passing the course titile 
 	viewAllEnrolledStudents : function(req,res,cb){
@@ -421,13 +421,13 @@ viewAnnouncemnets:function(req,res,cb){
 					// for(var y = array.length-1; y > x; y--)
 					// 		array.pop();
 										
-					console.log(array);
+					//console.log(array);
 					if(array.length == 0)
-						cb(err, "No students found", "ERROR");
+						cb(err, "No students found", "SUCCESS");
 					else 
 						cb(err, array, "SUCCESS");
 
-					for(var y = array.length-1; y > 0; y--)
+					while(array.length > 0)
 							array.pop();
 
 				}else
@@ -528,7 +528,55 @@ viewAnnouncemnets:function(req,res,cb){
 
  		});
 
- 	}
+ 	},
+
+
+//getting the list of reviews of a specific course which is provided by this service provider
+	ViewReviews: function(req,res,cb){
+
+		ServiceProvider.findOne({_id : req.decoded.id}).lean().exec(function(err,SP){
+
+			if(SP){
+	  			Course.findOne({title : req.body.title},function(err,course){
+	  				if(course){
+	   	 				for(var j = 0; j < course.ReviewsIDs.length; j++){ 
+	      					Review.findById(course.ReviewsIDs[j],function(err,review){
+	      						if(review)
+	      							array.push(review);
+	        				});
+	  					}		
+
+					}else
+						cb(err,"Course is not found !", "ERROR");
+	   				
+	 				});
+			}else
+				cb(err,"Service provider is not found !", "ERROR");
+
+			if(array.length == 0)
+				cb(err,"No reviews found !", "SUCCESS");
+			else 
+				cb(err,array,"SUCCESS");
+
+			while(array.length > 0)
+				array.pop();
+
+	 	});
+	},
+
+	getNotifications: function(req,res,cb){ 
+        ServiceProvider.findById(req.decoded.id,function(err,sp){
+          if (sp){
+            var array = sp.listOfNotification;
+            if(array.length == 0)
+              cb(err,"No notifications found !", "ERROR");
+            else 
+              cb(err,array,"SUCCESS");
+          }else
+              cb(err,"Service provider is not found !", "ERROR");
+        });
+    }
+
 }
 
 module.exports = ServiceProviderController;

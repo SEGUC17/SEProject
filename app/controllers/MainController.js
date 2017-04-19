@@ -63,7 +63,7 @@ console.log(data.data.username)
 
   //
   // indexSrv.getCatalogPage();
-//$location.url('/welcome');
+// $location.url('/welcome');
 // $scope.search = function() {
        
 //         $location.url('/search');

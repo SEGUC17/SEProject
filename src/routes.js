@@ -46,6 +46,11 @@ router.post('/forbussinus/login', function(req,res){
 
 });
 
+//lessaaaaa
+router.post('/adminhomepage/getServiceProvidersNotifications');
+
+
+
 
 //AKEED DONE
 
@@ -57,31 +62,43 @@ router.post('/login', function(req,res){
         message : message
       });
     else {
-      var token = app.jwt.sign({username: student.username, id: student._id, type:type}, app.app.get('super-secret'), {
-          //expiresInMinutes: 1440 // expires in 24 hours
-      });
+      var token = app.jwt.sign({username: message.username, id: message._id, type:type}, app.app.get('super-secret'), {});
 
-      if(type == "Admin")
         res.json({
           token : token,
           type : "SUCCESS",
           message : "You are successfully logged in !",
           content : message
         });
-      else 
-         res.json({
-          token : token,
-          type : "SUCCESS",
-          message : "You are successfully logged in !",
-          content : message
-        });
+ 
     }
 
   });
 
 });
 
-//NOT SURE 
+
+
+router.post('/coursepage/bookcourse',function(req,res){
+  if(req.decoded.type=="Student"){
+    StudentController.bookCourse(req,res,(err,book,type)=>{
+      res.json({
+        type : type,
+        message : "Course is successfully booked !",
+        content : book
+      }); 
+
+    });
+  }else
+    res.json({
+    type : type,
+    message : "You are not a student !"
+
+    });
+
+});
+
+
 
 router.post('/register', function(req,res){
 
@@ -191,7 +208,7 @@ router.post('/adminhomepage/verify', function(req,res){
 
 
 
-router.post('/ServiceProvider/courses/removeCourse',function(req,res){
+router.post('/serviceprovider/courses/removeCourse',function(req,res){
 
   console.log(re.decoded);
  	return ServiceProviderController.removeCourse(req,res);
@@ -205,7 +222,7 @@ router.post('/ServiceProvider/courses/removeCourse',function(req,res){
 
 //AKEED DONE
 
-router.post('/ServiceProvider/courses/addCourse',function(req,res){
+router.post('/serviceprovider/courses/addCourse',function(req,res){
   console.log(req.decoded);
   ServiceProviderController.addCourse(req,res,(err,course,type)=>{
     if(type == "ERROR")
@@ -224,53 +241,123 @@ router.post('/ServiceProvider/courses/addCourse',function(req,res){
 });
 
 
-//AKEED DONE
-router.post('/ServiceProvider/ViewReviews', function(req,res){
-  ServiceProviderController.ViewReviews(req,res,function(err,reviews,type){
-      if(type === "ERROR")
+router.post('/serviceprovider/courses',function(req,res){
+  if(req.decoded.type == "ServiceProvider"){
+  ServiceProviderController.viewCourses(req,res,function(err,message,type){
+    if(type == "ERROR")
+      res.json({
+        type : type,
+        message : message
+      });
+    else 
+      res.json({
+        type : type,
+        content : message
+      });
+  });
+}else 
+  res.json({
+        type : "ERROR",
+        message : "Yor are not a service provider !"
+      });
+
+
+});
+
+
+
+router.post('/serviceprovider/updatePortofolio',function(req,res){
+  if(req.decoded.type == "ServiceProvider"){
+    ServiceProviderController.updatePortofolio(req,res,function(err,message,type){
+      if(type == "ERROR")
         res.json({
           type : type,
-          message : reviews
+          message : message
+        });
+      else 
+        res.json({
+          type : type,
+          message : "Portofolio updated successfully !",
+          content : message
+        });
+    });
+  }else 
+   res.json({
+        type : "ERROR",
+        message : "You are not a service provider !"
+      });
+
+});
+
+
+//AKEED DONE
+router.post('/serviceprovider/ViewReviews', function(req,res){
+  if(req.decoded.type == "ServiceProvider"){
+    ServiceProviderController.ViewReviews(req,res,function(err,reviews,type){
+        if(type === "ERROR")
+          res.json({
+            type : type,
+            message : reviews
+          });
+        else
+          res.json({
+            type : type,
+            content : reviews
+          });
+    });
+  }else
+    res.json({
+      type : "ERROR",
+      message : "You are not a service provider !"
+    });
+
+});
+
+
+
+
+
+router.post('/serviceprovider/viewAllEnrolledStudents', function(req,res){
+  if(req.decoded.type == "ServiceProvider"){
+    ServiceProviderController.viewAllEnrolledStudents(req,res,function(err,message,type){
+      if(type == "ERROR")
+        res.send({
+          type : type,
+          message : message
         });
       else
         res.json({
           type : type,
-          content : reviews
+          enrolledStudents : message
         });
-  });
-
-});
-
-
-
-
-
-router.post('/ServiceProvider/viewAllEnrolledStudents', function(req,res){
-  ServiceProviderController.viewAllEnrolledStudents(req,res,function(err,message,type){
-    if(type == "ERROR")
-      res.send({
-        type : type,
-        message : message
-      });
-    else
-      res.json({
-        type : type,
-        enrolledStudents : message
-      });
-  });
-
+    });
+  }else 
+    res.json({
+      type : "ERROR",
+      message : "You are not a service provider !"
+    });
 });
 
 
 router.post('/adminhomepage/viewunreg', function(req,res){
-
-  return AdminController.viewUnregSP(req,res);
-
-});
-
-router.post('/adminhomepage/decline', function(req,res){
-
-  return AdminController.declineSP(req,res);
+  if(req.decoded.type == "Admin"){
+    AdminController.viewUnregSP(req,res,function(err,message,type){
+      if(type === "ERROR")
+        res.json({
+          type : type,
+          message : message
+        });
+      else
+        res.json({
+          type : type,
+          content : message
+        });
+    });
+  }else 
+    res.json({
+      type : "ERROR",
+      message : "You are not an admin !"
+    });
 
 });
 

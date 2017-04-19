@@ -5,7 +5,7 @@ var Admin = require('../db/Admin');
 var Review = require('../db/Reviews');
 var jwt = require('jsonwebtoken');
 var jwt_decode = require('jwt-decode');
-array = [1,1,1,1,1,1,1,1];
+array = [];
 
 let ServiceProviderController = {
 
@@ -20,36 +20,70 @@ let ServiceProviderController = {
     },
 
 
+
+    viewCourses : function(req,res,cb){
+		var ServiceProviderID = req.decoded.id; 
+    	ServiceProvider.findById(ServiceProviderID, function(err,docs){
+    		if(docs){
+    			for(var i = 0; i < docs.listOfCourses.length; i++){
+    				Course.findById(docs.listOfCourses[i],function(err,doc){
+    					array.push(doc);
+    				});
+    			}
+
+    		}else
+    			cb(err,"Service Provider not found !", "ERROR");
+
+    		if(array.length == 0)
+	    		cb(err,"No courses are found !", "ERROR");
+	    	else 
+	    		cb(err, array,"SUCCESS");
+
+	    	while(array.length > 0){
+	    		array.pop();
+	    	}
+
+    	});
+
+
+
+    },
+
+
 // Service Provider can create or update his protofiolo
 
-	createAndUpdatePortofolio : function (req,res) {
-		var ServiceProviderID = req.session._id; 
+	updatePortofolio : function (req,res,cb) {
+		var ServiceProviderID = req.decoded.id; 
 
-		var toBeUpdated = {
-			password : req.body.password,
-		    field : req.body.field,
-			description : req.body.description,
-			mobileNumber : req.body.mobileNumber,
-			email :req.body.email,
-			address : req.body.address,
-			polices : req.body.polices,
-			logo : req.body.logo
-		};
+
+		var toBeUpdated = {};
+		if (req.body.password) toBeUpdated.password = req.body.password;
+		if (req.body.mobileNumber) toBeUpdated.mobileNumber = req.body.mobileNumber;
+		if (req.body.description) toBeUpdated.description = req.body.description;
+		if (req.body.email) toBeUpdated.email = req.body.email;
+		if (req.body.address) toBeUpdated.address = req.body.address;
+		if (req.body.polices) toBeUpdated.polices = req.body.polices;
+		if (req.body.logo) toBeUpdated.logo = req.body.logo;
+		if (req.body.field) toBeUpdated.field = req.body.field;
 
 		ServiceProvider.findById(ServiceProviderID, function(err,docs) {
-			if(err)
-				console.log(err);
-			else {
+			if(docs){
 				ServiceProvider.update({_id : ServiceProviderID}, toBeUpdated, function(err,res){
-					if(err){
-						console.log(err);
-					}else
-						console.log('updated');
+					if(err)
+						cb(err,"ERROR updating service provider !","ERROR");
+					else{
 
-				})
+						ServiceProvider.findById(ServiceProviderID,function(err,dox){
+							if(dox)
+								cb(err,dox,"SUCCESS");
+						});
+					}
 
-			}
-		
+				});
+
+			}else
+
+				cb(err,"Service Provider not found !", "ERROR");
 		});
 
 	},
@@ -228,9 +262,6 @@ let ServiceProviderController = {
 		   }
  
 	     });
- 
- 
- 
        },
 //the service provider can post announcment bt passing his course title 
 		postAnnouncements:function(req,res){
@@ -306,37 +337,42 @@ let ServiceProviderController = {
 //update the parameteres of the course however we have taken all the parameters as in the view part we will then check if the req.body is 
 //empty or not 
 
-   updateCourse : function(req,res){
-
+   	updateCourse : function(req,res,cb){
+ 
 		var title=req.body.title;
-
-
-
 		var objForUpdate = {};
-		objForUpdate.centerName = req.body.centerName;
-		objForUpdate.type = req.body.type;
-	    objForUpdate.centerLocation =req.body.centerLocation;
+
+		if(req.body.centerName) objForUpdate.centerName = req.body.centerName;
+		if(req.body.type) objForUpdate.type = req.body.type;
+	    if(req.body.centerLocation) objForUpdate.centerLocation =req.body.centerLocation;
 		if (req.body.description) objForUpdate.description = req.body.description;
 		if (req.body.startDate) objForUpdate.startDate = req.body.startDate;
 		if (req.body.endDate) objForUpdate.endDate = req.body.endDate;
 		if (req.body.capacity) objForUpdate.capacity = req.body.capacity;
 		if (req.body.announcement) objForUpdate.announcement = announcement;
 		if (req.body.fees) objForUpdate.fees = req.body.fees;
-
+ 
 		console.log(objForUpdate);
-
-			Course.update(title,objForUpdate,{upsert:true},function(err,objForUpdate){
-
+ 
+			Course.update({title:title},objForUpdate,{upsert:true},function(err,objForUpdate){
+ 
 				if(err){
-					console.log(err)
+					cb(err,"CAN NOT UPDATE COURSE","ERROR");
 				}
 				else{
-             	console.log('success')
+             			Course.findOne({title:title},(err,result)=>{
+             				if(err){
+             					cb(err,"CAN NOT FIND COURSE","ERROR");
+             				}else{
+             					cb(err,result,"SUCCESS");
+ 
+             				}
+ 
+             			});
 				}
 			})
-
+ 
 		},
-
 
 //DONE
 	getAllVerifiedServiceProvider:function(req,res , cb){ 
@@ -435,16 +471,20 @@ updatePolicy: function(req,res){
 
 						});
 
-						for(var y = array.length-1; y > x; y--)
-							array.pop();
-					
 					}
 					
+					
+					// for(var y = array.length-1; y > x; y--)
+					// 		array.pop();
+										
 					console.log(array);
 					if(array.length == 0)
 						cb(err, "No students found", "ERROR");
 					else 
 						cb(err, array, "SUCCESS");
+
+					for(var y = array.length-1; y > 0; y--)
+							array.pop();
 
 				}else
 					cb(err, "Course not found", "ERROR");
@@ -455,57 +495,53 @@ updatePolicy: function(req,res){
 	},
 
 
-
-//DONE BAS HASSA FE HAGA GHALAAT 
-
 //the servicde provider could register to the system by passing the field 
-    spRegister: function(req,res,cb){
-//checks first tht this Service provider was not perviously registered to the system
-	   ServiceProvider.findOne({organizationName:req.body.organizationName},function(err,organizationName){
-	     	if(organizationName)
-	       		cb(err,"Organization name already exists","ERROR");
-	   		else {
-	   			ServiceProvider.findOne({mobileNumber:req.body.mobileNumber},function(err,mobileNumber){
-	     			if(mobileNumber)
-	       				cb(err,"Mobile number already exists","ERROR");
-	       			else{
+       spRegister: function(req,res,cb){
+    //checks first tht this Service provider was not perviously registered to the system
+    	   ServiceProvider.findOne({organizationName:req.body.organizationName},function(err,organizationName){
+    	     	if(organizationName)
+    	       		cb(err,"Organization name already exists","ERROR");
+    	   		else {
+    	   			ServiceProvider.findOne({mobileNumber:req.body.mobileNumber},function(err,mobileNumber){
+    	     			if(mobileNumber)
+    	       				cb(err,"Mobile number already exists","ERROR");
+    	       			else{
+     
+    						ServiceProvider.findOne({email:req.body.email},function(err,email){
+    							if(email)
+    	       						cb(err,"email already exists","ERROR");
+    	       					else {
+     
+    	       						var newOrganization = new ServiceProvider({         
+    	        						organizationName:req.body.organizationName ,
+    	        						field :req.body.field ,
+    	        						description :req.body.description,
+    							        mobileNumber :req.body.mobileNumber,
+    							        email : req.body.email ,
+    							        address: req.body.address,
+    							        polices :req.body.polices,
+    							        logo :req.body.logo
+     
+    	    						}); 
+     
+    	   							 newOrganization.save((err,spSaved)=>{
 
-						ServiceProvider.findOne({email:req.body.email},function(err,email){
-							if(email)
-	       						cb(err,"email already exists","ERROR");
-	       					else {
-
-	       						var newOrganization = new ServiceProvider({         
-	        						organizationName:req.body.organizationName ,
-	        						field :req.body.field ,
-	        						description :req.body.description,
-							        mobileNumber :req.body.mobileNumber,
-							        email : req.body.email ,
-							        address: req.body.address,
-							        polices :req.body.polices,
-							        logo :req.body.logo
- 	
-	    						}); 
-
-	   							 newOrganization.save((err,spSaved)=>{
-	    							if(err)
-	     								cb(err,"YOU HAVE PREVIOUSLY REGISTERED","ERROR");
-	    							else
-	    								cb(err,"you are registered expect an email soon ;)","ERROR");
-	   							 });
-
-	       					}
-	       				});
-					}
- 
-	   			});
-
-	   		}
-
-	 	});
-	},
-
-
+    	    							if(err)
+    	     								cb(err,"YOU HAVE PREVIOUSLY REGISTERED","ERROR");
+    	    							else
+    	    								cb(err,"you are registered expect an email soon ;)","SUCCESS");
+    	   							 });
+     
+    	       					}
+    	       				});
+    					}
+     
+    	   			});
+     
+    	   		}
+     
+    	 	});
+    	},
 //DONE 
 
 //the service provider could login

@@ -161,6 +161,7 @@ let AdminController = {
 
    //DeleteServiceProvider function makes the admin able to delete the service provider from the system and its corresponding courses
 
+
   DeleteServiceProvider:function(req,res,cb){
     var falg = false;
     ServiceProvider.findOne({organizationName:req.body.organizationName}).lean().exec(function(err,SP){
@@ -195,7 +196,6 @@ let AdminController = {
              }
             });            
             }
-
             }
         });
 

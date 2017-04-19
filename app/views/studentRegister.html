@@ -1,0 +1,34 @@
+<div>
+<h1>  REGISTER  </h1>	
+</div>
+
+<form  ng-submit="studentController.newStudent(data)">
+    	 <div class="form-group">
+    
+          <label>Username</label>
+          <input type="text" class="form-control" ng-model="studentController.data.username">
+        </div> 
+       
+        <div class="form-group">
+          <label>Password</label>
+          <input type="Password" class="form-control"  ng-model="studentController.data.password" >
+        </div>
+      
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" class="form-control" ng-model="studentController.data.email" >
+        </div>
+        
+        <div class="form-group">
+          <label>name</label>
+          <input type="text" class="form-control" ng-model="studentController.data.name" >
+        </div>
+        <div class="form-group">
+          <label>Birthdate</label>
+          <input type="date" class="form-control" ng-model="studentController.data.birthdate" >
+        </div>
+        <!-- profilePicture is yet to be implemented -->
+       
+        <button type="submit" class="btn btn-default">Submit</button>
+
+</form>

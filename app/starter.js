@@ -1,35 +1,9 @@
 
 // console.log("appp")
+angular.module('myApp', ['ngRoute','ui.bootstrap','appRoutes','MainController','indexSrv','spctr','businessServ','spAuthServ','studentServ','studentController'])
 
-myApp = angular.module('myApp', ['ui.bootstrap','ngRoute']);
-
-
-myApp.config(function($routeProvider) {
-  $routeProvider
-
-  // route for the landingPage page
-    .when('/', {
-    templateUrl: '/index.html',
-    controller: 'MainController',
-    controllerAs: 'MainController'
-               })
-    .when('/catalog',{
-
-    templateUrl:'/catalog.html'
-
-    }).when('/welcome',{
-
-    templateUrl:'views/welcome.html',
-      controller: 'MainController',
-    controllerAs: 'MainController'
-
-    }).
-   when('/search',{
-
-    templateUrl:'views/search.html',
-   
-
-    })
+.config(function($httpProvider){
+  $httpProvider.interceptors.push('AuthInterceptors')
 
 });
 

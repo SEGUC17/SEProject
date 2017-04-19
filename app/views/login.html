@@ -1,0 +1,19 @@
+<div>
+<h1> SERVICE PROVIDER LOGIN  </h1>	
+</div>
+
+<form ng-submit="spCon.login(data)">
+	 <div class="form-group">
+          <label>Username</label>
+          <input type="text" class="form-control" ng-model="spCon.data.username" >
+        </div> 
+       
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" class="form-control" ng-model="spCon.data.password"  >
+        </div>
+      
+       
+        <button type="submit" class="btn btn-default">Log in</button>
+
+</form>

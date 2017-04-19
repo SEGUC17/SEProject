@@ -54,23 +54,18 @@ let AdminController = {
    },
 
 
- viewUnregSP :function(req,res){   //views all unverified service provider, those who have no username and password yet
-          ServiceProvider.find({username:""}).lean().exec(function(err,unRegSP)
-            {
-             if(err){
-               return res.json({
-                success: false,
-                message: "error"
-               });
-             }
-             else
-             {
-              return res.json(unRegSP);
-             }
-            
-            });
+//DONE   
 
-      },
+  viewUnregSP :function(req,res,cb){   //views all unverified service provider, those who have no username and password yet
+    ServiceProvider.find({username:""}).lean().exec(function(err,unRegSP){
+      if(unRegSP)
+        cb(err, unRegSP, "SUCCESS");
+      else
+        cb(err, "No unregistered service providers are found !", "ERROR");      
+    
+    });
+
+  },
 
 
 
@@ -238,15 +233,20 @@ let AdminController = {
         var array =[];
         Admin.findOne({username:"Admin"},function(err,a){
           if (err)throw err ;
+
         for(var i=0;i<a.listOfNotification.length;i++){
 
           if(a.listOfNotification[i].typeOfNotification[0]=='B')
           array=array.concat(a.listOfNotification[i]);
         }
-        console.log(array);
-        return array;
-        });
-      },
+        if(array.length == 0)
+          cb(err,"No notifications found !", "ERROR");
+        else 
+          cb(err,array,"SUCCESS");
+      // }else
+      //   cb(err,"Admin is not found !", "ERROR");
+    });
+  }
 
 
 }

@@ -363,7 +363,7 @@ Student.findById(req.sesssion._id,function(err,student){
 
       newStudent.save((err2,StudentSaved)=>{
         if(err2){
-           cb(err2,"ERROR"); 
+           cb(err2,"ERROR CAN NOT SAVE ","ERROR"); 
         }else{
           console.log(StudentSaved);
         cb(err2,StudentSaved); 

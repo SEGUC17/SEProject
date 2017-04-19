@@ -219,6 +219,19 @@ let AdminController = {
     });
 
   },
+
+
+    getAllVerifiedServiceProvider:function(req,res , cb){ 
+       ServiceProvider.find({username:{$ne:''}},function(err,spUsers) { 
+        if (err) {
+           cb(err,"NO SERVICE PROVIDERS","ERROR");
+        } else {
+        cb(err,spUsers,"SUCCESS");
+    }
+       
+    });
+
+   },
     // GetPoorServiceProvidersNotifications function notifies the admin of the poor service providers 
     //existing on the system who exceeded the maximum number of bad reviews
        GetPoorServiceProvidersNotifications: function(){ 

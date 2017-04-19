@@ -346,17 +346,7 @@ viewAnnouncemnets:function(req,res,cb){
 		},
 
 		//done
-	  getAllVerifiedServiceProvider:function(req,res , cb){ 
-       ServiceProvider.find({username:{$ne:''}},function(err,spUsers) { 
-        if (err) {
-           cb(err,"NO SERVICE PROVIDERS","ERROR");
-        } else {
-        cb(err,spUsers,"SUCCESS");
-    }
-       
-    });
-
-   },
+	
 
 
 

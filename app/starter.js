@@ -25,15 +25,76 @@ myApp.config(function($routeProvider) {
     }).when('/search',{
 
     templateUrl:'app/views/search.html',
+
    }).when('/catalog',{
 
     templateUrl:'app/views/catalog.html',
+
    }).when('/adminPage',{
       templateUrl:'views/adminPage.html',
       controller: 'AdminController',
       controllerAs: 'AdminController'
-  })
 
+  }) .when('/registeredSP',{
+
+      templateUrl:'views/registeredSp.html',
+        controller: 'MainController',
+      controllerAs: 'MainController'
+
+      })
+
+     .when('/register',{
+
+      templateUrl:'views/register.html',
+        controller: 'spCon',
+      controllerAs: 'spCon'
+
+      })
+      .when('/addCourse',{
+
+      templateUrl:'views/addCourse.html',
+        controller: 'spCon',
+      controllerAs: 'spCon'
+
+      })
+      .when('/studentRegister',{
+
+      templateUrl:'views/studentRegister.html',
+        controller: 'StudentController',
+      controllerAs: 'StudentController'
+
+      })
+      .when('/studentLogin',{
+
+      templateUrl:'views/studentLogin.html'
+      //   controller: 'StudentController',
+      // controllerAs: 'StudentController'
+
+      })
+     .when('/test',{
+
+      templateUrl:'views/test.html'
+
+      })
+      .when('/login',{
+
+      templateUrl:'views/login.html'
+      //   controller: 'MainController',
+      // controllerAs: 'MainController'
+
+      })
+      .when('/logout',{
+
+      templateUrl:'views/logout.html'
+      //   controller: 'MainController',
+      // controllerAs: 'MainController'
+
+
+
+      })
+      .otherwise({
+      redirectTo: "/"
+    });
 
 });
 

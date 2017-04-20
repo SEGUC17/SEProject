@@ -4,7 +4,7 @@
        </div>
      </div>
 <br>
-    <div class="main" ng-controller ="AdminController">
+    <!-- <div class="main" ng-controller ="AdminController">
       <div class="container-fluid">
        <div class="scrollmenu">
           <h2>{{ title }}</h2>
@@ -12,13 +12,13 @@
               <button class="w3-button w3-xlarge w3-circle w3-red w3-card-4" ng-click="ShowHide()" >+</button>Verified SP<br/>
               <div class="jumbotron">
                  <h2>Jumbotron</h2>
-
+                  <p><a href="html_images.asp">HTML Images</a>
               </div>
 
            </div>
        </div>
       </div>
-    </div>
+    </div> -->
 
 
 
@@ -30,13 +30,22 @@
           <thead class="text-danger">
             <th>username</th>
             <th>Email</th>
+            <th>SP id</th>
+            <th>SP Status</th>
+            <th>SP Status</th>
             <th>SP Status</th>
           </thead>
           <tr ng-repeat="sps in SrvProviders" >
-            <td>{{sps.username}}</td>
+            <td>{{sps.username}}</td> <td>{{sps._id}}</td>
               <td>{{sps.email}}</td>
               <td>
-              <button class="w3-button w3-large w3-circle w3-red w3-card-4" ng-click="removeSrvProvider(sps.email) ; displaySrvProviders (); " >-</button>  Remove</h4>
+              <button class="w3-button w3-medium w3-circle w3-blue w3-card-4" ng-click="" > * </button>  details</h4>
+              </td>
+              <td>
+              <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="declineSrvProvider(sps.email) ; displaySrvProviders (); " > - </button>  decline</h4>
+            </td>
+              <td>
+              <button class="w3-button w3-medium w3-circle w3-yellow w3-card-4" ng-click="" > - </button>  delete</h4>
             </td>
           </tr>
         </table>
@@ -48,12 +57,16 @@
                     <th>OrganizationName</th>
                     <th>Email</th>
                     <th> UnRegister SP</th>
+                    <th> UnRegister SP</th>
                   </thead>
                   <tr ng-repeat="UNsps in unRegisterSP" >
-                    <td>{{UNsps.organizationName}}</td>
+                    <td>{{UNsps.organizationName}}</td> <td>{{UNsps._id}}</td>
                     <td> {{UNsps.email}}</td>
                     <td>
-                      <button class="w3-button w3-large w3-circle w3-red w3-card-4" ng-click="" >+</button>  accept </h4>
+                      <button class="w3-button w3-medium w3-circle w3-green w3-card-4" ng-click="" > + </button>  accept </h4>
+                    </td>
+                    <td>
+                      <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="" > - </button>  decline </h4>
                     </td>
                   </tr>
             </table>

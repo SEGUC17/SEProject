@@ -1,4 +1,4 @@
-myApp.controller('AdminController',function($scope,adminSrv,$location) {
+myApp.controller('AdminController',function($scope,adminSrv,indexSrv,$location) {
  //adminSrv.setEmail("balabizo@gmail.com");
 $scope.msg = "";
 $scope.test = "testemail";
@@ -12,10 +12,58 @@ $scope.ShowHide = function () {
      $scope.IsVisible = $scope.IsVisible ? false : true;
 
 };
+//admin login
+var app = this;
+var data = {
+"username": "Admin" ,
+"password":"Admin"
+
+};
+$scope.token ="";
+Admin_login(data);
+  function Admin_login(data){
+  		indexSrv.AdminLogin(data).then(function(response){
+  			console.log(response.data)
+  			console.log("the token is: "+response.data.token)
+        $scope.token =response.data.token;
+  			if(response.data.type=='SUCCESS'){
+  			////$location.path('/admin')
+  			app.islogged = true;
+        console.log(app.islogged );
+  			}
+  			else{
+  			 app.islogged = false;
+         console.log(app.islogged );
+  			}
+
+        adminSrv.declineSrvProvider('bazo11@gmail.com',$scope.token).success(function(msg) {
+
+               $scope.msg = msg;
+               console.log("deh bn3lha test ");
+               console.log(msg);
+               console.log("ctrl2_declineSrvProvider");
+               console.log(Email);
+
+               displaySrvProviders  ();
+           });
+  		})
+  }
 
 //  $scope.Email  = adminSrv.getEmail();
 //removeSrvProvider($scope.Email);
 //getServiceProvider();
+
+//start viewDetais_SrvProvider ;button Detais
+
+
+// end viewDetais_SrvProvider ;button Detais
+
+
+//start deleteSrvProvider ;button delete
+
+
+// end deleteSrvProvider ;button delete
+
 $scope.SrvProviders=
     adminSrv.getVerifiedServiceProvider().success(function(Sp) {
 
@@ -25,20 +73,36 @@ $scope.SrvProviders=
             //console.log($scope.SrvProviders[0]);
 
 });
-
-$scope.removeSrvProvider  =function(Email){
-      console.log("ctrl");
+//decline sp
+$scope.declineSrvProvider  =function(Email ){
+      console.log("ctrl_declineSrvProvider");
       console.log(Email);
-    adminSrv.removeSrvProvider(Email).success(function(msg) {
+    adminSrv.declineSrvProvider('aabazo1gt1@gmail.com',$scope.token).success(function(msg) {
 
            $scope.msg = msg;
+           console.log("deh bn3lha test ");
            console.log(msg);
-           console.log("ctrl2");
+           console.log("ctrl2_declineSrvProvider");
            console.log(Email);
 
            displaySrvProviders  ();
        });
 };
+//delete sp
+$scope.deleteSrvProvider  =function(Email){
+      console.log("ctrl_deleteSrvProvider");
+      console.log(Email);
+    adminSrv.deleteSrvProvider(Email).success(function(msg) {
+
+           $scope.msg = msg;
+           console.log(msg);
+           console.log("ctrl2_deleteSrvProvider");
+           console.log(Email);
+
+           displaySrvProviders  ();
+       });
+};
+
 
 $scope.viewUnSrvProvider  =
       // console.log("ctrluser");

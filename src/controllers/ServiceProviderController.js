@@ -13,7 +13,7 @@ let ServiceProviderController = {
 
 //done
     clearUNverSP: function(req,res,cb){ // this method removes all
-    
+
        ServiceProvider.remove(function(err){
        	if(err){
        		console.log("CAN'T REMOVE");
@@ -25,11 +25,11 @@ let ServiceProviderController = {
        	}
 
        });
- 
+
     },
 
     viewCourses : function(req,res,cb){
-		var ServiceProviderID = req.decoded.id; 
+		var ServiceProviderID = req.decoded.id;
     	ServiceProvider.findById(ServiceProviderID, function(err,docs){
     		if(docs){
     			for(var i = 0; i < docs.listOfCourses.length; i++){
@@ -43,7 +43,7 @@ let ServiceProviderController = {
 
     		if(array.length == 0)
 	    		cb(err,"No courses are found !", "ERROR");
-	    	else 
+	    	else
 	    		cb(err, array,"SUCCESS");
 
 	    	while(array.length > 0){
@@ -61,7 +61,7 @@ let ServiceProviderController = {
 
 	updatePortofolio : function (req,res,cb) {
 
-		var ServiceProviderID = req.decoded.id; 
+		var ServiceProviderID = req.decoded.id;
 
 
 		var toBeUpdated = {};
@@ -97,16 +97,16 @@ let ServiceProviderController = {
 		});
 	},
 
-	//the service provider can add a course and passing his Id 
+	//the service provider can add a course and passing his Id
     addCourse:function(req,res,cb){
-     
+
     	//uncomment before submission//uncomment ends here
-     
+
     	//for testing replaace the id with object id from the database
     	var serciveProviderIDSession=req.decoded.id;
     	//testing ends
     	console.log(serciveProviderIDSession);
-     
+
     		//for submitting uncomment
     		var newCourse=new Course({
     				title:req.body.title,
@@ -121,15 +121,15 @@ let ServiceProviderController = {
     				fees:req.body.fees,
     				enrolledStudents:req.body.enrolledStudents,
     				serviceProviderID:serciveProviderIDSession
-     
+
     			});
     		//uncomment ends here
-     
-    		
-     
+
+
+
     	newCourse.save((err,savedCourse)=>{
     		if(err){
-    			
+
     			console.log('Cant save the Course');
     			cb(err,"THIS COURSE HAS BEEN ADDED BEFORE SAVE","ERROR");
     		}else{
@@ -145,7 +145,7 @@ let ServiceProviderController = {
     		   		console.log('Length');
     		   		console.log(lengthofCourse);
     		   		var found=0;
-     
+
     		   		for(var i=0;i<lengthofCourse;i++){
     		   			if(ServiceProviderResult.listOfCourses[i]==cousreid)
     		   			{
@@ -164,7 +164,7 @@ let ServiceProviderController = {
     		   				lengthofCourse=ServiceProviderResult.listOfCourses.length;
     		   				console.log(ServiceProviderResult);
     		   				cb(err,savedCourse,"SUCCESS");
-    	
+
     		   			}
 					});
     		   		}
@@ -172,12 +172,12 @@ let ServiceProviderController = {
     		   	});
     		   }
     	});
-     
+
     },
     //done
 //service provider removes a course by passong in the parameter and his id
 		removeCourse: function(req,res,cb){
- 
+
 			var courseTitleToBeRemoved=req.body.title;
 			var serciveProviderIDSession=req.decoded.id;
 			ServiceProvider.findById(serciveProviderIDSession,(err,serviceProviderFound)=>{
@@ -234,10 +234,10 @@ let ServiceProviderController = {
 											}
 
 								});
-	
-									
+
+
 								}
-	
+
 					});
 
 			}
@@ -247,7 +247,7 @@ let ServiceProviderController = {
 		   });
 
        },
-//the service provider can post announcment bt passing his course title 
+//the service provider can post announcment bt passing his course title
 		postAnnouncements:function(req,res,cb){
 		 var newAnnouncement=req.body.announcement;
 		 var Coursetitle=req.body.title;
@@ -270,21 +270,21 @@ let ServiceProviderController = {
 	 });
 
 	},
-	//the service provider can remove announcmet by passing the course title to be removeed 
+	//the service provider can remove announcmet by passing the course title to be removeed
 
 		removeAnnouncements:function(req,res,cb){
-	
+
 		var courseTitleToBeRemoved=req.body.courseTitle;
-		
+
 		var announcmmentToBeRemoved=req.body.announcement;
 
 		Course.findOne({title:courseTitleToBeRemoved},(err,courseFound)=>{
 	   if(err){
 	    cb(err,"CANT FIND THE COURSE","ERROR")
 	   }else{
-	   
+
 	    var condition={title:courseFound.title};
-		console.log('Course title to be REMOVED');	
+		console.log('Course title to be REMOVED');
 		var update={ $pullAll: { announcements : [announcmmentToBeRemoved]}};
 		var opts= { safe: true, upsert: true };
 		Course.update(condition,update,opts,(err,response)=>{
@@ -324,8 +324,8 @@ let ServiceProviderController = {
 
 	},
 
-//update the parameteres of the course however we have taken all the parameters as in the view part we will then check if the req.body is 
-//empty or not 
+//update the parameteres of the course however we have taken all the parameters as in the view part we will then check if the req.body is
+//empty or not
 
 
    updateCourse : function(req,res,cb){
@@ -342,12 +342,12 @@ let ServiceProviderController = {
 		if (req.body.capacity) objForUpdate.capacity = req.body.capacity;
 		if (req.body.announcement) objForUpdate.announcement = announcement;
 		if (req.body.fees) objForUpdate.fees = req.body.fees;
- 
+
 		Course.update({title:title},objForUpdate,{upsert:true},function(err,objForUpdate){
- 
+
 			if(err)
 					cb(err,"CAN NOT UPDATE COURSE","ERROR");
-			
+
 			else{
            			Course.findOne({title:title},(err,result)=>{
            				if(err){
@@ -358,7 +358,7 @@ let ServiceProviderController = {
              		});
 			}
 		});
- 
+
 	},
 
 	updatePolicy: function(req,res){
@@ -367,13 +367,13 @@ let ServiceProviderController = {
 				if(serviceprovider){
 			 		serviceprovider.polices = req.body.policy;
 			 		serviceprovider.save(function(err,serviceprovider){
-			   			if(err) 
+			   			if(err)
 			 				res.send(err,'ERROR',"ERROR");
 			 			else
 			 				res.send(err,'Your policy has been updated successfully',"SUCCESS");
 
 			 		});
-			 	}else 
+			 	}else
 			 		res.send(err,'Service Provider not found',"ERROR");
 
 			});
@@ -381,13 +381,13 @@ let ServiceProviderController = {
 
 	},
 //lsa
-//the service provider could view all the enroller students in the course by passing the course titile 
+//the service provider could view all the enroller students in the course by passing the course titile
 	viewAllEnrolledStudents : function(req,res,cb){
-		
+
     	//array.clear();
 
     	//array.splice(0, array.length);
-		
+
 		var x = 0;
 
 		if(req.decoded.type == "ServiceProvider"){
@@ -400,7 +400,7 @@ let ServiceProviderController = {
 					for(var i = 0; i < lengthOfEnrolledStudents; i++){
 						var studentID = courseFound.enrolledStudentsIDs[i];
 
-						
+
 						Student.findById(studentID,(err,studentFound)=>{
 
 							console.log(studentFound);
@@ -416,15 +416,15 @@ let ServiceProviderController = {
 						});
 
 					}
-					
-					
+
+
 					// for(var y = array.length-1; y > x; y--)
 					// 		array.pop();
-										
+
 					//console.log(array);
 					if(array.length == 0)
 						cb(err, "No students found", "SUCCESS");
-					else 
+					else
 						cb(err, array, "SUCCESS");
 
 					while(array.length > 0)
@@ -439,7 +439,7 @@ let ServiceProviderController = {
 	},
 
 
-//the servicde provider could register to the system by passing the field 
+//the servicde provider could register to the system by passing the field
        spRegister: function(req,res,cb){
     //checks first tht this Service provider was not perviously registered to the system
     	   ServiceProvider.findOne({organizationName:req.body.organizationName},function(err,organizationName){
@@ -450,13 +450,13 @@ let ServiceProviderController = {
     	     			if(mobileNumber)
     	       				cb(err,"Mobile number already exists","ERROR");
     	       			else{
-     
+
     						ServiceProvider.findOne({email:req.body.email},function(err,email){
     							if(email)
     	       						cb(err,"email already exists","ERROR");
     	       					else {
-     
-    	       						var newOrganization = new ServiceProvider({         
+
+    	       						var newOrganization = new ServiceProvider({
     	        						organizationName:req.body.organizationName ,
     	        						field :req.body.field ,
     	        						description :req.body.description,
@@ -465,9 +465,9 @@ let ServiceProviderController = {
     							        address: req.body.address,
     							        polices :req.body.polices,
     							        logo :req.body.logo
-     
-    	    						}); 
-     
+
+    	    						});
+
     	   							 newOrganization.save((err,spSaved)=>{
 
 
@@ -476,43 +476,45 @@ let ServiceProviderController = {
     	    							else
     	    								cb(err,"you are registered expect an email soon ;)","SUCCESS");
     	   							 });
-     
+
     	       					}
     	       				});
     					}
-     
+
     	   			});
-     
+
     	   		}
-     
+
     	 	});
     	},
 
 
 //the service provider could login
-	SPLogin:function(req, res, cb) { 
+	SPLogin:function(req, res, cb) {
 	  	//the service provider is found in the schema
+
+      console.log("req.body.username ::"+req.body.username );
       	ServiceProvider.findOne( {username :req.body.username },function(err1, sp) {
         if (err1) {
        		cb(err1,"Service Provider not found","ERROR");
         }else{
- 
+
       		if(sp){
 
 	     		sp.checkPassword (req.body.password, function(err2,isMatch){
-	     
+
 	        		if(isMatch && isMatch == true)
 	           			cb(err2,sp,"SUCCESS") ;
-	          		else 
+	          		else
 	          	 		cb( err2,"WRONG PASSWORD","ERROR") ;
-	         		
+
 	       		});
 
 			}else
 				cb(err1,"Service Provider not found","ERROR");
- 
+
    		}
- 
+
   	});
 
  	},
@@ -539,23 +541,23 @@ let ServiceProviderController = {
 			if(SP){
 	  			Course.findOne({title : req.body.title},function(err,course){
 	  				if(course){
-	   	 				for(var j = 0; j < course.ReviewsIDs.length; j++){ 
+	   	 				for(var j = 0; j < course.ReviewsIDs.length; j++){
 	      					Review.findById(course.ReviewsIDs[j],function(err,review){
 	      						if(review)
 	      							array.push(review);
 	        				});
-	  					}		
+	  					}
 
 					}else
 						cb(err,"Course is not found !", "ERROR");
-	   				
+
 	 				});
 			}else
 				cb(err,"Service provider is not found !", "ERROR");
 
 			if(array.length == 0)
 				cb(err,"No reviews found !", "SUCCESS");
-			else 
+			else
 				cb(err,array,"SUCCESS");
 
 			while(array.length > 0)
@@ -564,13 +566,13 @@ let ServiceProviderController = {
 	 	});
 	},
 
-	getNotifications: function(req,res,cb){ 
+	getNotifications: function(req,res,cb){
         ServiceProvider.findById(req.decoded.id,function(err,sp){
           if (sp){
             var array = sp.listOfNotification;
             if(array.length == 0)
               cb(err,"No notifications found !", "ERROR");
-            else 
+            else
               cb(err,array,"SUCCESS");
           }else
               cb(err,"Service provider is not found !", "ERROR");

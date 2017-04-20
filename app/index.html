@@ -33,10 +33,11 @@
 <script src="/controllers/MainController.js"></script>
 <script src="/controllers/serviceProviderController.js"></script>
 <script src="/controllers/StudentController.js"></script>
-
+<script src="/controllers/AdminController.js"></script>
 
 <!-- services -->
 <script src="/services/indexSrv.js"></script>
+<script src="/services/adminSrv.js"></script>
 <script src="/services/forBusinessServ.js"></script>
 <script src="/services/spAuthServ.js"></script>
 <script src="/services/stServ.js"></script>
@@ -44,10 +45,11 @@
 
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  
+
+
 </head>
-<body ng-app="myApp" ng-controller="MainController as MainController" > 
- 
+<body ng-app="myApp" ng-controller="MainController as MainController" >
+
 
 <div class="navbarnavbar-defaultnavbar-static-top" role="navigation">
   <div class="container">
@@ -55,7 +57,7 @@
       <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-briefcase"></span>EduDEV
       </a>
     </div>
-      <ul class="nav navbar-nav navbar-right"> 
+      <ul class="nav navbar-nav navbar-right">
 
      <li class="dropdown">
         <a ng-show ="!MainController.islogged" class="dropdown-toggle" data-toggle="dropdown" href="/forbusiness">For Business
@@ -63,22 +65,22 @@
         <ul class="dropdown-menu">
           <li><a href= "#/login">login</a></li>
           <li><a href="#/register">Register</a></li>
-         
+
         </ul>
       </li>
-      <li><a ng-show ="MainController.islogged" href= "#/logout" ng-click="MainController.logout()">logout</a></li>    
-      <li><a href= "#/test">test</a></li>    
+      <li><a ng-show ="MainController.islogged" href= "#/logout" ng-click="MainController.logout()">logout</a></li>
+      <li><a href= "#/test">test</a></li>
      <li><a href="#/addCourse">addCourse</a></li>
 
-      <li><a href= "#/registeredSP">VIEW REGISTERED SP</a></li>    
+      <li><a href= "#/registeredSP">VIEW REGISTERED SP</a></li>
       <li><a href="#/studentRegister">SIGNUP</a></li>
-     <li><a href="#/studentLogin">Login</a></li>    
-    
+     <li><a href="#/studentLogin">Login</a></li>
+
 
       </ul>
-       <ul class="nav navbar-nav navbar-left"> 
+       <ul class="nav navbar-nav navbar-left">
 
-      <li><a href="/catalog">Catalog</a></li>    
+      <li><a href="/catalog">Catalog</a></li>
       </ul>
       <form class="navbar-form navbar-left" role="search">
       <div class="form-group">
@@ -91,10 +93,9 @@
 </div>
 
     <div ng-view>
-      
+
     </div>
 
 
-</body>   
+</body>
 </html>
-

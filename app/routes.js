@@ -24,7 +24,7 @@ var myApp = angular.module('appRoutes',['ngRoute'])
    when('/search',{
 
     templateUrl:'views/search.html',
-   
+
 
     })
    .when('/registeredSP',{
@@ -63,10 +63,17 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     // controllerAs: 'StudentController'
 
     })
+    .when('/adminPage',{
+
+    templateUrl:'views/adminPage.html'
+    // controller: 'AdminController',
+    // controllerAs: 'AdminController'
+
+    })
    .when('/test',{
 
     templateUrl:'views/test.html'
-    
+
 
     })
     .when('/login',{
@@ -75,7 +82,7 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     //   controller: 'MainController',
     // controllerAs: 'MainController'
 
-    
+
 
     })
     .when('/logout',{
@@ -84,14 +91,14 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     //   controller: 'MainController',
     // controllerAs: 'MainController'
 
-    
+
 
     })
     .otherwise({
     redirectTo: "/"
   });
 
-    
-  
+
+
 
 });

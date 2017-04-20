@@ -40,6 +40,7 @@ var app = this;
 			//console.log("the token is: "+response.data.token)
 
 			if(response.data.type=='SUCCESS'){
+
 			$location.path('/welcome')
 			app.islogged = true;
 
@@ -61,6 +62,7 @@ this.Student_login=function(data){
 			//console.log("the token is: "+response.data.token)
 
 			if(response.data.type=='SUCCESS'){
+				if(data.username ==='Admin')	{	$location.path('/adminPage');}
 			$location.path('/welcome')
 			app.islogged = true;
 
@@ -93,9 +95,9 @@ this.Student_login=function(data){
   // indexSrv.getCatalogPage();
 //$location.url('/welcome');
 // $scope.search = function() {
-       
+
 //         $location.url('/search');
-        
+
 //     };
 
 
@@ -105,6 +107,5 @@ this.Student_login=function(data){
 // }
 
 
-  
+
 });
-	

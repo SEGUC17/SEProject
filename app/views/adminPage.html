@@ -31,12 +31,16 @@
             <th>username</th>
             <th>Email</th>
             <th>SP Status</th>
+            <th>SP Status</th>
           </thead>
           <tr ng-repeat="sps in SrvProviders" >
             <td>{{sps.username}} : ObjectId :{{sps._id}}</td>
               <td>{{sps.email}}</td>
               <td>
-              <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="removeSrvProvider(sps.email) ; displaySrvProviders (); " >-</button>  Remove</h4>
+              <button class="w3-button w3-medium w3-circle w3-blue w3-card-4" ng-click="deleteSrvProvider(sps.organizationName) ; displaySrvProviders (); " >-</button>  deleteSP</h4>
+            </td>
+              <td>
+              <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="declineSrvProvider(sps.email) ; displaySrvProviders (); " >-</button>  declineSP</h4>
             </td>
           </tr>
         </table>
@@ -54,7 +58,7 @@
                     <td>{{UNsps.organizationName}} :ObjectId :{{UNsps._id}}</td>
                     <td> {{UNsps.email}}</td>
                     <td>
-                      <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="" >-</button>  Reject </h4>
+                      <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="viewUnSrvProvider() ; displayUnRegSrvProviders (); ">-</button>  Reject </h4>
                     </td>
                     <td>
                       <button class="w3-button w3-medium w3-circle w3-green w3-card-4" ng-click="" >+</button>  accept </h4>

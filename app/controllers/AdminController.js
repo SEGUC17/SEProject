@@ -26,32 +26,32 @@ $scope.SrvProviders=
 
 });
 
-$scope.removeSrvProvider  =function(Email){
-      console.log("ctrl");
-      console.log(Email);
-    adminSrv.removeSrvProvider(Email).success(function(msg) {
+$scope.declineSrvProvider  =function(Email){
+      // console.log("ctrl");
+      // console.log(Email);
+    adminSrv.declineSrvProvider(Email).success(function(msg) {
 
            $scope.msg = msg;
            console.log(msg);
-           console.log("ctrl2");
+           console.log("ctrl_declineSrvProvider");
            console.log(Email);
 
            displaySrvProviders  ();
        });
 };
 
-$scope.viewUnSrvProvider  =
-      // console.log("ctrluser");
-      // console.log(username);
-    adminSrv.viewUnSrvProvider().success(function(SProvider) {
+//deleteSP
+$scope.deleteSrvProvider  =function(organizationName){
+    adminSrv.deleteSrvProvider(organizationName).success(function(msg) {
 
-           $scope.unRegisterSP = SProvider;
-          // console.log(SProvider);
-           console.log("ctrluser");
-        //   console.log(unRegisterSP);
+           $scope.msg = msg;
+           console.log(msg);
+           console.log("ctrl_deleteSrvProvider");
+           console.log(organizationName);
 
-});
-
+           displaySrvProviders  ();
+       });
+};
 
 function  displaySrvProviders  (){
     $scope.SrvProviders   ="";
@@ -65,6 +65,32 @@ function  displaySrvProviders  (){
         });
 };
 
+// $scope.removeUnRegSrvProvider  =function(Email){
+//       console.log("ctrl");
+//       console.log(Email);
+//     adminSrv.removeUnRegSrvProvider(Email).success(function(msg) {
+//
+//            $scope.msg = msg;
+//            console.log(msg);
+//            console.log("ctrl2");
+//            console.log(Email);
+//
+//            displayUnRegSrvProviders ();
+//        });
+// };
+
+$scope.viewUnSrvProvider  = function(){
+      // console.log("ctrluser");
+      // console.log(username);
+    adminSrv.viewUnSrvProvider().success(function(SProvider) {
+
+           $scope.unRegisterSP = SProvider;
+          // console.log(SProvider);
+           console.log("ctrl_viewUnSrvProvider");
+        //   console.log(unRegisterSP);
+        displayUnRegSrvProviders  ();
+      });
+};
 
 function  displayUnRegSrvProviders  (){
   $scope.unRegisterSP = "";

@@ -7,8 +7,9 @@ const nodemailer = require('nodemailer');
 
 let AdminController = {
 
-declineSP: function(req,res){ //when the admin declines a serviceprovider, the service provider is removed from the database
-// and an email is sent to him
+declineSP: function(req,res){ //when the admin declines a serviceprovider,
+  // the  service provider is removed from the database
+ // and an email is sent to him
    console.log("admin");
    console.log( req.body.email);
         ServiceProvider.remove({email: req.body.email}, function(err, DeletedSP){
@@ -54,6 +55,7 @@ declineSP: function(req,res){ //when the admin declines a serviceprovider, the s
 
                  });
 },
+
 viewUnregSP :function(req,res){   //views all unverified service provider, those who have no username and password yet
           ServiceProvider.find( { $or: [ {username:""}, {username:undefined} ] }).lean().exec(function(err,unRegSP)
             {
@@ -187,5 +189,18 @@ GetPoorServiceProvidersNotifications: function(){
         });
 },
 
+getAllVerifiedServiceProvider:function(req,res , cb){ // leh bta5od username we password ?
+   //  let ServiceProvider = new sp(username);
+
+   ServiceProvider.find({username:{$ne:""}},function(err,spUsers) { // change undefined to empty string
+    if (err) {
+      return res.json({success: false,
+               message: "error"});
+    } else
+    cb(err,spUsers);
+     return ; //res.json(spUsers);
+});
+
+},
 }
 module.exports = AdminController;

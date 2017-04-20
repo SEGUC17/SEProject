@@ -38,15 +38,15 @@ if(req.decoded.type=="Admin"){
 
 });
 
-router.post('/ServiceProvider/courses/removeCourse',function(req,res){
-  console.log(re.decoded);
-  return ServiceProviderController.removeCourse(req,res);
-});
-
-router.post('/ServiceProvider/courses/addCourse',function(req,res){
-	console.log(req.decoded);
-	return ServiceProviderController.addCourse(req,res);
-});
+// router.post('/ServiceProvider/courses/removeCourse',function(req,res){
+//   console.log(re.decoded);
+//   return ServiceProviderController.removeCourse(req,res);
+// });
+//
+// router.post('/ServiceProvider/courses/addCourse',function(req,res){
+// 	console.log(req.decoded);
+// 	return ServiceProviderController.addCourse(req,res);
+// });
 
 
 router.post('/adminhomepage/viewunreg', function(req,res){
@@ -85,7 +85,6 @@ router.post('/admin/declineSP',function(req,res){
           content:message
         });
       }
-
     });
   }else{
     res.json({
@@ -97,9 +96,8 @@ router.post('/admin/declineSP',function(req,res){
 
 router.post('/admin/deleteSP',function(req,res){
   if(req.decoded.type=="Admin"){
-AdminController.DeleteServiceProvider(req,res,(err,message,type)=>{
-  if(type=="ERROR")
-  {
+ AdminController.DeleteServiceProvider(req,res,(err,message,type)=>{
+  if(type=="ERROR"){
     res.json({
       type:type,
       message:message
@@ -119,6 +117,15 @@ AdminController.DeleteServiceProvider(req,res,(err,message,type)=>{
   }
 });
 
+router.get('/home/viewreg',function(req,res){
+ // console.log("hiiiiiiiiiiiiiiiii")
+  AdminController.getAllVerifiedServiceProvider(req,res, function(err,sp,type){
+    if(type==="ERROR")
+      res.send(sp);
+    else
+      res.json(sp);
+  });
+});
 //end ----later they will be moved under middleware
 
 router.get('/',function (req,res){
@@ -156,6 +163,7 @@ router.post('/forbussinus/login', function(req,res){
        }
      });
 });
+
 //login bta3 el student
 router.post('/login', function(req,res){
   	StudentController.checkStudentLogin(req,res,function(student, error){
@@ -196,21 +204,7 @@ router.post('/serviceprovider/register',function(req,res){
     	return ServiceProviderController.spRegister(req,res);
 });
 
-router.get('/home/viewreg',function(req,res){
 
- // console.log("hiiiiiiiiiiiiiiiii")
-
-  AdminController.getAllVerifiedServiceProvider(req,res, function(err,sp,type){
-    if(type==="ERROR")
-      res.send(sp);
-    else
-      res.json(sp);
-
-  });
-
-
-
-});
 
 router.use(function(req,res,next){ //this middleware adds the decoded token the req before continuing to any other routes.
 //so if you need to access an attribute saved in the token,

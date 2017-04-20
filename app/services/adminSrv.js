@@ -8,16 +8,25 @@ getVerifiedServiceProvider: function(){
 },
 
 // remove service provider
-removeSrvProvider: function(Email){
+declineSrvProvider: function(Email){
        // jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJNWU5LU0giLCJpYXQiOjE0NjA3NzIyOTQsImV4cCI6MTQ5MjMwODI5NSwiYXVkIjoid3d3LnNlY291cnNlLmNvbSIsInN1YiI6Ik1ZTktTSCBJYmVyaWEiLCJUZWFtIjoiTVlOS1NIIn0.hZxhv8XAcu1cARgcrtfb0l_crF1-Ic1tJt9eUhIL0qQ';
        var body = {
-
       "email": Email
-
-      }; console.log("removeSrvProvider");
+      }; console.log("declineSrvProvider");
          console.log(Email);
-          console.log(Userid);
+          //console.log(Userid);
          return $http.post('/admin/declineSP'+'ID:',body);
+},
+//delete SP
+
+deleteSrvProvider: function(EmaorganizationNameil){
+       // jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJNWU5LU0giLCJpYXQiOjE0NjA3NzIyOTQsImV4cCI6MTQ5MjMwODI5NSwiYXVkIjoid3d3LnNlY291cnNlLmNvbSIsInN1YiI6Ik1ZTktTSCBJYmVyaWEiLCJUZWFtIjoiTVlOS1NIIn0.hZxhv8XAcu1cARgcrtfb0l_crF1-Ic1tJt9eUhIL0qQ';
+       var body = {
+      "organizationName": organizationName
+    }; console.log("deleteSrvProvider");
+         console.log(organizationName);
+          //console.log(Userid);
+         return $http.post('/admin/deleteSP'+'ID:',body);
 },
 //view Unverify service provider
 viewUnSrvProvider: function(){

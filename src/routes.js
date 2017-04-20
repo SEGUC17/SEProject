@@ -9,7 +9,8 @@ var AdminController = require('./controllers/AdminController');
 
 var app = require('./server.js');
 
-var path=require('path');
+var path = require('path');
+
 
 
 router.get('/',function (req,res){
@@ -44,7 +45,7 @@ router.post('/forbussinus/login', function(req,res){
 });
 
 
-
+// malhash lazma 
 router.post('/admin/clearUnverfiedSP',(req,res)=>{
   ServiceProviderController.clearUNverSP(req,res,(err,result,type)=>{
     if(type=="ERROR"){
@@ -214,7 +215,7 @@ router.post('/serviceprovider/register',function(req,res){
 router.use(function(req,res,next){ //this middleware adds the decoded token the req before continuing to any other routes
                                    //so if you need to access an attribute saved in the token,
                                    //use req.decoded.attrName
-  var token = req.body.token;
+  var token = req.body.token || req.headers['x-access-token'] || req.body.query;
 
   if(token){
     app.jwt.verify(token, app.app.get('super-secret'),function(err,decoded){
@@ -243,6 +244,15 @@ router.use(function(req,res,next){ //this middleware adds the decoded token the 
         });
   }
 
+});
+
+
+
+router.post('/me',function(req,res){
+  res.json({
+    token:req.headers['x-access-token'],
+    decoded:req.decoded
+  });
 });
 
 

@@ -1,10 +1,10 @@
-	angular.module('spAuthServ',[])
+angular.module('spAuthServ',[])
 
-	// .factory('spAuthServ', function($http) {
-	//     return {
-	    	
-	//     	}
+// .factory('spAuthServ', function($http) {
+//     return {
+    	
+//     	}
 
-	    
-	//     };
-	// });
+    
+//     };
+// });

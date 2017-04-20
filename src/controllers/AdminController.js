@@ -1,4 +1,4 @@
-7let ServiceProvider = require('../db/ServiceProvider');
+let ServiceProvider = require('../db/ServiceProvider');
 let Course = require('../db/Courses');
 let Student = require('../db/Student');
 let Admin = require('../db/Admin');

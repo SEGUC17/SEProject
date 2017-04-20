@@ -2,18 +2,17 @@
 
 myApp.controller('MainController', function($scope,indexSrv,$location) {
 
-  $scope.title=  "youmnaaa" ;
+  // $scope.title=  "youmnaaa" ;
   // indexSrv.getVerifiedServiceProvider();
   // indexSrv.getCatalogPage();
-$location.url('/welcome');
+$location.url('/adminPage');
 $scope.search = function() {
-       
+
         $location.url('/search');
-        
+
     };
 
 
 
-  
+
 });
-	

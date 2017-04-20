@@ -17,16 +17,136 @@ router.get('/',function (req,res){
         res.sendFile(path.join(__dirname,'../','app','index.html'))
 });
 
+router.get('/home/viewreg',function(req,res){
 
+  AdminController.getAllVerifiedServiceProvider(req,res, function(err,sp,type){
+    if(type === "ERROR")
+      res.json({
+        type : type,
+        message : sp
+      });
+    else
+      res.json({
+        type : type,
+        content : sp});
+
+      });
+
+});
+
+// start --- later they will be moved under middleware
+router.post('/ServiceProvider/courses/removeCourse',function(req,res){
+  console.log(re.decoded);
+  return ServiceProviderController.removeCourse(req,res);
+});
+
+router.post('/adminhomepage/verify', function(req,res){
+  if(req.decoded.type=="Admin"){
+    AdminController.verifySP(req,res,(err,message,type)=>{
+      if(type=="ERROR")
+        res.json({
+          type : type,
+          message : message
+        });
+      else
+        res.json({
+          type : type,
+          message : "SERVICE PROVIDER HAS BEEN SUCCESSFULLY REGISTERED",
+          content : message
+        });
+
+    });
+
+  }else{
+    res.json({
+      type:"ERROR",
+      message:"YOU ARE NOT AN ADMIN"
+    });
+  }
+});
+  return AdminController.declineSP(req,res);
+
+});
+
+
+
+router.post('/admin/declineSP',function(req,res){
+  if(req.decoded.type=="Admin"){
+    AdminController.declineSP(req,res,(err,message,type)=>{
+      if(err){
+        res.json({
+          type:type,
+          message:message
+        });
+      }else{
+        res.json({
+          type:type,
+          message:"SERVICE PROVIDER HAS BEEN DECLINED",
+          content:message
+        });
+      }
+
+    });
+  }else{
+    res.json({
+      type:"ERROR",
+      message:"YOU ARE NOT AN ADMIN"
+    });
+  }
+});
+router.post('/admin/deleteSP',function(req,res){
+  if(req.decoded.type=="Admin"){
+AdminController.DeleteServiceProvider(req,res,(err,message,type)=>{
+  if(type=="ERROR")
+  {
+    res.json({
+      type:type,
+      message:message
+    });
+  }else{
+    res.json({
+      type:type,
+      message:"SERVICE PROVIDER HAS BEEN REMOVED"
+    });
+  }
+})
+  }else{
+    res.json({
+      type:"ERROR",
+      message:message
+    });
+  }
+});
+router.post('/adminhomepage/viewunreg', function(req,res){
+  if(req.decoded.type == "Admin"){
+    AdminController.viewUnregSP(req,res,function(err,message,type){
+      if(type === "ERROR")
+        res.json({
+          type : type,
+          message : message
+        });
+      else
+        res.json({
+          type : type,
+          content : message
+        });
+    });
+  }else
+    res.json({
+      type : "ERROR",
+      message : "You are not an admin !"
+    });
+});
+//end ----later they will be moved under middleware
 
 router.post('/forbussinus/login', function(req,res){
   ServiceProviderController.SPLogin(req,res,function(error,sp,type){
-     
+
   if(type !="ERROR"){
-  //check if match username pwd 
+  //check if match username pwd
     var token = app.jwt.sign({ username: sp.username, id: sp._id, type:"ServiceProvider" }, app.app.get('super-secret'), {
     });
-     
+
     res.json({
       type : type,
       token : token,
@@ -34,7 +154,7 @@ router.post('/forbussinus/login', function(req,res){
       content : sp
     });
 
-  } else 
+  } else
     res.json({
       type : type,
       message : sp
@@ -45,7 +165,7 @@ router.post('/forbussinus/login', function(req,res){
 });
 
 
-// malhash lazma 
+// malhash lazma
 router.post('/admin/clearUnverfiedSP',(req,res)=>{
   ServiceProviderController.clearUNverSP(req,res,(err,result,type)=>{
     if(type=="ERROR"){
@@ -133,7 +253,7 @@ router.post('/login', function(req,res){
           message : "You are successfully logged in !",
           content : message
         });
-      else 
+      else
          res.json({
           token : token,
           type : "SUCCESS",
@@ -158,7 +278,7 @@ router.post('/coursepage/bookcourse',function(req,res){
         type : type,
         message : "Course is successfully booked !",
         content : book
-      }); 
+      });
 
     });
   }else
@@ -186,7 +306,7 @@ router.post('/register', function(req,res){
             message : "You are registered successfully !",
             content : student
           });
-        
+
 });
 
 });
@@ -205,7 +325,7 @@ router.post('/serviceprovider/register',function(req,res){
             type : type,
             message : "You are registered successfully !",
             content : sp
-          }); 
+          });
   });
 
 });
@@ -256,48 +376,121 @@ router.post('/me',function(req,res){
 });
 
 
-router.get('/home/viewreg',function(req,res){
-  
-  AdminController.getAllVerifiedServiceProvider(req,res, function(err,sp,type){
-    if(type === "ERROR")
-      res.json({
-        type : type,
-        message : sp
-      });
-    else
-      res.json({
-        type : type,
-        content : sp});
-                 
-      });
-      
-});
+// router.get('/home/viewreg',function(req,res){
+//
+//   AdminController.getAllVerifiedServiceProvider(req,res, function(err,sp,type){
+//     if(type === "ERROR")
+//       res.json({
+//         type : type,
+//         message : sp
+//       });
+//     else
+//       res.json({
+//         type : type,
+//         content : sp});
+//
+//       });
+//
+// });
+//
+//
+// router.post('/adminhomepage/verify', function(req,res){
+//   if(req.decoded.type=="Admin"){
+//     AdminController.verifySP(req,res,(err,message,type)=>{
+//       if(type=="ERROR")
+//         res.json({
+//           type : type,
+//           message : message
+//         });
+//       else
+//         res.json({
+//           type : type,
+//           message : "SERVICE PROVIDER HAS BEEN SUCCESSFULLY REGISTERED",
+//           content : message
+//         });
+//
+//     });
+//
+//   }else{
+//     res.json({
+//       type:"ERROR",
+//       message:"YOU ARE NOT AN ADMIN"
+//     });
+//   }
+// });
+//   return AdminController.declineSP(req,res);
+
+// });
 
 
-router.post('/adminhomepage/verify', function(req,res){
-  if(req.decoded.type=="Admin"){
-    AdminController.verifySP(req,res,(err,message,type)=>{
-      if(type=="ERROR")
-        res.json({
-          type : type,
-          message : message
-        });
-      else
-        res.json({
-          type : type,
-          message : "SERVICE PROVIDER HAS BEEN SUCCESSFULLY REGISTERED",
-          content : message
-        });
-  
-    });
 
-  }else{
-    res.json({
-      type:"ERROR",
-      message:"YOU ARE NOT AN ADMIN"
-    });
-  }
-});
+// router.post('/admin/declineSP',function(req,res){
+//   if(req.decoded.type=="Admin"){
+//     AdminController.declineSP(req,res,(err,message,type)=>{
+//       if(err){
+//         res.json({
+//           type:type,
+//           message:message
+//         });
+//       }else{
+//         res.json({
+//           type:type,
+//           message:"SERVICE PROVIDER HAS BEEN DECLINED",
+//           content:message
+//         });
+//       }
+//
+//     });
+//   }else{
+//     res.json({
+//       type:"ERROR",
+//       message:"YOU ARE NOT AN ADMIN"
+//     });
+//   }
+// });
+// router.post('/admin/deleteSP',function(req,res){
+//   if(req.decoded.type=="Admin"){
+// AdminController.DeleteServiceProvider(req,res,(err,message,type)=>{
+//   if(type=="ERROR")
+//   {
+//     res.json({
+//       type:type,
+//       message:message
+//     });
+//   }else{
+//     res.json({
+//       type:type,
+//       message:"SERVICE PROVIDER HAS BEEN REMOVED"
+//     });
+//   }
+// })
+//   }else{
+//     res.json({
+//       type:"ERROR",
+//       message:message
+//     });
+//   }
+// });
+// router.post('/adminhomepage/viewunreg', function(req,res){
+//   if(req.decoded.type == "Admin"){
+//     AdminController.viewUnregSP(req,res,function(err,message,type){
+//       if(type === "ERROR")
+//         res.json({
+//           type : type,
+//           message : message
+//         });
+//       else
+//         res.json({
+//           type : type,
+//           content : message
+//         });
+//     });
+//   }else
+//     res.json({
+//       type : "ERROR",
+//       message : "You are not an admin !"
+//     });
+// });
 
 
 router.post('/serviceprovider/courses/update', function(req,res){
@@ -310,7 +503,7 @@ ServiceProviderController.updateCourse(req,res,(err,message,type)=>{
       message:message
     });
   }else{
-    
+
     res.json({
       type:type,
       message:"COURSE HAS BEEN SUCCESSFULLY UPDATE",
@@ -375,7 +568,7 @@ router.post('/serviceprovider/courses/addCourse',function(req,res){
     type:"ERROR",
     message:"YOU ARE NOT A SERVICE PROVIDER"});
 }
-     
+
 });
 
 
@@ -387,13 +580,13 @@ router.post('/serviceprovider/courses',function(req,res){
         type : type,
         message : message
       });
-    else 
+    else
       res.json({
         type : type,
         content : message
       });
   });
-}else 
+}else
   res.json({
         type : "ERROR",
         message : "Yor are not a service provider !"
@@ -412,14 +605,14 @@ router.post('/serviceprovider/updatePortofolio',function(req,res){
           type : type,
           message : message
         });
-      else 
+      else
         res.json({
           type : type,
           message : "Portofolio updated successfully !",
           content : message
         });
     });
-  }else 
+  }else
    res.json({
         type : "ERROR",
         message : "You are not a service provider !"
@@ -427,36 +620,6 @@ router.post('/serviceprovider/updatePortofolio',function(req,res){
 
 });
 
-//   return AdminController.declineSP(req,res);
-
-// });
-
-
-
-router.post('/admin/declineSP',function(req,res){
-  if(req.decoded.type=="Admin"){
-    AdminController.declineSP(req,res,(err,message,type)=>{
-      if(err){
-        res.json({
-          type:type,
-          message:message
-        });
-      }else{
-        res.json({
-          type:type,
-          message:"SERVICE PROVIDER HAS BEEN DECLINED",
-          content:message
-        });
-      }
-
-    });
-  }else{
-    res.json({
-      type:"ERROR",
-      message:"YOU ARE NOT AN ADMIN"
-    });
-  }
-});
 
 
 router.post('/serviceprovider/ViewReviews', function(req,res){
@@ -481,29 +644,6 @@ router.post('/serviceprovider/ViewReviews', function(req,res){
 });
 
 
-router.post('/admin/deleteSP',function(req,res){
-  if(req.decoded.type=="Admin"){
-AdminController.DeleteServiceProvider(req,res,(err,message,type)=>{
-  if(type=="ERROR")
-  {
-    res.json({
-      type:type,
-      message:message
-    });
-  }else{
-    res.json({
-      type:type,
-      message:"SERVICE PROVIDER HAS BEEN REMOVED"
-    });
-  }
-})
-  }else{
-    res.json({
-      type:"ERROR",
-      message:message
-    });
-  }
-});
 
 
 router.post('/coursepage/bookcourse',function(req,res){
@@ -514,7 +654,7 @@ res.json({
   type:type,
   message:book
 });
-    
+
   }else{
     res.json({
       type:type,
@@ -547,7 +687,7 @@ router.post('/serviceprovider/viewAllEnrolledStudents', function(req,res){
           enrolledStudents : message
         });
     });
-  }else 
+  }else
     res.json({
       type : "ERROR",
       message : "You are not a service provider !"
@@ -555,26 +695,7 @@ router.post('/serviceprovider/viewAllEnrolledStudents', function(req,res){
 });
 
 
-router.post('/adminhomepage/viewunreg', function(req,res){
-  if(req.decoded.type == "Admin"){
-    AdminController.viewUnregSP(req,res,function(err,message,type){
-      if(type === "ERROR")
-        res.json({
-          type : type,
-          message : message
-        });
-      else
-        res.json({
-          type : type,
-          content : message
-        });
-    });
-  }else 
-    res.json({
-      type : "ERROR",
-      message : "You are not an admin !"
-    });
-});
+
 
 router.post('/ServiceProvider/viewPortofolio',(req,res)=>{
   if(req.decoded.type=="ServiceProvider"){
@@ -625,7 +746,7 @@ router.post('/adminhomepage/getNotifications',function(req,res){
       type : "ERROR",
       message : "You are not an admin !"
     });
-  
+
 });
 
 
@@ -650,7 +771,7 @@ router.post('/serviceprovider/getNotifications',function(req,res){
       type : "ERROR",
       message : "You are not a service provider !"
     });
-  
+
 });
 
 
@@ -698,7 +819,7 @@ router.post('/studentprofile/review',function(req,res){
         });
 
     });
-  }else 
+  }else
     res.json({
       type:"ERROR",
       message:"You are not a student !"
@@ -714,7 +835,7 @@ router.get('/home/catalog',function(req,res){
         type:type,
         message:courses
       });
-    else 
+    else
       res.json({
         type:type,
         message:"ALL COURSES",
@@ -732,13 +853,13 @@ router.post('/home/search',function(req,res){
         type:type,
         message:course
       });
-    else 
+    else
       res.json({
         type:type,
         content:course,
         message:"course retrieved"
       });
-    
+
   });
 
 

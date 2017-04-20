@@ -161,55 +161,84 @@ let AdminController = {
 
 
 
-
-    //DeleteServiceProvider function makes the admin able to delete the service provider from the system and its corresponding courses
+// STILL NOT SURE
+   //DeleteServiceProvider function makes the admin able to delete the service provider from the system and its corresponding courses
 
   DeleteServiceProvider:function(req,res,cb){
-
-ServiceProvider.findOne({organizationName:req.body.organizationName}).lean().exec(function(err,SP){
-
-Student.find().lean().exec(function(err,students){
-  for(var i=0;i<=SP.listOfCourses.length;i++){
-
-for(var j=0;j<students.length;j++){
-  for(var k=0;k<students[j].ListOfCourses.length;k++) {
-    if(students[j].ListOfCourses[k]==(SP.listOfCourses[i])){
-      var condition={username:students[j].username};
-      var update={ $pull: { ListOfCourses: SP.listOfCourses[i] } };
-      var opts= { safe: true, upsert: true };
-    Student.update(condition,update,opts,(err,response)=>{
-    if(err)
-     cb(err,"ERROR","ERROR") ;
-   });
- }
-  }
-
-}
-Course.remove({_id:SP.listOfCourses[i]},function(err)
-{
- if (err) 
-  cb(err,"ERROR","ERROR");
-else
-cb(err,"Courses removed","SUCCESS");
-
-});
+    //var falg = false;
+    ServiceProvider.findOne({organizationName:req.body.organizationName}).lean().exec(function(err,SP){
+      if(SP){
+        if(SP.username != "" || SP.username){
+		      var SPCourses = SP.listOfCourses;
 
 
-}
-});
 
-//deleting service provider
-ServiceProvider.remove({organizationName:req.body.organizationName},function(err)
-{
-   if (err) 
-    cb(err,"ERROR","ERROR");
-  else
-    cb(err,"Service Provider is deleted","SUCCESS");
-}); 
+		      for(var i = 0; i < SPCourses.length; i++){
 
-});
+              Course.findById(SPCourses[i],function(err,course){
+                var students = course.enrolledStudentsIDs;
+                for(var j = 0; j < students.length; j++){
 
-},
+                  Student.findById(students[j],function(err,student){
+                    var condition = {_id : students[j]};
+                    var opts = { safe: true, upsert: true };
+                    var temp = [];
+                    for(var k = 0; k < student.ListOfCourses.length; k++){
+                      if(!(student.ListOfCourses[k] === SPCourses[i]))
+                        temp.push(student.ListOfCourses[k]);
+                    }
+                    var update = { ListOfCourses: temp};
+
+                      Student.update(condition,update,opts,(err,response)=>{
+                        if(err){
+                          cb(err,"ERROR REMOVING COURSE FROM STUDENT LIST OF COURSE ","ERROR");
+                          return;
+                        }
+                      });
+                  });
+                  
+                }					
+              });
+
+
+              Course.remove({_id:SPCourses[i]._id},function(err,res){
+                if(err){
+                  cb(err,"ERROR REMOVING COURSE FROM SERVICE PROVIDER LIST OF COURSES","ERROR");
+                  return;
+                }
+              });
+
+            }
+
+
+
+            //deleting service provider
+            ServiceProvider.remove({organizationName:req.body.organizationName},function(err){
+              if (!err)
+                cb(err,"SERVICE PROVIDER HAS BEEN DELETED :(","SUCCESS");
+            });
+
+          }else
+            cb(err,"SERVICE PROVIDER WAS NOT PREVIOUSLY VERFIED","ERROR");
+              
+        }else
+        cb(err,"NO SERVICE PROVIDER FOUND","ERROR");
+
+      }); 
+
+    },      
+                
+    getAllVerifiedServiceProvider:function(req,res , cb){ 
+       ServiceProvider.find({username:{$ne:''}},function(err,spUsers) { 
+        if (err) {
+           cb(err,"NO SERVICE PROVIDERS","ERROR");
+        } else {
+        cb(err,spUsers,"SUCCESS");
+    }
+       
+    });
+
+   },
     // GetPoorServiceProvidersNotifications function notifies the admin of the poor service providers 
     //existing on the system who exceeded the maximum number of bad reviews
     getNotifications: function(req,res,cb){ 

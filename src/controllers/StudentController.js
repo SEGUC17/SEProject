@@ -395,7 +395,7 @@ else
  
         newStudent.save(function(err,student){
           if(err)
-            cb(err2,"ERROR CAN NOT SAVE ","ERROR"); 
+            cb(err,"ERROR CAN NOT SAVE ","ERROR"); 
         else
         cb(err,student,"SUCCESS");
       });

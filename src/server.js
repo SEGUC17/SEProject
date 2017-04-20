@@ -19,7 +19,7 @@ var upload = multer({
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './uploads/')
+    cb(null, 'app/uploads/')
   },
   filename: function (req, file, cb) {
     cb(null,Date.now() + '_' +file.originalname )

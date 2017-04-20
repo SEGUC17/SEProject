@@ -1,17 +1,11 @@
+angular.module('searchctr',['searchServ'])
+.controller('searchController', function($scope,$location,$http,searchServ) {
 
-myApp.controller('searchController', function($scope,$location,$http) {
-
-  // $scope.woho="Nada";
-// $scope.search = function() {
-       
-//         $location.url('/search');
-        
-//     };
 
 ctrl($scope);
 
  
-function ctrl($scope){
+// function ctrl($scope){
     
     $scope.searcBy="title";
     $scope.key2="social";
@@ -32,17 +26,18 @@ function ctrl($scope){
         {
           searchServ.search($scope.key2,$scope.searchBy);
 
-          $location.url('/search');
+          // $location.url('/search');
         }
         else {
-          $location.url('/');
+        
         }
+          $location.url('/search');
 
     } 
 
 
     
-}
+//}
 
   // $scope.search = function(key) {
        
@@ -52,3 +47,5 @@ function ctrl($scope){
   //   };
 
 });
+
+

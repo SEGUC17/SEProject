@@ -22,7 +22,10 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     }).
    when('/search',{
 
-    templateUrl:'views/search.html',
+    templateUrl:'views/search.html'
+    // ,
+    //   controller: 'searchController',
+    // controllerAs: 'searchController'
    
 
     })
@@ -62,12 +65,6 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     // controllerAs: 'MainController'
 
     
-
-    }).
-   when('/search',{
-
-    templateUrl:'views/search.html',
-   
 
     }).
     when('/signUp',{

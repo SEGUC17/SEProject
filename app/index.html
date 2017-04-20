@@ -32,7 +32,7 @@
 <script src="/controllers/MainController.js"></script>
 <script src="/controllers/serviceProviderController.js"></script>
 <script src="/controllers/studentController.js"></script>
-<script src="/controllers/searchController.js"></script>
+<!-- <script src="/controllers/searchController.js"></script> -->
 
 <!-- services -->
 <script src="/services/indexSrv.js"></script>
@@ -45,7 +45,6 @@
   
 </head>
 <body ng-app="myApp" ng-controller="MainController as MainController" > 
- 
 
 <div class="navbarnavbar-defaultnavbar-static-top" role="navigation">
   <div class="container">
@@ -75,22 +74,29 @@
 
       <li><a href="/catalog">Catalog</a></li>    
      
-      <form class="navbar-form navbar-left" role="search" ng-controller="searchController">
+      <form ng-submit ="MainController.search(data)" class="navbar-form navbar-left" role="search">
       <div class="form-group">
-      <input type="text" class="form-control" placeholder="Search" ng-model="key">
-      </div>
-      <button type="submit" class="btn btn-default" ng-click="key2(key)">Search</button>
-      </form>
 
+        <select   ng-model="MainController.data.searchBy" 
+     data-ng-options="type as type.searchBy for type in types">
+     <option value="">Search by</option>
+
+     </select>
+
+      <input type="text" class="form-control" placeholder="Search for ..." ng-model="MainController.data.key">
+      </div>
+      <button type="submit" class="btn btn-default">Search</button>
+      </form>
+<!-- 
      <li>
-     <div class="selectpicker" ng-controller="searchController">
-     <select  ng-model="searchBy" ng-change="changedValue(searchBy)" 
+     <div class="form-group">
+     <select  ng-model="searchBy" ng-change="MainController.changedValue(searchBy)" 
      data-ng-options="type as type.name for type in types">
      <option value="">Search by</option>
      </select>
      </div>
      </li>
-
+ -->
 
 
   </div>

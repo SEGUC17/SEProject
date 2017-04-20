@@ -138,9 +138,9 @@ else {
 
 
 
-
-
 router.post('/home/search',function(req,res){
+
+  
   StudentController.search(req,res,(err,course,type)=>{
     if(type==="ERROR"){
    res.json({

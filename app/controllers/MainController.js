@@ -59,16 +59,33 @@ console.log(data.data.username)
 	}
 
 
+    $scope.types=[{searchBy:"title"},{searchBy:"type"},{searchBy:"centerLocation"},{searchBy :"centerName"}]
+
+
+
+      // $scope.searchResult="balabizo"
+
+
+   app.search = function(data){
+		console.log(this.data);
+	indexSrv.Search(this.data).then(function(response){
+		 $scope.searchResult=response.data.content;
+		 $scope.length=response.data.content.length ;
+			// console.log(response)
+			//$location.path('/register')
+		})
+		    $location.url('/search');
+	}
+
+// indexSrv.search().then(function(res){
+// 	$scope.searchResult=res.data
+// })
 
 
   //
   // indexSrv.getCatalogPage();
 // $location.url('/welcome');
-// $scope.search = function() {
-       
-//         $location.url('/search');
-        
-//     };
+
 
 
 // indexSrv.spRegister($scope.sp).then(function)(res){

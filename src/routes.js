@@ -14,7 +14,28 @@ var path=require('path');
 
 // start --- later they will be moved under middleware
 router.post('/adminhomepage/verify', function(req,res){
-     return AdminController.verifySP(req,res);
+if(req.decoded.type=="Admin"){
+ AdminController.verifySP(req,res,(err,message,type)=>{
+  if(type=="ERROR"){
+    res.json({
+      type:type,
+      message:message
+    })
+  }else{
+    res.json({
+      type:type,
+      message:"SERVICE PROVIDER HAS BEEN SUCCESSFULLY REGISTERED",
+      content:message
+    });
+  }
+ });
+}else{
+  res.json({
+    type:"ERROR",
+    message:"YOU ARE NOT AN ADMIN"
+  });
+}
+
 });
 
 router.post('/ServiceProvider/courses/removeCourse',function(req,res){
@@ -27,15 +48,77 @@ router.post('/ServiceProvider/courses/addCourse',function(req,res){
 	return ServiceProviderController.addCourse(req,res);
 });
 
+
 router.post('/adminhomepage/viewunreg', function(req,res){
-	return AdminController.viewUnregSP(req,res);
+  if(req.decoded.type == "Admin"){
+    AdminController.viewUnregSP(req,res,function(err,message,type){
+      if(type === "ERROR")
+        res.json({
+          type : type,
+          message : message
+        });
+      else
+        res.json({
+          type : type,
+          content : message
+        });
+    });
+  }else
+    res.json({
+      type : "ERROR",
+      message : "You are not an admin !"
+    });
 });
 
-router.post('/adminhomepage/decline', function(req,res){
-  console.log("routes");
-   console.log(req.body.email);
-   return AdminController.declineSP(req,res);
+router.post('/admin/declineSP',function(req,res){
+  if(req.decoded.type=="Admin"){
+    AdminController.declineSP(req,res,(err,message,type)=>{
+      if(err){
+        res.json({
+          type:type,
+          message:message
+        });
+      }else{
+        res.json({
+          type:type,
+          message:"SERVICE PROVIDER HAS BEEN DECLINED",
+          content:message
+        });
+      }
+
+    });
+  }else{
+    res.json({
+      type:"ERROR",
+      message:"YOU ARE NOT AN ADMIN"
+    });
+  }
 });
+
+router.post('/admin/deleteSP',function(req,res){
+  if(req.decoded.type=="Admin"){
+AdminController.DeleteServiceProvider(req,res,(err,message,type)=>{
+  if(type=="ERROR")
+  {
+    res.json({
+      type:type,
+      message:message
+    });
+  }else{
+    ress.json({
+      type:type,
+      message:"Service Provider HAS BEEN REMOVED"
+    });
+  }
+})
+  }else{
+    res.json({
+      type:"ERROR",
+      message:message
+    });
+  }
+});
+
 //end ----later they will be moved under middleware
 
 router.get('/',function (req,res){
@@ -115,10 +198,18 @@ router.post('/serviceprovider/register',function(req,res){
 
 router.get('/home/viewreg',function(req,res){
 
-    ServiceProviderController.getAllVerifiedServiceProvider(req,res,
-      function(err, sp){
-          res.send(sp);
-     });
+ // console.log("hiiiiiiiiiiiiiiiii")
+
+  AdminController.getAllVerifiedServiceProvider(req,res, function(err,sp,type){
+    if(type==="ERROR")
+      res.send(sp);
+    else
+      res.json(sp);
+
+  });
+
+
+
 });
 
 router.use(function(req,res,next){ //this middleware adds the decoded token the req before continuing to any other routes.

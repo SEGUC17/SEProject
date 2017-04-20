@@ -9,7 +9,7 @@
        <div class="scrollmenu">
           <h2>{{ title }}</h2>
           <div class="w3-container">
-              <button class="w3-button w3-xlarge w3-circle w3-red w3-card-4" ng-click="ShowHide()" >+</button>Verified SP<br/>
+              <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="ShowHide()" >+</button>Verified SP<br/>
               <div class="jumbotron">
                   <!-- <h2>Jumbotron</h2> -->
 <!--
@@ -33,10 +33,10 @@
             <th>SP Status</th>
           </thead>
           <tr ng-repeat="sps in SrvProviders" >
-            <td>{{sps.username}}</td>
+            <td>{{sps.username}} : ObjectId :{{sps._id}}</td>
               <td>{{sps.email}}</td>
               <td>
-              <button class="w3-button w3-large w3-circle w3-red w3-card-4" ng-click="removeSrvProvider(sps.email) ; displaySrvProviders (); " >-</button>  Remove</h4>
+              <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="removeSrvProvider(sps.email) ; displaySrvProviders (); " >-</button>  Remove</h4>
             </td>
           </tr>
         </table>
@@ -48,12 +48,16 @@
                     <th>OrganizationName</th>
                     <th>Email</th>
                     <th> UnRegister SP</th>
+                    <th> UnRegister SP</th>
                   </thead>
                   <tr ng-repeat="UNsps in unRegisterSP" >
-                    <td>{{UNsps.organizationName}}</td>
+                    <td>{{UNsps.organizationName}} :ObjectId :{{UNsps._id}}</td>
                     <td> {{UNsps.email}}</td>
                     <td>
-                      <button class="w3-button w3-large w3-circle w3-red w3-card-4" ng-click="" >+</button>  accept </h4>
+                      <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="" >-</button>  Reject </h4>
+                    </td>
+                    <td>
+                      <button class="w3-button w3-medium w3-circle w3-green w3-card-4" ng-click="" >+</button>  accept </h4>
                     </td>
                   </tr>
             </table>

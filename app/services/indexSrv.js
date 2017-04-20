@@ -6,16 +6,13 @@ myApp.factory('indexSrv', function($http,AuthToken) {
       Search:function(data){
         return $http.post('/home/search',data);
      },
-        getVerifiedServiceProvider: function(){
-       // jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJNWU5LU0giLCJpYXQiOjE0NjA3NzIyOTQsImV4cCI6MTQ5MjMwODI5NSwiYXVkIjoid3d3LnNlY291cnNlLmNvbSIsInN1YiI6Ik1ZTktTSCBJYmVyaWEiLCJUZWFtIjoiTVlOS1NIIn0.hZxhv8XAcu1cARgcrtfb0l_crF1-Ic1tJt9eUhIL0qQ';
-        
+        getVerifiedServiceProvider: function(){        
           return $http.get('/home/viewreg');
 
       },
-        getCatalogPage : function(){
-          $http.get('/home/views/catalog');
+        getCatalog : function(){
+          return $http.get('/home/catalog');
         },
-
 
        ServiceProviderLogin:function(data){
        return $http.post('/forbussinus/login',data).then(function(response){

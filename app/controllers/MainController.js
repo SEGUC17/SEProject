@@ -5,6 +5,13 @@ angular.module('MainController', ['indexSrv'])
 indexSrv.getVerifiedServiceProvider().then(function(res){
 	$scope.title=res.data
 })
+
+
+indexSrv.getCatalog().then(function(res){
+	$scope.catalog=res.data.content;
+})
+
+
 var app = this;
 
 $rootScope.$on('$routeChangeStart',function(){
@@ -63,11 +70,9 @@ console.log(data.data.username)
 
 
 
-      // $scope.searchResult="balabizo"
-
 
    app.search = function(data){
-		console.log(this.data);
+		// console.log(this.data);
 	indexSrv.Search(this.data).then(function(response){
 		 $scope.searchResult=response.data.content;
 		 $scope.length=response.data.content.length ;

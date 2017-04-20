@@ -11,7 +11,7 @@ var myApp = angular.module('appRoutes',['ngRoute'])
                })
     .when('/catalog',{
 
-    templateUrl:'/catalog.html'
+    templateUrl:'views/catalog.html'
 
     }).when('/welcome',{
 

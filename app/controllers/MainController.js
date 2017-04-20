@@ -1,15 +1,17 @@
 angular.module('MainController', ['indexSrv'])
 .controller('MainController',function($scope,indexSrv,$location,$rootScope) {
 //console.log('main')
-
-indexSrv.getVerifiedServiceProvider().then(function(res){
-	$scope.title=res.data
-})
-
-
 var app = this;
 
-			$rootScope.$on('$routeChangeStart',function(){
+// indexSrv.getVerifiedServiceProvider().then(function(res){
+// 	$scope.title=res.data.content;
+// 	console.log("RESOPNSEEE");
+// 	console.log(res);
+// })
+
+
+
+			
 
 
 
@@ -18,6 +20,14 @@ var app = this;
 			indexSrv.GetCurrentUser().then(function(data){
 			console.log(data.data)
 			 $scope.SPusername=data.data.decoded.username
+				$scope.typeUser=data.data.decoded.type
+				console.log(data.data.decoded.type);
+			 if(data.data.decoded.type=="ServiceProvider"){
+			 	app.IsServiceProvider=true;
+			 }else{
+			 	app.IsServiceProvider=false;
+			 }
+			 console.log(data.data.decoded.type=="ServiceProvider");
 			  app.islogged = true;
 
 			         });
@@ -27,11 +37,6 @@ var app = this;
 			  console.log("user is not logged")
 			  	$scope.SPusername='';
 			    }
-
-
-
-
-})
 
 
 	this.login=function(data){

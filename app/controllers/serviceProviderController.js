@@ -1,12 +1,12 @@
 angular.module('spctr',['businessServ'])
 
 // data  dy el object eli b5do mn el user w 3shn a access 7aga mo3yna mmkn a3ml data.field msln
-.controller('spCon',function($http,$location,businessServ,indexSrv){
+.controller('spCon',function($http,$location,businessServ,indexSrv,$scope){
 
 var app =this;
-		indexSrv.GetCurrentUser().then(function(data){
-			 app.SPtoken=data.data.token
-    });
+		// indexSrv.GetCurrentUser().then(function(data){
+		// 	 app.SPtoken=data.data.token
+  //   });
 
 		
 
@@ -29,6 +29,8 @@ var app =this;
 
 		})
 	}
+
+
 
 	// if(businessServ.IsLoggedIn()){
 	// 	console.log("user logged in")

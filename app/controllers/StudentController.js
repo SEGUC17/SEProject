@@ -16,4 +16,8 @@ angular.module('StudentController',['stServ'])
 		
 	}
 
+	this.payement = function(data){
+		stServ.studentPayment(this.data);
+	}
+
 });

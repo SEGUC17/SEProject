@@ -10,6 +10,13 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     // controller: 'MainController',
     // controllerAs: 'MainController'
                })
+    .when('/viewCourse',{
+      templateUrl:'views/ViewCourse.html',
+      controller:'spCon',
+      controllerAs:'spCon'
+
+
+    })
     .when('/catalog',{
 
     templateUrl:'/catalog.html'
@@ -52,6 +59,14 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     .when('/studentRegister',{
 
     templateUrl:'views/studentRegister.html',
+      controller: 'StudentController',
+    controllerAs: 'StudentController'
+
+    })
+
+    .when('/charge',{
+
+    templateUrl:'views/stripe.html',
       controller: 'StudentController',
     controllerAs: 'StudentController'
 

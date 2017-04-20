@@ -38,8 +38,9 @@ let ServiceProviderController = {
     				});
     			}
 
-    		}else
+    		}else{
     			cb(err,"Service Provider not found !", "ERROR");
+    		
 
     		if(array.length == 0)
 	    		cb(err,"No courses are found !", "ERROR");
@@ -49,7 +50,7 @@ let ServiceProviderController = {
 	    	while(array.length > 0){
 	    		array.pop();
 	    	}
-
+}
     	});
 
 

@@ -1,0 +1,25 @@
+  <div>
+    <form ng-submit="StudentController.payment(data)" >
+     <div class="card" style="width: 40rem;">
+  <div class="card-block">
+    <h4 class="card-title">Iphone 7 </h4>
+    <p class="card-text">   Every purchase contributes to the Global Fund to support HIV/AIDS programs and help deliver an AIDS-free generation.</p>
+  <script 
+    src="https://checkout.stripe.com/checkout.js"
+    class="stripe-button"
+    data-key = "pk_test_i6veODaVUVEsRWDggUEW8Lvt"
+    data-amount = "75000"
+    data-name = "Iphone 7"
+    data-description = "red edition"
+    data-locale = "auto"
+    data-currency = "usd"
+    >
+        
+    </script>
+  </div>
+</div>            
+    
+    <input type="hidden" name="chargeAmount" value="75000">
+    </form>
+
+</div>

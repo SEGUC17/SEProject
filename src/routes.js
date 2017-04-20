@@ -6,6 +6,9 @@ var Admin=require('./db/Admin');
 var StudentController = require('./controllers/StudentController');
 var ServiceProviderController = require('./controllers/ServiceProviderController');
 var AdminController = require('./controllers/AdminController');
+var stripe = require('stripe')('sk_test_y6NTLtM1aE3TnnMBUmUCicln');
+
+
 
 var app = require('./server.js');
 
@@ -17,6 +20,26 @@ router.get('/',function (req,res){
         res.sendFile(path.join(__dirname,'../','app','index.html'))
 });
 
+
+router.post('/charge',function(req,res){
+    var Token = req.body.stripeToken;
+    console.log("Stripeee");
+    var chargeAmount = req.body.chargeAmount;
+    var charge = stripe.charges.create({
+        amount:chargeAmount,
+        currency:"usd",
+        source: Token
+    },function(err,charge){
+        if(err && err.type === "StripeCardError"){
+            console.log("stripeCardError")
+        }
+    });
+    console.log("successfully paid!");
+
+    res.render("success");
+
+    
+});
 
 
 router.post('/forbussinus/login', function(req,res){
@@ -187,6 +210,23 @@ router.post('/serviceprovider/register',function(req,res){
 });
 
 
+router.get('/home/viewreg',function(req,res){
+  
+  AdminController.getAllVerifiedServiceProvider(req,res, function(err,sp,type){
+    if(type === "ERROR")
+      res.json({
+        type : type,
+        message : sp
+      });
+    else
+      res.json({
+        type : type,
+        content : sp});
+                 
+      });
+      
+});
+
 
 router.use(function(req,res,next){ //this middleware adds the decoded token the req before continuing to any other routes
                                    //so if you need to access an attribute saved in the token,
@@ -232,22 +272,6 @@ router.post('/me',function(req,res){
 });
 
 
-router.get('/home/viewreg',function(req,res){
-  
-  AdminController.getAllVerifiedServiceProvider(req,res, function(err,sp,type){
-    if(type === "ERROR")
-      res.json({
-        type : type,
-        message : sp
-      });
-    else
-      res.json({
-        type : type,
-        content : sp});
-                 
-      });
-      
-});
 
 
 router.post('/adminhomepage/verify', function(req,res){
@@ -355,7 +379,7 @@ router.post('/serviceprovider/courses/addCourse',function(req,res){
 });
 
 
-router.post('/serviceprovider/courses',function(req,res){
+router.get('/serviceprovider/courses',function(req,res){
   if(req.decoded.type == "ServiceProvider"){
   ServiceProviderController.viewCourses(req,res,function(err,message,type){
     if(type == "ERROR")
@@ -455,6 +479,7 @@ router.post('/serviceprovider/ViewReviews', function(req,res){
       message : "You are not a service provider !"
     });
 });
+
 
 
 router.post('/admin/deleteSP',function(req,res){

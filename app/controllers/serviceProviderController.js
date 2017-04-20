@@ -4,9 +4,9 @@ angular.module('spctr',['businessServ'])
 .controller('spCon',function($http,$location,businessServ,indexSrv){
 
 var app =this;
-		indexSrv.GetCurrentUser().then(function(data){
-			 app.SPtoken=data.data.token
-    });
+		// indexSrv.GetCurrentUser().then(function(data){
+		// 	 app.SPtoken=data.data.token
+  //   });
 
 		
 

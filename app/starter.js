@@ -1,6 +1,8 @@
 
 // console.log("appp")
+angular.module('myApp', ['ngRoute','ui.bootstrap','appRoutes','MainController','indexSrv','spctr','businessServ','spAuthServ','studentServ','studentController'])
 
+<<<<<<< HEAD
 myApp = angular.module('myApp', ['ui.bootstrap','ngRoute']);
 
 
@@ -32,6 +34,10 @@ myApp.config(function($routeProvider) {
       controller: 'AdminController',
       controllerAs: 'AdminController'
   })
+=======
+.config(function($httpProvider){
+  $httpProvider.interceptors.push('AuthInterceptors')
+>>>>>>> frontend_backend_combined
 
 });
 

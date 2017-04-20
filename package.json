@@ -15,7 +15,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "arraylist": "^0.1.0",
     "bcrypt-nodejs": "*",
     "bcryptjs": "*",
     "body-parser": "^1.17.1",

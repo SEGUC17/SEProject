@@ -7,89 +7,94 @@ const nodemailer = require('nodemailer');
 
 let AdminController = {
 
+declineSP: function(req,res){ //when the admin declines a serviceprovider, the service provider is removed from the database
+// and an email is sent to him
+   console.log("admin");
+   console.log( req.body.email);
+        ServiceProvider.remove({email: req.body.email}, function(err, DeletedSP){
 
-   declineSP: function(req,res,cb){ //when the admin declines a serviceprovider, the service provider is removed from the database
-                                   // and an email is sent to him
-
-      ServiceProvider.remove({email: req.body.email}, function(err, DeletedSP){
-
-         if(err)
-           {
-            cb(err,"CANT REMOVE SERVICE PROVIDER","ERROR");
+           if(err)
+              return res.json({
+                success: false,
+                message: "error"
+              });
+           else{
+              return res.json({
+                success: true,
+                message:"service provider declined"
+              });
            }
-         else{
+        })
 
-      let transporter = nodemailer.createTransport({
-                   service: 'gmail',
-                   auth: {
-                       user: 'seprojecta',
-                       pass: 'admin@123456'
-                   }
+        let transporter = nodemailer.createTransport({
+                     service: 'gmail',
+                     auth: {
+                         user: 'seprojecta',
+                         pass: 'admin@123456'
+                     }
+                 });
+
+           console.log('SMTP Configured');
+
+                 // setup email data with unicode symbols
+                 let mailOptions = {
+                     from: 'seprojecta@gmail.com', // sender address
+                     to: req.body.email, // list of receivers
+                     subject: 'Sorry, you are not verified', // Subject line
+                     text: 'Better luck next time  \n'
+                 };
+
+                 console.log('Sending Mail');
+                 // send mail with defined transport object
+                 transporter.sendMail(mailOptions, (error, info) => {
+                     if (error) {
+                         return console.log(error);
+                     }
+                     console.log('Message %s sent: %s', info.messageId, info.response);
+
+                 });
+},
+viewUnregSP :function(req,res){   //views all unverified service provider, those who have no username and password yet
+          ServiceProvider.find( { $or: [ {username:""}, {username:undefined} ] }).lean().exec(function(err,unRegSP)
+            {
+             if(err){
+               return res.json({
+                success: false,
+                message: "error"
                });
+             }
+             else
+             {
+              return res.json(unRegSP);
+             }
 
-         console.log('SMTP Configured');
+            });
 
-               // setup email data with unicode symbols
-               let mailOptions = {
-                   from: 'seprojecta@gmail.com', // sender address
-                   to: req.body.email, // list of receivers
-                   subject: 'Sorry, you are not verified', // Subject line
-                   text: 'Better luck next time  \n'
-               };
+},
+verifySP : function(req,res)//when a service provider is verified, it is assigned
+            {
 
-               console.log('Sending Mail');
-               // send mail with defined transport object
-               transporter.sendMail(mailOptions, (error, info) => {
-                   if (error) {
-                      cb(error,"NO EMAIL SENT","ERROR");
-                   }else{
-                      cb(error,"EMAIL SENT","SUCCESS");
-                   }
+           var assignedPassword = req.body.assignedPassword;
+           // console.log("reqqqqq spppp");
 
-               });
-         }
-      })
+           // console.log(req);
+           var assignedUsername = req.body.assignedUsername;
+           var email = req.body.email;
 
-
-
-   },
-
-
-//DONE
-
-  viewUnregSP :function(req,res,cb){   //views all unverified service provider, those who have no username and password yet
-    ServiceProvider.find({username:""}).lean().exec(function(err,unRegSP){
-      if(unRegSP)
-        cb(err, unRegSP, "SUCCESS");
-      else
-        cb(err, "No unregistered service providers are found !", "ERROR");
-
-    });
-
-  },
-
-
-
-   verifySP : function(req,res,cb){//when a service provider is verified, it is assigned
-          var assignedPassword = req.body.password;
-          var assignedUsername = req.body.username;
-          var email = req.body.email;
-          var flag=false;
-          // a username and password and an email is sent with those credtials
-          ServiceProvider.findOne({email: req.body.email}, function(err, sp){
+      // a username and password and an email is sent with those credtials
+          ServiceProvider.findOne({ $and: [ {email: req.body.email},{ username:{$ne:undefined} }] }, function(err, sp){
            if (err) {
-           cb(err,"CAN NOT FIND SERVICE PROVIDER","ERROR") ;
-           flag=true;
-           return ;
+            return res.json({success: false,
+                              message: "service provider not found"});
           }
+
             sp.password = assignedPassword;
            sp.username = assignedUsername;
 
            sp.save(function(err,user) {
-            if (err) {
-              cb(err,"CAN NOT SAVE SERVICE PROVIDER","ERROR");
-              return;
-            }
+            if (err) { return res.json({success:false,
+                                         message:"could not save"
+             }); }
            });
          });
 
@@ -113,141 +118,74 @@ let AdminController = {
                         "your password: "+ assignedPassword, // plain text body
                };
 
+               console.log('Sending Mail');
                // send mail with defined transport object
                transporter.sendMail(mailOptions, (error, info) => {
                    if (error) {
-                    console.log('Sending Mail');
-                       cb(error,"CAN NOT SEND MAIL","ERROR");
-                       return ;
-                   }else{
-                    cb(error,"CONGRATS THE MAIL HAS BEEN SENT","SUCCESS");
-                    return;
+                       return console.log(error);
                    }
-                   //console.log('Message %s sent: %s', info.messageId, info.response);
+                   console.log('Message %s sent: %s', info.messageId, info.response);
 
                });
 
-   },
-
-// ViewReviews function makes the service provider able to view the reviews written about a specific course that he's providing
-  ViewReviews: function(req,res){
-    ServiceProvider.findOne({organizationName:req.body.organizationName}).lean().exec(function(err,SP){
-
-    if(err)
-      throw err;
-    else {
-
-      for(var i=0 ; i< SP.listOfCourses.length ; i++){
-        Course.findOne({title:req.body.courseTitle},function(err,coursetitle){
-          if(SP.listOfCourses[i] == courseTitle.id){
-            Course.findById(courseID,function(err,course){
-            for(var j = 0 ; j< course.ReviewsIDs.length ;j++){ //just return the list of reviews
-
-                Review.findById(course.ReviewsIDs[j],function(err,review){
-                  if(review==null)
-                    req.flash('error_msg','No Reviews to display');
-                });
-              }
-          });
-          }
-        });
-      }
-    }
-    });
-
-  },
-
+          return res.json({
+                success: true,
+                message: "service provider verified"
+               })
+},
    //DeleteServiceProvider function makes the admin able to delete the service provider from the system and its corresponding courses
+DeleteServiceProvider:function(req,res){
 
-
-  DeleteServiceProvider:function(req,res,cb){
-    var falg = false;
     ServiceProvider.findOne({organizationName:req.body.organizationName}).lean().exec(function(err,SP){
-      if(err)
-        cb(err,"NO SERVICE PROVIDER FOUND","ERROR");
-      else{
-        if(SP.username != "" || SP.username){
-          Student.find().lean().exec(function(err,students){
-            if(err)
-              cb(err,"ERROR IN PROCESS","ERROR");
-            else{
-              for(var i = 0; i < SP.listOfCourses.length; i++){
-                for(var j = 0; j < students.length; j++){
-                  for(var k = 0; k < students[j].ListOfCourses.length ;k++) {
-                    if(students[j].ListOfCourses[k] === (SP.listOfCourses[i])){
-                      var condition = {username:students[j].username};
-                      var update = { $pull: { ListOfCourses: SP.listOfCourses[i] } };
-                      var opts = { safe: true, upsert: true };
-                      Student.update(condition,update,opts,(err,response)=>{
-                        if(err)
-                          cb(err,"CANT REMOVE THE COURSE FROM STUDENT LIST OF COURSE ","ERROR")
-                      });
-                    }
-                  }
-                }
 
-            Course.remove({_id:SP.listOfCourses[i]._id},function(err){
-             if(err){
-              // flag=true;
-              cb(err,"CANT REMOVE THE COURSE FROM SERVICE PROVIDER LIST OF COURSES","ERROR");
-              return;
-             }
-            });
-            }
-            }
-        });
+    Student.find().lean().exec(function(err,students){
+      for(var i=0;i<SP.listOfCourses.length;i++){
 
-        }else
-          cb(err,"SERVICE PROVIDER WAS NOT PREVIOUSLY VERFIED","ERROR");
-
-      //deleting service provider
-      ServiceProvider.remove({organizationName:req.body.organizationName},function(err){
-        if (err)
-          cb(err,"ERROR","ERROR");
-        else
-          cb(err,"SERVICE PROVIDER HAS BEEN DELETED :(","SUCCESS");
-
-      });
+    for(var j=0;j<students.length;j++){
+      for(var k=0;k<students[j].ListOfCourses.length;k++) {
+        if(students[j].ListOfCourses[k]==(SP.listOfCourses[i])){
+          var condition={username:students[j].username};
+          var update={ $pull: { ListOfCourses: SP.listOfCourses[i] } };
+          var opts= { safe: true, upsert: true };
+        Student.update(condition,update,opts,(err,response)=>{
+        if(err) throw err;
+       });
+     }
       }
-    });
 
-  },
-
-
-    getAllVerifiedServiceProvider:function(req,res , cb){
-       ServiceProvider.find({username:{$ne:''}},function(err,spUsers) {
-        if (err) {
-           cb(err,"NO SERVICE PROVIDERS","ERROR");
-        } else {
-        cb(err,spUsers,"SUCCESS");
     }
+    Course.remove({_id:SP.listOfCourses[i]._id},function(err)
+    {
+     if (err) throw err;
+
+    });
+    }
+    });
+
+    //deleting service provider
+    ServiceProvider.remove({organizationName:req.body.organizationName},function(err)
+    {
+       if (err) throw err;
+    });
 
     });
 
-   },
+},
     // GetPoorServiceProvidersNotifications function notifies the admin of the poor service providers
     //existing on the system who exceeded the maximum number of bad reviews
 GetPoorServiceProvidersNotifications: function(){
         var array =[];
         Admin.findOne({username:"Admin"},function(err,a){
           if (err)throw err ;
-
         for(var i=0;i<a.listOfNotification.length;i++){
 
           if(a.listOfNotification[i].typeOfNotification[0]=='B')
           array=array.concat(a.listOfNotification[i]);
         }
-
-        if(array.length == 0)
-          cb(err,"No notifications found !", "ERROR");
-        else
-          cb(err,array,"SUCCESS");
-      // }else
-      //   cb(err,"Admin is not found !", "ERROR");
-    });
-  }
-
-
+        console.log(array);
+        return array;
+        });
+},
 
 }
 module.exports = AdminController;

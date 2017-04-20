@@ -20,25 +20,34 @@ var data = {
 
 };
 $scope.token ="";
+
 Admin_login(data);
   function Admin_login(data){
-  		indexSrv.AdminLogin(data).then(function(response){
-  			console.log(response.data)
+
+    console.log("admin data ::"+data);
+
+    	indexSrv.AdminLogin(data).then(function(response){
+
+        console.log(response.data)
   			console.log("the token is: "+response.data.token)
+
         $scope.token =response.data.token;
   			if(response.data.type=='SUCCESS'){
-  			////$location.path('/admin')
-  			app.islogged = true;
-        console.log(app.islogged );
+  			 //$location.path('/admin')
+  			   app.islogged = true;
+
+           console.log(app.islogged );
   			}
   			else{
   			 app.islogged = false;
+
          console.log(app.islogged );
   			}
 
         adminSrv.declineSrvProvider('bazo11@gmail.com',$scope.token).success(function(msg) {
 
                $scope.msg = msg;
+
                console.log("deh bn3lha test ");
                console.log(msg);
                console.log("ctrl2_declineSrvProvider");

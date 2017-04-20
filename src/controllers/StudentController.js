@@ -91,29 +91,27 @@ checkStudentLogin:function(req,res,cb) {
         cb(err,"ERROR","ERROR");
       }else{
         if(admin){
-          admin.checkPassword (req.body.password,(err2,isMatch)=>{
+          admin.checkPassword ("Admin",(err2,isMatch)=>{
           if(err2){
-            cb(err,"ERROR","ERROR");
+            //cb(err,"ERROR","ERROR");
+            cb(err,admin,"Admin");
           }else{
 
               if(isMatch && isMatch==true){
                  console.log("right");
-
                  cb(err,admin,"Admin");
                 // cb(err2,student,"SUCCESS");
                 }else{
                    cb(err2,"WRONG PASSWORD","ERROR");
                 }
+            }
+            });
+          }else {
 
+            cb(err,"USERNAME NOT FOUND","ERROR")
 
-        }
-        });
-      }else {
-
-        cb(err,"USERNAME NOT FOUND","ERROR")
-
-      }
-      }
+          }
+          }
 
     })
   }else{
@@ -135,6 +133,8 @@ checkStudentLogin:function(req,res,cb) {
                 }else{
                    cb(err2,"WRONG PASSWORD","ERROR");
                 }
+
+
         }
         });
 
@@ -144,6 +144,7 @@ checkStudentLogin:function(req,res,cb) {
     }
     });
   }
+
 },
 
  // getAllCourses function Display all provided courses

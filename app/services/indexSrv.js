@@ -5,10 +5,10 @@ myApp.factory('indexSrv', function($http,AuthToken) {
 
 
 
-      getOtherStripePupKey: function(airlineIP , jwt) {
-        //jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJNWU5LU0giLCJpYXQiOjE0NjA3NzIyOTQsImV4cCI6MTQ5MjMwODI5NSwiYXVkIjoid3d3LnNlY291cnNlLmNvbSIsInN1YiI6Ik1ZTktTSCBJYmVyaWEiLCJUZWFtIjoiTVlOS1NIIn0.hZxhv8XAcu1cARgcrtfb0l_crF1-Ic1tJt9eUhIL0qQ';
-          return $http.get('/data/otherStripeKey/'+airlineIP+'?wt='+jwt);
-      },
+      // getOtherStripePupKey: function(airlineIP , jwt) {
+      //   //jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJNWU5LU0giLCJpYXQiOjE0NjA3NzIyOTQsImV4cCI6MTQ5MjMwODI5NSwiYXVkIjoid3d3LnNlY291cnNlLmNvbSIsInN1YiI6Ik1ZTktTSCBJYmVyaWEiLCJUZWFtIjoiTVlOS1NIIn0.hZxhv8XAcu1cARgcrtfb0l_crF1-Ic1tJt9eUhIL0qQ';
+      //     return $http.get('/data/otherStripeKey/'+airlineIP+'?wt='+jwt);
+      // },
         getVerifiedServiceProvider: function(){
        // jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJNWU5LU0giLCJpYXQiOjE0NjA3NzIyOTQsImV4cCI6MTQ5MjMwODI5NSwiYXVkIjoid3d3LnNlY291cnNlLmNvbSIsInN1YiI6Ik1ZTktTSCBJYmVyaWEiLCJUZWFtIjoiTVlOS1NIIn0.hZxhv8XAcu1cARgcrtfb0l_crF1-Ic1tJt9eUhIL0qQ';
 
@@ -33,24 +33,32 @@ myApp.factory('indexSrv', function($http,AuthToken) {
 // THIS IS THE ROUTE OF SPLOGIN , AUTHTOKEN.SETTOKEN TAKE THE USER TOKEN AND SAVES IT IN THE LOCALSTRATEGY SO THAT
 // ANY FUNCTION WHICH NEEDS TOKEN AS INPUT WILL BE AUTOMATICALY TAKEN FROM HERE
 
-       ServiceProviderLogin:function(data){
-       return $http.post('/forbussinus/login',data).then(function(response){
-          AuthToken.SetToken(response.data.token)
-         //console.log(response)
-            return response;
-       });
+ServiceProviderLogin:function(data){
+ return $http.post('/forbussinus/login',data).then(function(response){
+    AuthToken.SetToken(response.data.token)
+   //console.log(response)
+      return response;
+ });
 
-       },
+ },
 
 
-       AdminLogin:function(data){
-       return $http.post('/login',data).then(function(response){
-          AuthToken.SetToken(response.data.token)
-         //console.log(response)
-            return response;
-       });
+ AdminLogin:function(data){
+   console.log("AdminLogin 1.1: "+data.username);
+    console.log("AdminLogin 1.2: "+data.token);
+    console.log("AdminLogin 1.3: "+data.password);
 
-       },
+  return $http.post('/login',data).then(function(response){
+
+    console.log("AdminLogin 2.1: "+response);
+    console.log("AdminLogin 2.2: "+response.data.token);
+
+    AuthToken.SetToken(response.data.token)
+   //console.log(response)
+      return response;
+ });
+
+},
 
 
 

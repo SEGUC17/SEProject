@@ -119,24 +119,35 @@ router.post('/serviceprovider/postannouncement',function(req,res){
 
 
 router.post('/login', function(req,res){
-  StudentController.checkStudentLogin(req,res,function(error,student,type){
-  if(type == "ERROR"){
-     res.json({
-     type:type,
-     message:student
-     });
-  } else {
-     var token = app.jwt.sign({username: student.username, id: student._id, type:type}, app.app.get('super-secret'), {
-          //expiresInMinutes: 1440 // expires in 24 hours
-        });
-  res.json({
-    token : token,
-    type : type,
-    message:"student token"
-  });
-  }
 
-});
+  console.log("/login :" +req.body);
+
+  StudentController.checkStudentLogin(req,res,function(error,message,type){
+    if(type == "ERROR")
+      res.json({
+        type : type,
+        message : message
+      });
+    else {
+      var token = app.jwt.sign({username: message.username, id: message._id, type:type}, app.app.get('super-secret'), {});
+
+      if(type == "Admin")
+        res.json({
+          token : token,
+          type : "SUCCESS",
+          message : "You are successfully logged in !",
+          content : message
+        });
+      else
+         res.json({
+          token : token,
+          type : "SUCCESS",
+          message : "You are successfully logged in !",
+          content : message
+        });
+    }
+
+  });
 
 });
 

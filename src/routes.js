@@ -41,59 +41,7 @@ router.get('/',function (req,res){
         res.sendFile(path.join(__dirname,'../','app','index.html'))
 });
 
-<<<<<<< HEAD
-// router.get('/admin',function (req,res){
-//         res.sendFile(path.join(__dirname,'../','app','adminPage.html'))
-// });
 
-router.post('/forbussinus/login', function(req,res){
-    	ServiceProviderController.SPLogin(req,res,function(sp, error){
-
-    if(!error){
-    //check if match username pwd
-    	var token = app.jwt.sign(
-    		{username: sp.username,
-    		 id: sp._id,
-    		  type:"ServiceProvider"},
-    		  app.app.get('super-secret'), {
-
-            });
-
-    	return res.json({
-    		success:true,
-    		token :token
-
-    	})
-    } else{
-    	return res.json({
-    		success:false,
-    		message:"wrong username or password"
-       });
-
-       }
-     });
-});
-//login bta3 el student
-router.post('/login', function(req,res){
-  	StudentController.checkStudentLogin(req,res,function(student, error){
-        if(error){
-  		return res.json({
-  			success: false,
-  			message:"wrong username or password"
-  		});
-  	}
-  //check if match username pwd
-    var token = app.jwt.sign({username: student.username, id: student._id,  type:"Student"}, app.app.get('super-secret'), {
-              //expiresInMinutes: 1440 // expires in 24 hours
-            });
-    	return res.json({
-    		success:true,
-    		token :token
-
-    	})
-
-    })
-=======
 //DONE
 
 router.post('/login', function(req,res){
@@ -116,24 +64,10 @@ router.post('/login', function(req,res){
 
 });
 
->>>>>>> frontend_backend_combined
 });
 
 
 router.post('/register', function(req,res){
-<<<<<<< HEAD
-	StudentController.studentSignUP(req,res,function(student, error){
-
-//check if match username pwd
-  	var token = app.jwt.sign({username: student.username, id: student._id, type:"Student"}, app.app.get('super-secret'), {
-            //expiresInMinutes: 1440 // expires in 24 hours
-          });
-  	return res.json({
-  		success:true,
-  		token :token
-  	})
-  })
-=======
 
   StudentController.studentSignUP(req,res,function(error,student,type){
      if(type === "ERROR"){
@@ -157,27 +91,27 @@ content:student
 
 router.post('/forbussinus/login', function(req,res){
   ServiceProviderController.SPLogin(req,res,function(error,sp,type){
- 
+
   if(type !="ERROR"){
-  //check if match username pwd 
+  //check if match username pwd
     var token = app.jwt.sign({ username: sp.username, id: sp._id, type:"ServiceProvider" }, app.app.get('super-secret'), {
     });
- 
+
     res.json({
       type : type,
       token : token,
       message : "You are successfully logged in !",
       content : sp
     });
- 
-  } else 
+
+  } else
     res.json({
       type : type,
       message : sp
     });
- 
+
   });
- 
+
 });
 
 
@@ -185,71 +119,26 @@ router.post('/forbussinus/login', function(req,res){
 //DONE
 
 router.post('/serviceprovider/register',function(req,res){
- 
+
   ServiceProviderController.spRegister(req,res,(err,sp,type)=>{
     if(type === "ERROR")
           res.json({
             type : type,
             message : sp
- 
+
           });
     else
           res.json({
             type : type,
             message : "You are registered successfully !",
             content : sp
-          }); 
+          });
   });
- 
->>>>>>> frontend_backend_combined
-});
- 
 
-<<<<<<< HEAD
-router.post('/serviceprovider/register',function(req,res){
-    	return ServiceProviderController.spRegister(req,res);
-});
-
-router.get('/home/viewreg',function(req,res){
-
-    ServiceProviderController.getAllVerifiedServiceProvider(req,res,
-      function(err, sp){
-          res.send(sp);
-     });
-});
-
-router.use(function(req,res,next){ //this middleware adds the decoded token the req before continuing to any other routes.
-//so if you need to access an attribute saved in the token,
-//use req.decoded.attrName
-	var token = req.body.token;
-
-	if(token){
-		app.jwt.verify(token, app.app.get('super-secret'),function(err,decoded){
-
-			if(!err){
-				req.decoded = decoded
-				console.log(req.decoded)
-				console.log("worked !!")
-				next()
-			}
-			else{
-				return res.json({
-					success:false,
-					message:"Token not verfied;"
-				})
-			}
-		})
-	}
-	else{
-				return res.status("401").json({
-					success:false,
-					message:"No token;"
-				})
-	    }
 });
 
 
-=======
+
 router.get('/home/catalog',function(req,res)
 {
   StudentController.getAllCourses(req,res,(err,courses,type)=>
@@ -287,7 +176,7 @@ router.post('/home/search',function(req,res){
    });
 
     }
-    
+
     else {
       res.json({
      type:type,
@@ -304,17 +193,17 @@ router.post('/home/search',function(req,res){
 router.get('/home/viewreg',function(req,res){
 
  // console.log("hiiiiiiiiiiiiiiiii")
-      
+
   AdminController.getAllVerifiedServiceProvider(req,res, function(err,sp,type){
     if(type==="ERROR")
       res.send(sp);
     else
       res.json(sp);
-         
+
   });
 
 
-      
+
 });
 
 router.use(function(req,res,next){ //this middleware adds the decoded token the req before continuing to any other routes
@@ -418,7 +307,7 @@ router.post('/coursepage/bookcourse',function(req,res){
         type : type,
         message : "Course is successfully booked !",
         content : book
-      }); 
+      });
 
     });
   }else
@@ -487,7 +376,7 @@ ServiceProviderController.updateCourse(req,res,(err,message,type)=>{
       message:message
     });
   }else{
-    
+
     res.json({
       type:type,
       message:"COURSE HAS BEEN SUCCESSFULLY UPDATE",
@@ -574,7 +463,7 @@ router.post('/serviceprovider/courses/addCourse',function(req,res){
     type:"ERROR",
     message:"YOU ARE NOT A SERVICE PROVIDER"});
 }
-     
+
 });
 
 
@@ -609,13 +498,13 @@ router.post('/serviceprovider/courses',function(req,res){
         type : type,
         message : message
       });
-    else 
+    else
       res.json({
         type : type,
         content : message
       });
   });
-}else 
+}else
   res.json({
         type : "ERROR",
         message : "Yor are not a service provider !"
@@ -634,14 +523,14 @@ router.post('/serviceprovider/updatePortofolio',function(req,res){
           type : type,
           message : message
         });
-      else 
+      else
         res.json({
           type : type,
           message : "Portofolio updated successfully !",
           content : message
         });
     });
-  }else 
+  }else
    res.json({
         type : "ERROR",
         message : "You are not a service provider !"
@@ -734,7 +623,7 @@ res.json({
   type:type,
   message:book
 });
-    
+
   }else{
     res.json({
       type:type,
@@ -767,7 +656,7 @@ router.post('/serviceprovider/viewAllEnrolledStudents', function(req,res){
           enrolledStudents : message
         });
     });
-  }else 
+  }else
     res.json({
       type : "ERROR",
       message : "You are not a service provider !"
@@ -789,13 +678,12 @@ router.post('/adminhomepage/viewunreg', function(req,res){
           content : message
         });
     });
-  }else 
+  }else
     res.json({
       type : "ERROR",
       message : "You are not an admin !"
     });
 });
->>>>>>> frontend_backend_combined
 
 router.post('/ServiceProvider/viewPortofolio',(req,res)=>{
   if(req.decoded.type=="ServiceProvider"){
@@ -815,9 +703,6 @@ router.post('/ServiceProvider/viewPortofolio',(req,res)=>{
 
     });
 
-<<<<<<< HEAD
-module.exports =router;
-=======
   }else{
     res.json({
       type:"ERROR",
@@ -828,4 +713,3 @@ module.exports =router;
 });
 
 module.exports =router;
->>>>>>> frontend_backend_combined

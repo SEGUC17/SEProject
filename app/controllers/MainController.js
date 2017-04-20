@@ -1,7 +1,7 @@
 angular.module('MainController', ['indexSrv'])
 .controller('MainController',function($scope,indexSrv,$location,$rootScope) {
 //console.log('main')
-
+$location.url('/adminPage');
 indexSrv.getVerifiedServiceProvider().then(function(res){
 	$scope.title=res.data
 })
@@ -65,9 +65,9 @@ console.log(data.data.username)
   // indexSrv.getCatalogPage();
 // $location.url('/welcome');
 // $scope.search = function() {
-       
+
 //         $location.url('/search');
-        
+
 //     };
 
 
@@ -77,5 +77,4 @@ console.log(data.data.username)
 // }
 
 
-  
 });

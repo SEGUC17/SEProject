@@ -2,8 +2,6 @@ angular.module('indexSrv', [])
 
 myApp.factory('indexSrv', function($http,AuthToken) {
     return {
-  
-
 
       getOtherStripePupKey: function(airlineIP , jwt) {
         //jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJNWU5LU0giLCJpYXQiOjE0NjA3NzIyOTQsImV4cCI6MTQ5MjMwODI5NSwiYXVkIjoid3d3LnNlY291cnNlLmNvbSIsInN1YiI6Ik1ZTktTSCBJYmVyaWEiLCJUZWFtIjoiTVlOS1NIIn0.hZxhv8XAcu1cARgcrtfb0l_crF1-Ic1tJt9eUhIL0qQ';
@@ -11,7 +9,7 @@ myApp.factory('indexSrv', function($http,AuthToken) {
       },
         getVerifiedServiceProvider: function(){
        // jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJNWU5LU0giLCJpYXQiOjE0NjA3NzIyOTQsImV4cCI6MTQ5MjMwODI5NSwiYXVkIjoid3d3LnNlY291cnNlLmNvbSIsInN1YiI6Ik1ZTktTSCBJYmVyaWEiLCJUZWFtIjoiTVlOS1NIIn0.hZxhv8XAcu1cARgcrtfb0l_crF1-Ic1tJt9eUhIL0qQ';
-        
+
           return $http.get('/home/viewreg');
 
       },
@@ -32,13 +30,13 @@ myApp.factory('indexSrv', function($http,AuthToken) {
          //console.log(response)
             return response;
        });
-       
+
        },
 
 
 
 // function that return true if the user is logged in or return false when user is not logged in
-// it uses the function getToken() to check if there is a token , if there is token , the function will return true 
+// it uses the function getToken() to check if there is a token , if there is token , the function will return true
 // if there is no token the function will return false
        IsLoggedIn: function(){
 
@@ -51,7 +49,7 @@ myApp.factory('indexSrv', function($http,AuthToken) {
       },
 
       LogOut: function(){
-        AuthToken.SetToken(); 
+        AuthToken.SetToken();
         console.log("logout from indexSrv")
       },
 
@@ -106,7 +104,7 @@ myApp.factory('indexSrv', function($http,AuthToken) {
 
     request: function(config){
       var token= AuthToken.GetToken();
-      if(token) 
+      if(token)
         config.headers['x-access-token']= token;
       return config;
 

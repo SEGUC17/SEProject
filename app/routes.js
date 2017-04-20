@@ -17,6 +17,11 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     }).
    when('/search',{
     templateUrl:'views/search.html',
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> adminPage
     })
    .when('/registeredSP',{
     templateUrl:'views/registeredSp.html',
@@ -30,15 +35,37 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     })
    .when('/test',{
     templateUrl:'views/test.html'
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> adminPage
     })
     .when('/login',{
     templateUrl:'views/login.html'
+<<<<<<< HEAD
+=======
+    //   controller: 'MainController',
+    // controllerAs: 'MainController'
+
+
+
+>>>>>>> adminPage
     })
     .when('/logout',{
     templateUrl:'views/logout.html'
+<<<<<<< HEAD
+=======
+    //   controller: 'MainController',
+    // controllerAs: 'MainController'
+
+
+
+>>>>>>> adminPage
     }).
    when('/search',{
     templateUrl:'views/search.html',
+<<<<<<< HEAD
     }).
     when('/signUp',{
     templateUrl:'views/studentRegister.html',
@@ -56,4 +83,27 @@ var myApp = angular.module('appRoutes',['ngRoute'])
   })
     $locationProvider.html5Mode({ enabled: true, requireBase: false });
     // Required to remove AngularJS hash from URL (no base is required in index file);
+=======
+
+
+    }).
+    when('/signUp',{
+
+    templateUrl:'views/studentRegister.html',
+     controller:'studentController',
+     controllerAs:'studentController'
+
+    }).when('/adminPage',{
+      templateUrl:'views/adminPage.html',
+      controller: 'AdminController',
+      controllerAs: 'AdminController'
+  })
+    .otherwise({
+    redirectTo: "/"
+  });
+
+
+
+
+>>>>>>> adminPage
 });

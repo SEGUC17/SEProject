@@ -12,38 +12,38 @@ myApp.config(function($routeProvider) {
     templateUrl: '/index.html',
     controller: 'MainController',
     controllerAs: 'MainController'
-               })
-    .when('/catalog',{
+    }).when('/catalog',{
 
     templateUrl:'/catalog.html'
 
-    })
-    .when('/welcome',{
+    }).when('/welcome',{
 
     templateUrl:'app/views/welcome.html',
-      controller: 'MainController',
+    controller: 'MainController',
     controllerAs: 'MainController'
 
-    })
-   .when('/search',{
+    }).when('/search',{
 
     templateUrl:'app/views/search.html',
-   })
-
-   .when('/catalog',{
+   }).when('/catalog',{
 
     templateUrl:'app/views/catalog.html',
-   })
+   }).when('/adminPage',{
+      templateUrl:'views/adminPage.html',
+      controller: 'AdminController',
+      controllerAs: 'AdminController'
+  })
+
 
 });
 
 
 // myApp.controller('MainController',['$scope',function($scope){
-  
+
 //   $scope.title='Top Sellers in Books' ;
-  
+
 // }])
-	
+
 
 // angular.module('myApp', []).controller('myAppCtrl', function($scope) {
 
@@ -57,7 +57,7 @@ myApp.config(function($routeProvider) {
 
 
 // app.controller('MainController',['$scope',function($scope){
-  
+
 //   $scope.title='Top Sellers in Books' ;
-  
+
 // }])

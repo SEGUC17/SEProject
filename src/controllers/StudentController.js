@@ -6,7 +6,7 @@ let Admin=require('../db/Admin');
 
 let StudentController = {
 //the student could book a course 
-	     bookCourse :function(req, res){
+       bookCourse :function(req, res){
           
        
         var courseTitle = req.body.title;
@@ -83,46 +83,70 @@ let StudentController = {
 
 //ckecks tht this student was previously signed up or not
     checkStudentLogin:function(req,res,cb) {
+      if(req.body.username === "Admin" || req.body.username === "admin"){
+        Admin.findOne({username: req.body.username },(err,admin)=>{
 
-      Admin.findOne({username: "Admin",password: "Admin"}, function(err, admin){
-        if(err){
-           return res.json({
-            success: false
-           })
-        }else if(!admin){
-       Student.findOne( {username :req.body.username },function(err1, studentuser) {
-        if (err1) {
-         return res.json({
-            success: false
-           })
+          if(err){
+            cb(err,"ERROR","ERROR");
+          }else{
+            if(admin){
+              admin.checkPassword (req.body.password,(err2,isMatch)=>{
+              if(err2){
+                cb(err,"ERROR","ERROR");
+              }else{
 
-        }
+                  if(isMatch && isMatch==true){
+                     console.log("right");
 
-        if(!studentuser){
-          cb(err,"username not found");
-           return 
-           // res.json({
-           //  message: "username not found"
-           // });
-        }
-        if(err) cb(err,"err ");
-     
-    //else
-      studentuser.checkPassword (req.body.password, function(err2,isMatch){
+                     cb(err,admin,"Admin");
+                    // cb(err2,student,"SUCCESS");
+                    }else{
+                       cb(err2,"WRONG PASSWORD","ERROR");
+                    }
 
-        if(isMatch && isMatch==true){
-           console.log("right");
+
+            }
+            });
+          }else {
+
+            cb(err,"USERNAME NOT FOUND","ERROR")
+
           }
-           cb(err2,studentuser);
+          }
 
-       });
-          
-       });
-        }else
-        cb(err,admin);
-      });
-  
-      
+        })
+      }else{
+        Student.findOne({username :req.body.username },(err,student)=>{
+
+          if(err){
+            cb(err,"ERROR","ERROR");
+          }else{
+            if(student){
+            student.checkPassword (req.body.password,(err2,isMatch)=>{
+              if(err2){
+                cb(err,"ERROR","ERROR");
+              }else{
+
+                  if(isMatch && isMatch==true){
+                     console.log("right");
+                       cb(err,student,"Student");
+                    // cb(err2,student,"SUCCESS");
+                    }else{
+                       cb(err2,"WRONG PASSWORD","ERROR");
+                    }
+
+
+            }
+            });
+
+          }else{
+            cb(err,"USERNAME NOT FOUND","ERROR")
+          }
+        }
+        });
+      }
+
+
 
   },
  // getAllCourses function Display all provided courses 
@@ -287,41 +311,44 @@ Student.findById(req.sesssion._id,function(err,student){
       },
   
   //student is beging signed to the system 
-  studentSignUP:function(req,res, cb){  
-	  
-	 
+studentSignUP:function(req,res, cb){
+  console.log("student registerrrrrrrrrrr")
 //match this student to one in the database
-	  Student.findOne({ username: req.body.username }, function(err1, student) 
-	    {   
-	    if (err1) { return next(err); }
-	    if (student) {                                      
-	      console.log(" User already exist")    ;
-	      return;              
-	    }                                                
-	    var newStudent = new Student
-	    ({         
-	      username: req.body.username,            
-	      password: req.body.password,
-	      email:req.body.email,
-	      birthdate:req.body.birthdate ,
-	      ListOfCourses:[],
-	      profilePicture:req.body.profilePicture
-	     
-	    });                                      
+    Student.findOne({ username: req.body.username }, function(err1, student)
 
-	    newStudent.save((err2,StudentSaved)=>{
-        if(err2)
-          throw err2;
-        else
-          console.log(StudentSaved);
+      {
+        if(err1){
+          cb(err,"USERNAME IS NOT AVAILABLE","ERROR");
+        }
+      else {
+          var newStudent = new Student
+      ({
+        username: req.body.username,
+        password: req.body.password,
+        email:req.body.email,
+      //  birthdate:req.body.birthdate ,
+        ListOfCourses:[]
+      //  profilePicture:req.body.profilePicture
 
-        cb(StudentSaved,err2); 
       });
 
-                          
-	  });
-	  
-	}
+        newStudent.save(function(err,student){
+          if(err)
+            cb(err,"ERROR","ERROR");
+        else{
+          console.log(student);
+        cb(err,student,"SUCCESS");
+      }
+      });
+
+      }
+    
+
+
+
+});
+    
+  }
 
 }
 

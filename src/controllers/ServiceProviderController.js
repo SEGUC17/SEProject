@@ -425,175 +425,80 @@ Course.findOne({title:courseTitle},(err,courseFound)=>{
 });
 },
 //the servicde provider could register to the system by passing the field 
-    spRegister: function(req,res)
-    {
-    	console.log("HENA");
-var headerToBeSet=false;
-//checks first tht this Service provider was not perviously registered to the system
-	   ServiceProvider.findOne({organizationName:req.body.organizationName},function(err,organizationName)
-	   {
-	   	console.log("organizationName");
- 
-	     if(err){ 
-		headerToBeSet=true;
-	     	return 
-	     	res.json({
-	     	success:false,
-	     	message:"ERROR organizationName"	
-	     })
- 
-	     }
- 
-	     if(organizationName)
-	     {
-	       console.log('Organization name already exists');
-	       if(!headerToBeSet){
-	       	headerToBeSet=true;
-	       return res.json({
-	       	success:false,
-	       	message:"Organization name already exists"
-	       });
-	     }
-	 }
- 
-	   });
- 
-	    ServiceProvider.findOne({mobileNumber:req.body.mobileNumber},function(err,mobileNumber)
-	   {
- 
-	      if(err && !headerToBeSet){ 
-	      	headerToBeSet=true;
-	     	return 
-	     	res.json({
-	     	success:false,
-	     	message:"ERROR mobileNumber"	
-	     })
- 
-	     }
-	     if(mobileNumber && !headerToBeSet)
-	     {
-	     	headerToBeSet=true;
-	       console.log('Mobile number already exists');
-	         return res.json({
-	       	success:false,
-	       	message:"Mobile number already exists"
-	       });
-	     }
- 
-	   });
- 
-	      ServiceProvider.findOne({email:req.body.email},function(err,email)
-	   {
-	      if(err && !headerToBeSet){ 
-	      	headerToBeSet=true;
-	      return res.json({
-	     	success:false,
-	     	message:"ERROR EMAIL"
-	     })
-	     	}
-	     if(email && !headerToBeSet)
-	     {
-	     	headerToBeSet=true;
-	       console.log('email already exists');
- 
-	       return res.json({
-	       	success:false,
-	       	message:"email already exists"
-	       });
-	     }
- 
-	   });
-	      //creates a service provider to be added
-	  var newOrganization = new ServiceProvider({         
-	        organizationName:req.body.organizationName ,
-	        field :req.body.field ,
-	        description :req.body.description,
-	        mobileNumber :req.body.mobileNumber,
-	        email : req.body.email ,
-	        address: req.body.address,
-	        polices :req.body.polices,
-	        logo :req.body.logo
- 
-	    });                              
-	    newOrganization.save((err,spSaved)=>{
-	    	if(err && !headerToBeSet){ 
-	      	headerToBeSet=true;
-	    		return res.json({
- 
-	     	success:false,
-	     	message:"ERROR SAVE"
-	     })
-	    	throw err;
-	    }
-	    	else{
-	    		console.log(spSaved);
-	    		if(!headerToBeSet)
-	    		return res.json({
-	    			success:true,
-	    			message:"you are registered expect an email soon ;)"
-	    		});
-	    	}
- 
-	    });
- 
-},
+   spRegister: function(req,res,cb){
+    //checks first tht this Service provider was not perviously registered to the system
+    	   ServiceProvider.findOne({organizationName:req.body.organizationName},function(err,organizationName){
+    	     	if(organizationName)
+    	       		cb(err,"Organization name already exists","ERROR");
+    	   		else {
+    	   			ServiceProvider.findOne({mobileNumber:req.body.mobileNumber},function(err,mobileNumber){
+    	     			if(mobileNumber)
+    	       				cb(err,"Mobile number already exists","ERROR");
+    	       			else{
+     
+    						ServiceProvider.findOne({email:req.body.email},function(err,email){
+    							if(email)
+    	       						cb(err,"email already exists","ERROR");
+    	       					else {
+     
+    	       						var newOrganization = new ServiceProvider({         
+    	        						organizationName:req.body.organizationName ,
+    	        						field :req.body.field ,
+    	        						description :req.body.description,
+    							        mobileNumber :req.body.mobileNumber,
+    							        email : req.body.email ,
+    							        address: req.body.address,
+    							        polices :req.body.polices,
+    							        logo :req.body.logo
+     
+    	    						}); 
+     
+    	   							 newOrganization.save((err,spSaved)=>{
+
+    	    							if(err)
+    	     								cb(err,"YOU HAVE PREVIOUSLY REGISTERED","ERROR");
+    	    							else
+    	    								cb(err,"you are registered expect an email soon ;)","SUCCESS");
+    	   							 });
+     
+    	       					}
+    	       				});
+    					}
+     
+    	   			});
+     
+    	   		}
+     
+    	 	});
+    	},
 
 //the service provider could login
-  SPLogin:function(req, res, cb) { 
+ SPLogin:function(req, res, cb) { 
 	  	//the service provider is found in the schema
-	  	var headerToBeSet=false; 
-      ServiceProvider.findOne( {username :req.body.username },function(err1, sp) {
+      	ServiceProvider.findOne( {username :req.body.username },function(err1, sp) {
         if (err1) {
-          return res.json({
-          	 success:false,
-          	 message:'error'
-          })
-        }
+       		cb(err1,"Service Provider not found","ERROR");
+        }else{
  
-        if(!sp && !headerToBeSet){
-        	headerToBeSet=true;
-       return res.json({
-		success:false,
-		message:'user not found'
+      		if(sp){
+
+	     		sp.checkPassword (req.body.password, function(err2,isMatch){
+	     
+	        		if(isMatch && isMatch == true)
+	           			cb(err2,sp,"SUCCESS") ;
+	          		else 
+	          	 		cb( err2,"WRONG PASSWORD","ERROR") ;
+	         		
+	       		});
+
+			}else
+				cb(err1,"Service Provider not found","ERROR");
  
-			})
-        	
-        }
+   		}
  
- 
-   //match the password 
-	      sp.checkPassword (req.body.password, function(err2,isMatch){
-	     cb(sp, err2) 
-	        if(isMatch && isMatch==true){
-	           console.log("you are logged in");
-	          if(!headerToBeSet){
-	          	headerToBeSet=true;
-	          	return
-	           res.json({
-					success:true,
-					message:'user found',
-					sp:sp
- 
-						})
-	       }
- 
- 
-	          }else{
-	          	if(!headerToBeSet)
-	           return
-	             res.json({
-					success:false,
-					message:'password incorrect'
- 
-						})
-	         }
- 
-	       });
- 
- 
-   });
- 
-  }
+  	});
+
+ 	}
  
 		
 

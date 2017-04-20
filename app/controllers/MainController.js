@@ -5,23 +5,28 @@ angular.module('MainController', ['indexSrv'])
 indexSrv.getVerifiedServiceProvider().then(function(res){
 	$scope.title=res.data
 })
+
+
 var app = this;
 
-$rootScope.$on('$routeChangeStart',function(){
-if(indexSrv.IsLoggedIn()){
-console.log("success user is logged in")
-indexSrv.GetCurrentUser().then(function(data){
-console.log(data.data)
- $scope.SPusername=data.data.username
-  app.islogged = true;
+			$rootScope.$on('$routeChangeStart',function(){
 
-         });
-      }
-         else
-          {
-  console.log("failure user is not logged")
-  	$scope.SPusername='';
-    }
+
+
+			if(indexSrv.IsLoggedIn()){
+			console.log("success user is logged in")
+			indexSrv.GetCurrentUser().then(function(data){
+			console.log(data.data)
+			 $scope.SPusername=data.data.decoded.username
+			  app.islogged = true;
+
+			         });
+			      }
+			         else
+			          {
+			  console.log("user is not logged")
+			  	$scope.SPusername='';
+			    }
 
 
 
@@ -34,7 +39,7 @@ console.log(data.data)
 			console.log(response.data)
 			//console.log("the token is: "+response.data.token)
 
-			if(response.data.success==true){
+			if(response.data.type=='SUCCESS'){
 			$location.path('/welcome')
 			app.islogged = true;
 
@@ -48,6 +53,29 @@ console.log(data.data)
 
 		})
 	}
+
+//student login
+this.Student_login=function(data){
+		indexSrv.StudentLogin(app.data).then(function(response){
+			console.log(response.data)
+			//console.log("the token is: "+response.data.token)
+
+			if(response.data.type=='SUCCESS'){
+			$location.path('/welcome')
+			app.islogged = true;
+
+
+			}
+			else{
+			 app.islogged = false;
+
+			}
+
+
+		})
+	}
+
+
 
 
 	this.logout=function(){

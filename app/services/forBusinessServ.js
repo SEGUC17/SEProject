@@ -1,3 +1,5 @@
+
+
 angular.module('businessServ',[])
 
 .factory('businessServ', function($http,AuthToken) {
@@ -6,7 +8,13 @@ angular.module('businessServ',[])
             return $http.post('/serviceprovider/register',data);
 
 
+        },
+
+
+        ServiceProviderAddCourse:function(data){
+            return $http.post('/ServiceProvider/courses/addCourse',data);
         }
+
 
         // ServiceProviderLogin:function(data){
         //  return $http.post('/forbussinus/login',data).then(function(response){

@@ -34,11 +34,33 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     controllerAs: 'MainController'
 
     })
+
    .when('/register',{
 
     templateUrl:'views/register.html',
       controller: 'spCon',
     controllerAs: 'spCon'
+
+    })
+    .when('/addCourse',{
+
+    templateUrl:'views/addCourse.html',
+      controller: 'spCon',
+    controllerAs: 'spCon'
+
+    })
+    .when('/studentRegister',{
+
+    templateUrl:'views/studentRegister.html',
+      controller: 'StudentController',
+    controllerAs: 'StudentController'
+
+    })
+    .when('/studentLogin',{
+
+    templateUrl:'views/studentLogin.html'
+    //   controller: 'StudentController',
+    // controllerAs: 'StudentController'
 
     })
    .when('/test',{

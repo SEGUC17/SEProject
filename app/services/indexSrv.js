@@ -26,8 +26,25 @@ myApp.factory('indexSrv', function($http,AuthToken) {
         },
 
 
+
+
+
+
+// THIS IS THE ROUTE OF SPLOGIN , AUTHTOKEN.SETTOKEN TAKE THE USER TOKEN AND SAVES IT IN THE LOCALSTRATEGY SO THAT
+// ANY FUNCTION WHICH NEEDS TOKEN AS INPUT WILL BE AUTOMATICALY TAKEN FROM HERE
+
        ServiceProviderLogin:function(data){
        return $http.post('/forbussinus/login',data).then(function(response){
+          AuthToken.SetToken(response.data.token)
+         //console.log(response)
+            return response;
+       });
+       
+       },
+
+
+       StudentLogin:function(data){
+       return $http.post('/login',data).then(function(response){
           AuthToken.SetToken(response.data.token)
          //console.log(response)
             return response;

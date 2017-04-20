@@ -1,7 +1,7 @@
 
 // console.log("appp")
 
-angular.module('myApp', ['ui.bootstrap','appRoutes','MainController','indexSrv','spctr','businessServ','spAuthServ'])
+angular.module('myApp', ['ui.bootstrap','appRoutes','MainController','indexSrv','spctr','businessServ','spAuthServ','StudentController','stServ'])
 
 .config(function($httpProvider){
   $httpProvider.interceptors.push('AuthInterceptors')
@@ -13,7 +13,7 @@ angular.module('myApp', ['ui.bootstrap','appRoutes','MainController','indexSrv',
 //   $scope.title='Top Sellers in Books' ;
   
 // }])
-  
+	
 
 // angular.module('myApp', []).controller('myAppCtrl', function($scope) {
 

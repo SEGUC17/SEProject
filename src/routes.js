@@ -27,72 +27,79 @@ router.get('/x',function(req,res){
   });
 });
     router.post('/forbussinus/login', function(req,res){
-      ServiceProviderController.SPLogin(req,res,function(sp, error){
+  ServiceProviderController.SPLogin(req,res,function(error,sp,type){
      
-    if(!error){
-    //check if match username pwd 
-      var token = app.jwt.sign(
-        {username: sp.username,
-         id: sp._id,
-          type:"ServiceProvider"}, 
-          app.app.get('super-secret'), {
-     
-            });
-     
-      return res.json({
-        success:true,
-        token :token
-     
-      })
-    } else{
-      return res.json({
-        success:false,
-        message:"wrong username or password"
-       });
-     
-       }
-     });
+  if(type !="ERROR"){
+  //check if match username pwd 
+    var token = app.jwt.sign({ username: sp.username, id: sp._id, type:"ServiceProvider" }, app.app.get('super-secret'), {
     });
-//login bta3 el student
-router.post('/login', function(req,res){
-  StudentController.checkStudentLogin(req,res,function(student, error){
-      if(error){
-    return res.json({
-      success: false,
-      message:"wrong username or password"
+     
+    res.json({
+      type : type,
+      token : token,
+      message : "You are successfully logged in !",
+      content : sp
     });
-  }
 
-//check if match username pwd 
-  var token = app.jwt.sign({username: student.username, id: student._id, type:"Student"}, app.app.get('super-secret'), {
-          //expiresInMinutes: 1440 // expires in 24 hours
-        });
+  } else 
+    res.json({
+      type : type,
+      message : sp
+    });
 
-  return res.json({
-    success:true,
-    token :token
+  });
 
-  })
-
-})
 });
+
+router.post('/login', function(req,res){
+  StudentController.checkStudentLogin(req,res,function(error,message,type){
+    if(type == "ERROR")
+      res.json({
+        type : type,
+        message : message
+      });
+    else {
+      var token = app.jwt.sign({username: message.username, id: message._id, type:type}, app.app.get('super-secret'), {});
+
+      if(type == "Admin")
+        res.json({
+          token : token,
+          type : "SUCCESS",
+          message : "You are successfully logged in !",
+          content : message
+        });
+      else 
+         res.json({
+          token : token,
+          type : "SUCCESS",
+          message : "You are successfully logged in !",
+          content : message
+        });
+    }
+
+  });
+
+});
+
+
 
 router.post('/register', function(req,res){
 
-  StudentController.studentSignUP(req,res,function(student, error){
+  StudentController.studentSignUP(req,res,function(error,student,type){
+     if(type === "ERROR")
+          res.json({
+            type : type,
+            message : student
+          });
+     else
+          res.json({
+            type : type,
+            message : "You are registered successfully !",
+            content : student
+          });
+        
+});
 
-//check if match username pwd 
-  var token = app.jwt.sign({username: student.username, id: student._id, type:"Student"}, app.app.get('super-secret'), {
-          //expiresInMinutes: 1440 // expires in 24 hours
-        });
-
-  return res.json({
-    success:true,
-    token :token
-
-  })
-
-})
 });
 
  router.post('/serviceprovider/register',function(req,res){
@@ -175,7 +182,7 @@ router.use(function(req,res,next){ //this middleware adds the decoded token the 
 // })
 
 router.post('/me',function(req,res){
-  res.send(req.decoded);
+  res.json({token:req.headers['x-access-token'],decoded:req.decoded});
 })
 
 

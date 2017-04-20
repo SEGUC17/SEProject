@@ -9,53 +9,53 @@ let AdminController = {
 
 declineSP: function(req,res){ //when the admin declines a serviceprovider, the service provider is removed from the database
 // and an email is sent to him
-console.log("admin");
- console.log( req.body.email);
-      ServiceProvider.remove({email: req.body.email}, function(err, DeletedSP){
+   console.log("admin");
+   console.log( req.body.email);
+        ServiceProvider.remove({email: req.body.email}, function(err, DeletedSP){
 
-         if(err)
-            return res.json({
-              success: false,
-              message: "error"
-            });
-         else{
-            return res.json({
-              success: true,
-              message:"service provider declined"
-            });
-         }
-      })
+           if(err)
+              return res.json({
+                success: false,
+                message: "error"
+              });
+           else{
+              return res.json({
+                success: true,
+                message:"service provider declined"
+              });
+           }
+        })
 
-      let transporter = nodemailer.createTransport({
-                   service: 'gmail',
-                   auth: {
-                       user: 'seprojecta',
-                       pass: 'admin@123456'
-                   }
-               });
+        let transporter = nodemailer.createTransport({
+                     service: 'gmail',
+                     auth: {
+                         user: 'seprojecta',
+                         pass: 'admin@123456'
+                     }
+                 });
 
-         console.log('SMTP Configured');
+           console.log('SMTP Configured');
 
-               // setup email data with unicode symbols
-               let mailOptions = {
-                   from: 'seprojecta@gmail.com', // sender address
-                   to: req.body.email, // list of receivers
-                   subject: 'Sorry, you are not verified', // Subject line
-                   text: 'Better luck next time  \n'
-               };
+                 // setup email data with unicode symbols
+                 let mailOptions = {
+                     from: 'seprojecta@gmail.com', // sender address
+                     to: req.body.email, // list of receivers
+                     subject: 'Sorry, you are not verified', // Subject line
+                     text: 'Better luck next time  \n'
+                 };
 
-               console.log('Sending Mail');
-               // send mail with defined transport object
-               transporter.sendMail(mailOptions, (error, info) => {
-                   if (error) {
-                       return console.log(error);
-                   }
-                   console.log('Message %s sent: %s', info.messageId, info.response);
+                 console.log('Sending Mail');
+                 // send mail with defined transport object
+                 transporter.sendMail(mailOptions, (error, info) => {
+                     if (error) {
+                         return console.log(error);
+                     }
+                     console.log('Message %s sent: %s', info.messageId, info.response);
 
-               });
+                 });
 },
 viewUnregSP :function(req,res){   //views all unverified service provider, those who have no username and password yet
-          ServiceProvider.find({username:""}).lean().exec(function(err,unRegSP)
+          ServiceProvider.find( { $or: [ {username:""}, {username:undefined} ] }).lean().exec(function(err,unRegSP)
             {
              if(err){
                return res.json({
@@ -82,7 +82,7 @@ verifySP : function(req,res)//when a service provider is verified, it is assigne
            var email = req.body.email;
 
       // a username and password and an email is sent with those credtials
-          ServiceProvider.findOne({email: req.body.email}, function(err, sp){
+          ServiceProvider.findOne({ $and: [ {email: req.body.email},{ username:{$ne:undefined} }] }, function(err, sp){
            if (err) {
             return res.json({success: false,
                               message: "service provider not found"});

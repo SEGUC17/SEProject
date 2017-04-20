@@ -115,7 +115,8 @@ router.post('/serviceprovider/register',function(req,res){
 
 router.get('/home/viewreg',function(req,res){
 
-     ServiceProviderController.getAllVerifiedServiceProvider(req,res, function(err, sp){
+    ServiceProviderController.getAllVerifiedServiceProvider(req,res,
+      function(err, sp){
           res.send(sp);
      });
 });

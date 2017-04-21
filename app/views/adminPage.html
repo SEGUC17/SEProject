@@ -1,0 +1,64 @@
+<div class="header">
+       <div class="container"><br>
+         <h2>Admin Page</h2>
+       </div>
+     </div>
+<br>
+    <div class="main" ng-controller ="AdminController">
+      <div class="container-fluid">
+       <div class="scrollmenu">
+          <h2>{{ title }}</h2>
+          <div class="w3-container">
+              <button class="w3-button w3-xlarge w3-circle w3-red w3-card-4" ng-click="ShowHide()" >+</button>Verified SP<br/>
+              <div class="jumbotron">
+                 <h2>Jumbotron</h2>
+
+              </div>
+
+           </div>
+       </div>
+      </div>
+    </div>
+
+
+
+      <tbody>
+          <form name="myform">
+    <!-- <h4  ng-repeat="x in SrvProviders" >  {{x.email}} <button class="w3-button w3-xlarge w3-circle w3-red w3-card-4" ng-click="removeSrvProvider(x.email)" >+</button>Remove</h4> -->
+<div class="container-fluid">
+  <table class="w3-table" ng-controller="AdminController" border="1">
+          <thead class="text-danger">
+            <th>username</th>
+            <th>Email</th>
+            <th>SP Status</th>
+          </thead>
+          <tr ng-repeat="sps in SrvProviders" >
+            <td>{{sps.username}}</td>
+              <td>{{sps.email}}</td>
+              <td>
+              <button class="w3-button w3-large w3-circle w3-red w3-card-4" ng-click="removeSrvProvider(sps.email) ; displaySrvProviders (); " >-</button>  Remove</h4>
+            </td>
+          </tr>
+        </table>
+        </div>
+<br>
+        <div class="container-fluid">
+          <table class="w3-table" ng-controller="AdminController" border="1">
+                  <thead class="text-danger">
+                    <th>OrganizationName</th>
+                    <th>Email</th>
+                    <th> UnRegister SP</th>
+                  </thead>
+                  <tr ng-repeat="UNsps in unRegisterSP" >
+                    <td>{{UNsps.organizationName}}</td>
+                    <td> {{UNsps.email}}</td>
+                    <td>
+                      <button class="w3-button w3-large w3-circle w3-red w3-card-4" ng-click="" >+</button>  accept </h4>
+                    </td>
+                  </tr>
+            </table>
+          </div>
+
+
+      </form>
+</tbody>

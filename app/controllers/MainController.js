@@ -6,7 +6,6 @@ indexSrv.getVerifiedServiceProvider().then(function(res){
 	$scope.title=res.data
 })
 
-
 var app = this;
 
 			$rootScope.$on('$routeChangeStart',function(){
@@ -105,6 +104,5 @@ this.Student_login=function(data){
 // }
 
 
-  
+
 });
-	

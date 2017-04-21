@@ -252,22 +252,30 @@ router.post('/home/viewreg',function(req,res){
 
 router.post('/adminhomepage/verify', function(req,res){
   if(req.decoded.type=="Admin"){
+    console.log("admin verified 1");
+
     AdminController.verifySP(req,res,(err,message,type)=>{
-      if(type=="ERROR")
+       console.log("d5l el function");
+      if(type=="ERROR"){
+      console.log("verifySP error");
+
         res.json({
           type : type,
           message : message
-        });
-      else
+        }); }
+      else{
+      console.log("verifySP yesssss");
         res.json({
           type : type,
           message : "SERVICE PROVIDER HAS BEEN SUCCESSFULLY REGISTERED",
           content : message
         });
-
+      }
     });
 
   }else{
+    console.log("Anta msh admin !!!");
+
     res.json({
       type:"ERROR",
       message:"YOU ARE NOT AN ADMIN"

@@ -84,9 +84,12 @@ angular.module('indexSrv', [])
         {
           $q.reject({message:"user has no token"})
         }
-      }
+      },
 
+      GetToken:function(){
+        return AuthToken.GetToken();
 
+      },
 
 
 
@@ -113,7 +116,9 @@ angular.module('indexSrv', [])
    },
    // function which retrieves the token from the localStorage
    GetToken: function(){
-     return $window.localStorage.getItem('token')
+    //  console.log("token gettoken ::");
+    //  console.log($window.localStorage.getItem('token'));
+     return $window.localStorage.getItem('token');
    }
 
  }

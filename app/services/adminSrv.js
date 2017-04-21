@@ -5,6 +5,7 @@ angular.module('adminSrv', [])
 // view all service provider
 getVerifiedServiceProvider: function(token){
  // jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJNWU5LU0giLCJpYXQiOjE0NjA3NzIyOTQsImV4cCI6MTQ5MjMwODI5NSwiYXVkIjoid3d3LnNlY291cnNlLmNvbSIsInN1YiI6Ik1ZTktTSCBJYmVyaWEiLCJUZWFtIjoiTVlOS1NIIn0.hZxhv8XAcu1cARgcrtfb0l_crF1-Ic1tJt9eUhIL0qQ';
+
  var body = {
 
 "token":token
@@ -37,6 +38,8 @@ VerifySrvProvider: function(username,password, token){
       }; console.log("VerifySrvProvider");
          console.log(username);
          console.log(password);
+         console.log("----------");
+         console.log(token);
 
         return $http.post('/adminhomepage/verify',body);
 },

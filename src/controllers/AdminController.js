@@ -68,14 +68,18 @@ let AdminController = {
   },
 
 
-
+//REEOR BYRG3 BNULL WEL SP IS NULLTOO AZAY KDA ???
 verifySP : function(req,res,cb){//when a service provider is verified, it is assigned
           var assignedPassword = req.body.password;
+
           var assignedUsername = req.body.username;
           var email = req.body.email;
           var flag=false;
           // a username and password and an email is sent with those credtials
           ServiceProvider.findOne({email: req.body.email}, function(err, sp){
+
+            console.log("--====--");
+            console.log(err,sp);
            if (err) {
            cb(err,"CAN NOT FIND SERVICE PROVIDER","ERROR") ;
            flag=true;

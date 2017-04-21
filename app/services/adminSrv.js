@@ -10,7 +10,7 @@ getVerifiedServiceProvider: function(token){
     "token":token
 
     };
-    return $http.get('/home/viewreg');
+    return $http.get('/home/viewreg',body);
 },
 
 // remove service provider

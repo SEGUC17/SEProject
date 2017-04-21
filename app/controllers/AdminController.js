@@ -1,4 +1,5 @@
-myApp.controller('AdminController',function($scope,adminSrv,indexSrv,$location) {
+angular.module('AdminController', ['adminSrv'])
+.controller('AdminController',function($scope,adminSrv,indexSrv,$location) {
  //adminSrv.setEmail("balabizo@gmail.com");
 $scope.msg = "";
 $scope.test = "testemail";

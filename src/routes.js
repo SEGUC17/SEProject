@@ -68,6 +68,7 @@ router.post('/forbussinus/login', function(req,res){
 });
 
 
+
 // malhash lazma 
 router.post('/admin/clearUnverfiedSP',(req,res)=>{
   ServiceProviderController.clearUNverSP(req,res,(err,result,type)=>{
@@ -118,7 +119,20 @@ router.post('/serviceprovider/viewannonnoucement',function(req,res){
 });
 });
 
-
+router.post('/getCourse',(req,res)=>{
+ServiceProviderController.getCourse(req,res,(err,message,type)=>{
+  if(type=="ERROR"){
+    res.json({type:type,
+              message:message
+    });
+  }else{
+    res.json({type:type,
+      message:"COURSE HAS BEEN DISPLAYED SUCCESSFULLY",
+              content:message
+    })
+  }
+});
+});
 router.post('/serviceprovider/postannouncement',function(req,res){
   ServiceProviderController.postAnnouncements(req,res,(err,message,type)=>{
     if(type=="ERROR"){

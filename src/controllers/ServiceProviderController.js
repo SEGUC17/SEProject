@@ -250,7 +250,7 @@ let ServiceProviderController = {
        },
 //the service provider can post announcment bt passing his course title 
 		postAnnouncements:function(req,res,cb){
-		 var newAnnouncement=req.body.announcement;
+		 var newAnnouncement=req.body.announcements;
 		 var Coursetitle=req.body.title;
 		Course.findOne({title:Coursetitle},(err,courseFound)=>{
 		if(err){
@@ -576,6 +576,15 @@ let ServiceProviderController = {
           }else
               cb(err,"Service provider is not found !", "ERROR");
         });
+    },
+    getCourse: function(req,res,cb){
+    	Course.findOne({title:req.body.title},(err,result)=>{
+    		if(err){
+    			cb(err,"NO COURSE FOUND","ERROR")
+    		}else{
+    			cb(err,result,"SUCCESS");
+    		}
+    	})
     }
 
 }

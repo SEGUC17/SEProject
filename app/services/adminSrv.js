@@ -2,8 +2,13 @@ myApp.factory('adminSrv', function($http ) {
     return {
 
 // view all service provider
-getVerifiedServiceProvider: function(){
+getVerifiedServiceProvider: function(token){
  // jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJNWU5LU0giLCJpYXQiOjE0NjA3NzIyOTQsImV4cCI6MTQ5MjMwODI5NSwiYXVkIjoid3d3LnNlY291cnNlLmNvbSIsInN1YiI6Ik1ZTktTSCBJYmVyaWEiLCJUZWFtIjoiTVlOS1NIIn0.hZxhv8XAcu1cARgcrtfb0l_crF1-Ic1tJt9eUhIL0qQ';
+     var body = {
+
+    "token":token
+
+    };
     return $http.get('/home/viewreg');
 },
 
@@ -11,7 +16,7 @@ getVerifiedServiceProvider: function(){
 declineSrvProvider: function(Email , token){
        // jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJNWU5LU0giLCJpYXQiOjE0NjA3NzIyOTQsImV4cCI6MTQ5MjMwODI5NSwiYXVkIjoid3d3LnNlY291cnNlLmNvbSIsInN1YiI6Ik1ZTktTSCBJYmVyaWEiLCJUZWFtIjoiTVlOS1NIIn0.hZxhv8XAcu1cARgcrtfb0l_crF1-Ic1tJt9eUhIL0qQ';
        var body = {
-      "email": 'bazo11@gmail.com' ,
+      "email": Email ,
       "token":token
 
       }; console.log("declineSrvProvider");
@@ -37,7 +42,11 @@ viewUnSrvProvider: function(){
        // jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJNWU5LU0giLCJpYXQiOjE0NjA3NzIyOTQsImV4cCI6MTQ5MjMwODI5NSwiYXVkIjoid3d3LnNlY291cnNlLmNvbSIsInN1YiI6Ik1ZTktTSCBJYmVyaWEiLCJUZWFtIjoiTVlOS1NIIn0.hZxhv8XAcu1cARgcrtfb0l_crF1-Ic1tJt9eUhIL0qQ';
   //   console.log("viewUnSrvProvider");
     // console.log(username);
-          return $http.post('/adminhomepage/viewunreg');
+    var body = {
+   "token":token
+
+   };
+          return $http.post('/adminhomepage/viewunreg',body);
 },
 
 getSP: function() {

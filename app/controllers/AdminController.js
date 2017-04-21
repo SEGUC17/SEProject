@@ -13,50 +13,7 @@ $scope.ShowHide = function () {
 
 };
 //admin login
-var app = this;
-var data = {
-"username": "Admin" ,
-"password":"Admin"
-
-};
-$scope.token ="";
-
-Admin_login(data);
-  function Admin_login(data){
-
-    console.log("admin data ::"+data);
-
-    	indexSrv.AdminLogin(data).then(function(response){
-
-        console.log(response.data)
-  			console.log("the token is: "+response.data.token)
-
-        $scope.token =response.data.token;
-  			if(response.data.type=='SUCCESS'){
-  			 //$location.path('/admin')
-  			   app.islogged = true;
-
-           console.log(app.islogged );
-  			}
-  			else{
-  			 app.islogged = false;
-
-         console.log(app.islogged );
-  			}
-
-        adminSrv.declineSrvProvider('bazo11@gmail.com',$scope.token).success(function(msg) {
-
-               $scope.msg = msg;
-
-               console.log("deh bn3lha test ");
-               console.log(msg);
-               console.log("ctrl2_declineSrvProvider");
-               console.log(Email);
-
-               displaySrvProviders  ();
-           });
-  		})
-  }
+$scope.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFkbWluIiwiaWQiOiI1OGY5MGQzNGM4YjQ3NmI3MzA0NTFlMjMiLCJ0eXBlIjoiQWRtaW4iLCJpYXQiOjE0OTI3MzA5OTJ9.yTax2Au9-7VDajfe0HmjKSp3Y0nm2yWN-r9ttbDtpL8";
 
 //  $scope.Email  = adminSrv.getEmail();
 //removeSrvProvider($scope.Email);
@@ -74,7 +31,7 @@ Admin_login(data);
 // end deleteSrvProvider ;button delete
 
 $scope.SrvProviders=
-    adminSrv.getVerifiedServiceProvider().success(function(Sp) {
+    adminSrv.getVerifiedServiceProvider($scope.token).success(function(Sp) {
 
            adminSrv.setSP(Sp);
            //removeSrvProviderconsole.log(Sp[0]);
@@ -86,7 +43,7 @@ $scope.SrvProviders=
 $scope.declineSrvProvider  =function(Email ){
       console.log("ctrl_declineSrvProvider");
       console.log(Email);
-    adminSrv.declineSrvProvider('aabazo1gt1@gmail.com',$scope.token).success(function(msg) {
+    adminSrv.declineSrvProvider(Email,$scope.token).success(function(msg) {
 
            $scope.msg = msg;
            console.log("deh bn3lha test ");
@@ -95,28 +52,30 @@ $scope.declineSrvProvider  =function(Email ){
            console.log(Email);
 
            displaySrvProviders  ();
+           displayUnRegSrvProviders();
        });
 };
 //delete sp
-$scope.deleteSrvProvider  =function(Email){
-      console.log("ctrl_deleteSrvProvider");
-      console.log(Email);
-    adminSrv.deleteSrvProvider(Email).success(function(msg) {
+// $scope.deleteSrvProvider  =function(Email){
+//       console.log("ctrl_deleteSrvProvider");
+//       console.log(Email);
+//     adminSrv.deleteSrvProvider(Email).success(function(msg) {
+//
+//            $scope.msg = msg;
+//            console.log(msg);
+//            console.log("ctrl2_deleteSrvProvider");
+//            console.log(Email);
+//
+//            displaySrvProviders  ();
+//        });
+// };
 
-           $scope.msg = msg;
-           console.log(msg);
-           console.log("ctrl2_deleteSrvProvider");
-           console.log(Email);
-
-           displaySrvProviders  ();
-       });
-};
-
+//VerifySrvProvider(UNsps.email)
 
 $scope.viewUnSrvProvider  =
       // console.log("ctrluser");
       // console.log(username);
-    adminSrv.viewUnSrvProvider().success(function(SProvider) {
+    adminSrv.viewUnSrvProvider($scope.token).success(function(SProvider) {
 
            $scope.unRegisterSP = SProvider;
           // console.log(SProvider);
@@ -128,7 +87,7 @@ $scope.viewUnSrvProvider  =
 
 function  displaySrvProviders  (){
     $scope.SrvProviders   ="";
-    $scope.SrvProviders   = adminSrv.getVerifiedServiceProvider().success(function(Sp) {
+    $scope.SrvProviders   = adminSrv.getVerifiedServiceProvider($scope.token).success(function(Sp) {
 
           adminSrv.setSP(Sp);
           //removeSrvProviderconsole.log(Sp[0]);
@@ -141,10 +100,10 @@ function  displaySrvProviders  (){
 
 function  displayUnRegSrvProviders  (){
   $scope.unRegisterSP = "";
-  $scope.viewUnSrvProvider  =function(){
+
         // console.log("ctrluser");
         // console.log(username);
-      adminSrv.viewUnSrvProvider().success(function(SProvider) {
+      adminSrv.viewUnSrvProvider($scope.token).success(function(SProvider) {
 
              $scope.unRegisterSP = SProvider;
              console.log(unRegisterSP);
@@ -152,7 +111,7 @@ function  displayUnRegSrvProviders  (){
           //   console.log(unRegisterSP);
 
          });
-  };
+
 };
 
 

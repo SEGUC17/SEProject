@@ -1,4 +1,5 @@
-myApp.factory('adminSrv', function($http ) {
+angular.module('adminSrv', [])
+.factory('adminSrv', function($http ) {
     return {
 
 // view all service provider

@@ -26,6 +26,12 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     templateUrl:'views/search.html',
 
 
+    }).when('/adminPage',{
+
+    templateUrl:'views/adminPage.html',
+    controller: 'AdminController',
+    controllerAs: 'AdminController'
+
     })
    .when('/registeredSP',{
 
@@ -63,13 +69,7 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     // controllerAs: 'StudentController'
 
     })
-    .when('/adminPage',{
 
-    templateUrl:'views/adminPage.html'
-    // controller: 'AdminController',
-    // controllerAs: 'AdminController'
-
-    })
    .when('/test',{
 
     templateUrl:'views/test.html'

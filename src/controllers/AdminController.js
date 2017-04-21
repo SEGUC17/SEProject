@@ -7,7 +7,7 @@ const nodemailer = require('nodemailer');
 
 let AdminController = {
 
-   declineSP: function(req,res,cb){ //when the admin declines a serviceprovider, the service provider is removed from the database 
+   declineSP: function(req,res,cb){ //when the admin declines a serviceprovider, the service provider is removed from the database
                                    // and an email is sent to him
 
       ServiceProvider.remove({email: req.body.email}, function(err, DeletedSP){
@@ -17,7 +17,7 @@ let AdminController = {
             cb(err,"CANT REMOVE SERVICE PROVIDER","ERROR");
            }
          else{
-           
+
       let transporter = nodemailer.createTransport({
                    service: 'gmail',
                    auth: {
@@ -35,7 +35,7 @@ let AdminController = {
                    subject: 'Sorry, you are not verified', // Subject line
                    text: 'Better luck next time  \n'
                };
-               
+
                console.log('Sending Mail');
                // send mail with defined transport object
                transporter.sendMail(mailOptions, (error, info) => {
@@ -44,7 +44,7 @@ let AdminController = {
                    }else{
                       cb(error,"EMAIL SENT","SUCCESS");
                    }
-                  
+
                });
          }
       })
@@ -54,36 +54,36 @@ let AdminController = {
    },
 
 
-//DONE   
+//DONE
 
   viewUnregSP :function(req,res,cb){   //views all unverified service provider, those who have no username and password yet
-    ServiceProvider.find({username:""}).lean().exec(function(err,unRegSP){
+    ServiceProvider.find( { $or: [ {username:""},{username:undefined}] }).lean().exec(function(err,unRegSP){
       if(unRegSP)
         cb(err, unRegSP, "SUCCESS");
       else
-        cb(err, "No unregistered service providers are found !", "ERROR");      
-    
+        cb(err, "No unregistered service providers are found !", "ERROR");
+
     });
 
   },
 
 
 
-   verifySP : function(req,res,cb){//when a service provider is verified, it is assigned 
+   verifySP : function(req,res,cb){//when a service provider is verified, it is assigned
           var assignedPassword = req.body.password;
-          var assignedUsername = req.body.username; 
+          var assignedUsername = req.body.username;
           var email = req.body.email;
           var flag=false;
           // a username and password and an email is sent with those credtials
           ServiceProvider.findOne({email: req.body.email}, function(err, sp){
-           if (err) { 
+           if (err) {
            cb(err,"CAN NOT FIND SERVICE PROVIDER","ERROR") ;
            flag=true;
            return ;
           }
             sp.password = assignedPassword;
-           sp.username = assignedUsername; 
-          
+           sp.username = assignedUsername;
+
            sp.save(function(err,user) {
             if (err) {
               cb(err,"CAN NOT SAVE SERVICE PROVIDER","ERROR");
@@ -91,7 +91,7 @@ let AdminController = {
             }
            });
          });
-         
+
          let transporter = nodemailer.createTransport({
                    service: 'gmail',
                    auth: {
@@ -111,8 +111,8 @@ let AdminController = {
                         'your username: ' + assignedUsername+"\n"+
                         "your password: "+ assignedPassword, // plain text body
                };
-               
-               
+
+
                // send mail with defined transport object
                transporter.sendMail(mailOptions, (error, info) => {
                    if (error) {
@@ -135,7 +135,7 @@ let AdminController = {
   ViewReviews: function(req,res){
     ServiceProvider.findOne({organizationName:req.body.organizationName}).lean().exec(function(err,SP){
 
-    if(err) 
+    if(err)
       throw err;
     else {
 
@@ -196,8 +196,8 @@ let AdminController = {
                         }
                       });
                   });
-                  
-                }         
+
+                }
               });
 
 
@@ -220,34 +220,34 @@ let AdminController = {
 
           }else
             cb(err,"SERVICE PROVIDER WAS NOT PREVIOUSLY VERFIED","ERROR");
-              
+
         }else
         cb(err,"NO SERVICE PROVIDER FOUND","ERROR");
 
-      }); 
+      });
 
-    },      
-                
-    getAllVerifiedServiceProvider:function(req,res , cb){ 
-       ServiceProvider.find({username:{$ne:''}},function(err,spUsers) { 
+    },
+
+    getAllVerifiedServiceProvider:function(req,res , cb){
+       ServiceProvider.find( { $and: [ {username:{$ne:''}}, {username:{$ne:undefined}}] },function(err,spUsers) {
         if (err) {
            cb(err,"NO SERVICE PROVIDERS","ERROR");
         } else {
         cb(err,spUsers,"SUCCESS");
     }
-       
+
     });
 
    },
-    // GetPoorServiceProvidersNotifications function notifies the admin of the poor service providers 
+    // GetPoorServiceProvidersNotifications function notifies the admin of the poor service providers
     //existing on the system who exceeded the maximum number of bad reviews
-    getNotifications: function(req,res,cb){ 
+    getNotifications: function(req,res,cb){
         Admin.findOne({username:"Admin"},function(err,admin){
           if (admin){
             var array = admin.listOfNotification;
             if(array.length == 0)
               cb(err,"No notifications found !", "ERROR");
-            else 
+            else
               cb(err,array,"SUCCESS");
           }else
               cb(err,"Admin is not found !", "ERROR");

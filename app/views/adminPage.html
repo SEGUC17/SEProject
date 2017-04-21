@@ -30,13 +30,13 @@
           <thead class="text-danger">
             <th>username</th>
             <th>Email</th>
-            <th>SP id</th>
+
             <th>SP Status</th>
             <th>SP Status</th>
-            <th>SP Status</th>
+
           </thead>
-          <tr ng-repeat="sps in SrvProviders" >
-            <td>{{sps.username}}</td> <td>{{sps._id}}</td>
+          <tr ng-repeat="sps in SrvProviders.content" >
+            <td>{{sps.username}}</td>
               <td>{{sps.email}}</td>
               <td>
               <button class="w3-button w3-medium w3-circle w3-blue w3-card-4" ng-click="" > * </button>  details</h4>
@@ -44,9 +44,7 @@
               <td>
               <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="declineSrvProvider(sps.email) ; displaySrvProviders (); " > - </button>  decline</h4>
             </td>
-              <td>
-              <button class="w3-button w3-medium w3-circle w3-yellow w3-card-4" ng-click="" > - </button>  delete</h4>
-            </td>
+
           </tr>
         </table>
         </div>
@@ -59,14 +57,14 @@
                     <th> UnRegister SP</th>
                     <th> UnRegister SP</th>
                   </thead>
-                  <tr ng-repeat="UNsps in unRegisterSP" >
-                    <td>{{UNsps.organizationName}}</td> <td>{{UNsps._id}}</td>
+                  <tr ng-repeat="UNsps in unRegisterSP.content" >
+                    <td>{{UNsps.organizationName}}</td>
                     <td> {{UNsps.email}}</td>
                     <td>
                       <button class="w3-button w3-medium w3-circle w3-green w3-card-4" ng-click="" > + </button>  accept </h4>
                     </td>
                     <td>
-                      <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="" > - </button>  decline </h4>
+                      <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="declineSrvProvider(UNsps.email) ;" > - </button>  decline </h4>
                     </td>
                   </tr>
             </table>
@@ -74,4 +72,6 @@
 
 
       </form>
+
+    <!-- <h1>  {{SrvProviders.content[0]}}  </h1> -->
 </tbody>

@@ -10,18 +10,12 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     // controller: 'MainController',
     // controllerAs: 'MainController'
                })
-    .when('/viewCourse',{
-      templateUrl:'views/ViewCourse.html',
-      controller:'spCon',
-      controllerAs:'spCon'
-
-
-    })
     .when('/catalog',{
 
     templateUrl:'/catalog.html'
 
-    }).when('/welcome',{
+    })
+    .when('/welcome',{
 
     templateUrl:'views/welcome.html',
       controller: 'MainController',
@@ -32,6 +26,20 @@ var myApp = angular.module('appRoutes',['ngRoute'])
 
     templateUrl:'views/search.html',
    
+
+    })
+   .when('/removeCourse',{
+
+    templateUrl:'views/removeCourse.html',
+      controller: 'spCon',
+    controllerAs: 'spCon'
+
+    })
+    .when('/coursepage',{
+
+    templateUrl:'views/coursepage.html',
+    controller: 'spCon',
+    controllerAs:'spCon' 
 
     })
    .when('/registeredSP',{
@@ -49,6 +57,13 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     controllerAs: 'spCon'
 
     })
+   .when('/typereview',{
+
+    templateUrl:'views/typereview.html',
+      controller: 'StudentController',
+    controllerAs: 'stCtr'
+
+    })
     .when('/addCourse',{
 
     templateUrl:'views/addCourse.html',
@@ -61,19 +76,52 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     templateUrl:'views/studentRegister.html',
       controller: 'StudentController',
     controllerAs: 'StudentController'
+})
+ .when('/postannouncement',{
+
+    templateUrl:'views/postannouncement.html',
+      controller: 'spCon',
+    controllerAs: 'spCon'
 
     })
+ .when('/viewannouncements',{
 
-    .when('/charge',{
+    templateUrl:'views/viewannouncements.html',
+      controller: 'spCon',
+    controllerAs: 'spCon'
 
-    templateUrl:'views/stripe.html',
-      controller: 'StudentController',
-    controllerAs: 'StudentController'
+    })
+ .when('/viewreviews',{
+
+    templateUrl:'views/viewreviews.html',
+      controller: 'spCon',
+    controllerAs: 'spCon'
 
     })
     .when('/studentLogin',{
 
     templateUrl:'views/studentLogin.html'
+    //   controller: 'StudentController',
+    // controllerAs: 'StudentController'
+
+    })
+    .when('/home',{
+
+    templateUrl:'views/coursesp.html',
+      controller: 'spCon',
+    controllerAs: 'spCon'
+
+    })
+    .when('/updatecourse',{
+
+    templateUrl:'views/updatecourse.html',
+      controller: 'spCon',
+      controllerAs: 'spCon'
+
+    })
+    .when('/coursesp',{
+
+    templateUrl:'views/coursesp.html'
     //   controller: 'StudentController',
     // controllerAs: 'StudentController'
 
@@ -100,6 +148,13 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     // controllerAs: 'MainController'
 
     
+
+    })
+    .when('/charge',{
+
+    templateUrl:'views/stripe.html',
+      controller: 'StudentController',
+    controllerAs: 'StudentController'
 
     })
     .otherwise({

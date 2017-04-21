@@ -72,7 +72,7 @@ let ServiceProviderController = {
 		if (req.body.email) toBeUpdated.email = req.body.email;
 		if (req.body.address) toBeUpdated.address = req.body.address;
 		if (req.body.polices) toBeUpdated.polices = req.body.polices;
-		if (req.body.logo) toBeUpdated.logo = req.body.logo;
+		if (req.body.logo) toBeUpdated.logo = req.file.filename;
 		if (req.body.field) toBeUpdated.field = req.body.field;
 
 		ServiceProvider.findById(ServiceProviderID, function(err,docs) {
@@ -327,7 +327,7 @@ let ServiceProviderController = {
 
 //update the parameteres of the course however we have taken all the parameters as in the view part we will then check if the req.body is 
 //empty or not 
-
+	
 
    updateCourse : function(req,res,cb){
 

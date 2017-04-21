@@ -30,6 +30,7 @@
           <thead class="text-danger">
             <th>username 👱🏼 / 👩🏼</th>
             <th>Email</th>
+            <th>mobileNumber</th>
             <th>SP Status</th>
             <th>SP Status</th>
 
@@ -37,6 +38,7 @@
           <tr ng-repeat="sps in SrvProviders.content" >
             <td>{{sps.username}}</td>
               <td>{{sps.email}}</td>
+              <td>{{sps.mobileNumber}}</td>
               <td>
               <button class="w3-button w3-medium w3-circle w3-blue w3-card-4" ng-click="" >🕵🏼</button>  Details</h4>
               </td>
@@ -53,12 +55,26 @@
                   <thead class="text-danger">
                     <th>OrganizationName</th>
                     <th>Email</th>
+
+                    <th>mobileNumber</th>
+                    <th>description</th>
+                    <th>field</th>
+                    <th>address</th>
+                    <th>polices</th>
+                    <th>listOfCourses</th>
+
                     <th> UnRegister SP</th>
                     <th> UnRegister SP</th>
                   </thead>
                   <tr ng-repeat="UNsps in unRegisterSP.content" >
                     <td>{{UNsps.organizationName}}</td>
                     <td> {{UNsps.email}}</td>
+                    <td>{{UNsps.mobileNumber}}</td>
+                    <td> {{UNsps.description}}</td>
+                    <td>{{UNsps.field}}</td>
+                    <td> {{UNsps.address}}</td>
+                    <td>{{UNsps.polices}}</td>
+                    <td> {{UNsps.listOfCourses}}</td>
                     <td>
                       <button class="w3-button w3-medium w3-circle w3-green w3-card-4" ng-click="VerifySrvProvider(UNsps.email)" >🏃🏻</button>  Accept </h4>
                     </td>

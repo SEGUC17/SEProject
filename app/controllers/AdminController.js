@@ -40,7 +40,7 @@ $scope.SrvProviders=
 
 });
 //decline sp
-$scope.declineSrvProvider  =function(Email ){
+$scope.declineSrvProvider  =function(Email){
       console.log("ctrl_declineSrvProvider");
       console.log(Email);
     adminSrv.declineSrvProvider(Email,$scope.token).success(function(msg) {
@@ -78,7 +78,7 @@ $scope.viewUnSrvProvider  =
     adminSrv.viewUnSrvProvider($scope.token).success(function(SProvider) {
 
            $scope.unRegisterSP = SProvider;
-          // console.log(SProvider);
+           console.log(SProvider);
            console.log("ctrluser");
         //   console.log(unRegisterSP);
 

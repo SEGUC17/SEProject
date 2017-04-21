@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 angular.module('AdminController', ['adminSrv'])
-.controller('AdminController',function($scope,adminSrv,indexSrv,$location) {
-=======
-angular.module('AdminController', ['adminSrv']).controller('AdminController',function($scope,adminSrv,indexSrv,$location) {
->>>>>>> parent of 8812240... modify
+ .controller('AdminController',function($scope,adminSrv,indexSrv,$location) {
  //adminSrv.setEmail("balabizo@gmail.com");
 $scope.msg = "";
 $scope.test = "testemail";
@@ -19,10 +15,6 @@ $scope.ShowHide = function () {
 };
 //admin login
 $scope.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFkbWluIiwiaWQiOiI1OGY5MGQzNGM4YjQ3NmI3MzA0NTFlMjMiLCJ0eXBlIjoiQWRtaW4iLCJpYXQiOjE0OTI3MzA5OTJ9.yTax2Au9-7VDajfe0HmjKSp3Y0nm2yWN-r9ttbDtpL8";
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 8812240... modify
 
 //  $scope.Email  = adminSrv.getEmail();
 //removeSrvProvider($scope.Email);
@@ -64,11 +56,7 @@ $scope.declineSrvProvider  =function(Email){
            displayUnRegSrvProviders();
        });
 };
-<<<<<<< HEAD
 //delete sp
-=======
-// //delete sp
->>>>>>> parent of 8812240... modify
 // $scope.deleteSrvProvider  =function(Email){
 //       console.log("ctrl_deleteSrvProvider");
 //       console.log(Email);
@@ -83,10 +71,7 @@ $scope.declineSrvProvider  =function(Email){
 //        });
 // };
 
-<<<<<<< HEAD
 //VerifySrvProvider(UNsps.email)
-=======
->>>>>>> parent of 8812240... modify
 
 $scope.viewUnSrvProvider  =
       // console.log("ctrluser");
@@ -94,15 +79,9 @@ $scope.viewUnSrvProvider  =
     adminSrv.viewUnSrvProvider($scope.token).success(function(SProvider) {
 
            $scope.unRegisterSP = SProvider;
-<<<<<<< HEAD
            console.log(SProvider);
            console.log("ctrluser!!");
         //   console.log(unRegisterSP);
-=======
-         console.log(SProvider);
-           console.log("ctrluser!!");
-        //  console.log(unRegisterSP);
->>>>>>> parent of 8812240... modify
 
 });
 
@@ -122,29 +101,18 @@ function  displaySrvProviders  (){
 
 function  displayUnRegSrvProviders  (){
   $scope.unRegisterSP = "";
-<<<<<<< HEAD
 
         // console.log("ctrluser");
         // console.log(username);
       adminSrv.viewUnSrvProvider($scope.token).success(function(SProvider) {
-=======
-        // console.log("ctrluser");
-        // console.log(username);
-        adminSrv.viewUnSrvProvider($scope.token).success(function(SProvider) {
 
-               $scope.unRegisterSP = SProvider;
-             console.log(SProvider);
-               console.log("ctrluser!!");
-            //  console.log(unRegisterSP);
->>>>>>> parent of 8812240... modify
+             $scope.unRegisterSP = SProvider;
+             console.log(unRegisterSP);
+             console.log("ctrlunreguser");
+          //   console.log(unRegisterSP);
 
-    });
-
-<<<<<<< HEAD
          });
 
-=======
->>>>>>> parent of 8812240... modify
 };
 
 

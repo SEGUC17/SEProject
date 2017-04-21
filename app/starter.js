@@ -1,7 +1,5 @@
 
-// console.log("appp")
-
-var myApp = angular.module('myApp', ['ui.bootstrap','ngRoute','MainController','PopupDemoContUpdateCourse','PopupDemoContRemoveCourse','PopupPostAnnouncement','serviceProviderController','indexSrv','courseServ','spctr','businessServ','spAuthServ']);
+var myApp = angular.module('myApp', ['ui.bootstrap','StudentController','stServ','appRoutes','ngRoute','MainController','PopupDemoContUpdateCourse','PopupDemoContRemoveCourse','PopupPostAnnouncement','serviceProviderController','indexSrv','courseServ','spctr','businessServ','spAuthServ']);
 
 
 myApp.config(function($routeProvider) {
@@ -92,32 +90,6 @@ myApp.config(function($routeProvider) {
     redirectTo: "/"
   });
 
-    
-  
-
+.config(function($httpProvider){
+  $httpProvider.interceptors.push('AuthInterceptors')
 });
-
-
-// myApp.controller('MainController',['$scope',function($scope){
-  
-//   $scope.title='Top Sellers in Books' ;
-  
-// }])
-	
-
-// angular.module('myApp', []).controller('myAppCtrl', function($scope) {
-
-//     $scope.title = 'Nothing beats a pocket protector!';
-
-// });
-
- // myApp.factory('myApp', function(){
- //        return { message: "I'm Data from a Service" }
- //    });
-
-
-// app.controller('MainController',['$scope',function($scope){
-  
-//   $scope.title='Top Sellers in Books' ;
-  
-// }])

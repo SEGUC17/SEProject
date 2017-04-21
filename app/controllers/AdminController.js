@@ -36,7 +36,7 @@ $scope.SrvProviders=
            adminSrv.setSP(Sp);
            //removeSrvProviderconsole.log(Sp[0]);
             $scope.SrvProviders  = Sp;
-            //console.log($scope.SrvProviders[0]);
+            console.log(Sp);
 
 });
 //decline sp
@@ -79,7 +79,7 @@ $scope.viewUnSrvProvider  =
 
            $scope.unRegisterSP = SProvider;
            console.log(SProvider);
-           console.log("ctrluser");
+           console.log("ctrluser!!");
         //   console.log(unRegisterSP);
 
 });

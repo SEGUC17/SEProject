@@ -27,6 +27,13 @@ var myApp = angular.module('appRoutes',['ngRoute'])
    
 
     })
+
+   .when('/spPortofolio',{
+
+    templateUrl:'views/spPortofolio.html',
+   
+
+    })
    .when('/registeredSP',{
 
     templateUrl:'views/registeredSp.html',
@@ -42,9 +49,38 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     controllerAs: 'spCon'
 
     })
+   .when('/viewP',{
+
+    templateUrl:'views/viewP.html',
+      controller: 'spCon',
+    controllerAs: 'spCon'
+
+    })
+    .when('/c',{
+
+    templateUrl:'views/c.html',
+      controller: 'spCon',
+    controllerAs: 'spCon'
+
+    })
     .when('/addCourse',{
 
     templateUrl:'views/addCourse.html',
+      controller: 'spCon',
+    controllerAs: 'spCon'
+
+    })
+    
+    .when('/oneCourse',{
+
+    templateUrl:'views/oneCourse.html',
+      controller: 'spCon',
+    controllerAs: 'spCon'
+
+    })
+     .when('/singleCourse',{
+
+    templateUrl:'views/singleCourse.html',
       controller: 'spCon',
     controllerAs: 'spCon'
 

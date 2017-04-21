@@ -1,7 +1,7 @@
 angular.module('spctr',['businessServ'])
 
 // data  dy el object eli b5do mn el user w 3shn a access 7aga mo3yna mmkn a3ml data.field msln
-.controller('spCon',function($http,$location,businessServ,indexSrv){
+.controller('spCon',function($http,$location,businessServ,indexSrv,$scope){
 
 var app =this;
 		// indexSrv.GetCurrentUser().then(function(data){
@@ -29,6 +29,60 @@ var app =this;
 
 		})
 	}
+
+
+   
+	this.OneCourse =function(data){
+
+            
+	        businessServ.viewOneCourse(app.data).then(function(response){
+			console.log(response)
+			$scope.oneCourse= response.data.content
+			//$location.path('/singleCourse')
+		        	//$scope.c="hi"
+                   //console.log(app.data)
+
+
+		})
+	}
+
+
+		businessServ.ServiceProviderViewCourse().then(function(response){
+			console.log(response)
+			console.log(response.data.content)
+
+			$scope.courses=response.data.content
+	
+
+
+		})
+
+		this.okay=function(data){
+
+			businessServ.ServiceProviderViewCourse().then(function(response){
+		
+
+			$scope.myCourses=response.data.content
+		    $location.path('/singleCourse')
+
+
+		})
+			
+			
+		}
+
+
+
+		businessServ.ServiceProviderViewPortofolio().then(function(response){
+			console.log(response)
+			console.log(response.data)
+
+			$scope.profile=response.data.content
+	
+
+
+		})
+
 
 	// if(businessServ.IsLoggedIn()){
 	// 	console.log("user logged in")

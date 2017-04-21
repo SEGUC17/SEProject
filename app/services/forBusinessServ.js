@@ -13,8 +13,16 @@ angular.module('businessServ',[])
 
         ServiceProviderAddCourse:function(data){
             return $http.post('/ServiceProvider/courses/addCourse',data);
+        },
+           ServiceProviderViewCourse:function(){
+            return $http.get('/serviceprovider/courses');
+        },
+         ServiceProviderViewPortofolio:function(){
+            return $http.get('/ServiceProvider/viewPortofolio');
+        },
+          viewOneCourse:function(data){
+            return $http.post('/getCourse',data);
         }
-
 
     	// ServiceProviderLogin:function(data){
     	//  return $http.post('/forbussinus/login',data).then(function(response){

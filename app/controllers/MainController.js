@@ -2,9 +2,9 @@ angular.module('MainController', ['indexSrv'])
 .controller('MainController',function($scope,indexSrv,$location,$rootScope) {
 //console.log('main')
 
-indexSrv.getVerifiedServiceProvider().then(function(res){
-	$scope.title=res.data
-})
+// indexSrv.getVerifiedServiceProvider().then(function(res){
+// 	$scope.title=res.data
+// })
 
 var app = this;
 
@@ -25,6 +25,9 @@ var app = this;
 			          {
 			  console.log("user is not logged")
 			  	$scope.SPusername='';
+              app.islogged = false;
+
+
 			    }
 
 
@@ -39,7 +42,7 @@ var app = this;
 			//console.log("the token is: "+response.data.token)
 
 			if(response.data.type=='SUCCESS'){
-			$location.path('/welcome')
+			$location.path('/spPortofolio')
 			app.islogged = true;
 
 

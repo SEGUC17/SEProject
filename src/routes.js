@@ -27,6 +27,8 @@ router.post('/forbussinus/login', function(req,res){
     var token = app.jwt.sign({ username: sp.username, id: sp._id, type:"ServiceProvider" }, app.app.get('super-secret'), {
     });
      
+
+
     res.json({
       type : type,
       token : token,
@@ -76,6 +78,22 @@ res.json({
 
   });
 });
+
+
+    router.post('/getCourse',(req,res)=>{
+    ServiceProviderController.getCourse(req,res,(err,message,type)=>{
+      if(type=="ERROR"){
+        res.json({type:type,
+                  message:message
+        });
+      }else{
+        res.json({type:type,
+          message:"COURSE HAS BEEN DISPLAYED SUCCESSFULLY",
+                  content:message
+        })
+      }
+    });
+    });
 
 
 router.post('/serviceprovider/viewannonnoucement',function(req,res){
@@ -354,7 +372,7 @@ router.post('/serviceprovider/courses/addCourse',function(req,res){
 });
 
 
-router.post('/serviceprovider/courses',function(req,res){
+router.get('/serviceprovider/courses',function(req,res){
   if(req.decoded.type == "ServiceProvider"){
   ServiceProviderController.viewCourses(req,res,function(err,message,type){
     if(type == "ERROR")
@@ -551,7 +569,7 @@ router.post('/adminhomepage/viewunreg', function(req,res){
     });
 });
 
-router.post('/ServiceProvider/viewPortofolio',(req,res)=>{
+router.get('/ServiceProvider/viewPortofolio',(req,res)=>{
   if(req.decoded.type=="ServiceProvider"){
     ServiceProviderController.viewPortofolio(req,res,(err,result,type)=>{
       if(type=="ERROR"){

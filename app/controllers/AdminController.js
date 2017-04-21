@@ -56,6 +56,27 @@ $scope.declineSrvProvider  =function(Email ){
            displayUnRegSrvProviders();
        });
 };
+
+
+// VerifySrvProvider(UNsps.email)
+
+$scope.VerifySrvProvider  =function(Email ){
+      console.log("ctrl_declineSrvProvider");
+      console.log(Email);
+    adminSrv.VerifySrvProvider(Email,$scope.token).success(function(msg) {
+
+           $scope.msg = msg;
+           console.log("deh bn3lha test ");
+           console.log(msg);
+           console.log("ctrl2_declineSrvProvider");
+           console.log(Email);
+
+           displaySrvProviders  ();
+           displayUnRegSrvProviders();
+       });
+};
+
+
 // //delete sp
 // $scope.deleteSrvProvider  =function(Email){
 //       console.log("ctrl_deleteSrvProvider");
@@ -87,7 +108,7 @@ $scope.viewUnSrvProvider  =
 
 function  displaySrvProviders  (){
     $scope.SrvProviders   ="";
-    $scope.SrvProviders   = adminSrv.getVerifiedServiceProvider().success(function(Sp) {
+    $scope.SrvProviders   = adminSrv.getVerifiedServiceProvider($scope.token).success(function(Sp) {
 
           adminSrv.setSP(Sp);
           //removeSrvProviderconsole.log(Sp[0]);
@@ -108,8 +129,8 @@ function  displayUnRegSrvProviders  (){
              console.log(SProvider);
                console.log("ctrluser!!");
             //  console.log(unRegisterSP);
-
     });
+
 
 };
 

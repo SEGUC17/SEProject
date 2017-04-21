@@ -25,10 +25,11 @@ var storage = multer.diskStorage({
 
 var upload = multer({dest: __dirname+'/../app/uploads/', storage : storage}); //check the path
 
-// router.post('/upload', upload.single('myfile'), function(req, res) {
-//     var file = req.file;
-//     console.log(file.filename);
-// });
+router.post('/upload', upload.single('myfile'), function(req, res) {
+    var file = req.file;
+    console.log(file.filename);
+});
+
 
 
 

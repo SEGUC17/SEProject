@@ -11,6 +11,9 @@ array = [];
 
 let ServiceProviderController = {
 
+
+
+
 //done
     clearUNverSP: function(req,res,cb){ // this method removes all
     
@@ -55,6 +58,16 @@ let ServiceProviderController = {
 
 
     },
+
+          getCourse: function(req,res,cb){
+        	Course.findOne({title:req.body.title},(err,result)=>{
+        		if(err){
+        			cb(err,"NO COURSE FOUND","ERROR")
+        		}else{
+        			cb(err,result,"SUCCESS");
+        		}
+        	})
+        },
 
 
 // Service Provider can create or update his protofiolo

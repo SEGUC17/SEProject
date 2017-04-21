@@ -196,8 +196,9 @@ let AdminController = {
                         }
                       });
                   });
-                  
-                }					
+
+                }         
+
               });
 
 

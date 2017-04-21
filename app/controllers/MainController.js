@@ -1,6 +1,7 @@
-angular.module('MainController', ['indexSrv', 'fileModelDirective','uploadFileService'])
+angular.module('MainController', ['indexSrv','uploadFileService'])
+//angular.module('MainController', ['indexSrv', 'fileModelDirective','uploadFileService'])
 
-.controller('MainController',function($scope,indexSrv,$location,$rootScope,uploadFile) {
+.controller('MainController',function($scope,indexSrv,$location,$rootScope,$timeout,uploadFile) {
 //console.log('main')
 
 indexSrv.getVerifiedServiceProvider().then(function(res){
@@ -24,6 +25,26 @@ indexSrv.getVerifiedServiceProvider().then(function(res){
         	$scope.file = {};
         }
  	});
+ }
+
+ $scope.photoChanged = function(files){
+    if(files.length > 0  && files[0].name.match(/\.(png|jpg|jpeg)$/)){
+         $scope.uploading = true;
+         var file = files[0];
+         var fileReader = new FileReader();
+         fileReader.readAsDataURL(file);
+         fileReader.onload = function(e){
+         	$timeout(function() {
+               $scope.thumbnail = {};
+               $scope.thumbnail.dataUrl = e.target.result;
+               $scope.uploading = false;
+               $scope.message =  false;
+         	});
+         }
+    }else{
+    	$scope.thumbnail ={};
+    	$scope.message = false;
+    }
  }
 
 

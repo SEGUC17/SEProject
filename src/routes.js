@@ -11,6 +11,26 @@ var app = require('./server.js');
 
 var path = require('path');
 
+var mime = require('mime');
+
+var multer = require('multer');
+var storage = multer.diskStorage({
+  destination : function(req, file, cb){
+    cb(null, './../app/uploads')
+  },
+  filename : function(req, file, cb){
+    cb(null, Date.now() + "." + mime.extension(file.mimetype))
+  }
+})
+
+var upload = multer({dest: __dirname+'/../app/uploads/', storage : storage}); //check the path
+
+// router.post('/upload', upload.single('myfile'), function(req, res) {
+//     var file = req.file;
+//     console.log(file.filename);
+// });
+
+
 
 
 router.get('/',function (req,res){
@@ -148,7 +168,7 @@ router.post('/login', function(req,res){
 
 
 
-router.post('/register', function(req,res){
+router.post('/register', upload.single("myfile"),function(req,res){
 
 	StudentController.studentSignUP(req,res,function(error,student,type){
      if(type === "ERROR")
@@ -167,6 +187,27 @@ router.post('/register', function(req,res){
 
 });
 
+
+
+
+router.post('/getCourse',(req,res)=>{
+  ServiceProviderController.getCourse(req,res,(err,message,type)=>{
+    if(type=="ERROR"){
+      res.json({
+        type:type,
+        message:message
+      })
+    }else{
+      res.json({
+        type:type,
+        message:"COURSE HAS BEEN DISPALYED SUCCESSFULLY",
+        content:message
+      })
+    }
+
+  })
+
+});
 router.post('/serviceprovider/register',function(req,res){
 
   ServiceProviderController.spRegister(req,res,(err,sp,type)=>{
@@ -355,7 +396,7 @@ router.post('/serviceprovider/courses/addCourse',function(req,res){
 });
 
 
-router.post('/serviceprovider/courses',function(req,res){
+router.get('/serviceprovider/courses',function(req,res){
   if(req.decoded.type == "ServiceProvider"){
   ServiceProviderController.viewCourses(req,res,function(err,message,type){
     if(type == "ERROR")
@@ -380,7 +421,7 @@ router.post('/serviceprovider/courses',function(req,res){
 
 
 
-router.post('/serviceprovider/updatePortofolio',function(req,res){
+router.post('/serviceprovider/updatePortofolio', upload.single('myfile'),function(req,res){
   if(req.decoded.type == "ServiceProvider"){
     ServiceProviderController.updatePortofolio(req,res,function(err,message,type){
       if(type == "ERROR")
@@ -552,7 +593,7 @@ router.post('/adminhomepage/viewunreg', function(req,res){
     });
 });
 
-router.post('/ServiceProvider/viewPortofolio',(req,res)=>{
+router.get('/ServiceProvider/viewPortofolio',(req,res)=>{
   if(req.decoded.type=="ServiceProvider"){
     ServiceProviderController.viewPortofolio(req,res,(err,result,type)=>{
       if(type=="ERROR"){

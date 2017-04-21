@@ -9,27 +9,6 @@ var cons = require('consolidate');
 var cors = require('cors');
 var jwt = require('jsonwebtoken');
 
-var multer  = require('multer');
-
-var upload = multer({ 
-	storage: storage ,
-    limits: {filesize: 10000000}
-    }).single('myfile');
-
-
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'app/uploads/')
-  },
-  filename: function (req, file, cb) {
-    cb(null,Date.now() + '_' +file.originalname )
-  }
-});
-
-
-
-
-
 var Admin = require('./db/Admin');
 var AdminController = require('./controllers/AdminController');
 
@@ -38,28 +17,6 @@ var StudentController = require('./controllers/StudentController');
 var ServiceProvider =require('./db/ServiceProvider');
 
 var app = express();
-
-
-app.post('/upload', function (req, res) {
-  upload(req, res, function (err) {
-    if (err) {
-      if(err.code === 'LIMIT_FILE_SIZE'){
-        res.json({success: false, message: "file too large, max is 10MB"});
-      }else{
-        console.log(err);
-        res.json({success: false, message: "could not upload"});
-      }
-    }else{
-    	console.log(req);
-      if(!req.file){
-        res.json({success: false, message: "no file was selected"});
-      }else{
-        res.json({success: true, message: "file was uploaded! :D"});
-      }
-    }
-
-  });
-});
 
 
 mongoose.connect('mongodb://localhost:27017/platform');

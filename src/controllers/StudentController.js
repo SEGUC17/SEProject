@@ -188,53 +188,55 @@ glo[1]=student.profilePicture;
  
          });
        },
- 
-// search function can make the student or the visitor search for a specific course by its title,type,center name,or center location
-  search:function(req,res,cb){
- if(req.body.searchBy=='title'){
- 
- Course.find({title:req.body.key},function(err, courses){
- 
-          if(err)
-          cb(err,"ERROR","ERROR");
-          else {
-            cb(err,courses,"SUCCESS");
-          }
-      });
-  }
-  if(req.body.searchBy=='type'){
-    Course.find({type:req.body.key},function(err, courses){
- 
+    // search function can make the student or the visitor search for a specific course by its title,type,center name,or center location
+      search:function(req,res,cb){
+     
+     
+     if(req.body.searchBy.searchBy=='title'){
+     
+     Course.find({title:req.body.key},function(err, courses){
+     
               if(err)
               cb(err,"ERROR","ERROR");
               else {
+     
                 cb(err,courses,"SUCCESS");
               }
           });
-  }
-  if(req.body.searchBy=='centerLocation'){
-    Course.find({centerLocation:req.body.key},function(err, courses){
- 
-              if(err)
-              cb(err,"ERROR","ERROR");
-              else {
-                cb(err,courses,"SUCCESS");
-              }
- 
-          });
-  }
-  if(req.body.searchBy=='centerName'){
-    Course.find({centerName:req.body.key},function(err, courses){
- 
-              if(err)
-              cb(err,"ERROR","ERROR");
-              else {
-                cb(err,courses,"SUCCESS");
-              }
- 
-                 });
-  }
-},
+      }
+     else if(req.body.searchBy.searchBy=='type'){
+        Course.find({type:req.body.key},function(err, courses){
+     
+                  if(err)
+                  cb(err,"ERROR","ERROR");
+                  else {
+                    cb(err,courses,"SUCCESS");
+                  }
+              });
+      }
+      else if(req.body.searchBy.searchBy=='centerLocation'){
+        Course.find({centerLocation:req.body.key},function(err, courses){
+     
+                  if(err)
+                  cb(err,"ERROR","ERROR");
+                  else {
+                    cb(err,courses,"SUCCESS");
+                  }
+     
+              });
+      }
+      else if(req.body.searchBy.searchBy=='centerName'){
+        Course.find({centerName:req.body.key},function(err, courses){
+     
+                  if(err)
+                  cb(err,"ERROR","ERROR");
+                  else {
+                    cb(err,courses,"SUCCESS");
+                  }
+     
+                                });
+      }
+    },
  
  // typeReview function makes the student able to write a review for a course that he took
  
@@ -389,7 +391,7 @@ else
               email:req.body.email,
               birthdate:req.body.birthdate ,
               ListOfCourses:[],
-              profilePicture:req.body.profilePicture
+              profilePicture:req.file.filename
  
             });
  

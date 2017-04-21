@@ -6,10 +6,18 @@ var Review = require('../db/Reviews');
 var jwt = require('jsonwebtoken');
 var jwt_decode = require('jwt-decode');
 array = [];
+<<<<<<< HEAD
+=======
+
+>>>>>>> f0094daf23b98f0f2f216e3bf40e2383051888c0
+
 
 let ServiceProviderController = {
 
-
+<<<<<<< HEAD
+=======
+//done
+>>>>>>> f0094daf23b98f0f2f216e3bf40e2383051888c0
     clearUNverSP: function(req,res,cb){ // this method removes all
     
        ServiceProvider.remove(function(err){
@@ -25,7 +33,19 @@ let ServiceProviderController = {
        });
  
     },
+<<<<<<< HEAD
 
+=======
+        getCourse: function(req,res,cb){
+        	Course.findOne({title:req.body.title},(err,result)=>{
+        		if(err){
+        			cb(err,"NO COURSE FOUND","ERROR")
+        		}else{
+        			cb(err,result,"SUCCESS");
+        		}
+        	})
+        },
+>>>>>>> f0094daf23b98f0f2f216e3bf40e2383051888c0
     viewCourses : function(req,res,cb){
 		var ServiceProviderID = req.decoded.id; 
     	ServiceProvider.findById(ServiceProviderID, function(err,docs){
@@ -96,9 +116,17 @@ let ServiceProviderController = {
 						});
 
 					}
+<<<<<<< HEAD
 				});
 
 			}else
+=======
+
+				});
+
+			}else
+
+>>>>>>> f0094daf23b98f0f2f216e3bf40e2383051888c0
 				cb(err,"Service Provider not found !", "ERROR");
 		});
 	},
@@ -255,7 +283,11 @@ let ServiceProviderController = {
        },
 //the service provider can post announcment bt passing his course title 
 		postAnnouncements:function(req,res,cb){
+<<<<<<< HEAD
 		 var newAnnouncement=req.body.announcement;
+=======
+		 var newAnnouncement=req.body.announcements;
+>>>>>>> f0094daf23b98f0f2f216e3bf40e2383051888c0
 		 var Coursetitle=req.body.title;
 		Course.findOne({title:Coursetitle},(err,courseFound)=>{
 		if(err){
@@ -304,12 +336,24 @@ let ServiceProviderController = {
 				cb(err,"NO COURSE FOUND","ERROR");
 			}else{
 				cb(err,result.announcements,"SUCCESS");
+<<<<<<< HEAD
+=======
+			}
+				});
+>>>>>>> f0094daf23b98f0f2f216e3bf40e2383051888c0
 			}
 				});
 
+<<<<<<< HEAD
 			}
 				});
 			}
+=======
+
+		});
+
+	  }
+>>>>>>> f0094daf23b98f0f2f216e3bf40e2383051888c0
 
 	 });
 

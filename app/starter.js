@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 var myApp = angular.module('myApp', ['ui.bootstrap','StudentController','stServ','appRoutes','ngRoute','MainController','PopupDemoContUpdateCourse','PopupDemoContRemoveCourse','PopupPostAnnouncement','serviceProviderController','indexSrv','courseServ','spctr','businessServ','spAuthServ']);
 
 
@@ -89,6 +90,11 @@ myApp.config(function($routeProvider) {
     .otherwise({
     redirectTo: "/"
   });
+=======
+// console.log("appp")
+
+angular.module('myApp', ['ui.bootstrap','appRoutes','MainController','indexSrv','spctr','businessServ','spAuthServ','StudentController','stServ'])
+>>>>>>> f0094daf23b98f0f2f216e3bf40e2383051888c0
 
 .config(function($httpProvider){
   $httpProvider.interceptors.push('AuthInterceptors')

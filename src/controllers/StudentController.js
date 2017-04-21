@@ -414,6 +414,11 @@ else
   }
  
 }
+<<<<<<< HEAD
 
 module.exports = StudentController;
 
+=======
+ 
+module.exports = StudentController;
+>>>>>>> f0094daf23b98f0f2f216e3bf40e2383051888c0

@@ -1,4 +1,5 @@
 angular.module('indexSrv', [])
+
 myApp.factory('indexSrv', function($http,AuthToken) {
     return {
 
@@ -74,8 +75,6 @@ myApp.factory('indexSrv', function($http,AuthToken) {
       }
 }
 })
-
-
 
 .factory('AuthToken',function($window){
  return{

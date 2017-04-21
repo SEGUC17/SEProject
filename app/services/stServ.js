@@ -8,8 +8,14 @@ return{
    		//console.log("inside service")
    		console.log(response)
    	});
-   }
 
+   },
+
+   typeReview : function(data){
+   	return $http.post('/studentprofile/review',data).then(function(response){
+   		console.log(response)
+   	})
+   }
 
 }
 

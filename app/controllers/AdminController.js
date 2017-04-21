@@ -1,5 +1,4 @@
-angular.module('AdminController', ['adminSrv'])
- .controller('AdminController',function($scope,adminSrv,indexSrv,$location) {
+angular.module('AdminController', ['adminSrv']).controller('AdminController',function($scope,adminSrv,indexSrv,$location) {
  //adminSrv.setEmail("balabizo@gmail.com");
 $scope.msg = "";
 $scope.test = "testemail";
@@ -15,6 +14,7 @@ $scope.ShowHide = function () {
 };
 //admin login
 $scope.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFkbWluIiwiaWQiOiI1OGY5MGQzNGM4YjQ3NmI3MzA0NTFlMjMiLCJ0eXBlIjoiQWRtaW4iLCJpYXQiOjE0OTI3MzA5OTJ9.yTax2Au9-7VDajfe0HmjKSp3Y0nm2yWN-r9ttbDtpL8";
+
 
 //  $scope.Email  = adminSrv.getEmail();
 //removeSrvProvider($scope.Email);
@@ -41,7 +41,7 @@ $scope.SrvProviders=
 
 });
 //decline sp
-$scope.declineSrvProvider  =function(Email){
+$scope.declineSrvProvider  =function(Email ){
       console.log("ctrl_declineSrvProvider");
       console.log(Email);
     adminSrv.declineSrvProvider(Email,$scope.token).success(function(msg) {
@@ -56,7 +56,7 @@ $scope.declineSrvProvider  =function(Email){
            displayUnRegSrvProviders();
        });
 };
-//delete sp
+// //delete sp
 // $scope.deleteSrvProvider  =function(Email){
 //       console.log("ctrl_deleteSrvProvider");
 //       console.log(Email);
@@ -71,7 +71,6 @@ $scope.declineSrvProvider  =function(Email){
 //        });
 // };
 
-//VerifySrvProvider(UNsps.email)
 
 $scope.viewUnSrvProvider  =
       // console.log("ctrluser");
@@ -79,16 +78,16 @@ $scope.viewUnSrvProvider  =
     adminSrv.viewUnSrvProvider($scope.token).success(function(SProvider) {
 
            $scope.unRegisterSP = SProvider;
-           console.log(SProvider);
+         console.log(SProvider);
            console.log("ctrluser!!");
-        //   console.log(unRegisterSP);
+        //  console.log(unRegisterSP);
 
 });
 
 
 function  displaySrvProviders  (){
     $scope.SrvProviders   ="";
-    $scope.SrvProviders   = adminSrv.getVerifiedServiceProvider($scope.token).success(function(Sp) {
+    $scope.SrvProviders   = adminSrv.getVerifiedServiceProvider().success(function(Sp) {
 
           adminSrv.setSP(Sp);
           //removeSrvProviderconsole.log(Sp[0]);
@@ -101,17 +100,16 @@ function  displaySrvProviders  (){
 
 function  displayUnRegSrvProviders  (){
   $scope.unRegisterSP = "";
-
         // console.log("ctrluser");
         // console.log(username);
-      adminSrv.viewUnSrvProvider($scope.token).success(function(SProvider) {
+        adminSrv.viewUnSrvProvider($scope.token).success(function(SProvider) {
 
-             $scope.unRegisterSP = SProvider;
-             console.log(unRegisterSP);
-             console.log("ctrlunreguser");
-          //   console.log(unRegisterSP);
+               $scope.unRegisterSP = SProvider;
+             console.log(SProvider);
+               console.log("ctrluser!!");
+            //  console.log(unRegisterSP);
 
-         });
+    });
 
 };
 

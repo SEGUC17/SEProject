@@ -2,6 +2,7 @@ angular.module('MainController', ['indexSrv'])
 .controller('MainController',function($scope,indexSrv,$location,$rootScope) {
 //console.log('main')
 $location.path('/adminPage');
+
 // indexSrv.getVerifiedServiceProvider().then(function(res){
 // 	$scope.title=res.data
 // })
@@ -105,7 +106,7 @@ $location.path('/adminPage');
 // //         $location.url('/register');
 //
 // // }
-//
+
 
 
 });

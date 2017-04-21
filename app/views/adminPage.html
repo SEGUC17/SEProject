@@ -42,7 +42,7 @@
               <button class="w3-button w3-medium w3-circle w3-blue w3-card-4" ng-click="" > * </button>  details</h4>
               </td>
               <td>
-              <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="declineSrvProvider(sps.email) ;" > - </button>  decline</h4>
+              <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="declineSrvProvider(sps.email) ; displaySrvProviders (); " > - </button>  decline</h4>
             </td>
 
           </tr>
@@ -61,11 +61,7 @@
                     <td>{{UNsps.organizationName}}</td>
                     <td> {{UNsps.email}}</td>
                     <td>
-<<<<<<< HEAD
-                      <button class="w3-button w3-medium w3-circle w3-green w3-card-4" ng-click="VerifySrvProvider(UNsps.email)" > + </button>  accept </h4>
-=======
                       <button class="w3-button w3-medium w3-circle w3-green w3-card-4" ng-click="" > + </button>  accept </h4>
->>>>>>> parent of 8812240... modify
                     </td>
                     <td>
                       <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="declineSrvProvider(UNsps.email) ;" > - </button>  decline </h4>
@@ -73,6 +69,7 @@
                   </tr>
             </table>
           </div>
+
 
       </form>
 

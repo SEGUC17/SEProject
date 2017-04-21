@@ -7,11 +7,9 @@ var jwt = require('jsonwebtoken');
 var jwt_decode = require('jwt-decode');
 array = [];
 
-
-
 let ServiceProviderController = {
 
-//done
+
     clearUNverSP: function(req,res,cb){ // this method removes all
     
        ServiceProvider.remove(function(err){
@@ -56,6 +54,16 @@ let ServiceProviderController = {
 
     },
 
+          getCourse: function(req,res,cb){
+        	Course.findOne({title:req.body.title},(err,result)=>{
+        		if(err){
+        			cb(err,"NO COURSE FOUND","ERROR")
+        		}else{
+        			cb(err,result,"SUCCESS");
+        		}
+        	})
+        },
+
 
 // Service Provider can create or update his protofiolo
 
@@ -88,11 +96,9 @@ let ServiceProviderController = {
 						});
 
 					}
-
 				});
 
 			}else
-
 				cb(err,"Service Provider not found !", "ERROR");
 		});
 	},
@@ -300,12 +306,10 @@ let ServiceProviderController = {
 				cb(err,result.announcements,"SUCCESS");
 			}
 				});
+
 			}
-
-
-		});
-
-	  }
+				});
+			}
 
 	 });
 

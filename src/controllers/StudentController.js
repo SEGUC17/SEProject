@@ -414,5 +414,6 @@ else
   }
  
 }
- 
+
 module.exports = StudentController;
+

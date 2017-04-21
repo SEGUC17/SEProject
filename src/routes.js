@@ -77,6 +77,20 @@ res.json({
   });
 });
 
+    router.post('/getCourse',(req,res)=>{
+    ServiceProviderController.getCourse(req,res,(err,message,type)=>{
+      if(type=="ERROR"){
+        res.json({type:type,
+                  message:message
+        });
+      }else{
+        res.json({type:type,
+          message:"COURSE HAS BEEN DISPLAYED SUCCESSFULLY",
+                  content:message
+        })
+      }
+    });
+    });
 
 router.post('/serviceprovider/viewannonnoucement',function(req,res){
   ServiceProviderController.viewAnnouncemnets(req,res,(err,message,type)=>{
@@ -111,10 +125,8 @@ router.post('/serviceprovider/postannouncement',function(req,res){
       });
 
     }
-
   });
 });
-
 
 router.post('/login', function(req,res){
   StudentController.checkStudentLogin(req,res,function(error,message,type){
@@ -187,6 +199,24 @@ router.post('/serviceprovider/register',function(req,res){
 });
 
 
+router.get('/home/viewreg',function(req,res){
+  
+  AdminController.getAllVerifiedServiceProvider(req,res, function(err,sp,type){
+    if(type === "ERROR")
+      res.json({
+        type : type,
+        message : sp
+      });
+    else
+      res.json({
+        type : type,
+        content : sp});
+                 
+      });
+      
+});
+
+
 
 router.use(function(req,res,next){ //this middleware adds the decoded token the req before continuing to any other routes
                                    //so if you need to access an attribute saved in the token,
@@ -232,22 +262,7 @@ router.post('/me',function(req,res){
 });
 
 
-router.get('/home/viewreg',function(req,res){
-  
-  AdminController.getAllVerifiedServiceProvider(req,res, function(err,sp,type){
-    if(type === "ERROR")
-      res.json({
-        type : type,
-        message : sp
-      });
-    else
-      res.json({
-        type : type,
-        content : sp});
-                 
-      });
-      
-});
+
 
 
 router.post('/adminhomepage/verify', function(req,res){
@@ -303,6 +318,7 @@ ServiceProviderController.updateCourse(req,res,(err,message,type)=>{
 }
 });
 
+
 router.post('/serviceprovider/courses/removeCourse',function(req,res){
 
   if(req.decoded.type=="ServiceProvider"){
@@ -326,8 +342,6 @@ ServiceProviderController.removeCourse(req,res,(err,result,type)=>{
 }
 
 });
-
-
 
 router.post('/serviceprovider/courses/addCourse',function(req,res){
 
@@ -355,7 +369,8 @@ router.post('/serviceprovider/courses/addCourse',function(req,res){
 });
 
 
-router.post('/serviceprovider/courses',function(req,res){
+
+router.get('/serviceprovider/courses',function(req,res){
   if(req.decoded.type == "ServiceProvider"){
   ServiceProviderController.viewCourses(req,res,function(err,message,type){
     if(type == "ERROR")
@@ -481,7 +496,6 @@ AdminController.DeleteServiceProvider(req,res,(err,message,type)=>{
   }
 });
 
-
 router.post('/coursepage/bookcourse',function(req,res){
 if(req.decoded.type=="Student"){
 StudentController.bookCourse(req,res,(err,book,type)=>{
@@ -552,7 +566,7 @@ router.post('/adminhomepage/viewunreg', function(req,res){
     });
 });
 
-router.post('/ServiceProvider/viewPortofolio',(req,res)=>{
+router.get('/ServiceProvider/viewPortofolio',(req,res)=>{
   if(req.decoded.type=="ServiceProvider"){
     ServiceProviderController.viewPortofolio(req,res,(err,result,type)=>{
       if(type=="ERROR"){
@@ -681,8 +695,6 @@ router.post('/studentprofile/review',function(req,res){
     });
 });
 
-
-
 router.get('/home/catalog',function(req,res){
   StudentController.getAllCourses(req,res,(err,courses,type)=>{
     if(type === "ERROR")
@@ -719,13 +731,5 @@ router.post('/home/search',function(req,res){
 
 
 });
-
-
-
-
-//  router.get('*',function (req,res){
-//         res.sendFile(path.join(__dirname,'../','app','index.html'))
-// })
-
 
 module.exports =router;

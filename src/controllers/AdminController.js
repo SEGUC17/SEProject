@@ -69,7 +69,7 @@ let AdminController = {
 
 
 
-   verifySP : function(req,res,cb){//when a service provider is verified, it is assigned
+verifySP : function(req,res,cb){//when a service provider is verified, it is assigned
           var assignedPassword = req.body.password;
           var assignedUsername = req.body.username;
           var email = req.body.email;

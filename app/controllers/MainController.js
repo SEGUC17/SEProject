@@ -1,7 +1,7 @@
 angular.module('MainController', ['indexSrv'])
 .controller('MainController',function($scope,indexSrv,$location,$rootScope) {
 //console.log('main')
-$location.path('/adminPage');
+// $location.path('/adminPage');
 
 indexSrv.getVerifiedServiceProvider().then(function(res){
 	$scope.title=res.data
@@ -45,6 +45,12 @@ var app = this;
 			$location.path('/welcome')
 			app.islogged = true;
 
+			if(response.data.decoded.type==='Admin'){
+
+			$location.path('/adminPage')
+			app.islogged = true;
+
+			  }
 
 			}
 			else{
@@ -54,20 +60,30 @@ var app = this;
 
 
 		})
-	}
+	};
 
 //student login
 this.Student_login=function(data){
+		console.log("blabizooooo:: "+data);
 		indexSrv.StudentLogin(app.data).then(function(response){
-			console.log(response.data)
-			//console.log("the token is: "+response.data.token)
+				console.log("app.data :");
+			 console.log(app.data);
+			// console.log("the token is: "+response.data.token);
+			console.log("admin/student ::  ");
+			console.log(response.data);
+			console.log("admin::  ");
+			console.log(response.data.content.username);
 
 			if(response.data.type=='SUCCESS'){
-				if(data.username ==='Admin')	{	$location.path('/adminPage');}
-			$location.path('/welcome')
+				$location.path('/adminPage');
+			// 	if(response.data.content.type ==='Admin')	{
+			// 		console.log("admin :: "+response.data.content);
+			// 		console.log("admin type ::  "+response.data);
+			// 		$location.path('/adminPage');
+			//
+			// }//console.log("student"+response.data.decoded.username);
+			//$location.path('/welcome');
 			app.islogged = true;
-
-
 			}
 			else{
 			 app.islogged = false;

@@ -58,10 +58,10 @@
 
                     <th>mobileNumber</th>
                     <th>description</th>
-                    <th>field</th>
+                    <!-- <th>field</th>
                     <th>address</th>
-                    <th>polices</th>
-                    <th>listOfCourses</th>
+                    <th>polices</th> -->
+                    <th>Enter Info</th>
 
                     <th> UnRegister SP</th>
                     <th> UnRegister SP</th>
@@ -71,13 +71,20 @@
                     <td> {{UNsps.email}}</td>
                     <td>{{UNsps.mobileNumber}}</td>
                     <td> {{UNsps.description}}</td>
-                    <td>{{UNsps.field}}</td>
+                    <!-- <td>{{UNsps.field}}</td>
                     <td> {{UNsps.address}}</td>
-                    <td>{{UNsps.polices}}</td>
-                    <td> {{UNsps.listOfCourses}}</td>
+                    <td>{{UNsps.polices}}</td> -->
                     <td>
-                      <button class="w3-button w3-medium w3-circle w3-green w3-card-4" ng-click="VerifySrvProvider(UNsps.email)" >🏃🏻</button>  Accept </h4>
+                      <form action="">
+                      Username: <input type="text" name="username" ng-model="UNsps.username"><br>
+                      Password: <input type="password" name="password" ng-model="UNsps.password">
+                      </form>
                     </td>
+
+                    <td>
+                      <button class="w3-button w3-medium w3-circle w3-green w3-card-4" ng-click="VerifySrvProvider(UNsps.username,UNsps.password)" >🏃🏻</button>  Accept </h4>
+                    </td>
+
                     <td>
                       <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="declineSrvProvider(UNsps.email) ;" >🙅🏻</button>  Decline </h4>
                     </td>

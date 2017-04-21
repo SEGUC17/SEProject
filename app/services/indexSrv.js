@@ -21,6 +21,7 @@ angular.module('indexSrv', [])
         setSelectedCardNo: function(value) {
             this.SelectedCardNo = value;
         },
+
         getCatalogPage : function(){
         	$http.get('/home/views/catalog');
         },
@@ -44,6 +45,7 @@ angular.module('indexSrv', [])
 
 
        StudentLogin:function(data){
+         console.log("data :: "+data);
        return $http.post('/login',data).then(function(response){
           AuthToken.SetToken(response.data.token)
          //console.log(response)

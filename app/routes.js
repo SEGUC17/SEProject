@@ -14,7 +14,23 @@ var myApp = angular.module('appRoutes',['ngRoute'])
 
     templateUrl:'/catalog.html'
 
-    }).when('/welcome',{
+    })
+    .when('/studentprofile/review',{
+
+    templateUrl:'views/review.html',
+      controller: 'MainController',
+    controllerAs: 'MainController'
+
+    })
+.when('/studentprofile',{
+
+    templateUrl:'views/studentprofile.html',
+      controller: 'MainController',
+    controllerAs: 'MainController'
+
+    })
+
+.when('/welcome',{
 
     templateUrl:'views/welcome.html',
       controller: 'MainController',

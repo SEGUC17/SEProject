@@ -148,16 +148,21 @@ let StudentController = {
  
   },
  // getAllCourses function Display all provided courses
-  getAllCourses:function(req,res,cb){
- 
+getAllCourses:function(req,res,cb){
+
       Course.find(function(err, courses){
- 
+ var array=[];
+ for(var i=0;i<courses.length;i++){
+  array[i]=["Title: ",courses[i].title ,"Type: ",courses[i].type ,"Provided By: ",courses[i].centerName] ;
+
+ }
            if(err)
            cb(err,"ERROR","ERROR");
           else
-        cb(err,courses,"SUCCESS");
+        cb(err,array,"SUCCESS");
       });
     },
+
  
 //getStudentProfile function displays for the student his username,profile pictures and his list of courses
      //var courses =[];

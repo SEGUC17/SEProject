@@ -6,7 +6,48 @@ angular.module('MainController', ['indexSrv'])
 // 	$scope.title=res.data
 // })
 
+indexSrv.getCatalog().then(function(res){
+  $scope.catalog=res.data;
+})
+
+$scope.studentcourses=[];
+
+
+indexSrv.getStudentProfile().then(function(res){
+  $scope.username=res.data[0];
+  $scope.profilepicture=res.data[1];
+  
+  var i=2;
+  var j=0;
+  while(i<res.data.length){
+$scope.studentcourses[j]=res.data[i];
+i++;
+j++;
+  }
+})
+
 var app = this;
+
+app.redirectCourse=function(course){
+
+
+   console.log("hiiiiiiiii coursee")
+   
+   	console.log(course);
+    var set=course;
+    console.log("settt");
+    indexSrv.set(set);
+  
+   
+   console.log("afterrr")
+
+ $location.path('/studentprofile/review')
+
+}
+//console.log("gettttt")
+$scope.getting=indexSrv.get();
+
+
 
 			$rootScope.$on('$routeChangeStart',function(){
 
@@ -34,6 +75,22 @@ var app = this;
 
 
 })
+
+
+this.addReview=function(data){
+
+	console.log("hellooooo")
+	console.log(data)
+ //data['courseTitle']=indexSrv.get();
+	// data.courseTitle=indexSrv.get();
+	//console.log( data['courseTitle']);
+	// console.log(data);
+	indexSrv.postReview(app.data).then(function(res){
+     console.log("my resss")
+     console.log(res)
+   $scope.listofreviews=res.data;
+
+   })}
 
 
 	this.login=function(data){

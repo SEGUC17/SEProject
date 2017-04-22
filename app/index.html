@@ -68,7 +68,10 @@
          
         </ul>
       </li>
-      <li><a ng-show ="MainController.islogged" href= "#/logout" ng-click="MainController.logout()">logout</a></li>    
+      <li><a ng-show ="MainController.islogged" href= "#/logout" ng-click="MainController.logout()">logout</a></li> 
+  
+     <li><a ng-show ="MainController.islogged" href= "#/studentprofile" ng-click="indexSrv.getStudentProfile()">profile</a></li>
+   
       <li><a href= "#/test">test</a></li>    
 <!--      <li><a href="#/addCourse">addCourse</a></li>
  --><!--           <li><a href="#/c">course</a></li>
@@ -82,7 +85,7 @@
       </ul>
        <ul class="nav navbar-nav navbar-left">
 
-      <li><a href="/catalog">Catalog</a></li>
+      <li><a href="#/catalog">Catalog</a></li>
       </ul>
       <form class="navbar-form navbar-left" role="search">
       <div class="form-group">

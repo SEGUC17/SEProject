@@ -1,7 +1,29 @@
 angular.module('indexSrv', [])
 
 myApp.factory('indexSrv', function($http,AuthToken) {
+ var savedData ={}
     return {
+     postReview:function(data){
+        return $http.post('/studentprofile/review',data).then(function(response){
+         console.log('get revieww ' )
+         console.log(response)
+            return response;
+           });
+
+          },
+           set: function(data) {
+           savedData = data;
+          },
+           get :function(){
+          return savedData;
+         },
+        getCatalog : function(){
+                  return $http.get('/catalog');
+          },
+        getStudentProfile:function(){
+              return $http.get('/studentprofile');
+       
+       },
   
 
 
@@ -21,10 +43,7 @@ myApp.factory('indexSrv', function($http,AuthToken) {
         setSelectedCardNo: function(value) {
             this.SelectedCardNo = value;
         },
-        getCatalogPage : function(){
-        	$http.get('/home/views/catalog');
-        },
-
+      
 
 
 

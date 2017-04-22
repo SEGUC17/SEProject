@@ -17,6 +17,15 @@ router.get('/',function (req,res){
         res.sendFile(path.join(__dirname,'../','app','index.html'))
 });
 
+router.get('/catalog',function(req,res){
+      StudentController.getAllCourses(req,res,(err,courses,type)=>{
+        if(type === "ERROR")
+          res.json(courses);
+        else
+          res.json(courses);
+      });
+     
+    });
 
 
 router.post('/forbussinus/login', function(req,res){
@@ -647,7 +656,8 @@ router.post('/serviceprovider/getNotifications',function(req,res){
 });
 
 
-router.post('/studentprofile',function(req,res){
+
+router.post('/studentprofile', upload.single('myfile'), function(req,res){
   if(req.decoded.type=="Student"){
     StudentController.getStudentProfile(req,res,(err,prof,type)=>{
       if(type == "ERROR")
@@ -679,44 +689,28 @@ router.post('/studentprofile/review',function(req,res){
 
     StudentController.typeReview(req,res,(err,review,type)=>{
       if(type === "ERROR")
-        res.json({
-          type:type,
-          message:review
-        });
+        res.json(review);
       else
-        res.json({
-          type:type,
-          message:"Review added",
-          content:review
-        });
+        res.json(review);
 
     });
   }else 
-    res.json({
-      type:"ERROR",
-      message:"You are not a student !"
+    res.json("You are not a student !");
+});
+
+router.get('/studentprofile',function(req,res){
+      if(req.decoded.type=="Student"){
+        StudentController.getStudentProfile(req,res,(err,prof,type)=>{
+          if(type == "ERROR")
+            res.json(prof);
+          else
+            res.json(prof);
+        });
+     
+      }else
+        res.json("You are not a student !");
+     
     });
-});
-
-
-
-router.get('/home/catalog',function(req,res){
-  StudentController.getAllCourses(req,res,(err,courses,type)=>{
-    if(type === "ERROR")
-      res.json({
-        type:type,
-        message:courses
-      });
-    else 
-      res.json({
-        type:type,
-        message:"ALL COURSES",
-        content:courses
-      });
-  });
-
-});
-
 
 router.post('/home/search',function(req,res){
   StudentController.search(req,res,(err,course,type)=>{

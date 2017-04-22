@@ -12,6 +12,15 @@ var app = require('./server.js');
 var path = require('path');
 
 
+router.get('/catalog',function(req,res){
+      StudentController.getAllCourses(req,res,(err,courses,type)=>{
+        if(type === "ERROR")
+          res.json(courses);
+        else
+          res.json(courses);
+      });
+     
+    });
 
 router.get('/',function (req,res){
         res.sendFile(path.join(__dirname,'../','app','index.html'))
@@ -647,75 +656,7 @@ router.post('/serviceprovider/getNotifications',function(req,res){
 });
 
 
-router.post('/studentprofile',function(req,res){
-  if(req.decoded.type=="Student"){
-    StudentController.getStudentProfile(req,res,(err,prof,type)=>{
-      if(type == "ERROR")
-        res.json({
-          type:type,
-          message:prof,
-        });
-      else
-        res.json({
-          type:type,
-          message:"STUDENT PROFILE RETREIVED",
-          content:prof
-        });
-    });
 
-  }else
-    res.json({
-      type:"ERROR",
-      message:"You are not a student !"
-
-    });
-
-});
-
-
-router.post('/studentprofile/review',function(req,res){
-  if(req.decoded.type=="Student"){
-
-
-    StudentController.typeReview(req,res,(err,review,type)=>{
-      if(type === "ERROR")
-        res.json({
-          type:type,
-          message:review
-        });
-      else
-        res.json({
-          type:type,
-          message:"Review added",
-          content:review
-        });
-
-    });
-  }else 
-    res.json({
-      type:"ERROR",
-      message:"You are not a student !"
-    });
-});
-
-
-
-router.get('/home/catalog',function(req,res){
-  StudentController.getAllCourses(req,res,(err,courses,type)=>{
-    if(type === "ERROR")
-      res.json({
-        type:type,
-        message:courses
-      });
-    else 
-      res.json({
-        type:type,
-        message:"ALL COURSES",
-        content:courses
-      });
-  });
-
-});
 
 
 router.post('/home/search',function(req,res){
@@ -736,6 +677,27 @@ router.post('/home/search',function(req,res){
 
 
 });
+
+
+router.post('/review', function(req,res){
+      StudentController.viewReviews(req,res,function(error,review,type){
+        res.json(review);
+    
+    });
+    });
+  router.get('/studentprofile',function(req,res){
+      if(req.decoded.type=="Student"){
+        StudentController.getStudentProfile(req,res,(err,prof,type)=>{
+          if(type == "ERROR")
+            res.json(prof);
+          else
+            res.json(prof);
+        });
+     
+      }else
+        res.json("You are not a student !");
+     
+    });
 
 
 

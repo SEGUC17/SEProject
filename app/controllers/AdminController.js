@@ -55,7 +55,7 @@ $scope.declineSrvProvider  =function(Email ){
 
 
 // VerifySrvProvider(UNsps.email)
-$scope.VerifySrvProvider  =function(username,password){
+$scope.VerifySrvProvider  =function(username,password,email){
 
       console.log("ctrl_VerifySrvProvider");
       // console.log(this.data);
@@ -63,17 +63,17 @@ $scope.VerifySrvProvider  =function(username,password){
       console.log(username);
       console.log(password);
 
-    adminSrv.VerifySrvProvider(username,password,indexSrv.GetToken()).success(function(Verifymsg) {
+    adminSrv.VerifySrvProvider(username,password,email,indexSrv.GetToken()).success(function(Verifymsg) {
 
            $scope.msg = Verifymsg;
            console.log("VerifySrvProvider :: deh bn3lha test ");
            console.log(Verifymsg);
            console.log("ctrl2_VerifySrvProvider");
-           console.log(Verifymsg.username);
-           console.log(Verifymsg.password);
+          //  console.log(Verifymsg.username);
+          //  console.log(Verifymsg.password);
+          displayUnRegSrvProviders();
 
            displaySrvProviders  ();
-           displayUnRegSrvProviders();
        });
 };
 
@@ -94,6 +94,16 @@ $scope.VerifySrvProvider  =function(username,password){
 // };
 
 
+
+// this method to redirect to the clicked service provider
+// function GoToSPpage(sps){
+//
+//
+//
+//
+//
+// };
+
 $scope.viewUnSrvProvider  =
       // console.log("ctrluser");
       // console.log(username);
@@ -109,7 +119,7 @@ $scope.viewUnSrvProvider  =
 
 function  displaySrvProviders  (){
     $scope.SrvProviders   ="";
-    $scope.SrvProviders   = adminSrv.getVerifiedServiceProvider(indexSrv.GetToken()).success(function(Sp) {
+     adminSrv.getVerifiedServiceProvider(indexSrv.GetToken()).success(function(Sp) {
 
           adminSrv.setSP(Sp);
           //removeSrvProviderconsole.log(Sp[0]);

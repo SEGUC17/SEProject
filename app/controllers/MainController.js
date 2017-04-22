@@ -77,11 +77,11 @@ angular.module('MainController', ['indexSrv'])
 			if(response.data.type=='SUCCESS'){
 				//response.data.content.type ==='Admin'
 				// change true to type of user elly da5l == admin
-				console.log("nada admin ");
-				console.log(response.data.content.username);
-				if(response.data.content.username=='Admin')	{ // change true to type of user elly da5l == admin
-					console.log("admin :: "+response.data.content);
-					console.log("admin type ::  "+response.data);
+				// console.log("nada admin ");
+				// console.log(response.data.content.username);
+					if(response.data.content.username=='Admin')	{
+					// console.log("admin :: "+response.data.content);
+					// console.log("admin type ::  "+response.data);
 					$location.path('/adminPage');
 
 				}//console.log("student"+response.data.decoded.username);

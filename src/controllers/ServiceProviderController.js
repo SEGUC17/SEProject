@@ -4,13 +4,70 @@ var Student = require('../db/Student');
 var Admin = require('../db/Admin');
 var Review = require('../db/Reviews');
 var jwt = require('jsonwebtoken');
+var moment = require('moment');
 var jwt_decode = require('jwt-decode');
 array = [];
 
-
+ServiceProviderNotificationsToAdmin=[];
+done=false;
 
 let ServiceProviderController = {
 
+loop :function(){
+	ServiceProvider.find(function(err,docs){
+		if(err){
+			cb(err,"NO SERVICE PROVIDERS FOUND","ERROR")
+		}else{
+			var i=0
+		for(i = 0; i < docs.length; i++){
+			// console.log("SP USERNAME");
+			var spName=docs[i].username;
+			// console.log(docs[i].username);
+		sendNotification(docs[i].username,(err,message,type)=>{
+				if(type=="NOTIFICATION"){
+					ServiceProvider.findOne({username:spName},(err,sp)=>{
+						// console.log(sp);
+						sp.listOfNotification.push(message.typeOfNotification);
+						ServiceProviderNotificationsToAdmin.push(message.typeOfNotification);
+						ServiceProviderNotificationsToAdmin.push(message.ServiceProviderUsername);
+						//console.log("ADMIN NOTIFICATIONS SOFAR");
+						//console.log(ServiceProviderNotificationsToAdmin);
+					})
+				
+				}
+
+		});
+
+		}
+
+	//cb(err,"NOTICATIONS HAS BEEN SENT","SUCCESS");
+		
+			
+
+		
+
+	}
+
+	})
+},
+
+   clearServiceProvidersNotifications:function(usernameSp){
+    ServiceProvider.findOne({username:usernameSp},(err,result)=>{
+      //console.log("FEH CLEAR");
+      var listOfNotificationNEW=[];
+      for(var i=0;i<result.listOfNotification.length;i++){
+      	  if(result.listOfNotification[i].typeOfNotification[0]=="B")
+          listOfNotificationNEW.push(result.listOfNotification[i]);
+
+      }
+      result.listOfNotification=listOfNotificationNEW;
+      result.save((err,adminss)=>{
+        
+      })
+      
+    });
+
+   },
 //done
     clearUNverSP: function(req,res,cb){ // this method removes all
     
@@ -57,14 +114,9 @@ let ServiceProviderController = {
 
     },
 
-
-// Service Provider can create or update his protofiolo
-
 	updatePortofolio : function (req,res,cb) {
 
 		var ServiceProviderID = req.decoded.id; 
-
-
 		var toBeUpdated = {};
 		if (req.body.password) toBeUpdated.password = req.body.password;
 		if (req.body.mobileNumber) toBeUpdated.mobileNumber = req.body.mobileNumber;
@@ -100,15 +152,10 @@ let ServiceProviderController = {
 
 	//the service provider can add a course and passing his Id 
     addCourse:function(req,res,cb){
-     
-    	//uncomment before submission//uncomment ends here
-     
-    	//for testing replaace the id with object id from the database
     	var serciveProviderIDSession=req.decoded.id;
-    	//testing ends
+
     	console.log(serciveProviderIDSession);
-     
-    		//for submitting uncomment
+
     		var newCourse=new Course({
     				title:req.body.title,
     				centerName:req.body.centerName,
@@ -124,10 +171,7 @@ let ServiceProviderController = {
     				serviceProviderID:serciveProviderIDSession
      
     			});
-    		//uncomment ends here
-     
-    		
-     
+    
     	newCourse.save((err,savedCourse)=>{
     		if(err){
     			
@@ -261,7 +305,7 @@ let ServiceProviderController = {
 		    courseFound.announcements.push(newAnnouncement);
 		    courseFound.save((err,result)=>{
 		    	if(err){
-		    		cb(err,"SORRY CANT SAVE THE NEW ANNOUNCMET TO THE COURSE");
+		    		cb(err,"SORRY CANT SAVE THE NEW ANNOUNCMET TO THE COURSE","ERROR");
 		    	}else{
 		    		cb(err,result,"SUCCESS");
 		    	}
@@ -362,20 +406,20 @@ let ServiceProviderController = {
  
 	},
 
-	updatePolicy: function(req,res){
+	updatePolicy: function(req,res,cb){
 		if(req.decoded.type == "ServiceProvider"){
 			ServiceProvider.findById(req.decoded.id,function(err,serviceprovider){
 				if(serviceprovider){
 			 		serviceprovider.polices = req.body.policy;
 			 		serviceprovider.save(function(err,serviceprovider){
 			   			if(err) 
-			 				res.send(err,'ERROR',"ERROR");
+			 				cb(err,'ERROR',"ERROR");
 			 			else
-			 				res.send(err,'Your policy has been updated successfully',"SUCCESS");
+			 				cb(err,'Your policy has been updated successfully',"SUCCESS");
 
 			 		});
 			 	}else 
-			 		res.send(err,'Service Provider not found',"ERROR");
+			 		cb(err,'Service Provider not found',"ERROR");
 
 			});
 		}
@@ -384,13 +428,7 @@ let ServiceProviderController = {
 //lsa
 //the service provider could view all the enroller students in the course by passing the course titile 
 	viewAllEnrolledStudents : function(req,res,cb){
-		
-    	//array.clear();
-
-    	//array.splice(0, array.length);
-		
 		var x = 0;
-
 		if(req.decoded.type == "ServiceProvider"){
 			var courseTitle=req.body.title;
 			Course.findOne({title:courseTitle},(err,courseFound)=>{
@@ -400,10 +438,7 @@ let ServiceProviderController = {
 
 					for(var i = 0; i < lengthOfEnrolledStudents; i++){
 						var studentID = courseFound.enrolledStudentsIDs[i];
-
-						
 						Student.findById(studentID,(err,studentFound)=>{
-
 							console.log(studentFound);
 							if(studentFound){
 								array[x] = studentFound;
@@ -411,18 +446,11 @@ let ServiceProviderController = {
 							}
 							else{
 								cb(err,"Student not found", "ERROR");
-
 							}
 
 						});
-
 					}
 					
-					
-					// for(var y = array.length-1; y > x; y--)
-					// 		array.pop();
-										
-					//console.log(array);
 					if(array.length == 0)
 						cb(err, "No students found", "SUCCESS");
 					else 
@@ -465,7 +493,9 @@ let ServiceProviderController = {
     							        email : req.body.email ,
     							        address: req.body.address,
     							        polices :req.body.polices,
-    							        logo :req.body.logo
+    							        logo :req.body.logo,
+    							        listOfNotification:[],
+    							        listOfCourses:[]
      
     	    						}); 
      
@@ -587,6 +617,72 @@ let ServiceProviderController = {
     	})
     }
 
+}
+
+
+// when the expiration date of the service Provider's contract is equal to date.now , this function push a notification
+// in the list of notification in the service provider and push a notification along with the username of the service provider
+//to the list of notifications of the Admin
+var sendNotification=function(username,cb){
+
+var y = 0;
+	ServiceProvider.findOne({username:username},function(err,res){
+		if(err)
+			{
+				cb(err,"SERVICE PROVIDER NOT FOUND","ERROR")
+			}
+			else
+			{
+
+		var SPExpirationDate = moment(res.expirationDate).format('MM/DD/YYYY')
+		// console.log(SPExpirationDate);
+		// console.log(moment(Date.now()).format('MM/DD/YYYY'));
+		if(SPExpirationDate >= moment(Date.now()).format('MM/DD/YYYY'))
+			y = 1;
+		// console.log((SPExpirationDate === moment(Date.now()).format('MM/DD/YYYY')));
+		// console.log(y);
+
+		if(y==1){
+
+		var item ={
+				typeOfNotification:"EXPIRATION DATE**"
+			}
+
+			ServiceProvider.update({username:res.username},{"$addToSet":{listOfNotification:item}} ,function(err,resU){
+				if(err)
+					cb(err,"CANT UPDATE THE SERVICE PROVIDER","ERROR");
+				else
+					{
+						// console.log("SERVICEPROVIDER USERNAME");
+						// console.log(res.username);
+		
+						var item2={
+						typeOfNotification:"EXPIRATION DATE",
+						ServiceProviderUsername:res.username
+						}
+
+						Admin.findOne({username:'Admin'},function(err,resx){
+							// console.log(resx.username);
+						Admin.update({username:'Admin'},{$push:{ listOfNotification :item2}},{safe:true,upsert:true},function(err,ress) {
+						if(err)
+							cb(err,"CANT NOT UPDATE THE ADMIN","ERROR");
+						else
+							cb(err,item2,"NOTIFICATION");
+
+						})
+
+						})
+
+					}
+			})
+
+
+		} else
+
+			cb(err,"NOT YET EXPIRED","SUCCESS");
+	
+			}	
+	})
 }
 
 module.exports = ServiceProviderController;

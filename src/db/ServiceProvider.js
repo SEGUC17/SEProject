@@ -91,81 +91,9 @@ ServiceProviderSchema.methods.checkPassword = function(guess, done) {
 
 
 
-module.exports.loop = function(){
-	ServiceProvider.find(function(err,docs){
-		console.log(docs.length);
-		for(var i = 0; i < docs.length; i++){
-			console.log(docs[i].username);
-			ServiceProvider.sendNotification(docs[i].username);
-		}
-	})
-}
 
 
 
-
-// when the expiration date of the service Provider's contract is equal to date.now , this function push a notification
-// in the list of notification in the service provider and push a notification along with the username of the service provider
-//to the list of notifications of the Admin
-module.exports.sendNotification=function(username){
-
-
-	ServiceProvider.findOne({username:username},function(err,res){
-		if(err)
-			console.log(err)
-		
-		var y = 0;
-		var SPExpirationDate = moment(res.expirationDate).format('MM/DD/YYYY')
-	
-
-			 //console.log(u)
-					// console.log(moment(res.expirationDate).format('YYYY-MM-DD'))
-			  // console.log(moment(Date.now()).format('YYYY-MM-DD')+"datenow")
-			
-		if(SPExpirationDate == moment(Date.now()).format('MM/DD/YYYY'))
-			y = 1;
-		
-		if(y==1){
-
-			var item ={
-				typeOfNotification:"EXPIRATION DATE**"
-			}
-
-			ServiceProvider.update(res,{"$addToSet":{listOfNotification:item}} ,function(err,res){
-				if(err)
-					console.log(err);
-				else
-					console.log("updated")
-			})
-
-		
-			var item2={
-			typeOfNotification:"EXPIRATION DATE",
-			ServiceProviderUsername:res.username
-			}
-
-			Admin.findOne({username:'Admin'},function(err,resx){
-				console.log(resx)
-				Admin.update(resx,{$push:{ listOfNotification :item2}},{safe:true,upsert:true},function(err,ress) {
-				if(err)
-					console.log(err);
-				else
-					console.log("updated")
-
-				})
-
-			})
-
-			
-
-			console.log("expired");
-
-		} else
-
-			console.log("not yet")
-	})
-
-}
 
 
 

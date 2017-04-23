@@ -51,7 +51,9 @@ var app = this;
 
 			}
 			else{
+				
 			 app.islogged = false;
+			}
 
 			}
 
@@ -65,14 +67,20 @@ this.Student_login=function(data){
 			console.log(response.data)
 			//console.log("the token is: "+response.data.token)
 
-			if(response.data.type=='SUCCESS'){
+			if(response.data.type=='SUCCESS' && response.data.type=="Student"){
 			$location.path('/welcome')
 			app.islogged = true;
-
-
 			}
 			else{
+				if(response.data.type=='SUCCESS' && response.data.type=="Admin"){
+					//Changes to the URL in the address bar are reflected into the $location service and changes to 
+					//$location are reflected into the browser address bar
+					app.islogged = true;
+					$location.path('/adminPage');
+				}
+				else{
 			 app.islogged = false;
+			}
 
 			}
 

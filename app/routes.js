@@ -22,6 +22,13 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     controllerAs: 'MainController'
 
     }).
+     .when('/adminPage',{
+
+    templateUrl:'views/adminPage.html',
+      controller: 'adminController',
+    controllerAs: 'adminCtr'
+
+    }).
    when('/search',{
 
     templateUrl:'views/search.html',

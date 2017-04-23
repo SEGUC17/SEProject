@@ -64,14 +64,17 @@ router.post('/forbussinus/login', function(req,res){
   //check if match username pwd 
     var token = app.jwt.sign({ username: sp.username, id: sp._id, type:"ServiceProvider" }, app.app.get('super-secret'), {
     });
-     
-    res.json({
-      type : type,
-      token : token,
-      message : "You are successfully logged in !",
-      content : sp
-    });
-
+    ServiceProviderController.clearServiceProvidersNotifications(sp.username);
+       ServiceProviderController.loop();
+       ServiceProvider.findOne({username:sp.username},(err,spFound)=>{
+                            res.json({
+                                  type : type,
+                                  token : token,
+                                  message : "You are successfully logged in !",
+                                  content : spFound
+                                });
+       })
+  
   } else 
     res.json({
       type : type,
@@ -82,20 +85,6 @@ router.post('/forbussinus/login', function(req,res){
 
 });
 
-
-
-// malhash lazma 
-router.post('/admin/clearUnverfiedSP',(req,res)=>{
-  ServiceProviderController.clearUNverSP(req,res,(err,result,type)=>{
-    if(type=="ERROR"){
-      res.send(result);
-    }else{
-      res.json(result);
-    }
-
-  });
-
-});
 
 
 router.post('/serviceprovider/removeannouncement',function(req,res){
@@ -134,6 +123,7 @@ router.post('/serviceprovider/viewannonnoucement',function(req,res){
 });
 });
 
+
 router.post('/getCourse',(req,res)=>{
 ServiceProviderController.getCourse(req,res,(err,message,type)=>{
   if(type=="ERROR"){
@@ -148,6 +138,8 @@ ServiceProviderController.getCourse(req,res,(err,message,type)=>{
   }
 });
 });
+
+
 router.post('/serviceprovider/postannouncement',function(req,res){
   ServiceProviderController.postAnnouncements(req,res,(err,message,type)=>{
     if(type=="ERROR"){
@@ -178,14 +170,16 @@ router.post('/login', function(req,res){
     else {
       var token = app.jwt.sign({username: message.username, id: message._id, type:type}, app.app.get('super-secret'), {});
 
-      if(type == "Admin")
+      if(type == "Admin"){
+       AdminController.clearAdminsNotifications();
+        ServiceProviderController.loop();
         res.json({
           token : token,
           type : "SUCCESS",
           message : "You are successfully logged in !",
           content : message
         });
-      else 
+     } else 
          res.json({
           token : token,
           type : "SUCCESS",
@@ -238,6 +232,22 @@ router.post('/serviceprovider/register',function(req,res){
 
 });
 
+// router.get('/serviceprovider/getnotification',function(req,res){
+//     ServiceProviderController.loop((err,message,type)=>{
+//           if(type=="ERROR"){
+//                 res.json({
+//                   type:type,
+//                   message:"ALL NOTIFICATIONS HAS BEEN SENT",
+//                   content:message
+//                 });
+//               }else{
+//                   res.json({
+//                   type:type,
+//                   message:message
+//                 });
+//               }
+//           });
+// });
 
 router.get('/home/viewreg',function(req,res){
   
@@ -299,7 +309,6 @@ router.post('/me',function(req,res){
     decoded:req.decoded
   });
 });
-
 
 
 
@@ -775,12 +784,6 @@ router.post('/home/search',function(req,res){
 
 });
 
-
-
-
-//  router.get('*',function (req,res){
-//         res.sendFile(path.join(__dirname,'../','app','index.html'))
-// })
 
 
 module.exports =router;

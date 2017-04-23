@@ -11,6 +11,19 @@ var app = require('./server.js');
 
 var path = require('path');
 
+var mime = require('mime');
+
+var multer = require('multer');
+var storage = multer.diskStorage({
+  destination : function(req, file, cb){
+    cb(null, './../app/uploads');
+  },
+  filename : function(req, file, cb){
+    cb(null, Date.now() + "." + mime.extension(file.mimetype))
+  }
+})
+
+var upload = multer({dest: __dirname+'/../app/uploads/', storage : storage}); //check the path
 
 
 router.get('/',function (req,res){
@@ -18,6 +31,15 @@ router.get('/',function (req,res){
 });
 
 
+router.get('/catalog',function(req,res){
+      StudentController.getAllCourses(req,res,(err,courses,type)=>{
+        if(type === "ERROR")
+          res.json(courses);
+        else
+          res.json(courses);
+      });
+     
+    });
 
 router.post('/forbussinus/login', function(req,res){
   ServiceProviderController.SPLogin(req,res,function(error,sp,type){
@@ -166,7 +188,8 @@ router.post('/login', function(req,res){
 
 
 
-router.post('/register', function(req,res){
+router.post('/register', upload.single("myfile"),function(req,res){
+
   StudentController.studentSignUP(req,res,function(error,student,type){
      if(type === "ERROR")
           res.json({
@@ -397,7 +420,7 @@ router.get('/serviceprovider/courses',function(req,res){
 
 
 
-router.post('/serviceprovider/updatePortofolio',function(req,res){
+router.post('/serviceprovider/updatePortofolio', upload.single('myfile'),function(req,res){
   if(req.decoded.type == "ServiceProvider"){
     ServiceProviderController.updatePortofolio(req,res,function(err,message,type){
       if(type == "ERROR")
@@ -419,11 +442,6 @@ router.post('/serviceprovider/updatePortofolio',function(req,res){
       });
 
 });
-
-//   return AdminController.declineSP(req,res);
-
-// });
-
 
 
 router.post('/admin/declineSP',function(req,res){
@@ -647,7 +665,7 @@ router.post('/serviceprovider/getNotifications',function(req,res){
 });
 
 
-router.post('/studentprofile',function(req,res){
+router.post('/studentprofile', upload.single('myfile'), function(req,res){
   if(req.decoded.type=="Student"){
     StudentController.getStudentProfile(req,res,(err,prof,type)=>{
       if(type == "ERROR")
@@ -679,23 +697,13 @@ router.post('/studentprofile/review',function(req,res){
 
     StudentController.typeReview(req,res,(err,review,type)=>{
       if(type === "ERROR")
-        res.json({
-          type:type,
-          message:review
-        });
+        res.json(review);
       else
-        res.json({
-          type:type,
-          message:"Review added",
-          content:review
-        });
+        res.json(review);
 
     });
   }else 
-    res.json({
-      type:"ERROR",
-      message:"You are not a student !"
-    });
+    res.json("You are not a student !");
 });
 
 
@@ -736,7 +744,25 @@ router.post('/home/search',function(req,res){
 
 
 });
-
+router.post('/review', function(req,res){
+      StudentController.viewReviews(req,res,function(error,review,type){
+        res.json(review);
+    
+    });
+    });
+  router.get('/studentprofile',function(req,res){
+      if(req.decoded.type=="Student"){
+        StudentController.getStudentProfile(req,res,(err,prof,type)=>{
+          if(type == "ERROR")
+            res.json(prof);
+          else
+            res.json(prof);
+        });
+     
+      }else
+        res.json("You are not a student !");
+     
+    });
 
 
 
@@ -746,3 +772,4 @@ router.post('/home/search',function(req,res){
 
 
 module.exports =router;
+

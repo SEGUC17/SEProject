@@ -12,7 +12,7 @@ var myApp = angular.module('appRoutes',['ngRoute'])
                })
     .when('/catalog',{
 
-    templateUrl:'/catalog.html'
+    templateUrl:'views/catalog.html'
 
     }).when('/welcome',{
 
@@ -20,8 +20,23 @@ var myApp = angular.module('appRoutes',['ngRoute'])
       controller: 'MainController',
     controllerAs: 'MainController'
 
-    }).
-   when('/search',{
+    })
+    .when('/studentprofile/review',{
+
+    templateUrl:'views/review.html',
+      controller: 'MainController',
+    controllerAs: 'MainController'
+
+    })
+.when('/studentprofile',{
+
+    templateUrl:'views/studentprofile.html',
+      controller: 'MainController',
+    controllerAs: 'MainController'
+
+    })
+
+   .when('/search',{
 
     templateUrl:'views/search.html',
    
@@ -70,17 +85,9 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     controllerAs: 'spCon'
 
     })
-    
     .when('/oneCourse',{
 
     templateUrl:'views/oneCourse.html',
-      controller: 'spCon',
-    controllerAs: 'spCon'
-
-    })
-     .when('/singleCourse',{
-
-    templateUrl:'views/singleCourse.html',
       controller: 'spCon',
     controllerAs: 'spCon'
 
@@ -131,3 +138,4 @@ var myApp = angular.module('appRoutes',['ngRoute'])
   
 
 });
+

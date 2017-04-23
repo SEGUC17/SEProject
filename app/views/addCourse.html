@@ -1,0 +1,52 @@
+<div>
+<h1> SERVICE PROVIDER Adding Course  </h1>	
+</div>
+
+<form ng-submit="spCon.addCourse(data)">
+	 <div class="form-group">
+          <label>title</label>
+          <input type="text" class="form-control" ng-model="spCon.data.title">
+        </div> 
+       
+        <div class="form-group">
+          <label>centerName</label>
+          <input type="text" class="form-control"  ng-model="spCon.data.centerName" >
+        </div>
+        <div class="form-group">
+          <label>centerLocation</label>
+          <input type="text" class="form-control" ng-model="spCon.data.centerLocation">
+        </div>
+        <div class="form-group">
+          <label>type</label>
+          <input type="text" class="form-control" ng-model="spCon.data.type" >
+        </div>
+        
+        <div class="form-group">
+          <label>description</label>
+          <input type="text" class="form-control" ng-model="spCon.data.description" >
+        </div>
+        <div class="form-group row">
+  <label for="example-datetime-local-input" class="col-2 col-form-label" >Start Date and Time</label>
+  <div class="col-10">
+    <input class="form-control"  ng-model="spCon.data.endDate"  type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input">
+  </div>
+         <div class="form-group row">
+  <label for="example-datetime-local-input" class="col-2 col-form-label" >End Date and Time</label>
+  <div class="col-10">
+    <input class="form-control"  ng-model="spCon.data.endDate"  type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input">
+  </div>
+         <div class="form-group">
+          <label>capacity</label>
+          <input type="text" class="form-control" ng-model="spCon.data.capacity" >
+        </div>
+
+         <div class="form-group">
+          <label>fees</label>
+          <input type="text" class="form-control" ng-model="spCon.data.fees" >
+        </div>
+
+        
+       
+        <button type="submit" class="btn btn-default">Submit</button>
+
+</form>

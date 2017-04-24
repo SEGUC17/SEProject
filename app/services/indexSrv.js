@@ -1,11 +1,47 @@
 angular.module('indexSrv', [])
 
-.factory('indexSrv', function($http,AuthToken) {
+myApp.factory('indexSrv', function($http,AuthToken) {
+  
+
+  var savedData={}
     return {
+       postReview:function(data){
+        return $http.post('/studentprofile/review',data).then(function(response){
+         console.log('get revieww ' )
+         console.log(response)
+            return response;
+           });
+
+          },
+
+     set:function(data){
+      savedData=data;
+     },
+    get : function(){
+       return savedData;
+    },
+
+    	 getStudentProfile:function(data){
+              return $http.post('/studentprofile',data).then(function(res){
+                console.log(res)
+                return res;
+              });
+       
+       },
+         getCatalog : function(){
+                  return $http.get('/catalog');
+          },
+       //      getStudentProfile:function(){
+       //        return $http.get('/studentprofile');
+       
+       // },
+  
 
 
 
-    	getOtherStripePupKey: function(airlineIP , jwt) {
+   Search:function(data){
+        return $http.post('/home/search',data);
+     },getOtherStripePupKey: function(airlineIP , jwt) {
         //jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJNWU5LU0giLCJpYXQiOjE0NjA3NzIyOTQsImV4cCI6MTQ5MjMwODI5NSwiYXVkIjoid3d3LnNlY291cnNlLmNvbSIsInN1YiI6Ik1ZTktTSCBJYmVyaWEiLCJUZWFtIjoiTVlOS1NIIn0.hZxhv8XAcu1cARgcrtfb0l_crF1-Ic1tJt9eUhIL0qQ';
           return $http.get('/data/otherStripeKey/'+airlineIP+'?wt='+jwt);
       },
@@ -28,9 +64,6 @@ angular.module('indexSrv', [])
 
 
 
-
-
-
 // THIS IS THE ROUTE OF SPLOGIN , AUTHTOKEN.SETTOKEN TAKE THE USER TOKEN AND SAVES IT IN THE LOCALSTRATEGY SO THAT
 // ANY FUNCTION WHICH NEEDS TOKEN AS INPUT WILL BE AUTOMATICALY TAKEN FROM HERE
 
@@ -45,7 +78,7 @@ angular.module('indexSrv', [])
 
 
        StudentLogin:function(data){
-         console.log("data :: "+data);
+
        return $http.post('/login',data).then(function(response){
           AuthToken.SetToken(response.data.token)
          //console.log(response)
@@ -57,7 +90,9 @@ angular.module('indexSrv', [])
 
 
 // function that return true if the user is logged in or return false when user is not logged in
+
 // it uses the function getToken() to check if there is a token , if there is token , the function will return true
+
 // if there is no token the function will return false
        IsLoggedIn: function(){
 
@@ -70,7 +105,9 @@ angular.module('indexSrv', [])
       },
 
       LogOut: function(){
+
         AuthToken.SetToken();
+
         console.log("logout from indexSrv")
       },
 
@@ -84,12 +121,14 @@ angular.module('indexSrv', [])
         {
           $q.reject({message:"user has no token"})
         }
+
       },
 
       GetToken:function(){
         return AuthToken.GetToken();
 
       },
+
 
 
 
@@ -116,9 +155,9 @@ angular.module('indexSrv', [])
    },
    // function which retrieves the token from the localStorage
    GetToken: function(){
-    //  console.log("token gettoken ::");
-    //  console.log($window.localStorage.getItem('token'));
-     return $window.localStorage.getItem('token');
+
+     return $window.localStorage.getItem('token')
+
    }
 
  }
@@ -130,7 +169,9 @@ angular.module('indexSrv', [])
 
     request: function(config){
       var token= AuthToken.GetToken();
-      if(token)
+
+      if(token) 
+
         config.headers['x-access-token']= token;
       return config;
 
@@ -138,4 +179,5 @@ angular.module('indexSrv', [])
 
 
   }
+
 })

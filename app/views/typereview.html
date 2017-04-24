@@ -1,0 +1,32 @@
+
+<div class="modal-header">
+<div class="modal-body">
+<h3>PLEASE POST YOUR REVIEW</h3>
+
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<form ng-submit="stCtr.typeReview(data)">
+<div class="form-group">
+          <label>PLEASE ENTER THE COURSE TITLE</label>
+          <input type="text" class="form-control" ng-model="stCtr.data.title">
+        </div> 
+<div class="input-group">
+
+    <textarea class="form-control custom-control" rows="3" style="resize:none"></textarea>     
+    <button type="submit" class="btn btn-default">POST</button>
+</div>
+<div class="btn-group" data-toggle="buttons">
+  <label class="btn btn-primary">
+    <input type="radio" name="like" ng-value="0" id="option2" autocomplete="off"> Like
+  </label>
+  <label class="btn btn-primary">
+    <input type="radio" name="Dislike" id="option3" ng-value="1" ng-model="spCon.data.isNeg" autocomplete="off"> Dislike
+  </label>
+</div>
+</form>
+</div>
+</div>
+

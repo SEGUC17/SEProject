@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+angular.module('spAuthServ',[])
+=======
 
 	angular.module('spAuthServ',[])
 
@@ -21,3 +24,4 @@ angular.module('spAuthServ',[])
 //     };
 // });
 
+>>>>>>> master

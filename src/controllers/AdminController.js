@@ -169,11 +169,19 @@ let AdminController = {
     ServiceProvider.findOne({organizationName:req.body.organizationName}).lean().exec(function(err,SP){
       if(SP){
         if(SP.username != "" || SP.username){
+<<<<<<< HEAD
+		      var SPCourses = SP.listOfCourses;
+
+
+
+		      for(var i = 0; i < SPCourses.length; i++){
+=======
           var SPCourses = SP.listOfCourses;
 
 
 
           for(var i = 0; i < SPCourses.length; i++){
+>>>>>>> master
 
               Course.findById(SPCourses[i],function(err,course){
                 var students = course.enrolledStudentsIDs;
@@ -197,7 +205,11 @@ let AdminController = {
                       });
                   });
                   
+<<<<<<< HEAD
+                }					
+=======
                 }         
+>>>>>>> master
               });
 
 

@@ -1,0 +1,31 @@
+ </p>ANNOUNCEMENTS</p>
+<form ng-submit="spCon.viewannouncements()">
+	<div class="form-group">
+   <!--  <label>PLEASE ENTER THE COURSE TITLE</label>
+          <input type="text" class="form-control" ng-model="spCon.data.title">
+        </div> 
+ -->
+ <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+
+
+ <div ng-repeat = "x in gina" ng-controller="spCon">
+
+<ul class="list-group">
+          <li class="list-group-item"  ng-model="spCon.data.announcement">{{x}}</li>
+         
+
+
+        </ul>
+
+        	
+
+
+        </div>
+
+
+         <li><a ng-show = spCon.isSP href= "#/home"> <button b >back to home coursePage </button> </a></li>
+          <li><a ng-show = !spCon.isSP href= "#/coursepage"> <button b >back to home coursePage </button> </a></li>
+
+
+       

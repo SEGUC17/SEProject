@@ -6,7 +6,7 @@ return{
    studentRegister : function(data){
    	return $http.post('/register',data).then(function(response){
    		//console.log("inside service")
-   		console.log(response);
+   		console.log(response)
    	});
    	}
       ,
@@ -15,7 +15,7 @@ return{
       	console.log("HENAAA");
          console.log(response);
       });
-    }
+   }
    }
 
 

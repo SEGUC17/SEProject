@@ -164,7 +164,7 @@ getOtherStripePupKey: function(airlineIP , jwt) {
 
  }
 
-});
+})
 
 .factory('AuthInterceptors',function(AuthToken){
   return{

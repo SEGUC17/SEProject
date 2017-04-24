@@ -11,8 +11,8 @@ var adminSchema = Schema({
   email:{type: String, required: true},
   Birthdate: {type: Date},
   listOfNotification: [{
-  	typeOfNotification:String,
-  	ServiceProviderUsername:String
+    typeOfNotification:String,
+    ServiceProviderUsername:String
   }]
 
 });

@@ -15,5 +15,17 @@ angular.module('StudentController',['stServ'])
 		  	
 		
 	}
+<<<<<<< HEAD
+=======
+	$scope.course=indexSrv.get();
+console.log("henaa title");
+ 
+this.payement = function(){
+		stServ.studentPayment().then(function(response){
+			console.log(response);
+		});
+ 
+	}
+>>>>>>> master
 
 });

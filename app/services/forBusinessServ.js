@@ -4,15 +4,24 @@ angular.module('businessServ',[])
 
 .factory('businessServ', function($http,AuthToken) {
     return {
+<<<<<<< HEAD
         ServiceProviderRegister:function(data){
             return $http.post('/serviceprovider/register',data);
 
 
         },
+=======
+    	ServiceProviderRegister:function(data){
+    		return $http.post('/serviceprovider/register',data);
+
+
+    	},
+>>>>>>> master
 
 
         ServiceProviderAddCourse:function(data){
             return $http.post('/ServiceProvider/courses/addCourse',data);
+<<<<<<< HEAD
         }
 
 
@@ -35,6 +44,40 @@ angular.module('businessServ',[])
         //  }
 
         // }
+=======
+        },
+           ServiceProviderViewCourse:function(){
+            return $http.get('/serviceprovider/courses');
+        },
+         ServiceProviderViewPortofolio:function(){
+            return $http.get('/ServiceProvider/viewPortofolio');
+        },
+          viewOneCourse:function(data){
+            return $http.post('/getCourse',data);
+        }, updatePortofolio : function(data){
+            return $http.post('/serviceprovider/updatePortofolio',data);
+        }
+
+    	// ServiceProviderLogin:function(data){
+    	//  return $http.post('/forbussinus/login',data).then(function(response){
+    	//  		  AuthToken.SetToken(response.data.token)
+    	//  		 //console.log(response.data.token)
+    	//  		 return response;
+    	//  });
+    	 
+
+    	//}
+
+    	// IsLoggedIn: function(){
+
+    	// 	if(AuthToken.GetToken()){
+    	// 		return true;
+    	// 	}else{
+    	// 		return false;
+    	// 	}
+
+    	// }
+>>>>>>> master
 
 
 
@@ -43,6 +86,7 @@ angular.module('businessServ',[])
 })
 
 // .factory('AuthToken',function($window){
+<<<<<<< HEAD
 //  return{
 
 //      SetToken : function(token){
@@ -54,4 +98,17 @@ angular.module('businessServ',[])
 //      }
 
 //  }
+=======
+// 	return{
+
+// 		SetToken : function(token){
+// 			$window.localStorage.setItem('token',token)
+// 		},
+// 		// AuthToken.GetToken()
+// 		GetToken: function(){
+// 			return $window.localStorage.getItem('token')
+// 		}
+
+// 	}
+>>>>>>> master
 // })

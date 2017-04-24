@@ -8,9 +8,24 @@ return{
    		//console.log("inside service")
    		console.log(response)
    	});
+<<<<<<< HEAD
    }
 
 
 }
+=======
+   	}
+      ,
+     studentPayment: function(data){
+      return $http.post('/charge',data).then(function(response){
+      	console.log("HENAAA");
+         console.log(response);
+      });
+   }
+   }
+
+
+
+>>>>>>> master
 
 });

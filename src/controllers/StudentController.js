@@ -11,6 +11,31 @@ glo2=[];
  
 let StudentController = {
 //the student could book a course
+
+imgUpload: function(req,res){
+     var StudentID = req.decoded.id;
+     Student.findById({_id: StudentID}, function(err,student){
+      if(err){
+        console.log(err);
+        return;
+      }
+
+      if (!req.file) {
+         res.json({ success: false, message: 'No file was selected' });
+      } else {
+         res.json({ success: true, message: 'File uploaded!' });
+      }
+
+      student.profilePicture = req.file.filename;
+       console.log(student);
+      student.save(function(err){
+        if(err)
+          console.log(err);
+        else
+          console.log("done");
+      });
+     });
+  },
  
   bookCourse :function(req, res,cb){
     var courseTitle = req.body.title;

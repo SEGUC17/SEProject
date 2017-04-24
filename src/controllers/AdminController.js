@@ -3,7 +3,6 @@ let Course = require('../db/Courses');
 let Student = require('../db/Student');
 let Admin = require('../db/Admin');
 const nodemailer = require('nodemailer');
-//var datetime = require('node-datetime');
 
 
 let AdminController = {
@@ -54,24 +53,6 @@ let AdminController = {
 
    },
 
-   clearAdminsNotifications:function(){
-    Admin.findOne({username:'Admin'},(err,result)=>{
-      var listOfNotificationNEW=[];
-      for(var i=0;i<result.listOfNotification.length;i++){
-        if(result.listOfNotification[i].typeOfNotification[0]=="B")
-          listOfNotificationNEW.push(result.listOfNotification[i]);
-         //console.log(listOfNotificationNEW);
-      }
-      //console.log("FEH CLEAR");
-      result.listOfNotification=listOfNotificationNEW;
-      //console.log(listOfNotificationNEW);
-      result.save((err,adminss)=>{
-        console.log(adminss);
-      })
-      
-    });
-
-   },
 
 //DONE   
 
@@ -85,7 +66,7 @@ let AdminController = {
     });
 
   },
-//
+
 
 
    verifySP : function(req,res,cb){//when a service provider is verified, it is assigned 
@@ -101,8 +82,7 @@ let AdminController = {
            return ;
           }
             sp.password = assignedPassword;
-           sp.username = assignedUsername;
-            sp.expirationDate= (Date.now()+ 19*24*60*60*1000);
+           sp.username = assignedUsername; 
           
            sp.save(function(err,user) {
             if (err) {

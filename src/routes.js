@@ -6,27 +6,24 @@ var Admin=require('./db/Admin');
 var StudentController = require('./controllers/StudentController');
 var ServiceProviderController = require('./controllers/ServiceProviderController');
 var AdminController = require('./controllers/AdminController');
-var stripe = require('stripe')('sk_test_y6NTLtM1aE3TnnMBUmUCicln');
-
-
 
 var app = require('./server.js');
 
 var path = require('path');
-
 var mime = require('mime');
 
 var multer = require('multer');
 var storage = multer.diskStorage({
   destination : function(req, file, cb){
-    cb(null, './../app/uploads')
+    cb(null, './app/uploads');
   },
   filename : function(req, file, cb){
     cb(null, Date.now() + "." + mime.extension(file.mimetype))
   }
-})
+});
 
-var upload = multer({dest: __dirname+'/../app/uploads/', storage : storage}); //check the path
+
+var upload = multer({storage : storage}); //check the path
 
 
 
@@ -36,26 +33,6 @@ router.get('/',function (req,res){
 });
 
 
-router.post('/charge',function(req,res){
-    var Token = req.body.stripeToken;
-    console.log("Stripeee");
-    var chargeAmount = req.body.chargeAmount;
-    var charge = stripe.charges.create({
-        amount:chargeAmount,
-        currency:"usd",
-        source: Token
-    },function(err,charge){
-        if(err && err.type === "StripeCardError"){
-            console.log("stripeCardError")
-        }
-    });
-    console.log("successfully paid!");
-
-    res.render("success");
-
-    
-});
-
 
 router.post('/forbussinus/login', function(req,res){
   ServiceProviderController.SPLogin(req,res,function(error,sp,type){
@@ -64,17 +41,16 @@ router.post('/forbussinus/login', function(req,res){
   //check if match username pwd 
     var token = app.jwt.sign({ username: sp.username, id: sp._id, type:"ServiceProvider" }, app.app.get('super-secret'), {
     });
-    ServiceProviderController.clearServiceProvidersNotifications(sp.username);
-       ServiceProviderController.loop();
-       ServiceProvider.findOne({username:sp.username},(err,spFound)=>{
-                            res.json({
-                                  type : type,
-                                  token : token,
-                                  message : "You are successfully logged in !",
-                                  content : spFound
-                                });
-       })
-  
+     
+
+
+    res.json({
+      type : type,
+      token : token,
+      message : "You are successfully logged in !",
+      content : sp
+    });
+
   } else 
     res.json({
       type : type,
@@ -85,6 +61,37 @@ router.post('/forbussinus/login', function(req,res){
 
 });
 
+router.get('/catalog',function(req,res){
+  StudentController.getAllCourses(req,res,(err,courses,type)=>{
+    if(type === "ERROR")
+      res.json({
+        type:type,
+        message:courses
+      });
+    else 
+      res.json({
+        type:type,
+        message:"ALL COURSES",
+        content:courses
+      });
+  });
+
+});
+
+
+
+// malhash lazma 
+router.post('/admin/clearUnverfiedSP',(req,res)=>{
+  ServiceProviderController.clearUNverSP(req,res,(err,result,type)=>{
+    if(type=="ERROR"){
+      res.send(result);
+    }else{
+      res.json(result);
+    }
+
+  });
+
+});
 
 
 router.post('/serviceprovider/removeannouncement',function(req,res){
@@ -106,6 +113,22 @@ res.json({
 });
 
 
+    router.post('/getCourse',(req,res)=>{
+    ServiceProviderController.getCourse(req,res,(err,message,type)=>{
+      if(type=="ERROR"){
+        res.json({type:type,
+                  message:message
+        });
+      }else{
+        res.json({type:type,
+          message:"COURSE HAS BEEN DISPLAYED SUCCESSFULLY",
+                  content:message
+        })
+      }
+    });
+    });
+
+
 router.post('/serviceprovider/viewannonnoucement',function(req,res){
   ServiceProviderController.viewAnnouncemnets(req,res,(err,message,type)=>{
     if(type=="ERROR"){
@@ -120,22 +143,6 @@ router.post('/serviceprovider/viewannonnoucement',function(req,res){
         content:message
       });
     }
-});
-});
-
-
-router.post('/getCourse',(req,res)=>{
-ServiceProviderController.getCourse(req,res,(err,message,type)=>{
-  if(type=="ERROR"){
-    res.json({type:type,
-              message:message
-    });
-  }else{
-    res.json({type:type,
-      message:"COURSE HAS BEEN DISPLAYED SUCCESSFULLY",
-              content:message
-    })
-  }
 });
 });
 
@@ -170,16 +177,14 @@ router.post('/login', function(req,res){
     else {
       var token = app.jwt.sign({username: message.username, id: message._id, type:type}, app.app.get('super-secret'), {});
 
-      if(type == "Admin"){
-       AdminController.clearAdminsNotifications();
-        ServiceProviderController.loop();
+      if(type == "Admin")
         res.json({
           token : token,
           type : "SUCCESS",
           message : "You are successfully logged in !",
           content : message
         });
-     } else 
+      else 
          res.json({
           token : token,
           type : "SUCCESS",
@@ -193,7 +198,8 @@ router.post('/login', function(req,res){
 });
 
 
-router.post('/register', upload.single("myfile"),function(req,res){
+
+router.post('/register', function(req,res){
 
   StudentController.studentSignUP(req,res,function(error,student,type){
      if(type === "ERROR")
@@ -211,7 +217,6 @@ router.post('/register', upload.single("myfile"),function(req,res){
 });
 
 });
-
 
 router.post('/serviceprovider/register',function(req,res){
 
@@ -232,39 +237,6 @@ router.post('/serviceprovider/register',function(req,res){
 
 });
 
-// router.get('/serviceprovider/getnotification',function(req,res){
-//     ServiceProviderController.loop((err,message,type)=>{
-//           if(type=="ERROR"){
-//                 res.json({
-//                   type:type,
-//                   message:"ALL NOTIFICATIONS HAS BEEN SENT",
-//                   content:message
-//                 });
-//               }else{
-//                   res.json({
-//                   type:type,
-//                   message:message
-//                 });
-//               }
-//           });
-// });
-
-router.get('/home/viewreg',function(req,res){
-  
-  AdminController.getAllVerifiedServiceProvider(req,res, function(err,sp,type){
-    if(type === "ERROR")
-      res.json({
-        type : type,
-        message : sp
-      });
-    else
-      res.json({
-        type : type,
-        content : sp});
-                 
-      });
-      
-});
 
 
 router.use(function(req,res,next){ //this middleware adds the decoded token the req before continuing to any other routes
@@ -302,6 +274,16 @@ router.use(function(req,res,next){ //this middleware adds the decoded token the 
 });
 
 
+router.post('/studentupload', upload.single('myfile'), function(req,res){
+   StudentController.imgUpload(req,res);
+});
+
+router.post('/logoupload', upload.single('myfile'), function(req,res){
+   ServiceProviderController.logoUpload(req,res);
+});
+
+
+
 
 router.post('/me',function(req,res){
   res.json({
@@ -310,6 +292,23 @@ router.post('/me',function(req,res){
   });
 });
 
+
+router.get('/home/viewreg',function(req,res){
+  
+  AdminController.getAllVerifiedServiceProvider(req,res, function(err,sp,type){
+    if(type === "ERROR")
+      res.json({
+        type : type,
+        message : sp
+      });
+    else
+      res.json({
+        type : type,
+        content : sp});
+                 
+      });
+      
+});
 
 
 router.post('/adminhomepage/verify', function(req,res){
@@ -336,7 +335,26 @@ router.post('/adminhomepage/verify', function(req,res){
     });
   }
 });
-
+router.post('/serviceprovider/ViewReviews', function(req,res){
+  if(req.decoded.type == "ServiceProvider"){
+    ServiceProviderController.ViewReviews(req,res,function(err,reviews,type){
+        if(type === "ERROR")
+          res.json({
+            type : type,
+            message : reviews
+          });
+        else
+          res.json({
+            type : type,
+            content : reviews
+          });
+    });
+  }else
+    res.json({
+      type : "ERROR",
+      message : "You are not a service provider !"
+    });
+});
 
 router.post('/serviceprovider/courses/update', function(req,res){
   if(req.decoded.type=="ServiceProvider"){
@@ -364,7 +382,6 @@ ServiceProviderController.updateCourse(req,res,(err,message,type)=>{
   });
 }
 });
-
 router.post('/serviceprovider/courses/removeCourse',function(req,res){
 
   if(req.decoded.type=="ServiceProvider"){
@@ -442,7 +459,7 @@ router.get('/serviceprovider/courses',function(req,res){
 
 
 
-router.post('/serviceprovider/updatePortofolio', upload.single('myfile'),function(req,res){
+router.post('/serviceprovider/updatePortofolio',function(req,res){
   if(req.decoded.type == "ServiceProvider"){
     ServiceProviderController.updatePortofolio(req,res,function(err,message,type){
       if(type == "ERROR")
@@ -471,7 +488,6 @@ router.post('/serviceprovider/updatePortofolio', upload.single('myfile'),functio
 
 
 
-
 router.post('/admin/declineSP',function(req,res){
   if(req.decoded.type=="Admin"){
     AdminController.declineSP(req,res,(err,message,type)=>{
@@ -497,27 +513,6 @@ router.post('/admin/declineSP',function(req,res){
   }
 });
 
-
-router.post('/serviceprovider/ViewReviews', function(req,res){
-  if(req.decoded.type == "ServiceProvider"){
-    ServiceProviderController.ViewReviews(req,res,function(err,reviews,type){
-        if(type === "ERROR")
-          res.json({
-            type : type,
-            message : reviews
-          });
-        else
-          res.json({
-            type : type,
-            content : reviews
-          });
-    });
-  }else
-    res.json({
-      type : "ERROR",
-      message : "You are not a service provider !"
-    });
-});
 
 
 
@@ -694,7 +689,7 @@ router.post('/serviceprovider/getNotifications',function(req,res){
 });
 
 
-router.post('/studentprofile',function(req,res){
+router.post('/studentprofile', upload.single('myfile'), function(req,res){
   if(req.decoded.type=="Student"){
     StudentController.getStudentProfile(req,res,(err,prof,type)=>{
       if(type == "ERROR")
@@ -726,64 +721,49 @@ router.post('/studentprofile/review',function(req,res){
 
     StudentController.typeReview(req,res,(err,review,type)=>{
       if(type === "ERROR")
-        res.json({
-          type:type,
-          message:review
-        });
+        res.json(review);
       else
-        res.json({
-          type:type,
-          message:"Review added",
-          content:review
-        });
+        res.json(review);
 
     });
   }else 
-    res.json({
-      type:"ERROR",
-      message:"You are not a student !"
-    });
+    res.json("You are not a student !");
 });
 
 
 
-router.get('/home/catalog',function(req,res){
-  StudentController.getAllCourses(req,res,(err,courses,type)=>{
-    if(type === "ERROR")
-      res.json({
-        type:type,
-        message:courses
-      });
-    else 
-      res.json({
-        type:type,
-        message:"ALL COURSES",
-        content:courses
-      });
-  });
 
-});
+
 
 
 router.post('/home/search',function(req,res){
+
+  
   StudentController.search(req,res,(err,course,type)=>{
-    if(type === "ERROR")
-      res.json({
-        type:type,
-        message:course
-      });
-    else 
-      res.json({
-        type:type,
-        content:course,
-        message:"course retrieved"
-      });
+    if(type==="ERROR"){
+   res.json({
+   type:type,
+   message:course
+   });
+
+    }
     
+    else {
+      res.json({
+     type:type,
+     content:course,
+     message:"course retrieved"
+      });
+    }
   });
 
 
 });
 
+
+//  router.get('*',function (req,res){
+//         res.sendFile(path.join(__dirname,'../','app','index.html'))
+// })
 
 
 module.exports =router;

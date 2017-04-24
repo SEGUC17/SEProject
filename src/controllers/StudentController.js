@@ -7,11 +7,11 @@ let Admin=require('../db/Admin');
 gl=[];
 glo=[];
 glo2=[];
-<<<<<<< HEAD
+
  
 let StudentController = {
 //the student could book a course
-=======
+
 
  
 let StudentController = {
@@ -42,7 +42,7 @@ imgUpload: function(req,res){
       });
      });
   },
->>>>>>> master
+
  
   bookCourse :function(req, res,cb){
     var courseTitle = req.body.title;
@@ -68,10 +68,7 @@ imgUpload: function(req,res){
                 if(docs.ListOfCourses[i].toString() == result._id){
                   found = -100;
                   break;
-<<<<<<< HEAD
-=======
 
->>>>>>> master
                 }
               }
             }
@@ -123,11 +120,11 @@ imgUpload: function(req,res){
     checkStudentLogin:function(req,res,cb) {
       if(req.body.username === "Admin" || req.body.username === "admin" || req.body.username === "mariam"){
         Admin.findOne({username: req.body.username },(err,admin)=>{
-<<<<<<< HEAD
- 
-=======
 
->>>>>>> master
+ 
+
+
+
           if(err){
             cb(err,"ERROR","ERROR");
           }else{
@@ -189,11 +186,11 @@ imgUpload: function(req,res){
  
   },
  // getAllCourses function Display all provided courses
-<<<<<<< HEAD
+   
   getAllCourses:function(req,res,cb){
-=======
+
  getAllCourses:function(req,res,cb){
->>>>>>> master
+
  
       Course.find(function(err, courses){
  
@@ -210,7 +207,7 @@ imgUpload: function(req,res){
   var indx=2;
   Student.findOne({username:req.decoded.username}).lean().exec(function(err,student){
    for(var i=0; i<student.ListOfCourses.length;i++){
-<<<<<<< HEAD
+
  
      Course.findById(student.ListOfCourses[i],function(err,course){
        //console.log(course);
@@ -232,7 +229,7 @@ glo[1]=student.profilePicture;
   for(var w=glo.length-1;w>=0;w--){
   glo.pop();}
  
-=======
+
 
      Course.findById(student.ListOfCourses[i],function(err,course){
        //console.log(course);
@@ -254,12 +251,12 @@ glo[1]=student.profilePicture;
   for(var w=glo.length-1;w>=0;w--){
   glo.pop();}
 
->>>>>>> master
+
          });
        },
  
 // search function can make the student or the visitor search for a specific course by its title,type,center name,or center location
-<<<<<<< HEAD
+
   search:function(req,res,cb){
  if(req.body.searchBy=='title'){
  
@@ -268,7 +265,7 @@ glo[1]=student.profilePicture;
           if(err)
           cb(err,"ERROR","ERROR");
           else {
-=======
+
  search:function(req,res,cb){
 
 
@@ -280,18 +277,18 @@ glo[1]=student.profilePicture;
           cb(err,"ERROR","ERROR");
           else {
            
->>>>>>> master
+
             cb(err,courses,"SUCCESS");
           }
       });
   }
  else if(req.body.searchBy.searchBy=='type'){
     Course.find({type:req.body.key},function(err, courses){
-<<<<<<< HEAD
- 
-=======
 
->>>>>>> master
+ 
+
+
+
               if(err)
               cb(err,"ERROR","ERROR");
               else {
@@ -301,42 +298,34 @@ glo[1]=student.profilePicture;
   }
   else if(req.body.searchBy.searchBy=='centerLocation'){
     Course.find({centerLocation:req.body.key},function(err, courses){
-<<<<<<< HEAD
- 
-=======
 
->>>>>>> master
+ 
+
+
+
               if(err)
               cb(err,"ERROR","ERROR");
               else {
                 cb(err,courses,"SUCCESS");
               }
-<<<<<<< HEAD
- 
-=======
 
->>>>>>> master
           });
   }
   else if(req.body.searchBy.searchBy=='centerName'){
     Course.find({centerName:req.body.key},function(err, courses){
-<<<<<<< HEAD
- 
-=======
 
->>>>>>> master
               if(err)
               cb(err,"ERROR","ERROR");
               else {
                 cb(err,courses,"SUCCESS");
               }
-<<<<<<< HEAD
+
  
                  });
-=======
+
 
                             });
->>>>>>> master
+
   }
 },
  
@@ -344,17 +333,13 @@ glo[1]=student.profilePicture;
  
  
 typeReview: function(req,res,cb){
-<<<<<<< HEAD
- 
-=======
 
->>>>>>> master
   var ind=0;
   var f=0;
   Student.findById(req.decoded.id,function(err,student){
    if(err)
    cb(err,"ERROR","ERROR");
-<<<<<<< HEAD
+
  
    Course.findOne({title:req.body.courseTitle},function(err,c){
  
@@ -363,7 +348,7 @@ typeReview: function(req,res,cb){
  
  var courseID=c.id;
  
-=======
+
 
    Course.findOne({title:req.body.courseTitle},function(err,c){
 
@@ -372,7 +357,7 @@ typeReview: function(req,res,cb){
 
  var courseID=c.id;
 
->>>>>>> master
+
     for(var i=0;i< student.ListOfCourses.length;i++){
     if(student.ListOfCourses[i] == courseID)
     {
@@ -383,7 +368,7 @@ typeReview: function(req,res,cb){
         review:req.body.review,
         isNeg:req.body.isNeg,
         courseID:courseID
-<<<<<<< HEAD
+
       });
       newReview.save(function(err,newReview){
         if(err)
@@ -413,7 +398,7 @@ course.totalCount=course.totalCount+1;
  
  
  
-=======
+
       });
       newReview.save(function(err,newReview){
         if(err)
@@ -443,7 +428,7 @@ course.totalCount=course.totalCount+1;
 
 
 
->>>>>>> master
+
     if(req.body.isNeg==1){
     if((course.countNeg/course.totalCount)>=0.5){
       ServiceProvider.findById(course.serviceProviderID,function(err,SP){
@@ -455,29 +440,17 @@ course.totalCount=course.totalCount+1;
           if(err)
         cb(err,"ERROR","ERROR");
         })
-<<<<<<< HEAD
- 
- 
-=======
 
-
->>>>>>> master
 //console.log(SP.listOfNotification.typeOfNotification);
         SP.save(function(err,SP){
           if(err) cb(err,"ERROR","ERROR");
         });
-<<<<<<< HEAD
- 
- 
-=======
 
-
->>>>>>> master
               var item2={
               typeOfNotification:"BAD REVIEWS on " +course.title,
               ServiceProviderUsername:SP.username
               }
-<<<<<<< HEAD
+
  
               Admin.findOne({username:"Admin"},function(err,resx){
  
@@ -485,7 +458,7 @@ course.totalCount=course.totalCount+1;
                 if(err)
               cb(err,"ERROR","ERROR");
  
-=======
+
 
               Admin.findOne({username:"Admin"},function(err,resx){
 
@@ -493,22 +466,21 @@ course.totalCount=course.totalCount+1;
                 if(err)
               cb(err,"ERROR","ERROR");
 
->>>>>>> master
               resx.save(function(err,resx){
                 if(err) cb(err,"ERROR","ERROR");
               });   });
 });
-<<<<<<< HEAD
+
  
  
       });
  
-=======
+
 
 
       });
 
->>>>>>> master
+
      }
    }
     });
@@ -523,7 +495,7 @@ else
  cb(err,reviews,"SUCCESS");
   });
 }
-<<<<<<< HEAD
+
  
     });
  
@@ -553,7 +525,7 @@ else
           })
  
       },*/
-=======
+
 
     });
 
@@ -563,7 +535,7 @@ else
 
  },
 
->>>>>>> master
+
  
   //student is beging signed to the system
   studentSignUP:function(req,res, cb){
@@ -579,20 +551,19 @@ else
               email:req.body.email,
               birthdate:req.body.birthdate ,
               ListOfCourses:[],
-<<<<<<< HEAD
+
               profilePicture:req.body.profilePicture
  
-=======
->>>>>>> master
+
             });
  
         newStudent.save(function(err,student){
           if(err)
-<<<<<<< HEAD
+
             cb(err,"ERROR CAN NOT SAVE ","ERROR"); 
-=======
-            cb(err2,"ERROR CAN NOT SAVE ","ERROR"); 
->>>>>>> master
+
+            cb(err1,"ERROR CAN NOT SAVE ","ERROR"); 
+
         else
         cb(err,student,"SUCCESS");
       });
@@ -612,8 +583,8 @@ else
  
 }
  
-<<<<<<< HEAD
+
 module.exports = StudentController;
-=======
+
 module.exports = StudentController;
->>>>>>> master
+

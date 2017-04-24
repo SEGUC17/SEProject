@@ -6,17 +6,13 @@ var Review = require('../db/Reviews');
 var jwt = require('jsonwebtoken');
 var jwt_decode = require('jwt-decode');
 array = [];
-<<<<<<< HEAD
-=======
 
->>>>>>> master
 
 
 
 let ServiceProviderController = {
 
-<<<<<<< HEAD
-=======
+
 logoUpload: function(req,res){
      var spID = req.decoded.id;
      ServiceProvider.findById({_id: spID}, function(err,sp){
@@ -42,7 +38,7 @@ logoUpload: function(req,res){
      });
   },
 
->>>>>>> master
+
 //done
     clearUNverSP: function(req,res,cb){ // this method removes all
     
@@ -130,29 +126,26 @@ logoUpload: function(req,res){
 						});
 
 					}
-<<<<<<< HEAD
+
 
 				});
 
 			}else
 
-=======
+
 
 				});
 
 			}else
 
->>>>>>> master
 				cb(err,"Service Provider not found !", "ERROR");
 		});
 	},
 
 	//the service provider can add a course and passing his Id 
     addCourse:function(req,res,cb){
-<<<<<<< HEAD
-=======
 
->>>>>>> master
+
      
     	//uncomment before submission//uncomment ends here
      
@@ -178,10 +171,7 @@ logoUpload: function(req,res){
      
     			});
     		//uncomment ends here
-<<<<<<< HEAD
-     
-=======
->>>>>>> master
+
     		
      
     	newCourse.save((err,savedCourse)=>{
@@ -232,10 +222,7 @@ logoUpload: function(req,res){
      
     },
     //done
-<<<<<<< HEAD
-=======
 
->>>>>>> master
 //service provider removes a course by passong in the parameter and his id
 		removeCourse: function(req,res,cb){
  
@@ -310,11 +297,11 @@ logoUpload: function(req,res){
        },
 //the service provider can post announcment bt passing his course title 
 		postAnnouncements:function(req,res,cb){
-<<<<<<< HEAD
+
 		 var newAnnouncement=req.body.announcement;
-=======
+
 		 var newAnnouncement=req.body.announcements;
->>>>>>> master
+
 		 var Coursetitle=req.body.title;
 		Course.findOne({title:Coursetitle},(err,courseFound)=>{
 		if(err){
@@ -363,11 +350,10 @@ logoUpload: function(req,res){
 				cb(err,"NO COURSE FOUND","ERROR");
 			}else{
 				cb(err,result.announcements,"SUCCESS");
-<<<<<<< HEAD
-=======
+
 			}
 				});
->>>>>>> master
+
 			}
 				});
 			}
@@ -455,7 +441,7 @@ logoUpload: function(req,res){
 //the service provider could view all the enroller students in the course by passing the course titile 
 	viewAllEnrolledStudents : function(req,res,cb){
 		
-<<<<<<< HEAD
+
     	//array.clear();
 
     	//array.splice(0, array.length);
@@ -513,7 +499,7 @@ logoUpload: function(req,res){
 
 //the servicde provider could register to the system by passing the field 
        spRegister: function(req,res,cb){
-=======
+
 		
 		var x = 0;
 
@@ -570,7 +556,7 @@ logoUpload: function(req,res){
 
        spRegister: function(req,res,cb){
 
->>>>>>> master
+
     //checks first tht this Service provider was not perviously registered to the system
     	   ServiceProvider.findOne({organizationName:req.body.organizationName},function(err,organizationName){
     	     	if(organizationName)
@@ -600,7 +586,7 @@ logoUpload: function(req,res){
      
     	   							 newOrganization.save((err,spSaved)=>{
 
-<<<<<<< HEAD
+
 
     	    							if(err)
     	     								cb(err,"YOU HAVE PREVIOUSLY REGISTERED","ERROR");
@@ -619,7 +605,7 @@ logoUpload: function(req,res){
     	 	});
     	},
 
-=======
+
     	    							if(err)
     	     								cb(err,"YOU HAVE PREVIOUSLY REGISTERED","ERROR");
     	    							else
@@ -637,7 +623,7 @@ logoUpload: function(req,res){
     	 	});
     	},
 
->>>>>>> master
+
 
 //the service provider could login
 	SPLogin:function(req, res, cb) { 
@@ -679,10 +665,7 @@ logoUpload: function(req,res){
  		});
 
  	},
-<<<<<<< HEAD
-=======
 
->>>>>>> master
 
 
 //getting the list of reviews of a specific course which is provided by this service provider

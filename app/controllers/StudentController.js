@@ -1,7 +1,7 @@
 angular.module('StudentController',['stServ'])
 .controller('StudentController',function($scope,$http,$location,stServ){
-//console.log("student controllerrrrr");
 
+<<<<<<< HEAD
  //$scope.student="youmna";
 
 //  $scope.signUp=function(){
@@ -12,13 +12,25 @@ this.typeReview=(data)=>{
 	stServ.typeReview(this.data).then(function(argument) {
 		console.log(argument.data.content);
 	});
+=======
+>>>>>>> master
 
 }
   this.newStudent = function(data){
 
 		  stServ.studentRegister(this.data)
-		  	
-		
+
+		  			
+	}
+
+	$scope.course=indexSrv.get();
+console.log("henaa title");
+ 
+this.payement = function(){
+		stServ.studentPayment().then(function(response){
+			console.log(response);
+		});
+ 
 	}
 
 });

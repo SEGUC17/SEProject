@@ -36,14 +36,8 @@ app.set('super-secret', 'sedki');
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
-
 app.use(express.static(path.join(__dirname, '../app')));
-
-
 app.use(flash()); // use connect-flash for flash messages stored in session
-
-
-
 app.use(router);
 
 

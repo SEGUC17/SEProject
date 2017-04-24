@@ -1,11 +1,12 @@
 <div>
-<h1> SERVICE PROVIDER REGISTERING  </h1>	
+<h1> SERVICE PROVIDER UPDATING PORTOFOLIO  </h1>	
 </div>
 
-<form ng-submit="spCon.newReg(data)">
+<div ng-controller="MainController">
+<form ng-submit="spCon.update(data)">
 	 <div class="form-group">
-          <label>Name</label>
-          <input type="text" class="form-control" ng-model="spCon.data.organizationName">
+          <label>Password</label>
+          <input type="password" class="form-control" ng-model="spCon.data.password">
         </div> 
        
         <div class="form-group">
@@ -33,7 +34,20 @@
           <label>polices</label>
           <input type="text" class="form-control" ng-model="spCon.data.polices" >
         </div>
-       
         <button type="submit" class="btn btn-default">Submit</button>
 
+
+
+         <input type="file" file-model="file.upload" name="myfile"/>
+         <button ng-click = "Submitlogo()">upload me</button>
+          <div ng-show="message">
+                <div ng-class="alert">{{ message }}</div>
+            </div>
+
+        <br>
+        <br>
+
+        <a href="#/spPortofolio">Back to portofolio</a>
+
 </form>
+</div>

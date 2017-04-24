@@ -15,21 +15,33 @@ angular.module('courseServ',[])
 
       },
 
+<<<<<<< HEAD
       
+=======
+     
+>>>>>>> master
         postannouncement: function(data){
        // jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJNWU5LU0giLCJpYXQiOjE0NjA3NzIyOTQsImV4cCI6MTQ5MjMwODI5NSwiYXVkIjoid3d3LnNlY291cnNlLmNvbSIsInN1YiI6Ik1ZTktTSCBJYmVyaWEiLCJUZWFtIjoiTVlOS1NIIn0.hZxhv8XAcu1cARgcrtfb0l_crF1-Ic1tJt9eUhIL0qQ';
         
           return $http.post('/serviceprovider/postannouncement',data);
+<<<<<<< HEAD
           console.log(response)
+=======
+         // console.log(response)
+>>>>>>> master
 
       },
 
         updatecourse: function(data){
 
+<<<<<<< HEAD
         return $http.post('/serviceprovider/courses/update',data).then(function(response){
       
       console.log(response)
     });
+=======
+        return $http.post('/serviceprovider/courses/update',data);
+>>>>>>> master
         
       },
 

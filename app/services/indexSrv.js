@@ -1,25 +1,83 @@
 angular.module('indexSrv', [])
 
 myApp.factory('indexSrv', function($http,AuthToken) {
-    return {
+  
 
+  var savedData={}
+    return {
+       postReview:function(data){
+        return $http.post('/studentprofile/review',data).then(function(response){
+         console.log('get revieww ' )
+         console.log(response)
+            return response;
+           });
+
+          },
+
+     set:function(data){
+      savedData=data;
+     },
+    get : function(){
+       return savedData;
+    },
+
+       getStudentProfile:function(data){
+              return $http.post('/studentprofile',data).then(function(res){
+                console.log(res)
+                return res;
+              });
+       
+       },
+         getCatalog : function(){
+                  return $http.get('/catalog');
+          },
+       //      getStudentProfile:function(){
+       //        return $http.get('/studentprofile');
+       
+       // },
+  
+ combine:function(data1,data2){
+      var obj={
+        courseTitle :data1.title,
+        announcement :data2
+      }
+     savedData=obj;
+  },
+   removeAnnouncements :function(data){
+       return $http.post('/serviceprovider/removeannouncement',data).then(function(response){
+         //console.log(response)
+            return response;
+       });
+     },
+
+
+
+   Search:function(data){
+        return $http.post('/home/search',data);
+     },
+
+///////////////////////////////
+getOtherStripePupKey: function(airlineIP , jwt) {
+        //jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJNWU5LU0giLCJpYXQiOjE0NjA3NzIyOTQsImV4cCI6MTQ5MjMwODI5NSwiYXVkIjoid3d3LnNlY291cnNlLmNvbSIsInN1YiI6Ik1ZTktTSCBJYmVyaWEiLCJUZWFtIjoiTVlOS1NIIn0.hZxhv8XAcu1cARgcrtfb0l_crF1-Ic1tJt9eUhIL0qQ';
+          return $http.get('/data/otherStripeKey/'+airlineIP+'?wt='+jwt);
+      },
         getVerifiedServiceProvider: function(){
        // jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJNWU5LU0giLCJpYXQiOjE0NjA3NzIyOTQsImV4cCI6MTQ5MjMwODI5NSwiYXVkIjoid3d3LnNlY291cnNlLmNvbSIsInN1YiI6Ik1ZTktTSCBJYmVyaWEiLCJUZWFtIjoiTVlOS1NIIn0.hZxhv8XAcu1cARgcrtfb0l_crF1-Ic1tJt9eUhIL0qQ';
-        
-          return $http.get('/home/viewreg');
+
+          return $http.get('/adminhomepage/verify');
 
       },
-
-        getCatalogPage : function(){
-        	$http.get('/home/views/catalog');
+        getSelectedCardNo: function() {
+            return this.SelectedCardNo;
+        },
+        setSelectedCardNo: function(value) {
+            this.SelectedCardNo = value;
         },
 
-        spRegister: function(sp){
-
-          return $http.post('/serviceprovider/register',sp)
-
-        },
-
+        // getCatalogPage : function(){
+        //   $http.get('/home/views/catalog');
+        // },
+        ///////////////////////////////////////////
 // THIS IS THE ROUTE OF SPLOGIN , AUTHTOKEN.SETTOKEN TAKE THE USER TOKEN AND SAVES IT IN THE LOCALSTRATEGY SO THAT
 // ANY FUNCTION WHICH NEEDS TOKEN AS INPUT WILL BE AUTOMATICALY TAKEN FROM HERE
 
@@ -72,9 +130,16 @@ myApp.factory('indexSrv', function($http,AuthToken) {
         {
           $q.reject({message:"user has no token"})
         }
+      },
+      GetToken:function(){
+        return AuthToken.GetToken();
+
       }
-}
+
+
+    }
 })
+
 
 .factory('AuthToken',function($window){
  return{
@@ -99,7 +164,7 @@ myApp.factory('indexSrv', function($http,AuthToken) {
 
  }
 
-})
+});
 
 .factory('AuthInterceptors',function(AuthToken){
   return{

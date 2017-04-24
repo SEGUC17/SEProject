@@ -4,24 +4,24 @@ angular.module('businessServ',[])
 
 .factory('businessServ', function($http,AuthToken) {
     return {
-<<<<<<< HEAD
+
         ServiceProviderRegister:function(data){
             return $http.post('/serviceprovider/register',data);
 
 
         },
-=======
+
     	ServiceProviderRegister:function(data){
     		return $http.post('/serviceprovider/register',data);
 
 
     	},
->>>>>>> master
+
 
 
         ServiceProviderAddCourse:function(data){
             return $http.post('/ServiceProvider/courses/addCourse',data);
-<<<<<<< HEAD
+
         }
 
 
@@ -44,7 +44,7 @@ angular.module('businessServ',[])
         //  }
 
         // }
-=======
+
         },
            ServiceProviderViewCourse:function(){
             return $http.get('/serviceprovider/courses');
@@ -77,7 +77,7 @@ angular.module('businessServ',[])
     	// 	}
 
     	// }
->>>>>>> master
+
 
 
 
@@ -86,7 +86,7 @@ angular.module('businessServ',[])
 })
 
 // .factory('AuthToken',function($window){
-<<<<<<< HEAD
+
 //  return{
 
 //      SetToken : function(token){
@@ -98,7 +98,7 @@ angular.module('businessServ',[])
 //      }
 
 //  }
-=======
+
 // 	return{
 
 // 		SetToken : function(token){
@@ -110,5 +110,5 @@ angular.module('businessServ',[])
 // 		}
 
 // 	}
->>>>>>> master
+
 // })

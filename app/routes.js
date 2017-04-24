@@ -1,74 +1,15 @@
 var myApp = angular.module('appRoutes',['ngRoute'])
 
 
-<<<<<<< HEAD
-myApp.config(function($routeProvider,$locationProvider) {
-=======
 .config(function($routeProvider) {
->>>>>>> master
   $routeProvider
 
   // route for the landingPage page
     .when('/', {
-<<<<<<< HEAD
-    templateUrl: 'views/welcome.html'
-
-    }).when('/catalog',{
-    templateUrl:'views/catalog.html'
-
-    }).when('/welcome',{
-    templateUrl:'views/welcome.html',
-    controller: 'MainController',
-    controllerAs: 'MainController'
-
-    }).when('/search',{
-    templateUrl:'views/search.html'
-
-   }).when('/adminPage',{
-      templateUrl:'views/adminPage.html',
-      controller: 'AdminController',
-      controllerAs: 'AdminController'
-
-  }).when('/registeredSP',{
-    templateUrl:'views/registeredSp.html',
-    controller: 'MainController',
-    controllerAs: 'MainController'
-
-    }).when('/register',{
-    templateUrl:'views/register.html',
-    controller: 'spCon',
-    controllerAs: 'spCon'
-
-    }).when('/addCourse',{
-    templateUrl:'views/addCourse.html',
-    controller: 'spCon',
-    controllerAs: 'spCon'
-
-    }).when('/studentRegister',{
-    templateUrl:'views/studentRegister.html',
-    controller: 'StudentController',
-    controllerAs: 'StudentController'
-
-    }).when('/studentLogin',{
-=======
     templateUrl: 'views/welcome.html',
     // controller: 'MainController',
     // controllerAs: 'MainController'
                })
-
-    .when('/catalog',{
-
-    templateUrl:'/catalog.html'
-
-    }).when('/welcome',{
-
-    templateUrl:'views/welcome.html',
-      controller: 'MainController',
-    controllerAs: 'MainController'
-
-    }).
-   when('/search',{
-    
   .when('/welcome',{
 
     templateUrl:'views/welcome.html',
@@ -109,13 +50,10 @@ myApp.config(function($routeProvider,$locationProvider) {
     })
   .when('/search',{
 
-
     templateUrl:'views/search.html',
    
 
     })
-
-
   .when('/updatePortofolio',{
 
     templateUrl:'views/SPUpdatePortofolio.html',
@@ -130,7 +68,6 @@ myApp.config(function($routeProvider,$locationProvider) {
    
 
     })
-
    .when('/registeredSP',{
 
     templateUrl:'views/registeredSp.html',
@@ -146,8 +83,6 @@ myApp.config(function($routeProvider,$locationProvider) {
     controllerAs: 'spCon'
 
     })
-
-
    .when('/viewP',{
 
     templateUrl:'views/viewP.html',
@@ -162,7 +97,6 @@ myApp.config(function($routeProvider,$locationProvider) {
     controllerAs: 'spCon'
 
     })
-
     .when('/addCourse',{
 
     templateUrl:'views/addCourse.html',
@@ -170,7 +104,6 @@ myApp.config(function($routeProvider,$locationProvider) {
     controllerAs: 'spCon'
 
     })
-
 
     .when('/oneCourse',{
 
@@ -186,7 +119,6 @@ myApp.config(function($routeProvider,$locationProvider) {
     controllerAs: 'spCon'
 
     })
-
     .when('/studentRegister',{
 
     templateUrl:'views/studentRegister.html',
@@ -196,19 +128,11 @@ myApp.config(function($routeProvider,$locationProvider) {
     })
     .when('/studentLogin',{
 
->>>>>>> master
     templateUrl:'views/studentLogin.html'
     //   controller: 'StudentController',
     // controllerAs: 'StudentController'
 
-<<<<<<< HEAD
-    }).when('/test',{
-    templateUrl:'views/test.html'
-
-    }).when('/login',{
-=======
     })
-
     .when('/index2',{
 
     templateUrl:'/index2.html'
@@ -301,7 +225,6 @@ myApp.config(function($routeProvider,$locationProvider) {
     // controllerAs: 'StudentController'
 
     })
-
    .when('/test',{
 
     templateUrl:'views/test.html'
@@ -310,51 +233,22 @@ myApp.config(function($routeProvider,$locationProvider) {
     })
     .when('/login',{
 
->>>>>>> master
     templateUrl:'views/login.html'
     //   controller: 'MainController',
     // controllerAs: 'MainController'
 
-<<<<<<< HEAD
-    }).when('/logout',{
-=======
     
 
     })
     .when('/logout',{
 
->>>>>>> master
     templateUrl:'views/logout.html'
     //   controller: 'MainController',
     // controllerAs: 'MainController'
 
-<<<<<<< HEAD
-    }).otherwise({
-    redirectTo: "/"
-  });
-$locationProvider.html5Mode({ enabled: true, requireBase: false });
-});
-
-// myApp.controller('MainController',['$scope',function($scope){
-//   $scope.title='Top Sellers in Books' ;
-// }])
-
-// angular.module('myApp', []).controller('myAppCtrl', function($scope) {
-//     $scope.title = 'Nothing beats a pocket protector!';
-// });
-
-// myApp.factory('myApp', function(){
-//        return { message: "I'm Data from a Service" }
-//    });
-
-// app.controller('MainController',['$scope',function($scope){
-//   $scope.title='Top Sellers in Books' ;
-// }])
-=======
     
 
     })
-
     .when('/Dashboard',{
 
     templateUrl:'views/Dashboard.html'
@@ -362,7 +256,6 @@ $locationProvider.html5Mode({ enabled: true, requireBase: false });
     // controllerAs: 'AdminController'
 
     })
-
     .otherwise({
     redirectTo: "/"
   });
@@ -371,4 +264,3 @@ $locationProvider.html5Mode({ enabled: true, requireBase: false });
   
 
 });
->>>>>>> master

@@ -1,30 +1,4 @@
 <div class="header">
-<<<<<<< HEAD
-<div class="container"><br>
-<h2>Admin Page</h2>
-</div>
-</div>
-<style>
-table, th , td  {
-  border: 1px solid grey;
-  border-collapse: collapse;
-  padding: 5px;
-}
-table tr:nth-child(odd) {
-  background-color: #f1f1f1;
-}
-table tr:nth-child(even) {
-  background-color: #ffffff;
-}
-</style>
-
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-
-<br>
-    <div class="main" ng-controller ="AdminController">
-      <div class="container-fluid">
-       <div class="scrollmenu">
-=======
        <div class="container"><br>
          <h2>Admin 👑 </h2>
        </div>
@@ -34,21 +8,10 @@ table tr:nth-child(even) {
       <div class="container-fluid">
        <div class="scrollmenu">
           <h2>{{ title }}</h2>
->>>>>>> master
           <div class="w3-container">
               <button class="w3-button w3-xlarge w3-circle w3-red w3-card-4" ng-click="ShowHide()" >+</button>Verified SP<br/>
               <div class="jumbotron">
                  <h2>Jumbotron</h2>
-<<<<<<< HEAD
-              </div>
-           </div>
-       </div>
-      </div>
-    </div>
-
-  <tbody>
-  <form name="myform">
-=======
                   <p><a href="html_images.asp">HTML Images</a>
               </div>
 
@@ -61,23 +24,10 @@ table tr:nth-child(even) {
 
       <tbody>
           <form name="myform">
->>>>>>> master
     <!-- <h4  ng-repeat="x in SrvProviders" >  {{x.email}} <button class="w3-button w3-xlarge w3-circle w3-red w3-card-4" ng-click="removeSrvProvider(x.email)" >+</button>Remove</h4> -->
 <div class="container-fluid">
   <table class="w3-table" ng-controller="AdminController" border="1">
           <thead class="text-danger">
-<<<<<<< HEAD
-            <th>username</th>
-            <th>Email</th>
-            <th>SP Status</th>
-          </thead>
-          <tr ng-repeat="sps in SrvProviders" >
-            <td>{{sps.username}}</td>
-              <td>{{sps.email}}</td>
-              <td>
-              <button class="w3-button w3-large w3-circle w3-red w3-card-4" ng-click="removeSrvProvider(sps.email) ; displaySrvProviders (); " >-</button>  Remove</h4>
-            </td>
-=======
             <th>username 👱🏼 / 👩🏼</th>
             <th>Email</th>
             <th>mobileNumber</th>
@@ -99,30 +49,15 @@ table tr:nth-child(even) {
               <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="declineSrvProvider(sps.email) ; displaySrvProviders (); " >🙅🏻</button> Delete</h4>
             </td>
 
->>>>>>> master
           </tr>
         </table>
         </div>
 <br>
-<<<<<<< HEAD
-        <div ng-click="AdminController.declineSP();" class="container-fluid">
-=======
         <div class="container-fluid">
->>>>>>> master
           <table class="w3-table" ng-controller="AdminController" border="1">
                   <thead class="text-danger">
                     <th>OrganizationName</th>
                     <th>Email</th>
-<<<<<<< HEAD
-                    <th> UnRegister SP</th>
-                  </thead>
-                  <tr ng-repeat="UNsps in unRegisterSP" >
-                    <td>{{UNsps.organizationName}}</td>
-                    <td> {{UNsps.email}}</td>
-                    <td>
-                      <button class="w3-button w3-large w3-circle w3-red w3-card-4" ng-click="" >+</button>  accept </h4>
-                        <button class="btn btn-primary" onclick="AdminController.declineSP()">Decline</button>
-=======
 
                     <th>mobileNumber</th>
                     <th>description</th>
@@ -155,39 +90,13 @@ table tr:nth-child(even) {
 
                     <td>
                       <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="declineSrvProvider(UNsps.email) ;" >🙅🏻</button>  Decline </h4>
->>>>>>> master
                     </td>
                   </tr>
             </table>
           </div>
-<<<<<<< HEAD
-<br>
-<!-- <h4  ng-repeat="x in SrvProviders" >  {{x.email}} <button class="w3-button w3-xlarge w3-circle w3-red w3-card-4" ng-click="removeSrvProvider(x.email)" >+</button>Remove</h4> -->
-<!-- get notifications -->
-
-<div ng-click="AdminController.getNotifications();" clickclass="container-fluid">
-  <button class="btn btn-primary" onclick="AdminController.getNotifications()">Service Provider Notifications</button>
-<table class="w3-table" ng-controller="AdminController" border="1">
-      <thead class="text-danger">
-        <th>Service Provider Username</th>
-        <th>Organization Name</th>
-        <th>list Of Notifications</th>
-      </thead>
-      <tr ng-repeat="sps in SrvProviders" >
-        <td>{{sps.username}}</td>
-        <td>{{sps.organizationName}}</td>
-        <td>{{sps.listOfNotification}}</td>
-
-      </tr>
-    </table>
-    </div>
-
-      </form>
-=======
 
 
       </form>
 
     <!-- <h1>  {{SrvProviders.content[0]}}  </h1> -->
->>>>>>> master
 </tbody>

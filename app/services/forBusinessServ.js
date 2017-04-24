@@ -13,6 +13,7 @@ angular.module('businessServ',[])
 
         ServiceProviderAddCourse:function(data){
             return $http.post('/ServiceProvider/courses/addCourse',data);
+
         },
            ServiceProviderViewCourse:function(){
             return $http.get('/serviceprovider/courses');

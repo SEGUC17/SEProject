@@ -281,26 +281,6 @@ if(response.data.content.username=='Admin')	{
 
 	}
 
-
-
-
-
-  //
-  // indexSrv.getCatalogPage();
-//$location.url('/welcome');
-// $scope.search = function() {
-       
-//         $location.url('/search');
-        
-//     };
-
-
-// indexSrv.spRegister($scope.sp).then(function)(res){
-//         $location.url('/register');
-
-// }
-
-
   
 });
 	

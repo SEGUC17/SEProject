@@ -1,5 +1,12 @@
+<<<<<<< HEAD
+angular.module('MainController', ['indexSrv'])
+
+.controller('MainController',function($scope,indexSrv,$location,$rootScope) {
+//console.log('main')
+=======
 angular.module('MainController', ['indexSrv','businessServ','uploadFileService','fileModelDirective'])
 .controller('MainController',function($scope,indexSrv,$location,$rootScope,businessServ,uploadFile) {
+>>>>>>> master
 
 
 ///////////////////////////////////////////
@@ -178,7 +185,12 @@ var test={};
 			//console.log("the token is: "+response.data.token)
 
 			if(response.data.type=='SUCCESS'){
+<<<<<<< HEAD
+
+			$location.path('/welcome')
+=======
 			$location.path('/spPortofolio')
+>>>>>>> master
 			app.islogged = true;
              //////////////////////////////
              if(response.data.decoded.type==='Admin'){
@@ -249,7 +261,28 @@ if(response.data.content.username=='Admin')	{
 
 	}
 
+<<<<<<< HEAD
+  //
+  // indexSrv.getCatalogPage();
+//$location.url('/welcome');
+// $scope.search = function() {
+       
+//         $location.url('/search');
+        
+//     };
+
+
+// indexSrv.spRegister($scope.sp).then(function)(res){
+//         $location.url('/register');
+
+// }
+
+// }
+
+
+=======
 
   
+>>>>>>> master
 });
 	

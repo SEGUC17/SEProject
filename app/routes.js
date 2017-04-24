@@ -10,6 +10,18 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     // controller: 'MainController',
     // controllerAs: 'MainController'
                })
+
+    .when('/catalog',{
+
+    templateUrl:'/catalog.html'
+
+    })
+  .when('/adminPage',{
+
+    templateUrl:'views/adminPage.html',
+    controller: 'AdminController',
+    controllerAs: 'AdminController'
+
   .when('/welcome',{
 
     templateUrl:'views/welcome.html',
@@ -58,6 +70,7 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     templateUrl:'views/spPortofolio.html',
    
 
+
     })
    .when('/registeredSP',{
 
@@ -74,6 +87,7 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     controllerAs: 'spCon'
 
     })
+
    .when('/viewP',{
 
     templateUrl:'views/viewP.html',
@@ -88,6 +102,7 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     controllerAs: 'spCon'
 
     })
+
     .when('/addCourse',{
 
     templateUrl:'views/addCourse.html',
@@ -95,6 +110,7 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     controllerAs: 'spCon'
 
     })
+
 
     .when('/oneCourse',{
 
@@ -110,6 +126,7 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     controllerAs: 'spCon'
 
     })
+
     .when('/studentRegister',{
 
     templateUrl:'views/studentRegister.html',
@@ -124,6 +141,7 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     // controllerAs: 'StudentController'
 
     })
+
     .when('/index2',{
 
     templateUrl:'/index2.html'
@@ -200,6 +218,7 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     templateUrl:'views/test.html'
     
 
+
     })
     .when('/login',{
 
@@ -207,7 +226,7 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     //   controller: 'MainController',
     // controllerAs: 'MainController'
 
-    
+
 
     })
     .when('/logout',{
@@ -216,14 +235,11 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     //   controller: 'MainController',
     // controllerAs: 'MainController'
 
-    
 
     })
     .otherwise({
     redirectTo: "/"
   });
 
-    
-  
 
 });

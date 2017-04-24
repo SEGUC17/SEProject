@@ -4,24 +4,15 @@ angular.module('businessServ',[])
 
 .factory('businessServ', function($http,AuthToken) {
     return {
-
         ServiceProviderRegister:function(data){
             return $http.post('/serviceprovider/register',data);
 
 
         },
 
-    	ServiceProviderRegister:function(data){
-    		return $http.post('/serviceprovider/register',data);
-
-
-    	},
-
-
 
         ServiceProviderAddCourse:function(data){
             return $http.post('/ServiceProvider/courses/addCourse',data);
-
 
         },
            ServiceProviderViewCourse:function(){
@@ -36,7 +27,7 @@ angular.module('businessServ',[])
             return $http.post('/serviceprovider/updatePortofolio',data);
         }
 
-    	
+
 
     
     };

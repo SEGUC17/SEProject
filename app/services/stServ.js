@@ -1,6 +1,10 @@
 angular.module('stServ',[])
 .factory('stServ',function($http){
+<<<<<<< HEAD
+
+=======
 	
+>>>>>>> master
 return{
 
    studentRegister : function(data){
@@ -8,6 +12,10 @@ return{
    		//console.log("inside service")
    		console.log(response)
    	});
+<<<<<<< HEAD
+   }
+}
+=======
 
    }
 
@@ -28,4 +36,5 @@ return{
 
 
 
+>>>>>>> master
 });

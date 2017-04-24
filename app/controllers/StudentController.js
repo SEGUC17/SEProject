@@ -5,8 +5,8 @@ angular.module('StudentController',['stServ'])
   this.newStudent = function(data){
 
 		  stServ.studentRegister(this.data)
-		  	
-		
+
+		  			
 	}
 
 	$scope.course=indexSrv.get();
@@ -18,6 +18,5 @@ this.payement = function(){
 		});
  
 	}
-
 
 });

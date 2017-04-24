@@ -1,17 +1,3 @@
-
-angular.module('MainController', ['indexSrv'])
-.controller('MainController',function($scope,indexSrv,$location,$rootScope) {
-//console.log('main')
-
-indexSrv.getVerifiedServiceProvider().then(function(res){
-	$scope.title=res.data
-})
-
-
-var app = this;
-
-			$rootScope.$on('$routeChangeStart',function(){
-
 angular.module('MainController', ['indexSrv','businessServ','uploadFileService','fileModelDirective'])
 .controller('MainController',function($scope,indexSrv,$location,$rootScope,businessServ,uploadFile) {
 
@@ -64,14 +50,12 @@ $rootScope.$on('$routeChangeStart',function(){
 
 
 
-
 			if(indexSrv.IsLoggedIn()){
 			console.log("success user is logged in")
 			indexSrv.GetCurrentUser().then(function(data){
 			console.log(data.data)
 			 $scope.SPusername=data.data.decoded.username
 			  app.islogged = true;
-
 			  $scope.type=data.data.decoded.type
 			 if($scope.type=='ServiceProvider')
 			 	app.isSP=true;
@@ -84,16 +68,13 @@ $rootScope.$on('$routeChangeStart',function(){
 
 
 
-
 			         });
 			      }
 			         else
 			          {
 			  console.log("user is not logged")
 			  	$scope.SPusername='';
-
               app.islogged = false;
-
 
 
 			    }
@@ -191,18 +172,12 @@ var test={};
 		})
 	}
 	
-
 	this.login=function(data){
 		indexSrv.ServiceProviderLogin(app.data).then(function(response){
 			console.log(response.data)
 			//console.log("the token is: "+response.data.token)
 
 			if(response.data.type=='SUCCESS'){
-
-			$location.path('/welcome')
-			app.islogged = true;
-
-
 			$location.path('/spPortofolio')
 			app.islogged = true;
              //////////////////////////////
@@ -213,7 +188,6 @@ var test={};
 
 				}
 /////////////////////////////////////////////////////////////
-
 			}
 			else{
 			 app.islogged = false;
@@ -234,16 +208,12 @@ this.Student_login=function(data){
 			$location.path('/welcome')
 			app.islogged = true;
 
-
-			}
-
 if(response.data.content.username=='Admin')	{
 					// console.log("admin :: "+response.data.content);
 					// console.log("admin type ::  "+response.data);
 					$location.path('/adminPage');
 			}
 		}
-
 			else{
 			 app.islogged = false;
 
@@ -252,7 +222,6 @@ if(response.data.content.username=='Admin')	{
 
 		})
 	}
-
 
 
 
@@ -272,7 +241,6 @@ if(response.data.content.username=='Admin')	{
 		    $location.url('/search');
 	}
 
-
 	this.logout=function(){
 		indexSrv.LogOut();
 		console.log("log")
@@ -280,6 +248,7 @@ if(response.data.content.username=='Admin')	{
 
 
 	}
+
 
   
 });

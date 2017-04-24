@@ -1,0 +1,48 @@
+
+
+<body>
+   <br>
+   <br> 
+  <p>your username: {{username}}</p>
+  <p>your profile picture: {{profilepicture}}</p>
+
+
+<body  ng-controller="MainController">
+   <br>
+   <br> 
+  <p>your username: {{username}}</p>
+  <p>your profile picture: {{profilepicture}}</p>
+   <!-- <img class = "mythumbnail" ng-src="{{ thumbnail.dataUrl || 'uploads/default.jpg'}}"> -->
+
+    <input type="file" file-model="file.upload" name="myfile"/>
+    <button ng-click = "Submit()">upload me</button>
+
+     <div ng-show="message">
+                <div ng-class="alert">{{ message }}</div>
+     </div>
+
+
+<h2>Courses that you are enrolled in :</h2>
+<div ng-repeat="res in studentcourses" >
+  
+         <ul class="list-group">
+          <li class="list-group-item">
+ 
+ {{res}}
+          
+<button  ng-click="MainController.redirectCourse(res)" type="button" >Review</button>
+
+          </li>
+        
+
+        </ul>
+
+       
+</div>
+
+    
+<!-- <p>cataloggg</p> -->
+</body>
+
+
+

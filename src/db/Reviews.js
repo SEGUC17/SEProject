@@ -9,12 +9,12 @@ var Reviews = mongoose.Schema({
  
 // holds the student ID who has written the review
   StudentID: {
-  	type: String,
+    type: String,
     required:true
   },
  
   review: {
-  	type: String,
+    type: String,
     required:true
   },
  
@@ -26,7 +26,7 @@ var Reviews = mongoose.Schema({
  
 // holds the course ID which has been reviewed
   courseID: {
-  	type: String
+    type: String
   }
  
 });

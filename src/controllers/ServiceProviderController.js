@@ -6,11 +6,43 @@ var Review = require('../db/Reviews');
 var jwt = require('jsonwebtoken');
 var jwt_decode = require('jwt-decode');
 array = [];
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 
 
 
 let ServiceProviderController = {
 
+<<<<<<< HEAD
+=======
+logoUpload: function(req,res){
+     var spID = req.decoded.id;
+     ServiceProvider.findById({_id: spID}, function(err,sp){
+      if(err){
+        console.log(err);
+        return;
+      }
+
+      if (!req.file) {
+         res.json({ success: false, message: 'No file was selected' });
+      } else {
+         res.json({ success: true, message: 'File uploaded!' });
+      }
+
+      sp.logo = req.file.filename;
+       console.log(sp);
+      sp.save(function(err){
+        if(err)
+          console.log(err);
+        else
+          console.log("done");
+      });
+     });
+  },
+
+>>>>>>> master
 //done
     clearUNverSP: function(req,res,cb){ // this method removes all
     
@@ -56,6 +88,16 @@ let ServiceProviderController = {
 
     },
 
+          getCourse: function(req,res,cb){
+        	Course.findOne({title:req.body.title},(err,result)=>{
+        		if(err){
+        			cb(err,"NO COURSE FOUND","ERROR")
+        		}else{
+        			cb(err,result,"SUCCESS");
+        		}
+        	})
+        },
+
 
 // Service Provider can create or update his protofiolo
 
@@ -88,17 +130,29 @@ let ServiceProviderController = {
 						});
 
 					}
+<<<<<<< HEAD
 
 				});
 
 			}else
 
+=======
+
+				});
+
+			}else
+
+>>>>>>> master
 				cb(err,"Service Provider not found !", "ERROR");
 		});
 	},
 
 	//the service provider can add a course and passing his Id 
     addCourse:function(req,res,cb){
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
      
     	//uncomment before submission//uncomment ends here
      
@@ -124,7 +178,10 @@ let ServiceProviderController = {
      
     			});
     		//uncomment ends here
+<<<<<<< HEAD
      
+=======
+>>>>>>> master
     		
      
     	newCourse.save((err,savedCourse)=>{
@@ -175,6 +232,10 @@ let ServiceProviderController = {
      
     },
     //done
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 //service provider removes a course by passong in the parameter and his id
 		removeCourse: function(req,res,cb){
  
@@ -249,7 +310,11 @@ let ServiceProviderController = {
        },
 //the service provider can post announcment bt passing his course title 
 		postAnnouncements:function(req,res,cb){
+<<<<<<< HEAD
 		 var newAnnouncement=req.body.announcement;
+=======
+		 var newAnnouncement=req.body.announcements;
+>>>>>>> master
 		 var Coursetitle=req.body.title;
 		Course.findOne({title:Coursetitle},(err,courseFound)=>{
 		if(err){
@@ -298,9 +363,15 @@ let ServiceProviderController = {
 				cb(err,"NO COURSE FOUND","ERROR");
 			}else{
 				cb(err,result.announcements,"SUCCESS");
+<<<<<<< HEAD
+=======
+			}
+				});
+>>>>>>> master
 			}
 				});
 			}
+
 
 
 		});
@@ -384,6 +455,7 @@ let ServiceProviderController = {
 //the service provider could view all the enroller students in the course by passing the course titile 
 	viewAllEnrolledStudents : function(req,res,cb){
 		
+<<<<<<< HEAD
     	//array.clear();
 
     	//array.splice(0, array.length);
@@ -441,6 +513,64 @@ let ServiceProviderController = {
 
 //the servicde provider could register to the system by passing the field 
        spRegister: function(req,res,cb){
+=======
+		
+		var x = 0;
+
+		if(req.decoded.type == "ServiceProvider"){
+			var courseTitle=req.body.title;
+			Course.findOne({title:courseTitle},(err,courseFound)=>{
+				if(courseFound){
+
+					var lengthOfEnrolledStudents=courseFound.enrolledStudentsIDs.length;
+
+					for(var i = 0; i < lengthOfEnrolledStudents; i++){
+						var studentID = courseFound.enrolledStudentsIDs[i];
+
+						
+						Student.findById(studentID,(err,studentFound)=>{
+
+							console.log(studentFound);
+							if(studentFound){
+								array[x] = studentFound;
+								x++;
+							}
+							else{
+								cb(err,"Student not found", "ERROR");
+
+							}
+
+						});
+
+					}
+					
+					
+					// for(var y = array.length-1; y > x; y--)
+					// 		array.pop();
+										
+					//console.log(array);
+					if(array.length == 0)
+						cb(err, "No students found", "SUCCESS");
+					else 
+						cb(err, array, "SUCCESS");
+
+					while(array.length > 0)
+							array.pop();
+
+				}else
+					cb(err, "Course not found", "ERROR");
+
+			});
+		}else
+			cb("", "You are not a Service Provider","ERROR");
+	},
+
+
+//the servicde provider could register to the system by passing the field 
+
+       spRegister: function(req,res,cb){
+
+>>>>>>> master
     //checks first tht this Service provider was not perviously registered to the system
     	   ServiceProvider.findOne({organizationName:req.body.organizationName},function(err,organizationName){
     	     	if(organizationName)
@@ -470,6 +600,7 @@ let ServiceProviderController = {
      
     	   							 newOrganization.save((err,spSaved)=>{
 
+<<<<<<< HEAD
 
     	    							if(err)
     	     								cb(err,"YOU HAVE PREVIOUSLY REGISTERED","ERROR");
@@ -488,6 +619,25 @@ let ServiceProviderController = {
     	 	});
     	},
 
+=======
+    	    							if(err)
+    	     								cb(err,"YOU HAVE PREVIOUSLY REGISTERED","ERROR");
+    	    							else
+    	    								cb(err,"you are registered expect an email soon ;)","SUCCESS");
+    	   							 });
+     
+    	       					}
+    	       				});
+    					}
+     
+    	   			});
+     
+    	   		}
+     
+    	 	});
+    	},
+
+>>>>>>> master
 
 //the service provider could login
 	SPLogin:function(req, res, cb) { 
@@ -529,6 +679,10 @@ let ServiceProviderController = {
  		});
 
  	},
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 
 
 //getting the list of reviews of a specific course which is provided by this service provider

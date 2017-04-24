@@ -243,8 +243,8 @@ if(response.data.content.username=='Admin')	{
 
 	this.logout=function(){
 		indexSrv.LogOut();
-		console.log("log")
-	    $location.path('/')
+		console.log("log");
+	    $location.path('/');
 
 
 	}

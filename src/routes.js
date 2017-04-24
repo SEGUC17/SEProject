@@ -201,7 +201,7 @@ router.post('/login', function(req,res){
 
 router.post('/register', function(req,res){
 
-  StudentController.studentSignUP(req,res,function(error,student,type){
+	StudentController.studentSignUP(req,res,function(error,student,type){
      if(type === "ERROR")
           res.json({
             type : type,

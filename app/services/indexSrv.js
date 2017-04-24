@@ -1,6 +1,13 @@
 angular.module('indexSrv', [])
 
 myApp.factory('indexSrv', function($http,AuthToken) {
+<<<<<<< HEAD
+    return {
+  
+
+
+      getOtherStripePupKey: function(airlineIP , jwt) {
+=======
   
 
   var savedData={}
@@ -58,13 +65,19 @@ myApp.factory('indexSrv', function($http,AuthToken) {
 
 ///////////////////////////////
 getOtherStripePupKey: function(airlineIP , jwt) {
+>>>>>>> master
         //jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJNWU5LU0giLCJpYXQiOjE0NjA3NzIyOTQsImV4cCI6MTQ5MjMwODI5NSwiYXVkIjoid3d3LnNlY291cnNlLmNvbSIsInN1YiI6Ik1ZTktTSCBJYmVyaWEiLCJUZWFtIjoiTVlOS1NIIn0.hZxhv8XAcu1cARgcrtfb0l_crF1-Ic1tJt9eUhIL0qQ';
           return $http.get('/data/otherStripeKey/'+airlineIP+'?wt='+jwt);
       },
         getVerifiedServiceProvider: function(){
        // jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJNWU5LU0giLCJpYXQiOjE0NjA3NzIyOTQsImV4cCI6MTQ5MjMwODI5NSwiYXVkIjoid3d3LnNlY291cnNlLmNvbSIsInN1YiI6Ik1ZTktTSCBJYmVyaWEiLCJUZWFtIjoiTVlOS1NIIn0.hZxhv8XAcu1cARgcrtfb0l_crF1-Ic1tJt9eUhIL0qQ';
+<<<<<<< HEAD
+        
+          return $http.get('/home/viewreg');
+=======
 
           return $http.get('/adminhomepage/verify');
+>>>>>>> master
 
       },
         getSelectedCardNo: function() {
@@ -73,11 +86,23 @@ getOtherStripePupKey: function(airlineIP , jwt) {
         setSelectedCardNo: function(value) {
             this.SelectedCardNo = value;
         },
+<<<<<<< HEAD
+        getCatalogPage : function(){
+          $http.get('/home/views/catalog');
+        },
+
+
+
+
+
+
+=======
 
         // getCatalogPage : function(){
         //   $http.get('/home/views/catalog');
         // },
         ///////////////////////////////////////////
+>>>>>>> master
 // THIS IS THE ROUTE OF SPLOGIN , AUTHTOKEN.SETTOKEN TAKE THE USER TOKEN AND SAVES IT IN THE LOCALSTRATEGY SO THAT
 // ANY FUNCTION WHICH NEEDS TOKEN AS INPUT WILL BE AUTOMATICALY TAKEN FROM HERE
 
@@ -130,11 +155,19 @@ getOtherStripePupKey: function(airlineIP , jwt) {
         {
           $q.reject({message:"user has no token"})
         }
+<<<<<<< HEAD
+      }
+
+
+
+
+=======
       },
       GetToken:function(){
         return AuthToken.GetToken();
 
       }
+>>>>>>> master
 
 
     }

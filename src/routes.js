@@ -113,6 +113,7 @@ res.json({
 });
 
 
+
     router.post('/getCourse',(req,res)=>{
     ServiceProviderController.getCourse(req,res,(err,message,type)=>{
       if(type=="ERROR"){
@@ -167,6 +168,7 @@ router.post('/serviceprovider/postannouncement',function(req,res){
 });
 
 
+
 router.post('/login', function(req,res){
   StudentController.checkStudentLogin(req,res,function(error,message,type){
     if(type == "ERROR")
@@ -193,15 +195,19 @@ router.post('/login', function(req,res){
         });
     }
 
+
   });
 
+
 });
+
 
 
 
 router.post('/register', function(req,res){
 
 	StudentController.studentSignUP(req,res,function(error,student,type){
+
      if(type === "ERROR")
           res.json({
             type : type,
@@ -213,7 +219,7 @@ router.post('/register', function(req,res){
             message : "You are registered successfully !",
             content : student
           });
-        
+      
 });
 
 });
@@ -236,6 +242,7 @@ router.post('/serviceprovider/register',function(req,res){
   });
 
 });
+
 
 
 
@@ -482,9 +489,7 @@ router.post('/serviceprovider/updatePortofolio',function(req,res){
 
 });
 
-//   return AdminController.declineSP(req,res);
 
-// });
 
 
 
@@ -761,9 +766,7 @@ router.post('/home/search',function(req,res){
 });
 
 
-//  router.get('*',function (req,res){
-//         res.sendFile(path.join(__dirname,'../','app','index.html'))
-// })
+
 
 
 module.exports =router;

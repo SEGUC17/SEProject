@@ -8,6 +8,12 @@ return{
    		//console.log("inside service")
    		console.log(response)
    	});
+<<<<<<< HEAD
+   }
+
+
+}
+=======
    	}
       ,
      studentPayment: function(data){
@@ -20,5 +26,6 @@ return{
 
 
 
+>>>>>>> master
 
 });

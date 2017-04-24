@@ -1,3 +1,17 @@
+<<<<<<< HEAD
+angular.module('MainController', ['indexSrv'])
+.controller('MainController',function($scope,indexSrv,$location,$rootScope) {
+//console.log('main')
+
+indexSrv.getVerifiedServiceProvider().then(function(res){
+	$scope.title=res.data
+})
+
+
+var app = this;
+
+			$rootScope.$on('$routeChangeStart',function(){
+=======
 angular.module('MainController', ['indexSrv','businessServ','uploadFileService','fileModelDirective'])
 .controller('MainController',function($scope,indexSrv,$location,$rootScope,businessServ,uploadFile) {
 
@@ -47,6 +61,7 @@ $scope.file = {};
     };
 
 $rootScope.$on('$routeChangeStart',function(){
+>>>>>>> master
 
 
 
@@ -56,6 +71,8 @@ $rootScope.$on('$routeChangeStart',function(){
 			console.log(data.data)
 			 $scope.SPusername=data.data.decoded.username
 			  app.islogged = true;
+<<<<<<< HEAD
+=======
 			  $scope.type=data.data.decoded.type
 			 if($scope.type=='ServiceProvider')
 			 	app.isSP=true;
@@ -67,6 +84,7 @@ $rootScope.$on('$routeChangeStart',function(){
 			    app.isST=false; 	
 
 
+>>>>>>> master
 
 			         });
 			      }
@@ -74,9 +92,12 @@ $rootScope.$on('$routeChangeStart',function(){
 			          {
 			  console.log("user is not logged")
 			  	$scope.SPusername='';
+<<<<<<< HEAD
+=======
               app.islogged = false;
 
 
+>>>>>>> master
 			    }
 
 
@@ -85,6 +106,8 @@ $rootScope.$on('$routeChangeStart',function(){
 })
 
 
+<<<<<<< HEAD
+=======
 // this function get all available courses
 		this.viewCatalog= function(){
 
@@ -172,12 +195,19 @@ var test={};
 		})
 	}
 	
+>>>>>>> master
 	this.login=function(data){
 		indexSrv.ServiceProviderLogin(app.data).then(function(response){
 			console.log(response.data)
 			//console.log("the token is: "+response.data.token)
 
 			if(response.data.type=='SUCCESS'){
+<<<<<<< HEAD
+			$location.path('/welcome')
+			app.islogged = true;
+
+
+=======
 			$location.path('/spPortofolio')
 			app.islogged = true;
              //////////////////////////////
@@ -188,6 +218,7 @@ var test={};
 
 				}
 /////////////////////////////////////////////////////////////
+>>>>>>> master
 			}
 			else{
 			 app.islogged = false;
@@ -208,12 +239,17 @@ this.Student_login=function(data){
 			$location.path('/welcome')
 			app.islogged = true;
 
+<<<<<<< HEAD
+
+			}
+=======
 if(response.data.content.username=='Admin')	{
 					// console.log("admin :: "+response.data.content);
 					// console.log("admin type ::  "+response.data);
 					$location.path('/adminPage');
 			}
 		}
+>>>>>>> master
 			else{
 			 app.islogged = false;
 
@@ -225,6 +261,8 @@ if(response.data.content.username=='Admin')	{
 
 
 
+<<<<<<< HEAD
+=======
     $scope.types=[{searchBy:"title"},{searchBy:"type"},{searchBy:"centerLocation"},{searchBy :"centerName"}]
 
 
@@ -240,6 +278,7 @@ if(response.data.content.username=='Admin')	{
 		})
 		    $location.url('/search');
 	}
+>>>>>>> master
 
 	this.logout=function(){
 		indexSrv.LogOut();
@@ -250,6 +289,27 @@ if(response.data.content.username=='Admin')	{
 	}
 
 
+<<<<<<< HEAD
+
+
+  //
+  // indexSrv.getCatalogPage();
+//$location.url('/welcome');
+// $scope.search = function() {
+       
+//         $location.url('/search');
+        
+//     };
+
+
+// indexSrv.spRegister($scope.sp).then(function)(res){
+//         $location.url('/register');
+
+// }
+
+
+=======
+>>>>>>> master
   
 });
 	

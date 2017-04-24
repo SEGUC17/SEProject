@@ -1,4 +1,3 @@
-
 angular.module('MainController', ['indexSrv','businessServ'])
 .controller('MainController',function($scope,indexSrv,$location,$rootScope,businessServ) {
 
@@ -18,11 +17,11 @@ $rootScope.$on('$routeChangeStart',function(){
 			 if($scope.type=='ServiceProvider')
 			 	app.isSP=true;
 			 else
-			    app.isSP=false; 	
+			    app.isSP=false;
 			 if($scope.type=='Student')
 			 	app.isST=true;
 			 else
-			    app.isST=false; 	
+			    app.isST=false;
 
 
 
@@ -52,70 +51,9 @@ $rootScope.$on('$routeChangeStart',function(){
 		  $scope.catalog=res.data.content;
 		})
 
-
 		}
 
 
-
-
-
-	this.login=function(data){
-		indexSrv.ServiceProviderLogin(app.data).then(function(response){
-			console.log(response.data)
-			//console.log("the token is: "+response.data.token)
-
-			if(response.data.type=='SUCCESS'){
-
-				$location.path('/welcome')
-				app.islogged = true;
-
-				if(response.data.decoded.type==='Admin'){
-
-					$location.path('/adminPage')
-					app.islogged = true;
-
-				}
-
-			}
-			else{
-				app.islogged = false;
-
-			}
-
-
-		})
-	};
-
-	//student login
-	this.Student_login=function(data){
-		console.log("blabizooooo:: "+data);
-		indexSrv.StudentLogin(app.data).then(function(response){
-			console.log("app.data :");
-			console.log(app.data);
-			// console.log("the token is: "+response.data.token);
-			console.log("admin/student ::  ");
-			console.log(response.data);
-			console.log("admin::  ");
-			console.log(response.data.content.username);
-
-			if(response.data.type=='SUCCESS'){
-				//response.data.content.type ==='Admin'
-				// change true to type of user elly da5l == admin
-				// console.log("nada admin ");
-				// console.log(response.data.content.username);
-					if(response.data.content.username=='Admin')	{
-					// console.log("admin :: "+response.data.content);
-					// console.log("admin type ::  "+response.data);
-					$location.path('/adminPage');
-
-				}//console.log("student"+response.data.decoded.username);
-				else {
-					$location.path('/welcome');
-				}
-				app.islogged = true;
-			}
-			else{
-				app.islogged = false;
 
 app.redirectCourse=function(course){
 
@@ -126,7 +64,7 @@ app.redirectCourse=function(course){
 }
 
 
-			
+
 
 
 this.viewStudentProfile=function(){
@@ -174,15 +112,9 @@ var test={};
    })}
 
 
-	
+	this.OneCourse =function(data){
 
 
-
-
-
-this.OneCourse =function(data){
-
-            
 	        businessServ.viewOneCourse(app.data).then(function(response){
 			console.log(app.data)
 
@@ -192,10 +124,77 @@ this.OneCourse =function(data){
 			console.log(c)
 
 			//$location.path('/coursepage')
-		        	
+
 
 		})
 	}
+
+
+	this.login=function(data){
+			indexSrv.ServiceProviderLogin(app.data).then(function(response){
+				console.log(response.data)
+				//console.log("the token is: "+response.data.token)
+
+				if(response.data.type=='SUCCESS'){
+
+					$location.path('/welcome')
+					app.islogged = true;
+
+					if(response.data.decoded.type==='Admin'){
+
+						$location.path('/adminPage')
+						app.islogged = true;
+
+					}
+
+				}
+				else{
+					app.islogged = false;
+
+				}
+
+
+			})
+		};
+
+		//student login
+		this.Student_login=function(data){
+			console.log("blabizooooo:: "+data);
+			indexSrv.StudentLogin(app.data).then(function(response){
+				console.log("app.data :");
+				console.log(app.data);
+				// console.log("the token is: "+response.data.token);
+				console.log("admin/student ::  ");
+				console.log(response.data);
+				console.log("admin::  ");
+				console.log(response.data.content.username);
+
+				if(response.data.type=='SUCCESS'){
+					//response.data.content.type ==='Admin'
+					// change true to type of user elly da5l == admin
+					// console.log("nada admin ");
+					// console.log(response.data.content.username);
+						if(response.data.content.username=='Admin')	{
+						// console.log("admin :: "+response.data.content);
+						// console.log("admin type ::  "+response.data);
+						$location.path('/adminPage');
+
+					}//console.log("student"+response.data.decoded.username);
+					else {
+						$location.path('/welcome');
+					}
+					app.islogged = true;
+				}
+				else{
+					app.islogged = false;
+
+				}
+
+
+			})
+		}
+
+
 
     $scope.types=[{searchBy:"title"},{searchBy:"type"},{searchBy:"centerLocation"},{searchBy :"centerName"}]
 
@@ -222,7 +221,5 @@ this.OneCourse =function(data){
 	}
 
 
-  
-});
-	
 
+});

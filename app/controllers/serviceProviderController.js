@@ -1,4 +1,3 @@
-
 angular.module('spctr',['businessServ','indexSrv','courseServ'])
 
 // data  dy el object eli b5do mn el user w 3shn a access 7aga mo3yna mmkn a3ml data.field msln
@@ -130,7 +129,6 @@ test["announcements"]=app.data.announcements
 
 
 
-
 	this.addCourse =function(data){
 
 		// data["token"]=app.SPtoken;
@@ -141,7 +139,6 @@ test["announcements"]=app.data.announcements
 
 		})
 	}
-
 
 
 // var heba="heba";
@@ -198,7 +195,6 @@ test["announcements"]=app.data.announcements
 
 
 		})
-
 
 
 })

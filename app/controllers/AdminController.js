@@ -1,4 +1,4 @@
-angular.module('AdminController', ['adminSrv']).controller('AdminController',function($scope,adminSrv,indexSrv,$location) {
+angular.module('AdminController', ['adminSrv']).controller('AdminController',function($scope,adminSrv,indexSrv,$location,businessServ) {
  //adminSrv.setEmail("balabizo@gmail.com");
 $scope.msg = "";
 // $scope.test = "testemail";
@@ -27,6 +27,19 @@ console.log(indexSrv);
 //removeSrvProvider($scope.Email);
 //getServiceProvider();
 // console.log(indexSrv.GetToken());
+$scope.GoToSPpage=  function(Email){
+
+adminSrv.getSpDetail(Email,indexSrv.GetToken()).success(function(spProfile) {
+// eh deh ??  deh btgebb l data bta3t  lsp
+adminSrv.setSpProfile(spProfile.content); // leh el val u ea ngzi afhmk b3dan
+console.log("ana hna sp profile "+spProfile);
+console.log(spProfile.content);
+$location.path("/viewP");
+
+});
+
+};
+
 $scope.SrvProviders=
     adminSrv.getVerifiedServiceProvider(indexSrv.GetToken()).success(function(Sp) {
 

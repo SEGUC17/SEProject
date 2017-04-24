@@ -1,7 +1,7 @@
 angular.module('spctr',['businessServ','indexSrv','courseServ'])
 
 // data  dy el object eli b5do mn el user w 3shn a access 7aga mo3yna mmkn a3ml data.field msln
-.controller('spCon',function($http,$location,businessServ,indexSrv,$scope,courseServ){
+.controller('spCon',function($http,$location,businessServ,indexSrv,$scope,courseServ,adminSrv){
 
 var app =this;
 
@@ -14,7 +14,7 @@ var app =this;
 
 		indexSrv.GetCurrentUser().then(function(data){
 		$scope.type=data.data.decoded.type
-		
+
 		if($scope.type=='ServiceProvider')
 			app.isSP=true;
 		else
@@ -27,17 +27,17 @@ var app =this;
     $scope.coursez = indexSrv.get()
 
 
-  
+
 
 this.viewannouncements = function(){
-	
-  
+
+
 
 courseServ.viewannouncements(xx).then(function(res){
 	console.log(res.data.content)
 	$location.path('/viewannouncements');
 	$scope.gina=res.data.content
-	
+
 })
 }
 
@@ -48,7 +48,7 @@ courseServ.removeCourse(app.data).then(function(res){
 	console.log(res)
 	$location.path('/removeCourse');
 
-	
+
 })
 }
 
@@ -71,7 +71,7 @@ test["announcements"]=app.data.announcements
 
 			console.log(response)
 			console.log(app.data)
-			
+
 			// console.log(test)
 
 			if(response.data.type=='SUCCESS'){
@@ -88,7 +88,7 @@ test["announcements"]=app.data.announcements
 		courseServ.updatecourse(app.data).then(function(res){
 			console.log(app.data)
 			console.log(res)
-			
+
 			if(res.data.type=='SUCCESS'){
 				 $location.path('/home');
 			}
@@ -103,7 +103,7 @@ test["announcements"]=app.data.announcements
 	$scope.plusOne=function(){
       $scope.likes +=1;
       courseServ.updatecourse(app.data).then(function(response){
-			
+
 			if(response.data.type=='SUCCESS'){
 				 $location.path('/home');
 			}
@@ -115,7 +115,7 @@ test["announcements"]=app.data.announcements
 	$scope.minusOne=function(){
       $scope.dislikes +=1;
       courseServ.updatecourse(app.data).then(function(response){
-			
+
 			if(response.data.type=='SUCCESS'){
 				 $location.path('/home');
 			}
@@ -125,7 +125,7 @@ test["announcements"]=app.data.announcements
 
 	}
 
-		
+
 
 
 
@@ -145,7 +145,7 @@ test["announcements"]=app.data.announcements
 //    $scope.coursez=indexSrv.set(heba)
 	this.OneCourse =function(data){
 
-            
+
 	        businessServ.viewOneCourse(app.data).then(function(response){
 			console.log(response)
 			$scope.oneCourse= response.data.content
@@ -166,11 +166,11 @@ test["announcements"]=app.data.announcements
 			})
 		}
 
- 
+
    // console.log( $scope.coursez)
 
 
-	
+
 
 		businessServ.ServiceProviderViewCourse().then(function(response){
 			// console.log(response)
@@ -178,8 +178,8 @@ test["announcements"]=app.data.announcements
 			console.log("courses are:")
 		     console.log(response)
 			$scope.courses=response.data.content
-		
-	
+
+
 
 
 		});
@@ -188,14 +188,24 @@ test["announcements"]=app.data.announcements
 
 		businessServ.ServiceProviderViewPortofolio().then(function(response){
 			//console.log(response)
-			console.log(response.data)
+			console.log(response.data.content)
+      if(response.data.content === undefined ||response.data.content ===null || response.data.content === ""){
+        console.log("in 1");
+        $scope.profile=adminSrv.getSpProfile();
+			}else if(($scope.profile != null ||  $scope.profile !="") && ( $scope.profile !=  undefined) ) {
+        console.log("in 2");
+        $scope.profile=response.data.content
 
-			$scope.profile=response.data.content
-	
+      }  else {
+        console.log("in 3");
+
+          $scope.profile=response.data.content;
+
+      }
+
 
 
 		})
 
 
 })
-

@@ -627,6 +627,32 @@ router.get('/ServiceProvider/viewPortofolio',(req,res)=>{
 });
 
 
+router.post('/ServiceProvider/viewPortofolioByAdmin',(req,res)=>{
+  if(req.decoded.type=="Admin"){
+    ServiceProviderController.viewPortofolioFromAdmin(req,res,(err,result,type)=>{
+      if(type=="ERROR"){
+        res.json({
+          type:type,
+          message:result
+        })
+      }else{
+        res.json({
+          type:type,
+          message:"YOU CAN VIEW YOUR PORTOFOLIO",
+          content:result
+        });
+      }
+
+    });
+
+  }else{
+    res.json({
+      type:"ERROR",
+      message:"YOU ARE NOT A SERVICE PROVIDER"
+    });
+  }
+
+});
 router.post('/adminhomepage/getNotifications',function(req,res){
   if(req.decoded.type = "Admin"){
 

@@ -62,7 +62,8 @@ var myApp = angular.module('appRoutes',['ngRoute'])
    .when('/spPortofolio',{
 
     templateUrl:'views/spPortofolio.html',
-
+    controller: 'spCon',
+  controllerAs: 'spCon'
 
     })
    .when('/registeredSP',{

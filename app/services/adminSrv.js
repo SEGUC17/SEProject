@@ -25,6 +25,16 @@ declineSrvProvider: function(Email , token){
          console.log(Email);
          return $http.post('/admin/declineSP',body);
 },
+getSpDetail: function(Email , token){
+       // jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJNWU5LU0giLCJpYXQiOjE0NjA3NzIyOTQsImV4cCI6MTQ5MjMwODI5NSwiYXVkIjoid3d3LnNlY291cnNlLmNvbSIsInN1YiI6Ik1ZTktTSCBJYmVyaWEiLCJUZWFtIjoiTVlOS1NIIn0.hZxhv8XAcu1cARgcrtfb0l_crF1-Ic1tJt9eUhIL0qQ';
+       var body = {
+      "email": Email ,
+      "token":token
+
+      };
+
+         return $http.post('/ServiceProvider/viewPortofolioByAdmin',body);
+},
 
 
 //verify SP
@@ -86,6 +96,13 @@ getEmail: function() {
 
 setEmail: function(value) {
     this.Email = value;
+},
+getSpProfile: function() {
+    return this.SpProfile;
+},
+
+setSpProfile: function(value) {
+    this.SpProfile = value;
 }
 
     };

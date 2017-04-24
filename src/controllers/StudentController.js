@@ -10,6 +10,7 @@ glo2=[];
 
  
 let StudentController = {
+
 //the student could book a course
 
 imgUpload: function(req,res){
@@ -61,6 +62,7 @@ imgUpload: function(req,res){
                 if(docs.ListOfCourses[i].toString() == result._id){
                   found = -100;
                   break;
+
                 }
               }
             }
@@ -112,7 +114,7 @@ imgUpload: function(req,res){
     checkStudentLogin:function(req,res,cb) {
       if(req.body.username === "Admin" || req.body.username === "admin" || req.body.username === "mariam"){
         Admin.findOne({username: req.body.username },(err,admin)=>{
- 
+
           if(err){
             cb(err,"ERROR","ERROR");
           }else{
@@ -382,27 +384,7 @@ else
 
 
  },
-/*
-   //the student view all the courses he is enrolled to
-       viewStudentListOfCourses : function(req, res,cb){
-          var studentID = req.decoded.id;
- 
-          Student.findById(studentID, function(err, StudentFound){
-            console.log(StudentFound);
- 
-            for(var i = 0; i < StudentFound.ListOfCourses.length;i++){
-              var CourseID=StudentFound.ListOfCourses[i];
-              Course.findById(CourseID,(err,CourseFound)=>{
-                if(err)
-                  cb(err,"ERROR","ERROR");
-                else
-                  console.log(CourseFound);
- 
-              });
-            }
-          })
- 
-      },*/
+
  
   //student is beging signed to the system
   studentSignUP:function(req,res, cb){
@@ -418,8 +400,6 @@ else
               email:req.body.email,
               birthdate:req.body.birthdate ,
               ListOfCourses:[],
-              profilePicture:req.body.profilePicture
- 
             });
  
         newStudent.save(function(err,student){

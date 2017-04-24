@@ -8,6 +8,12 @@ return{
    		//console.log("inside service")
    		console.log(response)
    	});
+
+   }
+
+
+}
+
    	}
       ,
      studentPayment: function(data){
@@ -17,6 +23,7 @@ return{
       });
    }
    }
+
 
 
 

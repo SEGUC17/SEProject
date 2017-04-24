@@ -135,6 +135,7 @@ logoUpload: function(req,res){
 
 	//the service provider can add a course and passing his Id 
     addCourse:function(req,res,cb){
+
      
     	//uncomment before submission//uncomment ends here
      
@@ -160,7 +161,6 @@ logoUpload: function(req,res){
      
     			});
     		//uncomment ends here
-     
     		
      
     	newCourse.save((err,savedCourse)=>{
@@ -211,6 +211,7 @@ logoUpload: function(req,res){
      
     },
     //done
+
 //service provider removes a course by passong in the parameter and his id
 		removeCourse: function(req,res,cb){
  
@@ -420,9 +421,6 @@ logoUpload: function(req,res){
 //the service provider could view all the enroller students in the course by passing the course titile 
 	viewAllEnrolledStudents : function(req,res,cb){
 		
-    	//array.clear();
-
-    	//array.splice(0, array.length);
 		
 		var x = 0;
 
@@ -476,7 +474,9 @@ logoUpload: function(req,res){
 
 
 //the servicde provider could register to the system by passing the field 
+
        spRegister: function(req,res,cb){
+
     //checks first tht this Service provider was not perviously registered to the system
     	   ServiceProvider.findOne({organizationName:req.body.organizationName},function(err,organizationName){
     	     	if(organizationName)
@@ -505,7 +505,6 @@ logoUpload: function(req,res){
     	    						}); 
      
     	   							 newOrganization.save((err,spSaved)=>{
-
 
     	    							if(err)
     	     								cb(err,"YOU HAVE PREVIOUSLY REGISTERED","ERROR");
@@ -565,6 +564,7 @@ logoUpload: function(req,res){
  		});
 
  	},
+
 
 
 //getting the list of reviews of a specific course which is provided by this service provider

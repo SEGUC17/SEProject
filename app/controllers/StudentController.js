@@ -15,6 +15,7 @@ angular.module('StudentController',['stServ'])
 		  	
 		
 	}
+
 	$scope.course=indexSrv.get();
 console.log("henaa title");
  
@@ -24,5 +25,6 @@ this.payement = function(){
 		});
  
 	}
+
 
 });

@@ -29,7 +29,7 @@ var upload = multer({storage : storage}); //check the path
 
 
 router.get('/',function (req,res){
-        res.sendFile(path.join(__dirname,'../','app/views','index.html'))
+        res.sendFile(path.join(__dirname,'../','app','index.html'))
 });
 
 

@@ -9,11 +9,11 @@ angular.module('myApp', ['ui.bootstrap','appRoutes','MainController','indexSrv',
 
 
 // myApp.controller('MainController',['$scope',function($scope){
-
+  
 //   $scope.title='Top Sellers in Books' ;
-
+  
 // }])
-
+	
 
 // angular.module('myApp', []).controller('myAppCtrl', function($scope) {
 
@@ -27,7 +27,7 @@ angular.module('myApp', ['ui.bootstrap','appRoutes','MainController','indexSrv',
 
 
 // app.controller('MainController',['$scope',function($scope){
-
+  
 //   $scope.title='Top Sellers in Books' ;
-
+  
 // }])

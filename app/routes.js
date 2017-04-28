@@ -16,12 +16,6 @@ var myApp = angular.module('appRoutes',['ngRoute'])
       controller: 'MainController',
     controllerAs: 'MainController'
 
-    }).when('/adminPage',{
-
-    templateUrl:'views/adminPage.html',
-    controller: 'AdminController',
-    controllerAs: 'AdminController'
-
     })
   .when('/studentprofile/review',{
 
@@ -30,6 +24,15 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     controllerAs: 'MainController'
 
     })
+  ////////////////////////
+  .when('/adminPage',{
+
+    templateUrl:'views/adminPage.html',
+    controller: 'AdminController',
+    controllerAs: 'AdminController'
+
+    })
+  ///////////////////////
 .when('/studentprofile',{
 
     templateUrl:'views/studentprofile.html',
@@ -48,7 +51,7 @@ var myApp = angular.module('appRoutes',['ngRoute'])
   .when('/search',{
 
     templateUrl:'views/search.html',
-
+   
 
     })
   .when('/updatePortofolio',{
@@ -62,8 +65,7 @@ var myApp = angular.module('appRoutes',['ngRoute'])
    .when('/spPortofolio',{
 
     templateUrl:'views/spPortofolio.html',
-    controller: 'spCon',
-  controllerAs: 'spCon'
+   
 
     })
    .when('/registeredSP',{
@@ -156,7 +158,7 @@ var myApp = angular.module('appRoutes',['ngRoute'])
 
     templateUrl:'views/coursepage.html',
     controller: 'spCon',
-    controllerAs:'spCon'
+    controllerAs:'spCon' 
 
     })
     .when('/updatecourse',{
@@ -166,7 +168,7 @@ var myApp = angular.module('appRoutes',['ngRoute'])
       controllerAs: 'spCon'
 
     })
-
+   
     .when('/postannouncement',{
 
     templateUrl:'views/postannouncement.html',
@@ -180,6 +182,20 @@ var myApp = angular.module('appRoutes',['ngRoute'])
       controller: 'spCon',
     controllerAs: 'spCon'
 
+    })
+ .when('/viewannouncements1',{
+
+    templateUrl:'views/viewannouncements1.html',
+      controller: 'spCon',
+    controllerAs: 'spCon'
+
+    })
+    .when('/charge',{
+ 
+    templateUrl:'views/stripe.html',
+      controller: 'StudentController',
+    controllerAs: 'StudentController'
+ 
     })
  .when('/viewreviews',{
 
@@ -195,6 +211,13 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     controllerAs: 'spCon'
 
     })
+ .when('/home1',{
+
+    templateUrl:'views/coursepage.html',
+      controller: 'spCon',
+    controllerAs: 'spCon'
+
+    })
  .when('/coursesp',{
 
     templateUrl:'views/coursesp.html'
@@ -205,7 +228,7 @@ var myApp = angular.module('appRoutes',['ngRoute'])
    .when('/test',{
 
     templateUrl:'views/test.html'
-
+    
 
     })
     .when('/login',{
@@ -214,7 +237,7 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     //   controller: 'MainController',
     // controllerAs: 'MainController'
 
-
+    
 
     })
     .when('/logout',{
@@ -223,14 +246,21 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     //   controller: 'MainController',
     // controllerAs: 'MainController'
 
+    
 
+    })
+    .when('/Dashboard',{
+
+    templateUrl:'views/Dashboard.html'
+    // controller: 'AdminController',
+    // controllerAs: 'AdminController'
 
     })
     .otherwise({
     redirectTo: "/"
   });
 
-
-
+    
+  
 
 });

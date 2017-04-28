@@ -1,7 +1,7 @@
 angular.module('indexSrv', [])
 
 myApp.factory('indexSrv', function($http,AuthToken) {
-
+  
 
   var savedData={}
     return {
@@ -26,16 +26,29 @@ myApp.factory('indexSrv', function($http,AuthToken) {
                 console.log(res)
                 return res;
               });
-
+       
        },
          getCatalog : function(){
                   return $http.get('/catalog');
           },
        //      getStudentProfile:function(){
        //        return $http.get('/studentprofile');
-
+       
        // },
-
+  
+ combine:function(data1,data2){
+      var obj={
+        courseTitle :data1.title,
+        announcement :data2
+      }
+     savedData=obj;
+  },
+   removeAnnouncements :function(data){
+       return $http.post('/serviceprovider/removeannouncement',data).then(function(response){
+         //console.log(response)
+            return response;
+       });
+     },
 
 
 
@@ -43,7 +56,28 @@ myApp.factory('indexSrv', function($http,AuthToken) {
         return $http.post('/home/search',data);
      },
 
+///////////////////////////////
+getOtherStripePupKey: function(airlineIP , jwt) {
+        //jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJNWU5LU0giLCJpYXQiOjE0NjA3NzIyOTQsImV4cCI6MTQ5MjMwODI5NSwiYXVkIjoid3d3LnNlY291cnNlLmNvbSIsInN1YiI6Ik1ZTktTSCBJYmVyaWEiLCJUZWFtIjoiTVlOS1NIIn0.hZxhv8XAcu1cARgcrtfb0l_crF1-Ic1tJt9eUhIL0qQ';
+          return $http.get('/data/otherStripeKey/'+airlineIP+'?wt='+jwt);
+      },
+        getVerifiedServiceProvider: function(){
+       // jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJNWU5LU0giLCJpYXQiOjE0NjA3NzIyOTQsImV4cCI6MTQ5MjMwODI5NSwiYXVkIjoid3d3LnNlY291cnNlLmNvbSIsInN1YiI6Ik1ZTktTSCBJYmVyaWEiLCJUZWFtIjoiTVlOS1NIIn0.hZxhv8XAcu1cARgcrtfb0l_crF1-Ic1tJt9eUhIL0qQ';
 
+          return $http.post('/adminhomepage/verify');
+
+      },
+        getSelectedCardNo: function() {
+            return this.SelectedCardNo;
+        },
+        setSelectedCardNo: function(value) {
+            this.SelectedCardNo = value;
+        },
+
+        // getCatalogPage : function(){
+        //   $http.get('/home/views/catalog');
+        // },
+        ///////////////////////////////////////////
 // THIS IS THE ROUTE OF SPLOGIN , AUTHTOKEN.SETTOKEN TAKE THE USER TOKEN AND SAVES IT IN THE LOCALSTRATEGY SO THAT
 // ANY FUNCTION WHICH NEEDS TOKEN AS INPUT WILL BE AUTOMATICALY TAKEN FROM HERE
 
@@ -53,7 +87,7 @@ myApp.factory('indexSrv', function($http,AuthToken) {
          //console.log(response)
             return response;
        });
-
+       
        },
 
 
@@ -63,13 +97,13 @@ myApp.factory('indexSrv', function($http,AuthToken) {
          //console.log(response)
             return response;
        });
-
+       
        },
 
 
 
 // function that return true if the user is logged in or return false when user is not logged in
-// it uses the function getToken() to check if there is a token , if there is token , the function will return true
+// it uses the function getToken() to check if there is a token , if there is token , the function will return true 
 // if there is no token the function will return false
        IsLoggedIn: function(){
 
@@ -82,7 +116,7 @@ myApp.factory('indexSrv', function($http,AuthToken) {
       },
 
       LogOut: function(){
-        AuthToken.SetToken();
+        AuthToken.SetToken(); 
         console.log("logout from indexSrv")
       },
 
@@ -96,13 +130,14 @@ myApp.factory('indexSrv', function($http,AuthToken) {
         {
           $q.reject({message:"user has no token"})
         }
-      },
+      }
+
+,
+
       GetToken:function(){
-      return AuthToken.GetToken();
+        return AuthToken.GetToken();
 
-    },
-
-
+      }
 
 
 
@@ -130,7 +165,7 @@ myApp.factory('indexSrv', function($http,AuthToken) {
    // function which retrieves the token from the localStorage
    GetToken: function(){
      return $window.localStorage.getItem('token')
-   },
+   }
 
  }
 
@@ -141,7 +176,7 @@ myApp.factory('indexSrv', function($http,AuthToken) {
 
     request: function(config){
       var token= AuthToken.GetToken();
-      if(token)
+      if(token) 
         config.headers['x-access-token']= token;
       return config;
 

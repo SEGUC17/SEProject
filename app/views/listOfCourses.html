@@ -1,0 +1,28 @@
+
+
+
+
+<div  ng-controller= "MainController">
+<div ng-click="MainController.OneCourse(data)">
+<p>Select a course:</p>
+ <select  ng-model="MainController.data" ng-options="x.title for x in catalog">
+</select>
+
+	<h1>You selected: {{MainController.data.title}}</h1>
+
+	
+
+</div>
+</div>
+
+
+
+
+
+<div>
+  <h3>You can view the selected course from here </h3>
+    <li><a href= "#/coursepage"> <button b >COURSE PAGE </button> </a></li>
+
+</div>
+
+

@@ -1,0 +1,11 @@
+
+<h6>DASHBOARD</h6>
+
+<div ng-controller ="AdminController">
+<div ng-repeat = "x in notifications">
+          <ul class="list-group">
+          <li class="list-group-item"><label>Service provider name : </label>{{x[1].ServiceProviderUsername}}</li>
+          <li class="list-group-item"><label>Notification : </label>{{x[1].typeOfNotification}}</li>
+          </ul>
+</div>
+</div>

@@ -1,5 +1,5 @@
-angular.module('StudentController',['stServ'])
-.controller('StudentController',function($scope,$http,$location,stServ){
+angular.module('StudentController',['stServ','indexSrv'])
+.controller('StudentController',function($scope,$http,$location,stServ,indexSrv){
 //console.log("student controllerrrrr");
 
  //$scope.student="youmna";
@@ -14,6 +14,15 @@ angular.module('StudentController',['stServ'])
 		  stServ.studentRegister(this.data)
 		  	
 		
+	}
+	$scope.course=indexSrv.get();
+console.log("henaa title");
+ 
+this.payement = function(){
+		stServ.studentPayment().then(function(response){
+			console.log(response);
+		});
+ 
 	}
 
 });

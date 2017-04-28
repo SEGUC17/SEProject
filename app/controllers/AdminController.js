@@ -30,8 +30,8 @@ console.log(indexSrv);
 $scope.GoToSPpage=  function(Email){
 
 adminSrv.getSpDetail(Email,indexSrv.GetToken()).success(function(spProfile) {
-// eh deh ??  deh btgebb l data bta3t  lsp
-adminSrv.setSpProfile(spProfile.content); // leh el val u ea ngzi afhmk b3dan
+// eh deh ??  deh btgebb l data bta3t  l sp
+adminSrv.setSpProfile(spProfile.content); 
 console.log("ana hna sp profile "+spProfile);
 console.log(spProfile.content);
 $location.path("/viewP");

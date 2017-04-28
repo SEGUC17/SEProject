@@ -28,22 +28,25 @@
 <div class="container-fluid">
   <table class="w3-table" ng-controller="AdminController" border="1">
           <thead class="text-danger">
-            <th>username 👱🏼 / 👩🏼</th>
+            <th>username 👱 / 👩 </th>
             <th>Email</th>
             <th>mobileNumber</th>
             <th>SP Status</th>
             <th>SP Status</th>
 
           </thead>
+          <div>
+           <a class="w3-button w3-medium w3-circle w3-red w3-card-4" href="#/Dashboard" >🙅</a><br> Dashboard</h4>
+           </div>
           <tr ng-repeat="sps in SrvProviders.content" >
             <td>{{sps.username}}</td>
               <td>{{sps.email}}</td>
               <td>{{sps.mobileNumber}}</td>
               <td>
-              <button class="w3-button w3-medium w3-circle w3-blue w3-card-4" ng-click="GoToSPpage(sps.email);" >🕵🏼</button>  Details</h4>
+              <button class="w3-button w3-medium w3-circle w3-blue w3-card-4" ng-click="GoToSPpage(sps.email);" >🕵</button>  Details</h4>
               </td>
               <td>
-              <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="declineSrvProvider(sps.email) ; displaySrvProviders (); " >🙅🏻</button>  Decline</h4>
+              <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="declineSrvProvider(sps.email) ; displaySrvProviders (); " >🙅</button> Delete</h4>
             </td>
 
           </tr>

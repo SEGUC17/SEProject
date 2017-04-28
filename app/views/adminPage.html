@@ -4,63 +4,73 @@
        </div>
      </div>
 <br>
-  <tbody>
-    <form name="myform">
-      <div class="col-sm-10">
-        <table table class="table table-striped table-hover " ng-controller="AdminController" border="1">
-          <thead class="text-danger">
-            <tr>
-              <th>username 👱/👩 </th>
-              <th>Email</th>
-              <th>Mobile No</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-            <tbody>
-                <tr class="success" ng-repeat="sps in SrvProviders.content" >
-                  <td>{{sps.username}}</td>
-                    <td>{{sps.email}}</td>
-                    <td>{{sps.mobileNumber}}</td>
-                    <td>
-                    <button class="w3-button w3-medium w3-circle w3-blue w3-card-4" ng-click="GoToSPpage(sps.email);" >🕵</button>  Details</h4>
-                    <br></br>
-                    <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="declineSrvProvider(sps.email) ; displaySrvProviders (); " >🙅</button> Delete</h4>
-                    </td>
-                </tr>
-              </tbody>
-          </table>
-        </div>
-<br>
-        <div class="col-sm-10">
-          <table table class="table table-striped table-hover " ng-controller="AdminController" border="1">
-                  <thead class="text-danger">
-                    <th>OrganizationName</th>
-                    <th>personal info</th>
-                    <th>description</th>
-                    <th>Enter Info</th>
-                    <th> UnRegister SP</th>
-                  </thead>
-                <tr class="danger" ng-repeat="UNsps in unRegisterSP.content">
-                    <td>{{UNsps.organizationName}}</td>
-                    <td> Email:{{UNsps.email}}<br>
-                      Mob:{{UNsps.mobileNumber}}<br>
-                      Adress:{{UNsps.address}}</td>
-                    <td> Description:{{UNsps.description}}<br> Field:{{UNsps.field}}<br>
-                    Policy:{{UNsps.polices}}</td>
-                    <td>
-                      <form action=""><br>
-                      Username: <input type="text" name="username" ng-model="UNsps.username"placeholder="Letters Only"><br><br>
-                      Password: <input type="password" name="password" ng-model="UNsps.password" placeholder="minimum 4" min="4">
-                      </form>
-                    </td>
-                    <td>
-                      <button class="w3-button w3-medium w3-circle w3-green w3-card-4" ng-click="VerifySrvProvider(UNsps.username,UNsps.password,UNsps.email) ;displaySrvProviders();" >🏃🏻</button>  Accept </h4>
-                      <br></br>
-                        <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="declineSrvProvider(UNsps.email) ;" >🙅🏻</button>  Decline </h4>
-                    </td>
-                  </tr>
-            </table>
-          </div>
-      </form>
 
-</tbody>
+<section ng-init="tab=1">
+  <ul class="nav nav-tabs" >
+  <li><a href ng-click="tab=1" ng-class="{ active:tab ===1 }">verify Table </a></li>
+  <li><a href ng-click="tab=2" ng-class="{ active:tab ===2 }">Un-Verify Table</a></li>
+  <li><a href ng-click="tab=3" ng-class="{ active:tab ===3 }">Notification </a></li>
+</ul>
+<br>
+<div id="myTabContent" class="tab-content">
+    <div class="col-sm-10" ng-show="tab === 1">
+      <table table class="table table-striped table-hover " ng-controller="AdminController" border="1">
+        <thead class="text-danger">
+          <tr>
+            <th>username 👱/👩 </th>
+            <th>Email</th>
+            <th>Mobile No</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+          <tbody>
+              <tr class="success" ng-repeat="sps in SrvProviders.content" >
+                <td>{{sps.username}}</td>
+                  <td>{{sps.email}}</td>
+                  <td>{{sps.mobileNumber}}</td>
+                  <td>
+                  <button class="w3-button w3-medium w3-circle w3-blue w3-card-4" ng-click="GoToSPpage(sps.email);" >🕵</button>  Details</h4>
+                  <br></br>
+                  <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="declineSrvProvider(sps.email) ; displaySrvProviders (); " >🙅</button> Delete</h4>
+                  </td>
+              </tr>
+            </tbody>
+        </table>
+      </div>
+
+    <div class="col-sm-10" ng-show="tab === 2">
+      <table table class="table table-striped table-hover " ng-controller="AdminController" border="1">
+              <thead class="text-danger">
+                <th>OrganizationName</th>
+                <th>personal info</th>
+                <th>description</th>
+                <th>Enter Info</th>
+                <th> UnRegister SP</th>
+              </thead>
+            <tr class="danger" ng-repeat="UNsps in unRegisterSP.content">
+                <td>{{UNsps.organizationName}}</td>
+                <td> Email:{{UNsps.email}}<br>
+                  Mob:{{UNsps.mobileNumber}}<br>
+                  Adress:{{UNsps.address}}</td>
+                <td> Description:{{UNsps.description}}<br> Field:{{UNsps.field}}<br>
+                Policy:{{UNsps.polices}}</td>
+                <td>
+                  <form action=""><br>
+                  Username<font color="red" >*</font>:</font><input type="text" name="username" ng-model="UNsps.username"placeholder="Letters Only"><br><br>
+                  Password<font color="red" >*</font>:</font> <input type="password" name="password" ng-model="UNsps.password" placeholder="minimum 4" min="4">
+                  </form>
+                </td>
+                <td>
+                  <button class="w3-button w3-medium w3-circle w3-green w3-card-4" ng-click="VerifySrvProvider(UNsps.username,UNsps.password,UNsps.email) ;displaySrvProviders();" >🏃🏻</button>  Accept </h4>
+                  <br></br>
+                    <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="declineSrvProvider(UNsps.email) ;" >🙅🏻</button>  Decline </h4>
+                </td>
+              </tr>
+        </table>
+      </div>
+
+
+  <div class="panel" ng-show="tab === 3">
+    <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit.</p>
+  </div>
+</div>

@@ -12,8 +12,9 @@ $scope.ShowHide = function () {
      $scope.IsVisible = $scope.IsVisible ? false : true;
 
 };
-console.log("indexSRV ==");
-console.log(indexSrv);
+
+// console.log("indexSRV ==");
+// console.log(indexSrv);
 
 //admin login
 

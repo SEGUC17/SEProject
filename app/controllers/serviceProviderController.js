@@ -1,4 +1,4 @@
-angular.module('spctr',['businessServ'])
+angular.module('spctr',['businessServ','indexSrv','courseServ','adminSrv'])
 
 // data  dy el object eli b5do mn el user w 3shn a access 7aga mo3yna mmkn a3ml data.field msln
 .controller('spCon',function($http,$location,businessServ,indexSrv,$scope){
@@ -7,9 +7,30 @@ var app =this;
 		// indexSrv.GetCurrentUser().then(function(data){
 		// 	 app.SPtoken=data.data.token
   //   });
+$scope.oneCourse={};
+$scope.errorAddCourse=false;
+$scope.holdErrorAddCourseSuccess=true;
+$scope.errorAddCoursemessage="";		
+$scope.coursez = indexSrv.get();
+var test ={};
+var y=$scope.coursez;
+var xx= {title:y.title}
 
-		
+//Feh @l addCourse he can go back to his portofilio
+$scope.goBackProtofolio = function(){
+	$location.path("/spPortofolio");
+}
 
+//updated
+$scope.removeCourse = function(){
+	var xy = {
+		"title":$scope.coursez.title
+	};
+courseServ.removeCourse(xy).then(function(res){
+ 	$location.path('/oneCourse');
+	
+})
+}
 	this.newReg = function(data){
 		console.log(this.data);
 		  businessServ.ServiceProviderRegister(this.data).then(function(response){
@@ -19,16 +40,30 @@ var app =this;
 		})
 	}
 
+//updated
 	this.addCourse =function(data){
 
 		// data["token"]=app.SPtoken;
 		businessServ.ServiceProviderAddCourse(app.data).then(function(response){
 			console.log(response)
-			console.log(app.data)
+			var flag=response.data;
+			var f=flag.type;
+			var m=flag.message;
+			if(f=="ERROR"){
+			$scope.errorAddCourse=true;
+			$scope.errorAddCoursemessage=m;
+		}
+		else
+			{
+				$scope.holdErrorAddCourseSuccess=false;
+				$scope.errorAddCoursemessage=m;
+			}
+			//$location.path('/home');
 
 
 		})
 	}
+
 
 
    

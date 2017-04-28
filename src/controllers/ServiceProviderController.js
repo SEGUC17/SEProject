@@ -31,7 +31,7 @@ let ServiceProviderController = {
  
     },
 
-    viewCourses : function(req,res,cb){
+     viewCourses : function(req,res,cb){
 		var ServiceProviderID = req.decoded.id; 
     	ServiceProvider.findById(ServiceProviderID, function(err,docs){
     		if(docs){
@@ -41,14 +41,14 @@ let ServiceProviderController = {
     				});
     			}
 
-    		}else
-    			cb(err,"Service Provider not found !", "ERROR");
+    		}else{
+    		
 
     		if(array.length == 0)
 	    		cb(err,"No courses are found !", "ERROR");
 	    	else 
 	    		cb(err, array,"SUCCESS");
-
+}
 	    	while(array.length > 0){
 	    		array.pop();
 	    	}
@@ -58,7 +58,6 @@ let ServiceProviderController = {
 
 
     },
-
           getCourse: function(req,res,cb){
         	Course.findOne({title:req.body.title},(err,result)=>{
         		if(err){
@@ -122,19 +121,19 @@ let ServiceProviderController = {
      
     		//for submitting uncomment
     		var newCourse=new Course({
-    				title:req.body.title,
-    				centerName:req.body.centerName,
-    				centerLocation:req.body.centerLocation,
+    				title :req.body.title,
+    				centerName :req.body.centerName,
+    				centerLocation :req.body.centerLocation,
     				type:req.body.type,
-    				description:req.body.description,
-    				startDate:req.body.startDate,
-    				endDate:req.body.endDate,
-    				capacity:req.body.capacity,
-    				announcement:req.body.announcement,
-    				fees:req.body.fees,
-    				enrolledStudents:req.body.enrolledStudents,
-    				serviceProviderID:serciveProviderIDSession
-     
+    				description :req.body.description,
+    				"startDate" :req.body.startDate,
+    				"endDate" :req.body.endDate,
+    				"capacity":req.body.capacity,
+    				"announcements":[],
+    				"fees" :req.body.fees,
+    				"enrolledStudentsIDs" : [],
+    				"serviceProviderID" :serciveProviderIDSession,
+    				"ReviewsIDs":[]
     			});
     		//uncomment ends here
      
@@ -142,7 +141,6 @@ let ServiceProviderController = {
      
     	newCourse.save((err,savedCourse)=>{
     		if(err){
-    			
     			console.log('Cant save the Course');
     			cb(err,"THIS COURSE HAS BEEN ADDED BEFORE SAVE","ERROR");
     		}else{
@@ -451,9 +449,7 @@ let ServiceProviderController = {
 			cb("", "You are not a Service Provider","ERROR");
 	},
 
-
-//the servicde provider could register to the system by passing the field 
-       spRegister: function(req,res,cb){
+  spRegister: function(req,res,cb){
     //checks first tht this Service provider was not perviously registered to the system
     	   ServiceProvider.findOne({organizationName:req.body.organizationName},function(err,organizationName){
     	     	if(organizationName)
@@ -477,7 +473,9 @@ let ServiceProviderController = {
     							        email : req.body.email ,
     							        address: req.body.address,
     							        polices :req.body.polices,
-    							        logo :req.body.logo
+    							        logo :req.body.logo,
+    							        listOfCourses:[], 
+										listOfNotification: []
      
     	    						}); 
      

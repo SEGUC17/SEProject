@@ -40,7 +40,12 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     controllerAs: 'MainController'
 
     })
+.when('/popup',{
 
+    templateUrl:'views/popup.html',
+     
+
+    })
     .when('/listOfCourses',{
 
     templateUrl:'views/listOfCourses.html',

@@ -40,7 +40,7 @@ courseServ.viewannouncements(xx).then(function(res){
 	console.log(xx)
 	
 			if(res.data.type=='ERROR'){
-				 $location.path('/home');
+				 $location.path('/popup');
 			}
 
 	else{

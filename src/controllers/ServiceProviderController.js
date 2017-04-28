@@ -353,7 +353,10 @@ logoUpload: function(req,res){
 		Course.findOne({title:Coursetitle},(err,result)=>{
 			if(err){
 				cb(err,"COURSE NOT FOUND","ERROR");
-			}else{
+			}var array = result.announcements;
+            if(array.length == 0)
+              cb(err,"No announcements found !", "ERROR");
+			else{
 				cb(err,result.announcements,"SUCCESS");
 			}
 		});

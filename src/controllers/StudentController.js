@@ -237,35 +237,7 @@ imgUpload: function(req,res){
       });
     },
  
-//getStudentProfile function displays for the student his username,profile pictures and his list of courses
-     //var courses =[];
-   getStudentProfile : function(req,res,cb) {
-  var indx=2;
-  Student.findOne({username:req.decoded.username}).lean().exec(function(err,student){
-   for(var i=0; i<student.ListOfCourses.length;i++){
 
-     Course.findById(student.ListOfCourses[i],function(err,course){
-       //console.log(course);
-
-         //glo.push(course.title);
-          glo[indx] = course.title;
-            indx++;
-
-
-      });
-
-
-}
-glo[0]=student.username;
-glo[1]=student.profilePicture;
-
-
-  cb(err,glo,"SUCCESS");
-  for(var w=glo.length-1;w>=0;w--){
-  glo.pop();}
-
-         });
-       },
  
 // search function can make the student or the visitor search for a specific course by its title,type,center name,or center location
  search:function(req,res,cb){
@@ -455,7 +427,35 @@ else
           })
  
       },*/
- 
+ //getStudentProfile function displays for the student his username,profile pictures and his list of courses
+     //var courses =[];
+   getStudentProfile : function(req,res,cb) {
+  var indx=2;
+  Student.findOne({username:req.decoded.username}).lean().exec(function(err,student){
+   for(var i=0; i<student.ListOfCourses.length;i++){
+
+     Course.findById(student.ListOfCourses[i],function(err,course){
+       //console.log(course);
+
+         //glo.push(course.title);
+          glo[indx] = course.title;
+            indx++;
+
+
+      });
+
+
+}
+glo[0]=student.username;
+glo[1]=student.profilePicture;
+
+
+  cb(err,glo,"SUCCESS");
+  for(var w=glo.length-1;w>=0;w--){
+  glo.pop();}
+
+         });
+       },
   //student is beging signed to the system
   studentSignUP:function(req,res, cb){
  

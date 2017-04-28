@@ -28,11 +28,20 @@ var upload = multer({storage : storage}); //check the path
 
 
 
-router.get('/',function (req,res){
-        res.sendFile(path.join(__dirname,'../','app','index.html'))
-});
 
-
+router.get('/studentprofile',function(req,res){
+     // if(req.decoded.type=="Student"){
+        StudentController.getStudentProfile(req,res,(err,prof,type)=>{
+          if(type == "ERROR")
+            res.json(prof);
+          else
+            res.json(prof);
+        });
+     
+      //}else
+        //res.json("You are not a student !");
+     
+    });
 
 router.post('/forbussinus/login', function(req,res){
   ServiceProviderController.SPLogin(req,res,function(error,sp,type){
@@ -738,30 +747,6 @@ router.post('/serviceprovider/getNotifications',function(req,res){
 });
 
 
-router.post('/studentprofile', upload.single('myfile'), function(req,res){
-  if(req.decoded.type=="Student"){
-    StudentController.getStudentProfile(req,res,(err,prof,type)=>{
-      if(type == "ERROR")
-        res.json({
-          type:type,
-          message:prof,
-        });
-      else
-        res.json({
-          type:type,
-          message:"STUDENT PROFILE RETREIVED",
-          content:prof
-        });
-    });
-
-  }else
-    res.json({
-      type:"ERROR",
-      message:"You are not a student !"
-
-    });
-
-});
 
 
 router.post('/studentprofile/review',function(req,res){

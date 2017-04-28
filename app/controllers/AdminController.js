@@ -16,12 +16,6 @@ console.log("indexSRV ==");
 console.log(indexSrv);
 
 //admin login
-// $scope.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFkbWluIiwiaWQiOiI1OGY5MGQzNGM4YjQ3NmI3MzA0NTFlMjMiLCJ0eXBlIjoiQWRtaW4iLCJpYXQiOjE0OTI3MzA5OTJ9.yTax2Au9-7VDajfe0HmjKSp3Y0nm2yWN-r9ttbDtpL8";
-
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFkbWluIiwiaWQiOiI1OGZhNTk3ZGYzNjI2ODE0OGExYTA2NzIiLCJ0eXBlIjoiQWRtaW4iLCJpYXQiOjE0OTI4MDE5NDJ9.fU89UnB4qcck_iN-26yff_UENFvg3zlAlT1JbgEEBgk
-// "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFkbWluIiwiaWQiOiI1OGZhNTk3ZGYzNjI2ODE0OGExYTA2NzIiLCJ0eXBlIjoiQWRtaW4iLCJpYXQiOjE0OTI4MDE5NDJ9.fU89UnB4qcck_iN-26yff_UENFvg3zlAlT1JbgEEBgk"
-
-
 
 //  $scope.Email  = adminSrv.getEmail();
 //removeSrvProvider($scope.Email);
@@ -31,7 +25,7 @@ $scope.GoToSPpage=  function(Email){
 
 adminSrv.getSpDetail(Email,indexSrv.GetToken()).success(function(spProfile) {
 // eh deh ??  deh btgebb l data bta3t  l sp
-adminSrv.setSpProfile(spProfile.content); 
+adminSrv.setSpProfile(spProfile.content);
 console.log("ana hna sp profile "+spProfile);
 console.log(spProfile.content);
 $location.path("/viewP");
@@ -90,32 +84,6 @@ $scope.VerifySrvProvider  =function(username,password,email){
        });
 };
 
-
-// //delete sp
-// $scope.deleteSrvProvider  =function(Email){
-//       console.log("ctrl_deleteSrvProvider");
-//       console.log(Email);
-//     adminSrv.deleteSrvProvider(Email).success(function(msg) {
-//
-//            $scope.msg = msg;
-//            console.log(msg);
-//            console.log("ctrl2_deleteSrvProvider");
-//            console.log(Email);
-//
-//            displaySrvProviders  ();
-//        });
-// };
-
-
-
-// this method to redirect to the clicked service provider
-// function GoToSPpage(sps){
-//
-//
-//
-//
-//
-// };
 
 $scope.viewUnSrvProvider  =
       // console.log("ctrluser");

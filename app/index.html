@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html ng-app = "myApp">
+<head >
+	<title>Update</title>
+    <script src="/lib/angular.min.js"></script>
+    <script src="/lib/angular-route.min.js"></script>
+	<script src="/lib/jquery-2.2.0.min.js"></script>
+    <script src="/lib/bootstrap.min.js"></script>
+    <script src="/lib/ui-bootstrap-tpls-1.2.5.min.js"></script>
+
+    <script src="starter.js"></script>
+    <script src="routes.js"></script>
+
+    <script src="/controllers/MainController.js"></script>
+    
+    <script src="/services/uploadFileService.js"></script>
+    <script src="/services/indxSrv.js"></script>
+
+    <script src = "/directives/fileModel.js"></script>
+
+
+</head>
+<body ng-controller = "MainController">
+    <input type="file" file-model="file.upload" name="myfile"/>
+    <br>
+    <button ng-click = "Submit()">upload me</button>
+
+    <br>
+    <br>
+    <br>
+    <img ng-src= "{{picture}}">
+
+     <div ng-show="message">
+        <div ng-class="alert"> {{ message }}</div>
+     </div>
+
+
+</body>
+</html>

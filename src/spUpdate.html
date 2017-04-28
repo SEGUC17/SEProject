@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html ng-app = "myApp">
+<head >
+	<title>Update</title>
+   
+</head>
+<body ng-controller = "MainController">
+    <input type="file" file-model="file.upload" name="myfile"/>
+    <br>
+    <button ng-click = "logoSubmit()">upload me</button>
+
+    <br>
+    <br>
+    <br>
+    <img ng-src= "{{picture}}">
+
+     <div ng-show="message">
+        <div ng-class="{{alert}}"> {{ message }}</div>
+     </div>
+
+
+</body>
+</html>

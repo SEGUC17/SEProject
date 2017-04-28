@@ -34,6 +34,8 @@ router.get('/',function (req,res){
 
 
 
+
+
 router.post('/forbussinus/login', function(req,res){
   ServiceProviderController.SPLogin(req,res,function(error,sp,type){
      
@@ -293,13 +295,7 @@ router.use(function(req,res,next){ //this middleware adds the decoded token the 
 });
 
 
-router.post('/studentupload', upload.single('myfile'), function(req,res){
-   StudentController.imgUpload(req,res);
-});
 
-router.post('/logoupload', upload.single('myfile'), function(req,res){
-   ServiceProviderController.logoUpload(req,res);
-});
 
 
 
@@ -309,6 +305,14 @@ router.post('/me',function(req,res){
     token:req.headers['x-access-token'],
     decoded:req.decoded
   });
+});
+
+router.post('/studentupload', upload.single('myfile'), function(req,res){
+   StudentController.imgUpload(req,res);
+});
+
+router.post('/logoupload', upload.single('myfile'), function(req,res){
+   ServiceProviderController.logoUpload(req,res);
 });
 
 

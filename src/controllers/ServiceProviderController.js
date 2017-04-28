@@ -30,34 +30,44 @@ let ServiceProviderController = {
        });
  
     },
-
-     viewCourses : function(req,res,cb){
+    viewCourses : function(req,res,cb){
+    	console.log("GOWAAA")
 		var ServiceProviderID = req.decoded.id; 
+		console.log(ServiceProviderID);
     	ServiceProvider.findById(ServiceProviderID, function(err,docs){
     		if(docs){
     			for(var i = 0; i < docs.listOfCourses.length; i++){
     				Course.findById(docs.listOfCourses[i],function(err,doc){
-    					array.push(doc);
+    				
+    						if(doc){
+    						array[i] = doc;
+    						console.log(doc);	
+    					}
+    					
     				});
     			}
 
     		}else{
-    		
-
-    		if(array.length == 0)
-	    		cb(err,"No courses are found !", "ERROR");
-	    	else 
+	    		cb(err,"Could Not find the user !", "ERROR");
+	    		console.log("BA3AT");
+    		}
+	    	if(array.length>0){
+	    		console.log(array);
 	    		cb(err, array,"SUCCESS");
-}
-	    	while(array.length > 0){
-	    		array.pop();
-	    	}
+				}
+				else{
+					cb(err, array,"SUCCESS");
+					// cb(err,"No courses are found !", "ERROR");
+				}
 
     	});
+    			while(array.length > 0)
+							array.pop();
 
 
 
     },
+
           getCourse: function(req,res,cb){
         	Course.findOne({title:req.body.title},(err,result)=>{
         		if(err){

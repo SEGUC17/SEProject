@@ -1,4 +1,3 @@
-
 var myApp = angular.module('appRoutes',['ngRoute'])
 
 
@@ -57,6 +56,7 @@ templateUrl:'views/catalogfun.html'
 
     })
   ///////////////////////
+
 .when('/studentprofile',{
 
     templateUrl:'views/studentprofile.html',
@@ -64,6 +64,7 @@ templateUrl:'views/catalogfun.html'
     controllerAs: 'MainController'
 
     })
+
 .when('/popup',{
 
     templateUrl:'views/popup.html',
@@ -292,13 +293,9 @@ templateUrl:'views/catalogfun.html'
     // controllerAs: 'AdminController'
 
     })
+
     .otherwise({
     redirectTo: "/"
   });
 
-    
-  
-
 });
-
-

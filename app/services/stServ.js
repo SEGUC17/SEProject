@@ -5,7 +5,6 @@ return{
 
    studentRegister : function(data){
    	return $http.post('/register',data).then(function(response){
-         console.log("resssssssssssss")
    	 indexSrv.set(response);
          
    		console.log(response)
@@ -18,10 +17,13 @@ return{
          indexSrv.set(response);
          console.log(response);
       });
+   },
+   viewreviews:function(data){
+      return $http.post('/student/viewreviews',data).then(function(response){
+         console.log('WALHII HENAA');
+         console.log(response)
+         return response;
+      })
    }
-   }
-
-
-
-
+}
 });

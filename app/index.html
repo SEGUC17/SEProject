@@ -25,7 +25,6 @@
     <script src="/lib/angular-route.min.js"></script>
     <script src="/lib/bootstrap.min.js"></script>
     <script src="/lib/ui-bootstrap-tpls-1.2.5.min.js"></script>
-   
 
 <!-- Modules -->
 <script src="starter.js"></script>
@@ -51,10 +50,9 @@
 
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  
+
 </head>
-<body ng-app="myApp" ng-controller="MainController as MainController" > 
- 
+<body ng-app="myApp" ng-controller="MainController as MainController" >
 
 <div class="navbarnavbar-defaultnavbar-static-top" role="navigation">
   <div class="container">
@@ -62,7 +60,9 @@
       <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-briefcase"></span>EduDEV
       </a>
     </div>
-      <ul class="nav navbar-nav navbar-right"> 
+
+      <ul class="nav navbar-nav navbar-right">
+
 
      <li class="dropdown">
         <a ng-show ="!MainController.islogged" class="dropdown-toggle" data-toggle="dropdown" href="/forbusiness">For Business
@@ -75,10 +75,10 @@
       </li>
       <li><a ng-show ="MainController.islogged" href= "#/logout" ng-click="MainController.logout()">logout</a></li>    
       <li><a href= "#/test">test</a></li>    
+
 <!--      <li><a href="#/addCourse">addCourse</a></li>
  --><!--           <li><a href="#/c">course</a></li>
  -->          <li><a ng-show ="MainController.isSP"  href="#/spPortofolio">portofolio</a></li>
-
 
 
 <!--       <li><a href= "#/registeredSP">VIEW REGISTERED SP</a></li>    
@@ -93,11 +93,14 @@
 
       <li><a href="#/listOfCourses" ng-click="MainController.viewCatalog()" >Catalog</a></li>
         <li><a ng-show ="MainController.isST" href= "#/studentprofile" ng-click="indexSrv.getStudentProfile()">profile</a></li>  
+
       </ul>
        <form ng-submit ="MainController.search(data)" class="navbar-form navbar-left" role="search">
       <div class="form-group">
 
-        <select   ng-model="MainController.data.searchBy" 
+
+        <select   ng-model="MainController.data.searchBy"
+
      data-ng-options="type as type.searchBy for type in types">
      <option value="">Search by</option>
 
@@ -110,13 +113,14 @@
   </div>
 
 </div>
-           
+
+
 
     <div ng-view>
-      
+
     </div>
 
 
-</body>   
+</body>
 </html>
 

@@ -4,12 +4,12 @@ let Review = require('../db/Reviews');
 let ServiceProvider = require('../db/ServiceProvider');
 let Admin=require('../db/Admin');
 array = [];
- 
+
 gl=[];
 glo=[];
 glo2=[];
 
- 
+
 let StudentController = {
 //the student could book a course
 
@@ -41,17 +41,17 @@ imgUpload: function(req,res){
 
           Course.findOne({title : req.body.title},function(err,course){
             if(course){
-              for(var j = 0; j < course.ReviewsIDs.length; j++){ 
+              for(var j = 0; j < course.ReviewsIDs.length; j++){
                   Review.findById(course.ReviewsIDs[j],function(err,review){
                     if(review)
                       array.push(review);
                   });
-              }  
+              }
 
-                            
+
                   if(array.length == 0)
                     cb(err,"No reviews found !", "SUCCESS");
-                  else 
+                  else
                     cb(err,array,"SUCCESS");
 
                   while(array.length > 0)
@@ -62,14 +62,14 @@ imgUpload: function(req,res){
     }
        });
   },
- 
+
   bookCourse :function(req, res,cb){
     var courseTitle = req.body.title;
     var StudentID = req.decoded.id;
- 
+
     Course.findOne({title : courseTitle}, function(err,result){
       //console.log(result.capacity);
- 
+
       if(err)
         cb(err,"CANT FIND THE COURSE","ERROR");
       else{
@@ -80,9 +80,9 @@ imgUpload: function(req,res){
             if(!docs || err)
               cb(err,"CANT FIND THE STUDENT","ERROR");
             else{
- 
+
               var found = 5;
- 
+
               for(var i = 0; i < docs.ListOfCourses.length; i++){
                 if(docs.ListOfCourses[i].toString() == result._id){
                   found = -100;
@@ -90,81 +90,81 @@ imgUpload: function(req,res){
                 }
               }
             }
- 
+
                 if(found < 0){
- 
+
                   cb(err,"THIS COURSE IS ALREADY TAKEN BY YOU","ERROR");
                 } else {
                       var xxx = result._id;
                       console.log(xxx)
- 
- 
+
+
                   var tempo = docs.ListOfCourses.concat([xxx]);
- 
+
                   Student.update({_id : StudentID },{ListOfCourses : tempo }, function(err,affected) {
                       console.log('affected rows %d', affected);
                   });
- 
+
                   cb(err,"student is added to the course","SUCESS");
- 
+
                   var tempoo = result.enrolledStudentsIDs.concat([StudentID]);
- 
+
                   Course.update({title : courseTitle },{enrolledStudentsIDs : tempoo }, function(err,affected) {
                       //console.log('affected rows %d', affected);
                   });
- 
+
                   var temp = result.capacity;
                   temp = temp -1;
                   Course.update({title : courseTitle },{capacity : temp }, function(err,affected) {
                       //console.log('affected rows %d', affected);
                   });
- 
+
               }
- 
- 
+
+
             });
- 
+
           } else
- 
+
             cb(err,"No Space","ERROR");
         }
- 
+
       });
- 
+
     },
- 
+
 
  //getting the list of reviews of a specific course which is provided by this service provider
   ViewReviews: function(req,res,cb){
 
           Course.findOne({title : req.body.title},function(err,course){
             if(course){
-              for(var j = 0; j < course.ReviewsIDs.length; j++){ 
+              for(var j = 0; j < course.ReviewsIDs.length; j++){
                   Review.findById(course.ReviewsIDs[j],function(err,review){
                     if(review)
                       array.push(review);
                   });
-              }   
+              }
 
           }else
             cb(err,"Course is not found !", "ERROR");
-            
+
           });
 
       if(array.length == 0)
         cb(err,"No reviews found !", "SUCCESS");
-      else 
+      else
         cb(err,array,"SUCCESS");
 
       while(array.length > 0)
         array.pop();
   },
- 
+
 //ckecks tht this student was previously signed up or not
     checkStudentLogin:function(req,res,cb) {
       if(req.body.username === "Admin" || req.body.username === "admin" || req.body.username === "mariam"){
         Admin.findOne({username: req.body.username },(err,admin)=>{
- 
+
           if(err){
             cb(err,"ERROR","ERROR");
           }else{
@@ -173,7 +173,7 @@ imgUpload: function(req,res){
               if(err2){
                 cb(err,"ERROR","ERROR");
               }else{
- 
+
                   if(isMatch && isMatch==true){
                      console.log("right");
                      cb(err,admin,"Admin");
@@ -181,21 +181,21 @@ imgUpload: function(req,res){
                     }else{
                        cb(err2,"WRONG PASSWORD","ERROR");
                     }
- 
- 
+
+
             }
             });
           }else {
- 
+
             cb(err,"USERNAME NOT FOUND","ERROR")
- 
+
           }
           }
- 
+
         })
       }else{
         Student.findOne({username :req.body.username },(err,student)=>{
- 
+
           if(err){
             cb(err,"ERROR","ERROR");
           }else{
@@ -204,7 +204,7 @@ imgUpload: function(req,res){
               if(err2){
                 cb(err,"ERROR","ERROR");
               }else{
- 
+
                   if(isMatch && isMatch==true){
                      console.log("right");
                        cb(err,student,"Student");
@@ -212,33 +212,92 @@ imgUpload: function(req,res){
                     }else{
                        cb(err2,"WRONG PASSWORD","ERROR");
                     }
- 
- 
+
+
             }
             });
- 
+
           }else{
             cb(err,"USERNAME NOT FOUND","ERROR")
           }
         }
         });
       }
- 
-  },
- // getAllCourses function Display all provided courses
- getAllCourses:function(req,res,cb){
- 
-      Course.find(function(err, courses){
- 
-           if(err)
-           cb(err,"ERROR","ERROR");
-          else
-        cb(err,courses,"SUCCESS");
-      });
-    },
- 
 
- 
+  },
+
+  // getAllCourses function Display all provided courses
+   getAllCourses:function(req,res,cb){
+
+         Course.find(function(err, courses){
+    var array=[];
+    for(var i=0;i<courses.length;i++){
+     array[i]=["Title: ",courses[i].title ,"Type: ",courses[i].type ,"Provided By: ",courses[i].centerName] ;
+
+    }
+              if(err)
+              cb(err,"ERROR","ERROR");
+              else if(courses == null){
+                cb(err,"No Available Courses for This Type","ERROR");
+              }
+             else
+           cb(err,array,"SUCCESS");
+         });
+       },
+       getAllEducationCourses:function(req,res,cb){
+
+             Course.find({type:"education"},function(err, courses){
+        var array=[];
+        for(var i=0;i<courses.length;i++){
+         array[i]=["Title: ",courses[i].title ,"Type: ",courses[i].type ,"Provided By: ",courses[i].centerName] ;
+
+        }
+                  if(err)
+                  cb(err,"ERROR","ERROR");
+                  else if(courses == null){
+                    cb(err,"No Available Courses for This Type","ERROR");
+                  }
+                 else
+               cb(err,array,"SUCCESS");
+             });
+           },
+           getAllMusicCourses:function(req,res,cb){
+
+                 Course.find({type:"music"},function(err, courses){
+            var array=[];
+            for(var i=0;i<courses.length;i++){
+             array[i]=["Title: ",courses[i].title ,"Type: ",courses[i].type ,"Provided By: ",courses[i].centerName] ;
+
+            }
+                      if(err)
+                      cb(err,"ERROR","ERROR");
+                      else if(courses == null){
+                        cb(err,"No Available Courses for This Type","ERROR");
+                      }
+                     else
+                   cb(err,array,"SUCCESS");
+                 });
+               },
+               getAllFunCourses:function(req,res,cb){
+
+                     Course.find({type:"fun"},function(err, courses){
+                var array=[];
+                for(var i=0;i<courses.length;i++){
+                 array[i]=["Title: ",courses[i].title ,"Type: ",courses[i].type ,"Provided By: ",courses[i].centerName] ;
+
+                }
+                          if(err)
+                          cb(err,"ERROR","ERROR");
+                          else if(courses ==null){
+                            cb(err,"No Available Courses for This Type","ERROR");
+                          }
+                         else
+                       cb(err,array,"SUCCESS");
+                     });
+                   },
+
+
+
 // search function can make the student or the visitor search for a specific course by its title,type,center name,or center location
  search:function(req,res,cb){
 
@@ -250,7 +309,7 @@ imgUpload: function(req,res){
           if(err)
           cb(err,"ERROR","ERROR");
           else {
-           
+
             cb(err,courses,"SUCCESS");
           }
       });
@@ -288,10 +347,10 @@ imgUpload: function(req,res){
                             });
   }
 },
- 
+
  // typeReview function makes the student able to write a review for a course that he took
- 
- 
+
+
 typeReview: function(req,res,cb){
 
   var ind=0;
@@ -410,10 +469,10 @@ else
    //the student view all the courses he is enrolled to
        viewStudentListOfCourses : function(req, res,cb){
           var studentID = req.decoded.id;
- 
+
           Student.findById(studentID, function(err, StudentFound){
             console.log(StudentFound);
- 
+
             for(var i = 0; i < StudentFound.ListOfCourses.length;i++){
               var CourseID=StudentFound.ListOfCourses[i];
               Course.findById(CourseID,(err,CourseFound)=>{
@@ -421,12 +480,13 @@ else
                   cb(err,"ERROR","ERROR");
                 else
                   console.log(CourseFound);
- 
+
               });
             }
           })
- 
+
       },*/
+
  //getStudentProfile function displays for the student his username,profile pictures and his list of courses
      //var courses =[];
    getStudentProfile : function(req,res,cb) {
@@ -456,11 +516,12 @@ glo[1]=student.profilePicture;
 
          });
        },
+
   //student is beging signed to the system
   studentSignUP:function(req,res, cb){
- 
+
 //match this student to one in the database
- 
+
     Student.findOne({ username: req.body.username }, function(err1, student){
       if (!student) {
           var newStudent = new Student
@@ -471,29 +532,29 @@ glo[1]=student.profilePicture;
               birthdate:req.body.birthdate ,
               ListOfCourses:[],
               profilePicture:req.body.profilePicture
- 
+
             });
- 
+
         newStudent.save(function(err,student){
           if(err)
-            cb(err2,"ERROR CAN NOT SAVE ","ERROR"); 
+            cb(err2,"ERROR CAN NOT SAVE ","ERROR");
         else
         cb(err,student,"SUCCESS");
       });
- 
+
       }else{
- 
+
         console.log(" User already exist");
         cb(err1,"USERNAME ALREADY EXIST","ERROR");
- 
+
       }
- 
- 
- 
+
+
+
     });
- 
+
   }
- 
+
 }
- 
+
 module.exports = StudentController;

@@ -30,42 +30,6 @@ var app = this;
 
 
 
-
-
-$scope.file = {};
-    $scope.message = false;
-    $scope.alert = '';
-    //$scope.default = 'https://thebenclark.files.wordpress.com/2014/03/facebook-default-no-profile-pic.jpg';
-
-
-    $scope.Submit = function() {
-        uploadFile.upload($scope.file).then(function(data) {
-            if (data.data.success) {
-                $scope.alert = 'alert alert-success';
-                $scope.message = data.data.message;
-                $scope.file = {};
-            } else {
-                $scope.alert = 'alert alert-danger';
-                $scope.message = data.data.message;
-                $scope.file = {};
-            }
-        });
-    };
-
-    $scope.Submitlogo = function() {
-        uploadFile.logoUpload($scope.file).then(function(data) {
-            if (data.data.success) {
-                $scope.alert = 'alert alert-success';
-                $scope.message = data.data.message;
-                $scope.file = {};
-            } else {
-                $scope.alert = 'alert alert-danger';
-                $scope.message = data.data.message;
-                $scope.file = {};
-            }
-        });
-    };
-
 $rootScope.$on('$routeChangeStart',function(){
 
 
@@ -300,6 +264,23 @@ if(response.data.content.username=='Admin')	{
 	}
 
 
-  
-});
-	
+  indexSrv.getCatalog().then(function(res){
+      $scope.catalog=res.data;
+    })
+    indexSrv.getCatalogedu().then(function(res){
+      $scope.catalogedu=res.data;
+    })
+
+    indexSrv.getCatalogmusic().then(function(res){
+      $scope.catalogmusic=res.data;
+    })
+    indexSrv.getCatalogfun().then(function(res){
+      $scope.catalogfun=res.data;
+        $scope.errorMessage=res;
+
+      if(catalogfun.length()==0){
+        $scope.errorMessage="Unfortunately, No Courses Available For This Type";
+      }
+    })
+  });
+

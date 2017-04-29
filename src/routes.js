@@ -29,19 +29,7 @@ var upload = multer({storage : storage}); //check the path
 
 
 
-router.get('/studentprofile',function(req,res){
-     // if(req.decoded.type=="Student"){
-        StudentController.getStudentProfile(req,res,(err,prof,type)=>{
-          if(type == "ERROR")
-            res.json(prof);
-          else
-            res.json(prof);
-        });
-     
-      //}else
-        //res.json("You are not a student !");
-     
-    });
+
 
 router.post('/forbussinus/login', function(req,res){
   ServiceProviderController.SPLogin(req,res,function(error,sp,type){
@@ -766,7 +754,15 @@ router.post('/studentprofile/review',function(req,res){
 
 
 
+router.get('/studentprofile',function(req,res){
+  StudentController.getStudentProfile(req,res,(err,courses,type)=>{
+    if(type === "ERROR")
+      res.json(courses);
+    else 
+      res.json(courses);
+  });
 
+});
 
 
 

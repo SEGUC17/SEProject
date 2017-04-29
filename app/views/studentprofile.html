@@ -1,16 +1,6 @@
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<head>
-    <meta charset="UTF-8">
-    <title>Catalog</title>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
     <style media="screen">
-        * {
+         {
             font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
             font-weight: bolder;
         }
@@ -133,7 +123,7 @@
 
                         <h4 class="card-title">{{res}}
                                                  </h4>
-                        <button  ng-click="MainController.redirectCourse(res)" type="button" style:"margin:auto"class="btn btn-danger"; >Review</button>
+                        <button  data-toggle="modal" data-target="#review" ng-click="MainController.redirectCourse(res)" type="button" style:"margin:auto" class="btn btn-danger" >Review</button>
                     </div>
 
             </div>
@@ -141,4 +131,66 @@
 
     </div>
 
+    <div class="modal" id="review">
+
+<div class="modal-dialog">
+
+<div class="modal-content">
+<div class="modal-header">
+<h2> Your review is important </h2>
+</div>
+
+<div class="modal-body">
+<div ng-controller="MainController" >
+
+<form ng-submit="MainController.addReview(data)" >
+
+  <textarea rows="4" cols="20" placeholder="Please Type Your Review Here :)" ng-model="MainController.data.review" ></textarea> 
+<!-- <input type="text" placeholder="Type the course title"  ng-model="MainController.data.courseTitle"></input><br>
+ -->
+   <button ng-click="MainController.data.isNeg=0" type="button" class="btn btn-default" >
+   <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></button>
+   <button ng-click="MainController.data.isNeg=1" type="button" class="btn btn-default" >
+   <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span></button> <br>
+  
+        <button type="submit" class="btn btn-default" >SUBMIT</button>
+
+</form>
+
+
+
+<br>
+
+<div class="jumbotron text-center" ng-show="loading" style="background-color:white">
+<span class="glyphicon glyphicon-repeat spinner"></span>
+
+<p> Loading ...</p>
+</div>
+
+<br>
+<div class="row show-hide-message" ng-show="successMessage">
+<div class="alert alert-success">{{successMessage}}</div>
+</div>
+<br>
+<div class="row show-hide-message" ng-show="errorMessage">
+<div class="alert alert-danger">{{errorMessage}}</div>
+</div>
+    
+
+
+</div>
+</div>
+
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
 </body>
+
+

@@ -1,3 +1,1 @@
 SE project
-
-YA GAMAA L BRANCH BETAAT Sprint3_coursepagesp FIHA COURSE PAGE BETA3T L SP & ST 

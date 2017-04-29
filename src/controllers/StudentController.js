@@ -21,11 +21,10 @@ imgUpload: function(req,res){
         return;
       }
 
-      if (!req.file) {
+      if (!req.file) 
          res.json({ success: false, message: 'No file was selected' });
-      } else {
-         res.json({ success: true, message: 'File uploaded!' });
-      }
+     
+
 
       student.profilePicture = req.file.filename;
        console.log(student);
@@ -33,10 +32,10 @@ imgUpload: function(req,res){
         if(err)
           console.log(err);
         else
-          console.log("done");
+          res.json({ success: true, message: 'File uploaded!', img:req.file.filename});
       });
      });
-  },//getting the list of reviews of a specific course which is provided by this service provider
+  },
   ViewReviews: function(req,res,cb){
 
           Course.findOne({title : req.body.title},function(err,course){

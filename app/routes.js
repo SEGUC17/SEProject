@@ -2,8 +2,6 @@ var myApp = angular.module('appRoutes',['ngRoute'])
 
 
 .config(function($routeProvider) {
-
-
 $routeProvider
 .when('/catalog',{
 
@@ -56,7 +54,6 @@ templateUrl:'views/catalogfun.html'
 
     })
   ///////////////////////
-
 .when('/studentprofile',{
 
     templateUrl:'views/studentprofile.html',
@@ -71,6 +68,7 @@ templateUrl:'views/catalogfun.html'
      
 
     })
+
     .when('/listOfCourses',{
 
     templateUrl:'views/listOfCourses.html',
@@ -227,6 +225,7 @@ templateUrl:'views/catalogfun.html'
     controllerAs: 'StudentController'
  
     })
+
  .when('/viewreviesStudent',{
 
     templateUrl:'views/viewreviesStudent.html',
@@ -234,6 +233,7 @@ templateUrl:'views/catalogfun.html'
     controllerAs: 'StudentController'
 
     })
+
  .when('/viewreviews',{
 
     templateUrl:'views/viewreviews.html',
@@ -242,7 +242,6 @@ templateUrl:'views/catalogfun.html'
 
     })
  .when('/home',{
-
     templateUrl:'views/coursepageSP.html',
       controller: 'spCon',
     controllerAs: 'spCon'
@@ -255,6 +254,7 @@ templateUrl:'views/catalogfun.html'
     controllerAs: 'spCon'
 
     })
+
  .when('/coursepageSP',{
 
     templateUrl:'views/coursepageSP.html'

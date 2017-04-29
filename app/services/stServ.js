@@ -1,11 +1,12 @@
-angular.module('stServ',[])
-.factory('stServ',function($http){
+angular.module('stServ',['indexSrv'])
+.factory('stServ',function($http,indexSrv){
 	
 return{
 
    studentRegister : function(data){
    	return $http.post('/register',data).then(function(response){
-   		//console.log("inside service")
+   	 indexSrv.set(response);
+         
    		console.log(response)
    	});
    	}
@@ -13,6 +14,7 @@ return{
      studentPayment: function(data){
       return $http.post('/charge',data).then(function(response){
       	console.log("HENAAA");
+         indexSrv.set(response);
          console.log(response);
       });
    },
@@ -23,9 +25,5 @@ return{
          return response;
       })
    }
-   }
-
-
-
-
+}
 });

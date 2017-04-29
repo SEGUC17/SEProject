@@ -9,7 +9,7 @@ gl=[];
 glo=[];
 glo2=[];
 
-
+ 
 let StudentController = {
 //the student could book a course
 
@@ -41,17 +41,17 @@ imgUpload: function(req,res){
 
           Course.findOne({title : req.body.title},function(err,course){
             if(course){
-              for(var j = 0; j < course.ReviewsIDs.length; j++){
+              for(var j = 0; j < course.ReviewsIDs.length; j++){ 
                   Review.findById(course.ReviewsIDs[j],function(err,review){
                     if(review)
                       array.push(review);
                   });
-              }
+              }  
 
-
+                            
                   if(array.length == 0)
                     cb(err,"No reviews found !", "SUCCESS");
-                  else
+                  else 
                     cb(err,array,"SUCCESS");
 
                   while(array.length > 0)
@@ -62,14 +62,13 @@ imgUpload: function(req,res){
     }
        });
   },
-
+ 
   bookCourse :function(req, res,cb){
     var courseTitle = req.body.title;
     var StudentID = req.decoded.id;
-
+ 
     Course.findOne({title : courseTitle}, function(err,result){
       //console.log(result.capacity);
-
       if(err)
         cb(err,"CANT FIND THE COURSE","ERROR");
       else{
@@ -80,9 +79,7 @@ imgUpload: function(req,res){
             if(!docs || err)
               cb(err,"CANT FIND THE STUDENT","ERROR");
             else{
-
               var found = 5;
-
               for(var i = 0; i < docs.ListOfCourses.length; i++){
                 if(docs.ListOfCourses[i].toString() == result._id){
                   found = -100;
@@ -90,14 +87,12 @@ imgUpload: function(req,res){
                 }
               }
             }
-
+ 
                 if(found < 0){
-
                   cb(err,"THIS COURSE IS ALREADY TAKEN BY YOU","ERROR");
                 } else {
                       var xxx = result._id;
-                      console.log(xxx)
-
+                      console.log(xxx);
 
                   var tempo = docs.ListOfCourses.concat([xxx]);
 
@@ -132,8 +127,7 @@ imgUpload: function(req,res){
       });
 
     },
-
-
+ 
  //getting the list of reviews of a specific course which is provided by this service provider
   ViewReviews: function(req,res,cb){
 
@@ -164,7 +158,6 @@ imgUpload: function(req,res){
     checkStudentLogin:function(req,res,cb) {
       if(req.body.username === "Admin" || req.body.username === "admin" || req.body.username === "mariam"){
         Admin.findOne({username: req.body.username },(err,admin)=>{
-
           if(err){
             cb(err,"ERROR","ERROR");
           }else{
@@ -173,7 +166,6 @@ imgUpload: function(req,res){
               if(err2){
                 cb(err,"ERROR","ERROR");
               }else{
-
                   if(isMatch && isMatch==true){
                      console.log("right");
                      cb(err,admin,"Admin");
@@ -181,8 +173,6 @@ imgUpload: function(req,res){
                     }else{
                        cb(err2,"WRONG PASSWORD","ERROR");
                     }
-
-
             }
             });
           }else {
@@ -296,12 +286,9 @@ imgUpload: function(req,res){
                      });
                    },
 
-
-
+ 
 // search function can make the student or the visitor search for a specific course by its title,type,center name,or center location
  search:function(req,res,cb){
-
-
  if(req.body.searchBy.searchBy=='title'){
 
  Course.find({title:req.body.key},function(err, courses){
@@ -309,7 +296,6 @@ imgUpload: function(req,res){
           if(err)
           cb(err,"ERROR","ERROR");
           else {
-
             cb(err,courses,"SUCCESS");
           }
       });
@@ -347,10 +333,10 @@ imgUpload: function(req,res){
                             });
   }
 },
-
+ 
  // typeReview function makes the student able to write a review for a course that he took
-
-
+ 
+ 
 typeReview: function(req,res,cb){
 
   var ind=0;
@@ -381,11 +367,7 @@ typeReview: function(req,res,cb){
         if(err)
         cb(err,"ERROR","ERROR");
 
-
       });
-
-
-
 
       var courseTitle = course.title ;
      var array = course.ReviewsIDs.concat([newReview.id]);
@@ -396,12 +378,12 @@ typeReview: function(req,res,cb){
       course.save(function(err,course){
         if(err) cb(err,"ERROR","ERROR");
       });}
-else{
-course.totalCount=course.totalCount+1;
-      course.save(function(err,course){
-        if(err) cb(err,"ERROR","ERROR");
-      });
-}
+      else{
+      course.totalCount=course.totalCount+1;
+            course.save(function(err,course){
+              if(err) cb(err,"ERROR","ERROR");
+            });
+      }
 
 
 
@@ -438,7 +420,7 @@ course.totalCount=course.totalCount+1;
               resx.save(function(err,resx){
                 if(err) cb(err,"ERROR","ERROR");
               });   });
-});
+         });
 
 
       });
@@ -462,31 +444,9 @@ else
 
   });
 
-
-
  },
-/*
-   //the student view all the courses he is enrolled to
-       viewStudentListOfCourses : function(req, res,cb){
-          var studentID = req.decoded.id;
 
-          Student.findById(studentID, function(err, StudentFound){
-            console.log(StudentFound);
-
-            for(var i = 0; i < StudentFound.ListOfCourses.length;i++){
-              var CourseID=StudentFound.ListOfCourses[i];
-              Course.findById(CourseID,(err,CourseFound)=>{
-                if(err)
-                  cb(err,"ERROR","ERROR");
-                else
-                  console.log(CourseFound);
-
-              });
-            }
-          })
-
-      },*/
-
+ 
  //getStudentProfile function displays for the student his username,profile pictures and his list of courses
      //var courses =[];
    getStudentProfile : function(req,res,cb) {
@@ -521,7 +481,6 @@ glo[1]=student.profilePicture;
   studentSignUP:function(req,res, cb){
 
 //match this student to one in the database
-
     Student.findOne({ username: req.body.username }, function(err1, student){
       if (!student) {
           var newStudent = new Student
@@ -548,8 +507,6 @@ glo[1]=student.profilePicture;
         cb(err1,"USERNAME ALREADY EXIST","ERROR");
 
       }
-
-
 
     });
 

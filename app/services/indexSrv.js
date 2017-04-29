@@ -1,7 +1,7 @@
 angular.module('indexSrv', [])
 
 myApp.factory('indexSrv', function($http,AuthToken) {
-
+  
 
   var savedData={}
     return {
@@ -26,24 +26,16 @@ myApp.factory('indexSrv', function($http,AuthToken) {
                 console.log(res)
                 return res;
               });
-
-       }, getCatalog : function(){
+       
+       },
+         getCatalog : function(){
                   return $http.get('/catalog');
           },
-          getCatalogedu : function(){
-                   return $http.get('/catalogedu');
-           },
-           getCatalogmusic : function(){
-                    return $http.get('/catalogmusic');
-            },
-            getCatalogfun : function(){
-                     return $http.get('/catalogfun');
-             },
        //      getStudentProfile:function(){
        //        return $http.get('/studentprofile');
-
+       
        // },
-
+  
  combine:function(data1,data2){
       var obj={
         courseTitle :data1.title,
@@ -95,7 +87,7 @@ getOtherStripePupKey: function(airlineIP , jwt) {
          //console.log(response)
             return response;
        });
-
+       
        },
 
 
@@ -105,13 +97,13 @@ getOtherStripePupKey: function(airlineIP , jwt) {
          //console.log(response)
             return response;
        });
-
+       
        },
 
 
 
 // function that return true if the user is logged in or return false when user is not logged in
-// it uses the function getToken() to check if there is a token , if there is token , the function will return true
+// it uses the function getToken() to check if there is a token , if there is token , the function will return true 
 // if there is no token the function will return false
        IsLoggedIn: function(){
 
@@ -124,7 +116,7 @@ getOtherStripePupKey: function(airlineIP , jwt) {
       },
 
       LogOut: function(){
-        AuthToken.SetToken();
+        AuthToken.SetToken(); 
         console.log("logout from indexSrv")
       },
 
@@ -184,7 +176,7 @@ getOtherStripePupKey: function(airlineIP , jwt) {
 
     request: function(config){
       var token= AuthToken.GetToken();
-      if(token)
+      if(token) 
         config.headers['x-access-token']= token;
       return config;
 

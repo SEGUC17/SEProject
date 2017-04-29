@@ -60,11 +60,11 @@ $rootScope.$on('$routeChangeStart',function(){
 			 if($scope.type=='ServiceProvider')
 			 	app.isSP=true;
 			 else
-			    app.isSP=false; 	
+			    app.isSP=false;
 			 if($scope.type=='Student')
 			 	app.isST=true;
 			 else
-			    app.isST=false; 	
+			    app.isST=false;
 
 
 
@@ -86,15 +86,23 @@ $rootScope.$on('$routeChangeStart',function(){
 
 
 // this function get all available courses
-		this.viewCatalog= function(){
+indexSrv.getCatalog().then(function(res){
+$scope.catalog=res.data;
+})
+indexSrv.getCatalogedu().then(function(res){
+$scope.catalogedu=res.data;
+})
 
-
-		 indexSrv.getCatalog().then(function(res){
-		 	//console.log(res.data)
-		  $scope.catalog=res.data.content;
-		})
-
-		}
+indexSrv.getCatalogmusic().then(function(res){
+$scope.catalogmusic=res.data;
+})
+indexSrv.getCatalogfun().then(function(res){
+$scope.catalogfun=res.data;
+  $scope.errorMessage=res.message;
+if(catalogfun.length()==0){
+  $scope.errorMessage="Unfortunately, No Courses Available For This Type";
+}
+})
 
 
 
@@ -107,7 +115,7 @@ app.redirectCourse=function(course){
 }
 
 
-			
+
 
 
 this.viewStudentProfile=function(){
@@ -157,7 +165,7 @@ var test={};
 
 	this.OneCourse =function(data){
 
-            
+
 	        businessServ.viewOneCourse(app.data).then(function(response){
 			console.log(app.data)
 
@@ -167,11 +175,11 @@ var test={};
 			console.log(c)
 
 			//$location.path('/coursepage')
-		        	
+
 
 		})
 	}
-	
+
 	this.login=function(data){
 		indexSrv.ServiceProviderLogin(app.data).then(function(response){
 			console.log(response.data)
@@ -250,6 +258,5 @@ if(response.data.content.username=='Admin')	{
 	}
 
 
-  
+
 });
-	

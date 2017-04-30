@@ -1,0 +1,68 @@
+<div>
+<head>
+  <style>
+.alert {
+    padding: 10px;
+    background-color: #f44336;
+    color: white;
+    opacity: 1;
+    transition: opacity 0.6s;
+    margin-bottom: 15px;
+}
+
+.alert.success {background-color: #4CAF50;}
+.alert.info {background-color: #2196F3;}
+.alert.warning {background-color: #ff9800;height: 100px;
+    width: 50%;}
+.alert.enrolled{background-color:#212d8d;height: 100px;
+    width: 30%; display:inline-block; float:right; margin-right: 10px; margin-bottom:10px; margin-left: 10px}
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.closebtn:hover {
+    color: black;
+}
+.buttontransparent {
+    background: none;/*this for transparent button*/
+    border: 0.2px solid black;/* this is for button border*/
+    position: center;
+    left: 150px;
+    top: 80px;
+}
+</style>
+</head>
+
+<button ng-controller ="spCon" type="submit" class="btn btn-danger" ng-click="removeCourse()">Delete Course</button> 
+
+ <br>
+ <br>
+  <button  type="submit" class="btn btn-danger" ng-show='spCon.viewlistbutton' ng-click="viewListOfEnrolledStudents()">View list of students</button>
+
+
+ <br>
+ <br>
+
+   <button  type="submit" class="btn btn-danger" ng-hide='spCon.viewlistbutton' ng-click="hideListOfEnrolledStudents()">Hide list of students</button>
+   
+<div class="alert warning" ng-hide="spCon.viewlisterrormessage">
+  <span class="closebtn">&times;</span>  
+  <strong>Success! {{spCon.messagesha}}</strong> 
+</div>
+<div ng-repeat="student in spCon.ListOfEnrolledStudents ">
+
+<div ng-hide='spCon.viewlistbutton' class="alert enrolled" ng-show="spCon.holderrormessage"> 
+  <strong>username : {{student.username}}</strong>
+  <br>
+  <strong>email : {{student.email}}</strong> 
+</div>
+
+</div>
+</div>

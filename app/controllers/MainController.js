@@ -1,7 +1,53 @@
-angular.module('MainController', ['indexSrv','businessServ'])
-.controller('MainController',function($scope,indexSrv,$location,$rootScope,businessServ) {
+angular.module('MainController', ['indexSrv','businessServ','uploadFileService','fileModelDirective'])
+.controller('MainController',function($scope,indexSrv,$location,$rootScope,businessServ,uploadFile) {
+
+
+///////////////////////////////////////////
+// this.getVerifiedServiceProvider=function(){
+// indexSrv.getVerifiedServiceProvider().then(function(res){
+// 		$scope.title=res.data
+// 	})
+// }
+//////////////////////////////////////////////////////
 
 var app = this;
+$scope.errorMsg='';
+$scope.isErr=false;
+$scope.successMsg='';
+$scope.isSuccess=false;
+
+$scope.file = {};
+    $scope.message = false;
+    $scope.alert = '';
+    //$scope.default = 'https://thebenclark.files.wordpress.com/2014/03/facebook-default-no-profile-pic.jpg';
+
+    $scope.Submit = function() {
+        uploadFile.upload($scope.file).then(function(data) {
+            if (data.data.success) {
+                $scope.alert = 'alert alert-success';
+                $scope.message = data.data.message;
+                $scope.file = {};
+            } else {
+                $scope.alert = 'alert alert-danger';
+                $scope.message = data.data.message;
+                $scope.file = {};
+            }
+        });
+    };
+
+    $scope.Submitlogo = function() {
+        uploadFile.logoUpload($scope.file).then(function(data) {
+            if (data.data.success) {
+                $scope.alert = 'alert alert-success';
+                $scope.message = data.data.message;
+                $scope.file = {};
+            } else {
+                $scope.alert = 'alert alert-danger';
+                $scope.message = data.data.message;
+                $scope.file = {};
+            }
+        });
+    };
 
 $rootScope.$on('$routeChangeStart',function(){
 
@@ -128,21 +174,29 @@ var test={};
 
 		})
 	}
-
-
+	
 	this.login=function(data){
+
 		indexSrv.ServiceProviderLogin(app.data).then(function(response){
 			console.log(response.data)
 			//console.log("the token is: "+response.data.token)
-
+			
 			if(response.data.type=='SUCCESS'){
 			$location.path('/spPortofolio')
 			app.islogged = true;
-
-
+				$scope.errorMsg='';
+                $scope.isErr=false;
+			$scope.isSuccess=true;
+			$scope.successMsg=response.data.message;
+             //////////////////////////////
+            
+/////////////////////////////////////////////////////////////
 			}
 			else{
+
 			 app.islogged = false;
+			 $scope.isErr=true;
+			$scope.errorMsg=response.data.message;
 
 			}
 
@@ -150,20 +204,35 @@ var test={};
 		})
 	}
 
+
+
+
 //student login
 this.Student_login=function(data){
 		indexSrv.StudentLogin(app.data).then(function(response){
 			console.log(response.data)
 			//console.log("the token is: "+response.data.token)
-
 			if(response.data.type=='SUCCESS'){
+				$scope.errorMsg='';
+                $scope.isErr=false;
+			$scope.isSuccess=true;
+			$scope.successMsg=response.data.message;
 			$location.path('/welcome')
 			app.islogged = true;
 
-
+if(response.data.content.username=='Admin')	{
+					// console.log("admin :: "+response.data.content);
+					// console.log("admin type ::  "+response.data);
+					$location.path('/adminPage');
 			}
+
+
+		}
 			else{
 			 app.islogged = false;
+			  $scope.isErr=true;
+			$scope.errorMsg=response.data.message;
+
 
 			}
 

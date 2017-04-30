@@ -3,13 +3,65 @@ let  Course = require('../db/Courses');
 let Review = require('../db/Reviews');
 let ServiceProvider = require('../db/ServiceProvider');
 let Admin=require('../db/Admin');
+array = [];
  
 gl=[];
 glo=[];
 glo2=[];
+
  
 let StudentController = {
 //the student could book a course
+
+imgUpload: function(req,res){
+     var StudentID = req.decoded.id;
+     Student.findById({_id: StudentID}, function(err,student){
+      if(err){
+        console.log(err);
+        return;
+      }
+
+      if (!req.file) {
+         res.json({ success: false, message: 'No file was selected' });
+      } else {
+         res.json({ success: true, message: 'File uploaded!' });
+      }
+
+      student.profilePicture = req.file.filename;
+       console.log(student);
+      student.save(function(err){
+        if(err)
+          console.log(err);
+        else
+          console.log("done");
+      });
+     });
+  },//getting the list of reviews of a specific course which is provided by this service provider
+  ViewReviews: function(req,res,cb){
+
+          Course.findOne({title : req.body.title},function(err,course){
+            if(course){
+              for(var j = 0; j < course.ReviewsIDs.length; j++){ 
+                  Review.findById(course.ReviewsIDs[j],function(err,review){
+                    if(review)
+                      array.push(review);
+                  });
+              }  
+
+                            
+                  if(array.length == 0)
+                    cb(err,"No reviews found !", "SUCCESS");
+                  else 
+                    cb(err,array,"SUCCESS");
+
+                  while(array.length > 0)
+                    array.pop();
+
+          }else{
+            cb(err,"Course is not found !", "ERROR");
+    }
+       });
+  },
  
   bookCourse :function(req, res,cb){
     var courseTitle = req.body.title;
@@ -81,6 +133,32 @@ let StudentController = {
  
     },
  
+
+ //getting the list of reviews of a specific course which is provided by this service provider
+  ViewReviews: function(req,res,cb){
+
+          Course.findOne({title : req.body.title},function(err,course){
+            if(course){
+              for(var j = 0; j < course.ReviewsIDs.length; j++){ 
+                  Review.findById(course.ReviewsIDs[j],function(err,review){
+                    if(review)
+                      array.push(review);
+                  });
+              }   
+
+          }else
+            cb(err,"Course is not found !", "ERROR");
+            
+          });
+
+      if(array.length == 0)
+        cb(err,"No reviews found !", "SUCCESS");
+      else 
+        cb(err,array,"SUCCESS");
+
+      while(array.length > 0)
+        array.pop();
+  },
  
 //ckecks tht this student was previously signed up or not
     checkStudentLogin:function(req,res,cb) {
@@ -148,7 +226,7 @@ let StudentController = {
  
   },
  // getAllCourses function Display all provided courses
-  getAllCourses:function(req,res,cb){
+ getAllCourses:function(req,res,cb){
  
       Course.find(function(err, courses){
  
@@ -165,46 +243,49 @@ let StudentController = {
   var indx=2;
   Student.findOne({username:req.decoded.username}).lean().exec(function(err,student){
    for(var i=0; i<student.ListOfCourses.length;i++){
- 
+
      Course.findById(student.ListOfCourses[i],function(err,course){
        //console.log(course);
- 
+
          //glo.push(course.title);
           glo[indx] = course.title;
             indx++;
- 
- 
+
+
       });
- 
- 
+
+
 }
 glo[0]=student.username;
 glo[1]=student.profilePicture;
- 
- 
+
+
   cb(err,glo,"SUCCESS");
   for(var w=glo.length-1;w>=0;w--){
   glo.pop();}
- 
+
          });
        },
  
 // search function can make the student or the visitor search for a specific course by its title,type,center name,or center location
-  search:function(req,res,cb){
- if(req.body.searchBy=='title'){
- 
+ search:function(req,res,cb){
+
+
+ if(req.body.searchBy.searchBy=='title'){
+
  Course.find({title:req.body.key},function(err, courses){
- 
+
           if(err)
           cb(err,"ERROR","ERROR");
           else {
+           
             cb(err,courses,"SUCCESS");
           }
       });
   }
-  if(req.body.searchBy=='type'){
+ else if(req.body.searchBy.searchBy=='type'){
     Course.find({type:req.body.key},function(err, courses){
- 
+
               if(err)
               cb(err,"ERROR","ERROR");
               else {
@@ -212,27 +293,27 @@ glo[1]=student.profilePicture;
               }
           });
   }
-  if(req.body.searchBy=='centerLocation'){
+  else if(req.body.searchBy.searchBy=='centerLocation'){
     Course.find({centerLocation:req.body.key},function(err, courses){
- 
+
               if(err)
               cb(err,"ERROR","ERROR");
               else {
                 cb(err,courses,"SUCCESS");
               }
- 
+
           });
   }
-  if(req.body.searchBy=='centerName'){
+  else if(req.body.searchBy.searchBy=='centerName'){
     Course.find({centerName:req.body.key},function(err, courses){
- 
+
               if(err)
               cb(err,"ERROR","ERROR");
               else {
                 cb(err,courses,"SUCCESS");
               }
- 
-                 });
+
+                            });
   }
 },
  
@@ -240,20 +321,20 @@ glo[1]=student.profilePicture;
  
  
 typeReview: function(req,res,cb){
- 
+
   var ind=0;
   var f=0;
   Student.findById(req.decoded.id,function(err,student){
    if(err)
    cb(err,"ERROR","ERROR");
- 
+
    Course.findOne({title:req.body.courseTitle},function(err,c){
- 
+
      if(err)
      cb(err,"ERROR","ERROR");
- 
+
  var courseID=c.id;
- 
+
     for(var i=0;i< student.ListOfCourses.length;i++){
     if(student.ListOfCourses[i] == courseID)
     {
@@ -268,13 +349,13 @@ typeReview: function(req,res,cb){
       newReview.save(function(err,newReview){
         if(err)
         cb(err,"ERROR","ERROR");
- 
- 
+
+
       });
- 
- 
- 
- 
+
+
+
+
       var courseTitle = course.title ;
      var array = course.ReviewsIDs.concat([newReview.id]);
       course.ReviewsIDs= array;
@@ -290,9 +371,9 @@ course.totalCount=course.totalCount+1;
         if(err) cb(err,"ERROR","ERROR");
       });
 }
- 
- 
- 
+
+
+
     if(req.body.isNeg==1){
     if((course.countNeg/course.totalCount)>=0.5){
       ServiceProvider.findById(course.serviceProviderID,function(err,SP){
@@ -304,33 +385,33 @@ course.totalCount=course.totalCount+1;
           if(err)
         cb(err,"ERROR","ERROR");
         })
- 
- 
+
+
 //console.log(SP.listOfNotification.typeOfNotification);
         SP.save(function(err,SP){
           if(err) cb(err,"ERROR","ERROR");
         });
- 
- 
+
+
               var item2={
               typeOfNotification:"BAD REVIEWS on " +course.title,
               ServiceProviderUsername:SP.username
               }
- 
+
               Admin.findOne({username:"Admin"},function(err,resx){
- 
+
                 Admin.update(resx,{$push:{ listOfNotification :item2}},{safe:true,upsert:true},function(err,ress) {
                 if(err)
               cb(err,"ERROR","ERROR");
- 
+
               resx.save(function(err,resx){
                 if(err) cb(err,"ERROR","ERROR");
               });   });
 });
- 
- 
+
+
       });
- 
+
      }
    }
     });
@@ -345,13 +426,13 @@ else
  cb(err,reviews,"SUCCESS");
   });
 }
- 
+
     });
- 
+
   });
- 
- 
- 
+
+
+
  },
 /*
    //the student view all the courses he is enrolled to

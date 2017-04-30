@@ -91,17 +91,24 @@ $rootScope.$on('$routeChangeStart',function(){
 })
 
 
-// this function get all available courses
-		this.viewCatalog= function(){
+    indexSrv.getCatalog().then(function(res){
+      $scope.catalog=res.data;
+    })
+    indexSrv.getCatalogedu().then(function(res){
+      $scope.catalogedu=res.data;
+    })
 
-
-		 indexSrv.getCatalog().then(function(res){
-		 	//console.log(res.data)
-		  $scope.catalog=res.data.content;
-		})
-
-
-		}
+    indexSrv.getCatalogmusic().then(function(res){
+      $scope.catalogmusic=res.data;
+    })
+    indexSrv.getCatalogfun().then(function(res){
+      $scope.catalogfun=res.data;
+        $scope.errorMessage=res.message;
+        
+      if(catalogfun.length()==0){
+        $scope.errorMessage="Unfortunately, No Courses Available For This Type";
+      }
+    })
 
 
 app.redirectCourse=function(course){

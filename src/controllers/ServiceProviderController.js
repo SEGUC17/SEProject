@@ -22,9 +22,7 @@ logoUpload: function(req,res){
 
       if (!req.file) {
          res.json({ success: false, message: 'No file was selected' });
-      } else {
-         res.json({ success: true, message: 'File uploaded!' });
-      }
+      } 
 
       sp.logo = req.file.filename;
        console.log(sp);
@@ -32,7 +30,7 @@ logoUpload: function(req,res){
         if(err)
           console.log(err);
         else
-          console.log("done");
+           res.json({ success: true, message: 'File uploaded!', img: req.file.filename});
       });
      });
   },

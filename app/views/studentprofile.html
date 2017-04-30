@@ -1,24 +1,17 @@
 
 
-<body>
-   <br>
-   <br> 
-  <p>your username: {{username}}</p>
-  <p>your profile picture: {{profilepicture}}</p>
-
-
 <body  ng-controller="MainController">
    <br>
    <br> 
   <p>your username: {{username}}</p>
-  <p>your profile picture: {{profilepicture}}</p>
+  <img ng-src= "{{picture}}">
    <!-- <img class = "mythumbnail" ng-src="{{ thumbnail.dataUrl || 'uploads/default.jpg'}}"> -->
 
     <input type="file" file-model="file.upload" name="myfile"/>
     <button ng-click = "Submit()">upload me</button>
 
      <div ng-show="message">
-                <div ng-class="alert">{{ message }}</div>
+        <div ng-class="{{alert}}"> {{ message }}</div>
      </div>
 
 
@@ -40,9 +33,4 @@
        
 </div>
 
-    
-<!-- <p>cataloggg</p> -->
 </body>
-
-
-

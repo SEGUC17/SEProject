@@ -23,10 +23,14 @@ app.holderrormessageViewreviews=true;
 
 
 
+
+console.log(businessServ.getB());
 $scope.courseArray=['yasminy','3adi','tani','course','12','yasmin','toz'];
 $scope.title=indexSrv.get();
 $scope.testCourse={};
 $scope.removeCourse={};
+
+ $scope.coursez = indexSrv.getc()
 
 
 this.updatedPortofolio = {
@@ -127,10 +131,19 @@ this.viewannouncements = function(){
   
 
 courseServ.viewannouncements(xx).then(function(res){
-	console.log(res.data.content)
-	$location.path('/viewannouncements');
-	$scope.gina=res.data.content
+	// $location.path('/viewannouncements');
+	 // $location.path('/viewreviews');
+		console.log(res.data.content)
+	console.log('bakrahaaaaakkkkkkkkkkkkkkk')
+	console.log(xx)
 	
+			if(res.data.type=='ERROR'){
+				 $location.path('/popup');
+			}
+
+	else{
+	$scope.gina=res.data.content
+	}
 })
 }
 this.viewannouncements1 = function(){
@@ -140,7 +153,18 @@ this.viewannouncements1 = function(){
 courseServ.viewannouncements(xx).then(function(res){
 	console.log(res.data.content)
 	$location.path('/viewannouncements1');
+	
+		if(res.data.type=='ERROR'){
+				 $location.path('/popup');
+			}
+
+		if(res.data.type=='ERROR1'){
+				 $location.path('/popup1');
+			}
+
+	else{
 	$scope.gina1=res.data.content
+	}
 	
 })
 }
@@ -158,24 +182,34 @@ this.removeAnnouncements = function(data){
    var send=indexSrv.get();
 	
 indexSrv.removeAnnouncements(send).then(function(res){
+	if(res.data.type=='ERROR'){
+				 $location.path('/popup1');
+			}
   console.log("removeAnnouncements")
 	console.log(res)
 	// $location.path('/removeAnnouncements');
+    $scope.gina="";
+   
+courseServ.viewannouncements(xx).then(function(res2){
+	// $location.path('/viewannouncements');
+	 // $location.path('/viewreviews');
+		console.log(res.data.content)
+	console.log('bakrahaaaaakkkkkkkkkkkkkkk')
+	console.log(xx)
+	
+			if(res.data.type=='ERROR'){
+				 $location.path('/popup');
+			}
 
+	else{
+	$scope.gina=res2.data.content
+	}
+})
 	
 })
 }
 
 
-this.removeCourse = function(data){
-courseServ.removeCourse(app.data).then(function(res){
-  console.log("remove courseeeeeeee")
-	console.log(res)
-	$location.path('/removeCourse');
-
-	
-})
-}
 
 this.viewreviews = function(data){
 courseServ.viewreviews(app.data).then(function(res){
@@ -198,6 +232,13 @@ test["announcements"]=app.data.announcements
 			console.log(app.data)
 			
 			// console.log(test)
+			if(response.data.type=='ERROR'){
+				 $location.path('/popup1');
+			}
+
+		if(response.data.type=='ERROR1'){
+				 $location.path('/popup2');
+			}
 
 			if(response.data.type=='SUCCESS'){
 				 $location.path('/home');
@@ -213,7 +254,13 @@ test["announcements"]=app.data.announcements
 		courseServ.updatecourse(app.data).then(function(res){
 			console.log(app.data)
 			console.log(res)
-			
+			if(res.data.type=='ERROR1'){
+				 $location.path('/popup1');
+			}
+
+		if(res.data.type=='ERROR'){
+				 $location.path('/popup3');
+			}
 			if(res.data.type=='SUCCESS'){
 				 $location.path('/home');
 			}
@@ -221,6 +268,7 @@ test["announcements"]=app.data.announcements
 
 		})
 	}
+
 
 
 
@@ -321,7 +369,7 @@ $scope.removeCourse = function(){
 		"title":$scope.removeCourse.title
 	};
 courseServ.removeCourse(xy).then(function(res){
- 	$location.path('/oneCourse');
+ 	$location.path('/courseDemo');
 	
 })
 }
@@ -437,7 +485,7 @@ businessServ.viewListOfEnrolledStudents(xy).then(function(response){
 	
 
    
-if($scope.type=='ServiceProvider'){
+if($scope.type=='ServiceProvider' || $scope.type=='Admin'){
 
 
 			businessServ.ServiceProviderViewCourse().then(function(response){
@@ -467,18 +515,30 @@ if($scope.type=='ServiceProvider'){
 
 
 		businessServ.ServiceProviderViewPortofolio().then(function(response){
-
-			//console.log(response)
+			console.log("in hereeeeeeeeeeeeeee");
+			console.log(response)
 			console.log(response.data.content)
       if(response.data.content === undefined ||response.data.content ===null || response.data.content === ""){
         console.log("in 1");
         $scope.profile=adminSrv.getSpProfile();
 			}else if(($scope.profile != null ||  $scope.profile !="") && ( $scope.profile !=  undefined) ) {
         console.log("in 2");
-        $scope.profile=response.data.content;
+           $scope.profile=response.data.content;
+          app.updatedPortofolio.field = $scope.profile.field;
+          	app.updatedPortofolio.description = $scope.profile.description;
+          	app.updatedPortofolio.username = $scope.profile.username;
+          	app.updatedPortofolio.organizationName = $scope.profile.organizationName;
+          	app.updatedPortofolio.mobileNumber = $scope.profile.mobileNumber;
+          	app.updatedPortofolio.email = $scope.profile.email;
+          	app.updatedPortofolio.address = $scope.profile.address;
+          	app.updatedPortofolio.polices = $scope.profile.polices;
+
+          	console.log($scope.profile);
+          	console.log(response);
 
       }  else {
         console.log("in 3");
+
 
           $scope.profile=response.data.content;
           app.updatedPortofolio.field = $scope.profile.field;
@@ -489,6 +549,9 @@ if($scope.type=='ServiceProvider'){
           	app.updatedPortofolio.email = $scope.profile.email;
           	app.updatedPortofolio.address = $scope.profile.address;
           	app.updatedPortofolio.polices = $scope.profile.polices;
+
+          	console.log($scope.profile);
+          	console.log(response);
 
 
       }

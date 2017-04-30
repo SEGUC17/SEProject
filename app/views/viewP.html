@@ -1,25 +1,52 @@
- </p>MY PROFILE</p>
+ <div>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular-route.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+</div>
+
+<style>
+
+.divv {
+    border-radius: 5px;
+    padding: 35px;
+}
+
+</style>
+
+
+<div class="divv">
+ <h1>MY PROFILE</h1>
 
 <div  ng-controller="spCon" >
   
 <!-- <h1>{{title}}</h1> 
  -->
+ <div class ="divv">
+
         <ul class="list-group">
-          <li class="list-group-item">organizationName: {{profile.organizationName}}</li>
-          <li class="list-group-item">field: {{profile.field}}</li>
-          <li class="list-group-item">description: {{profile.description}}</li>
-          <li class="list-group-item">mobileNumber: {{profile.mobileNumber}}</li>
-          <li class="list-group-item">email: {{profile.email}}</li>
-          <li class="list-group-item">address: {{profile.address}}</li>
-          <li class="list-group-item">polices: {{profile.polices}}</li>
-          <li class="list-group-item">logo: {{profile.logo}}</li>
-          <li class="list-group-item">username: {{profile.username}}</li>
+          <img ng-src= "{{profile.logo}}">
+          <li class="list-group-item"><strong>Organization Name:</strong> {{profile.organizationName}}</li>
+          <li class="list-group-item"><strong>Username: </strong>  {{profile.username}}</li>
+          <li class="list-group-item"><strong>Email: </strong> {{profile.email}}</li>
+          <li class="list-group-item"><strong>Mobile Number:</strong>  {{profile.mobileNumber}}</li>
+          <li class="list-group-item"><strong>Address: </strong> {{profile.address}}</li>
+          <li class="list-group-item"><strong>Field: </strong> {{profile.field}}</li>
+          <li class="list-group-item"><strong>Description: </strong> {{profile.description}}</li>
+          <li class="list-group-item"><strong>Polices: </strong> {{profile.polices}}</li>
+         
+
 
 
 
 
         </ul>
-
+</div>
       <li><a href= "#/spPortofolio">BACK SP</a></li>    
 
+</div>
 </div>

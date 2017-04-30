@@ -1,36 +1,42 @@
 angular.module('AdminController', ['adminSrv']).controller('AdminController',function($scope,adminSrv,indexSrv,$location,businessServ) {
  //adminSrv.setEmail("balabizo@gmail.com");
 $scope.msg = "";
-// $scope.test = "testemail";
 $scope.unRegisterSP = "";
-// $scope.SrvProviders   ="";
-//$scope.count = 0;
 
 $scope.IsVisible = false;
+displayNotifications();
+
 $scope.ShowHide = function () {
     //If DIV is visible it will be hidden and vice versa.
      $scope.IsVisible = $scope.IsVisible ? false : true;
 
+
 };
+
+
+
+
+function displayNotifications(){
+  console.log("in notificationsssss")
+
+$scope.Notifications="";
+ adminSrv.getNotifications(indexSrv.GetToken()).success(function(data) {
+            console.log("Notificationsssssss")
+             console.log(data);
+             $scope.Notifications=data.content;
+          });
+
+
+}
 console.log("indexSRV ==");
 console.log(indexSrv);
 
-//admin login
-// $scope.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFkbWluIiwiaWQiOiI1OGY5MGQzNGM4YjQ3NmI3MzA0NTFlMjMiLCJ0eXBlIjoiQWRtaW4iLCJpYXQiOjE0OTI3MzA5OTJ9.yTax2Au9-7VDajfe0HmjKSp3Y0nm2yWN-r9ttbDtpL8";
 
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFkbWluIiwiaWQiOiI1OGZhNTk3ZGYzNjI2ODE0OGExYTA2NzIiLCJ0eXBlIjoiQWRtaW4iLCJpYXQiOjE0OTI4MDE5NDJ9.fU89UnB4qcck_iN-26yff_UENFvg3zlAlT1JbgEEBgk
-// "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFkbWluIiwiaWQiOiI1OGZhNTk3ZGYzNjI2ODE0OGExYTA2NzIiLCJ0eXBlIjoiQWRtaW4iLCJpYXQiOjE0OTI4MDE5NDJ9.fU89UnB4qcck_iN-26yff_UENFvg3zlAlT1JbgEEBgk"
-
-
-
-//  $scope.Email  = adminSrv.getEmail();
-//removeSrvProvider($scope.Email);
-//getServiceProvider();
-// console.log(indexSrv.GetToken());
 $scope.GoToSPpage=  function(Email){
 
 adminSrv.getSpDetail(Email,indexSrv.GetToken()).success(function(spProfile) {
 // eh deh ??  deh btgebb l data bta3t  l sp
+
 adminSrv.setSpProfile(spProfile.content); 
 console.log("ana hna sp profile "+spProfile);
 console.log(spProfile.content);
@@ -91,32 +97,6 @@ $scope.VerifySrvProvider  =function(username,password,email){
 };
 
 
-// //delete sp
-// $scope.deleteSrvProvider  =function(Email){
-//       console.log("ctrl_deleteSrvProvider");
-//       console.log(Email);
-//     adminSrv.deleteSrvProvider(Email).success(function(msg) {
-//
-//            $scope.msg = msg;
-//            console.log(msg);
-//            console.log("ctrl2_deleteSrvProvider");
-//            console.log(Email);
-//
-//            displaySrvProviders  ();
-//        });
-// };
-
-
-
-// this method to redirect to the clicked service provider
-// function GoToSPpage(sps){
-//
-//
-//
-//
-//
-// };
-
 $scope.viewUnSrvProvider  =
       // console.log("ctrluser");
       // console.log(username);
@@ -155,9 +135,75 @@ function  displayUnRegSrvProviders  (){
             //  console.log(unRegisterSP);
     });
 
-
 };
+//
+// function displaySPNotifications($q) {
+//
+//    adminSrv.getNotifications(indexSrv.GetToken()).success(function(Sp) {
+//  // console.log('notifications')
+//  // console.log(res)
+//  var spvalues = $q.resolve([
+//    { username: 11, organizationName: 'Mr. Nice' },
+//  ]);
+//  //$scope.notifications=res;
+//
+//   this.getNotifications = function() {
+//     return spvalues;
+//   };
+//
+//   this.getNotifications = function(sp) {
+//     return spvalues.then(function(ServiceProvider) {
+//       for (var i = 0; i < ServiceProvider.length; i++) {
+//         if (ServiceProvider[i].username === username) return ServiceProvider[i];
+//       }
+//     });
+//   };
+// }
+// }
+// adminSrv.getNotifications().success(function(data) {
+//               console.log(res.data);
+//                 $scope.getNotifications =data;
+//                 console.log(data);
+//  });
+// });
+          //    adminSrv.getNotifications().success(function(data){
+          //
+          //     // console.log("====================================")
+          //     console.log('notifications')
+          //     console.log(data)
+          //     $scope.getNotifications=data;
+          // });
+
+          $scope.Notifications=  function(){
+          adminSrv.getNotifications().then(function(data) {
+             console.log(data);
+             $scope.Notifications=data;
+          });
+        };
+        //  $scope.adminPage=adminSrv.getNotifications().success(function(data) {
+        //     console.log(data);
+        //  });
 
 
+// });
+//$scope.notifications=res;
 
+
+// this.Notifications = function(){
+//   console.log("testing new button");
+//   $http.post('/serviceprovider/getNotifications').then(function(data){
+//     console.log(res);
+//     $scope.getNotifications=data;
+//   });
+// };
 });
+// navigator.serviceWorker.register('sw.js');
+
+// function showNotification() {
+//         $scope.showNotification(res, {
+//           icon: 'ServiceProvider.logo',
+//           data: 'ServiceProvider.organizationName',
+//           data: 'ServiceProvider.username',
+//           body: 'ServiceProvider.listOfNotification',
+//         });
+//       };

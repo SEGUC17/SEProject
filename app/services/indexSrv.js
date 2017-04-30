@@ -4,6 +4,8 @@ myApp.factory('indexSrv', function($http,AuthToken) {
   
 
   var savedData={}
+    var savedData1={}
+
     return {
        postReview:function(data){
         return $http.post('/studentprofile/review',data).then(function(response){
@@ -21,18 +23,39 @@ myApp.factory('indexSrv', function($http,AuthToken) {
        return savedData;
     },
 
+
+     setc:function(data){
+      savedData1=data;
+     },
+    getc : function(){
+       return savedData1;
+    },
+
+
     getStudentProfile:function(){
               return $http.get('/studentprofile');
                
            
        },
-         getCatalog : function(){
-                  return $http.get('/catalog');
-          },
+         // getCatalog : function(){
+         //          return $http.get('/catalog');
+         //  },
        //      getStudentProfile:function(){
        //        return $http.get('/studentprofile');
        
        // },
+       getCatalog : function(){
+                  return $http.get('/catalog');
+          },
+          getCatalogedu : function(){
+                   return $http.get('/catalogedu');
+           },
+           getCatalogmusic : function(){
+                    return $http.get('/catalogmusic');
+            },
+            getCatalogfun : function(){
+                     return $http.get('/catalogfun');
+             },
   
  combine:function(data1,data2){
       var obj={
@@ -49,8 +72,7 @@ myApp.factory('indexSrv', function($http,AuthToken) {
      },
 
 
-
-   Search:function(data){
+ Search:function(data){
         return $http.post('/home/search',data);
      },
 

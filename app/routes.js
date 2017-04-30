@@ -10,6 +10,27 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     // controller: 'MainController',
     // controllerAs: 'MainController'
                })
+
+     .when('/catalog',{
+
+  templateUrl:'views/catalog.html'
+
+  })
+  .when('/catalogedu',{
+
+templateUrl:'views/catalogedu.html'
+
+})
+.when('/catalogmusic',{
+
+templateUrl:'views/catalogmusic.html'
+
+})
+.when('/catalogfun',{
+
+templateUrl:'views/catalogfun.html'
+
+})
   .when('/welcome',{
 
     templateUrl:'views/welcome.html',
@@ -113,6 +134,36 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     templateUrl:'views/c.html',
       controller: 'spCon',
     controllerAs: 'spCon'
+
+    })
+    .when('/popup',{
+
+    templateUrl:'views/popupANNOUN.html',
+     
+
+    })
+.when('/popup1',{
+
+    templateUrl:'views/popupaNoun.html',
+     
+
+    })
+.when('/popup2',{
+
+    templateUrl:'views/popupPOSTAN.html',
+     
+
+    })
+.when('/popup3',{
+
+    templateUrl:'views/popupUPDATE.html',
+     
+
+    })
+.when('/popup4',{
+
+    templateUrl:'views/popupANNOUNST.html',
+     
 
     })
     .when('/addCourse',{

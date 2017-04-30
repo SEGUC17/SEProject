@@ -149,7 +149,6 @@ let AdminController = {
 
 
    },
-
 // ViewReviews function makes the service provider able to view the reviews written about a specific course that he's providing
 //getting the list of reviews of a specific course which is provided by this service provider
   ViewReviews: function(req,res,cb){
@@ -244,7 +243,6 @@ let AdminController = {
       }); 
 
     },      
-                
     getAllVerifiedServiceProvider:function(req,res , cb){
        ServiceProvider.find({ $and: [ {username:{$ne:''}}, {username:{$ne:undefined}}] },function(err,spUsers) {
         if (err) {

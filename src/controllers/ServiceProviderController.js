@@ -22,17 +22,15 @@ logoUpload: function(req,res){
 
       if (!req.file) {
          res.json({ success: false, message: 'No file was selected' });
-      } else {
-         res.json({ success: true, message: 'File uploaded!' });
-      }
+      } 
 
-      sp.logo = req.file.filename;
+      sp.logo = "uploads/"+req.file.filename;
        console.log(sp);
       sp.save(function(err){
         if(err)
           console.log(err);
         else
-          console.log("done");
+           res.json({ success: true, message: 'File uploaded!', img: req.file.filename});
       });
      });
   },
@@ -96,6 +94,7 @@ logoUpload: function(req,res){
 
           getCourse: function(req,res,cb){
         	Course.findOne({title:req.body.title},(err,result)=>{
+        		console.log(req.body.title);
         		if(err){
         			cb(err,"NO COURSE FOUND","ERROR")
         		}else{
@@ -307,7 +306,7 @@ logoUpload: function(req,res){
 		    courseFound.announcements.push(newAnnouncement);
 		    courseFound.save((err,result)=>{
 		    	if(err){
-		    		cb(err,"SORRY CANT SAVE THE NEW ANNOUNCMET TO THE COURSE");
+		    		cb(err,"SORRY CANT SAVE THE NEW ANNOUNCMET TO THE COURSE","ERROR1");
 		    	}else{
 		    		cb(err,result,"SUCCESS");
 		    	}
@@ -363,8 +362,11 @@ logoUpload: function(req,res){
 		var Coursetitle=req.body.title;
 		Course.findOne({title:Coursetitle},(err,result)=>{
 			if(err){
-				cb(err,"COURSE NOT FOUND","ERROR");
-			}else{
+				cb(err,"COURSE NOT FOUND","ERROR1");
+			}var array = result.announcements;
+            if(array.length == 0)
+              cb(err,"No announcements found !", "ERROR");
+			else{
 				cb(err,result.announcements,"SUCCESS");
 			}
 		});
@@ -375,7 +377,7 @@ logoUpload: function(req,res){
 //empty or not 
 
 
-   updateCourse : function(req,res,cb){
+  updateCourse : function(req,res,cb){
 
 		var title=req.body.title;
 		var objForUpdate = {};
@@ -398,7 +400,7 @@ logoUpload: function(req,res){
 			else{
            			Course.findOne({title:title},(err,result)=>{
            				if(err){
-             				cb(err,"CAN NOT FIND COURSE","ERROR");
+             				cb(err,"CAN NOT FIND COURSE","ERROR1");
              			}else{
              				cb(err,result,"SUCCESS");
              			}
@@ -431,44 +433,32 @@ logoUpload: function(req,res){
 //the service provider could view all the enroller students in the course by passing the course titile 
 	viewAllEnrolledStudents : function(req,res,cb){	
 		var x = 0;
-
+		var studentList = [];
+ 
 		if(req.decoded.type == "ServiceProvider"){
 			var courseTitle=req.body.title;
 			Course.findOne({title:courseTitle},(err,courseFound)=>{
 				if(courseFound){
-
+ 
 					var lengthOfEnrolledStudents=courseFound.enrolledStudentsIDs.length;
-
-					for(var i = 0; i < lengthOfEnrolledStudents; i++){
-						var studentID = courseFound.enrolledStudentsIDs[i];
-
-						
-						Student.findById(studentID,(err,studentFound)=>{
-
-							console.log(studentFound);
-							if(studentFound){
-								array[x] = studentFound;
-								x++;
-							}
-							else{
-								cb(err,"Student not found", "ERROR");
-
-							}
-
-						});
-
+					console.log("---------------------------")
+					console.log(courseFound)
+					Student.find({ListOfCourses:courseFound._id}, function(err,found){
+ 
+						if(err){
+							throw err;
+							cb(err, "No students enrollered in the course yet ! ", "ERROR");
+ 
+						}else{
+						console.log("Array")
+						console.log(found)
+						cb(err, found, "SUCCESS");
 					}
-					if(array.length == 0)
-						cb(err, "No students enrollered in the course yet ! ", "ERROR");
-					else 
-						cb(err, array, "SUCCESS");
-
-					while(array.length > 0)
-							array.pop();
-
+					});
+ 
 				}else
 					cb(err, "Course not found", "ERROR");
-
+ 
 			});
 		}else
 			cb("", "You are not a Service Provider","ERROR");

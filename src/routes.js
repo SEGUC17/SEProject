@@ -32,6 +32,63 @@ router.get('/',function (req,res){
         res.sendFile(path.join(__dirname,'../','app','index.html'))
 });
 
+router.get('/catalog',function(req,res){
+      StudentController.getAllCourses(req,res,(err,courses,type)=>{
+        if(type === "ERROR")
+          res.json(courses);
+        else
+          res.json(courses);
+      });
+
+    });
+
+    router.get('/catalogedu',function(req,res){
+          StudentController.getAllEducationCourses(req,res,(err,courses,type)=>{
+            if(type === "ERROR")
+              res.json(courses);
+            else
+              res.json(courses);
+          });
+
+        });
+
+            router.get('/catalogmusic',function(req,res){
+                  StudentController.getAllMusicCourses(req,res,(err,courses,type)=>{
+                    if(type === "ERROR")
+                      res.json(courses);
+                    else
+                      res.json(courses);
+                  });
+
+                });
+
+router.post('/home/search',function(req,res){
+
+  
+  StudentController.search(req,res,(err,course,type)=>{
+    if(type==="ERROR"){
+   res.json({
+   type:type,
+   message:course
+   });
+
+    }
+    
+    else {
+      res.json({
+     type:type,
+     content:course,
+     message:"course retrieved"
+      });
+    }
+  });
+
+
+});
+
+
+
+
 
 
 router.post('/forbussinus/login', function(req,res){
@@ -111,7 +168,6 @@ router.post('/admin/clearUnverfiedSP',(req,res)=>{
   });
 
 });
-
 
 router.post('/serviceprovider/removeannouncement',function(req,res){
   ServiceProviderController.removeAnnouncements(req,res,(err,message,type)=>{
@@ -795,30 +851,6 @@ router.get('/studentprofile',function(req,res){
 
 
 
-
-router.post('/home/search',function(req,res){
-
-  
-  StudentController.search(req,res,(err,course,type)=>{
-    if(type==="ERROR"){
-   res.json({
-   type:type,
-   message:course
-   });
-
-    }
-    
-    else {
-      res.json({
-     type:type,
-     content:course,
-     message:"course retrieved"
-      });
-    }
-  });
-
-
-});
 
 
 //  router.get('*',function (req,res){

@@ -1,33 +1,54 @@
 <div>
-<h1> Student REGISTERING  </h1>	
+<h1> Student REGISTERING  </h1> 
 </div>
 
-<form ng-submit="StudentController.newStudent(data)">
-	 <div class="form-group">
+<form name ="myForm" ng-submit="StudentController.newStudent(data)">
+   <div class="form-group">
           <label>username</label>
-          <input type="text" class="form-control" ng-model="StudentController.data.username">
-        </div> 
-       
+          <div class="row show-hide-message" ng-show="message">
+          <div class="alert alert-danger">{{message}}</div>
+          </div>
+          <input type="text" class="form-control" ng-model="StudentController.data.username" required>
+          <span class="error" ng-show="myForm.input.$error.required">
+           Required</span>
+          </div> 
+
         <div class="form-group">
-          <label>password</label>
-          <input type="password" class="form-control"  ng-model="StudentController.data.password" >
+          <label>Password</label>
+          <input type="password" class="form-control" name="input" ng-model="StudentController.data.password" required>
+          <span class="error" ng-show="myForm.input.$error.required">
+        Required</span>
         </div>
         <div class="form-group">
-          <label>email</label>
-          <input type="text" class="form-control" ng-model="StudentController.data.email">
+          <label>E-mail</label>
+           <input type="email" name="email2" ng-model="StudentController.data.email" required>
+           <span class="error" ng-show="myForm.email2.$error.email">
+             Not a valid email! </span>
+             <span class="error" ng-show="myForm.email2.$error.required">
+         Required</span>
         </div>
+
         <div class="form-group">
-          <label>birthdate</label>
-          <input type="data" class="form-control" ng-model="StudentController.data.birthdate" >
+          <label>Birthdate</label>
+           <input type="date" id="exampleInput" name="input2" ng-model="StudentController.data.birthdate"
+       placeholder="yyyy-MM-dd" min="1900-01-01" max="2017-4-30" required>
+         <span class="error" ng-show="myForm.input2.$error.required">
+        Required</span>
+         <span class="error" ng-show="myForm.input2.$error.date">
+             Not a valid date! </span>
+         <!--  <input type="date" class="form-control" ng-model="StudentController.data.birthdate" > -->
         </div>
         
-        <div class="form-group">
-          <label>profilePicture</label>
-          <input type="text" class="form-control" ng-model="StudentController.data.profilePicture" >
-        </div>
-       
+      
         <button type="submit" class="btn btn-default">Register</button>
+        {{message2}}
+        <div class="row show-hide-message" ng-show="message2">
+<div class="alert alert-success">{{message2}}</div>
+</div>
+<br>
+
 
 
 
 </form>
+

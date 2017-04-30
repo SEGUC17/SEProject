@@ -3,7 +3,14 @@
 angular.module('businessServ',[])
 
 .factory('businessServ', function($http,AuthToken) {
+      var savedD={};
     return {
+        setB:function(data){
+      savedD=data;
+     },
+    getB: function(){
+       return savedD;
+    },
     	ServiceProviderRegister:function(data){
     		return $http.post('/serviceprovider/register',data);
 

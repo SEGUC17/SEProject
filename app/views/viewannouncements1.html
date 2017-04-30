@@ -1,14 +1,15 @@
-</p>ANNOUNCEMENTS</p>
+ 
+<!-- <h2>ANNOUNCEMENTS</h2> -->
 <form ng-submit="spCon.viewannouncements1()">
-	<div class="form-group">
-   <!--  <label>PLEASE ENTER THE COURSE TITLE</label>
+   <!--<div class="form-group">
+    <label>PLEASE ENTER THE COURSE TITLE</label>
           <input type="text" class="form-control" ng-model="spCon.data.title">
         </div> 
  -->
- <button type="submit" class="btn btn-default">Submit</button>
+ <button type="submit" class="btn btn-primary">Announcements</button>
         </form>
 
-
+<!-- <li><a href= "#/viewreviesStudent"> <button class="btn btn-primary" >Reviews </button> </a></li> -->
  <div ng-repeat = "x in gina1" ng-controller="spCon">
 
 <ul class="list-group">
@@ -17,11 +18,12 @@
 
         </ul>
 
-        	
+          
 
 
         </div>
 
 
-         <li><a ng-show = spCon.isSP href= "#/home1"> <button b >back to home coursePage </button> </a></li>
+
+         <li><a ng-show = !spCon.isSP href= "#/home1"> <button id='one' class="btn btn-primary" >BACK </button> </a></li>
           

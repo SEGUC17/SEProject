@@ -12,9 +12,13 @@ angular.module('MainController', ['indexSrv','businessServ','uploadFileService',
 
 
 $scope.studentcourses=[];
+
+// if condition for student !!!!!!!!
+if($scope.type=='Student'){
+
 indexSrv.getStudentProfile().then(function(res){
   $scope.username=res.data[0];
-  $scope.profilepicture=res.data[1];
+  $scope.picture="uploads/"+res.data[1];
   console.log($scope.username)
 
   console.log(res)
@@ -26,6 +30,9 @@ i++;
 j++;
   }
 })
+
+}
+
 
 
 
@@ -46,27 +53,33 @@ $scope.file = {};
                 $scope.alert = 'alert alert-success';
                 $scope.message = data.data.message;
                 $scope.file = {};
+                $scope.picture = "uploads/"+data.data.img;
             } else {
                 $scope.alert = 'alert alert-danger';
                 $scope.message = data.data.message;
                 $scope.file = {};
+                $scope.picture = "/uploads/avatar.png"
             }
         });
     };
-
-    $scope.Submitlogo = function() {
+    
+    $scope.logo = "/uploads/avatar.png";
+    $scope.logoSubmit = function() {
         uploadFile.logoUpload($scope.file).then(function(data) {
             if (data.data.success) {
                 $scope.alert = 'alert alert-success';
                 $scope.message = data.data.message;
                 $scope.file = {};
+                $scope.logo = "uploads/"+data.data.img;
             } else {
                 $scope.alert = 'alert alert-danger';
                 $scope.message = data.data.message;
                 $scope.file = {};
+                $scope.logo = "/uploads/avatar.png"
             }
         });
     };
+
 
 $rootScope.$on('$routeChangeStart',function(){
 
@@ -108,15 +121,50 @@ $rootScope.$on('$routeChangeStart',function(){
 
 
 // this function get all available courses
-		this.viewCatalog= function(){
+		// this.viewCatalog= function(){
 
 
-		 indexSrv.getCatalog().then(function(res){
-		 	//console.log(res.data)
-		  $scope.catalog=res.data.content;
-		})
+		//  indexSrv.getCatalog().then(function(res){
+		//  	//console.log(res.data)
+		//   $scope.catalog=res.data.content;
+		// })
 
-		}
+		// }
+
+
+
+ indexSrv.getCatalog().then(function(res){
+		 	var stArr=[];
+      $scope.catalog=res.data;
+      // console.log(res.data[0][1]);
+      for(var i=0;i<$scope.catalog.length;i++){
+      	stArr[i]=$scope.catalog[i][1];
+      }
+      console.log('my new array');
+      console.log(stArr);
+      indexSrv.set(stArr);
+       $scope.catalog1=stArr;
+
+
+
+
+
+    })
+
+
+
+
+
+    indexSrv.getCatalogedu().then(function(res){
+      $scope.catalogedu=res.data;
+    })
+
+    indexSrv.getCatalogmusic().then(function(res){
+      $scope.catalogmusic=res.data;
+    })
+    indexSrv.getCatalogfun().then(function(res){
+      $scope.catalogfun=res.data;
+    })
 
 
 
@@ -143,7 +191,7 @@ var test={};
 },1000);
         $timeout(function(){
  $('#review').modal('hide');
- $route.reload();
+ $location.reload(true);
 },1500);
 
 	
@@ -208,26 +256,38 @@ app.redirectCourse=function(course){
 
 
 
+ 
  $scope.coursez=indexSrv.get()
 
 
 
 
+
+
+
+
 	this.OneCourse =function(data){
-
-            
-	        businessServ.viewOneCourse(app.data).then(function(response){
-			console.log(app.data)
-
+console.log('first thing')
+    indexSrv.set(data);
+    // console.log(set)
+    var coursesjson={};
+    coursesjson['title']=indexSrv.get();
+     businessServ.viewOneCourse(coursesjson).then(function(response){
+			console.log(response)
 			$scope.oneCourse= response.data.content
 			var c =$scope.oneCourse
 			indexSrv.set(c);
-			console.log(c)
+			businessServ.setB(c);
+		   indexSrv.setc(c);
 
-			//$location.path('/coursepage')
-		        	
+
+			console.log('oooooooo')
+			console.log(indexSrv.get())
+			$location.path('/coursepage');
 
 		})
+
+
 	}
 	
 	this.login=function(data){
@@ -312,7 +372,6 @@ if(response.data.content.username=='Admin')	{
 		})
 		    $location.url('/search');
 	}
-
 	this.logout=function(){
 		indexSrv.LogOut();
 		console.log("log")
@@ -322,6 +381,10 @@ if(response.data.content.username=='Admin')	{
 	}
 
 
+
+
   
 });
+
+
 	

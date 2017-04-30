@@ -456,6 +456,7 @@ router.post('/serviceprovider/courses/addCourse',function(req,res){
 });
 
 
+
 router.get('/serviceprovider/courses',function(req,res){
   if(req.decoded.type == "ServiceProvider"){
   ServiceProviderController.viewCourses(req,res,function(err,message,type){
@@ -601,7 +602,7 @@ router.post('/serviceprovider/viewAllEnrolledStudents', function(req,res){
       else
         res.json({
           type : type,
-          enrolledStudents : message
+          content : message
         });
     });
   }else

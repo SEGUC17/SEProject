@@ -2,17 +2,24 @@ angular.module('AdminController', ['adminSrv']).controller('AdminController',fun
  //adminSrv.setEmail("balabizo@gmail.com");
 $scope.msg = "";
 $scope.unRegisterSP = "";
+
 $scope.IsVisible = false;
 $scope.ShowHide = function () {
     //If DIV is visible it will be hidden and vice versa.
      $scope.IsVisible = $scope.IsVisible ? false : true;
+
+
 };
+console.log("indexSRV ==");
+console.log(indexSrv);
+
 
 $scope.GoToSPpage=  function(Email){
 
 adminSrv.getSpDetail(Email,indexSrv.GetToken()).success(function(spProfile) {
 // eh deh ??  deh btgebb l data bta3t  l sp
-adminSrv.setSpProfile(spProfile.content);
+
+adminSrv.setSpProfile(spProfile.content); 
 console.log("ana hna sp profile "+spProfile);
 console.log(spProfile.content);
 $location.path("/viewP");
@@ -109,6 +116,7 @@ function  displayUnRegSrvProviders  (){
                console.log("ctrluser!!");
             //  console.log(unRegisterSP);
     });
+
 };
 //
 // function displaySPNotifications($q) {

@@ -25,4 +25,16 @@ this.payement = function(){
  
 	}
 
+
+	this.viewreviews = function(data){
+	stServ.viewreviews(this.data).then(function(res){
+		console.log(res);
+		if(res.data.content=='No reviews found !'){
+			$location.path('/home1');
+		}else{
+	$scope.yasso=res.data.content
+}
+})
+}
+
 });

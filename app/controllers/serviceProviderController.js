@@ -1,33 +1,102 @@
-angular.module('spctr',['businessServ','indexSrv','courseServ','adminSrv'])
+
+angular.module('spctr',['businessServ','indexSrv','courseServ','adminSrv','stServ'])
 
 // data  dy el object eli b5do mn el user w 3shn a access 7aga mo3yna mmkn a3ml data.field msln
-.controller('spCon',function($http,$location,businessServ,indexSrv,$scope,courseServ,adminSrv){
+.controller('spCon',function($http,$location,businessServ,indexSrv,$scope,courseServ,adminSrv,stServ){
 
 var app =this;
 
-// indexSrv.GetCurrentUser().then(function(data){
-// 		$scope.type=data.data.decoded.type
+
+$scope.oneCourse={};
+$scope.errorAddCourse=false;
+$scope.holdErrorAddCourseSuccess=true;
+$scope.errorAddCoursemessage="";
+
+app.viewlisterrormessage=true;
+app.holderrormessage=false;
+app.messagesha="ya";
+app.viewlistbutton=true;
+app.ListOfEnrolledStudents=[];
+
+app.ListOfReviews=[];
+app.messagesViewReviews="ya";
+app.holderrormessageViewreviews=true;
+
+
+
+$scope.courseArray=['yasminy','3adi','tani','course','12','yasmin','toz'];
+$scope.title=indexSrv.get();
+$scope.testCourse={};
+$scope.removeCourse={};
+
+
+this.updatedPortofolio = {
+            field: 'def',
+            email: '',
+            description: '',
+            username: '',
+            organizationName: '',
+            logo: '',
+            address : '',
+            polices : ''
+            // password: ''
+       	};
+
+
+
+
+if(indexSrv.get().type == "ERROR")
+this.errMessage=indexSrv.get().message;
+else
+this.succMessage=indexSrv.get().message;
+
+
+     this.bookCourse = function(xx){
+    	stServ.bookCourse({title : $scope.coursez.title}).then(function(response){
+    		console.log("book response");
+    		
+    			// indexSrv.set(response.data)
+
+    			if(response.data.type == "ERROR")
+    				$scope.errMessage = response.data.message;
+    			else 
+    				$scope.succMessage = response.data.message;
+   
+
+
+
+    		console.log(response);
+    	});
+
+    }
+
+
+$scope.errorMsg='';
+$scope.isErr=false;
+$scope.successMsg='';
+$scope.isSuccess=false;
+
+
+if(indexSrv.IsLoggedIn()){
+
+
+indexSrv.GetCurrentUser().then(function(data){
+		$scope.type=data.data.decoded.type
 		
-// 		if($scope.type=='ServiceProvider')
-// 			app.isSP=true;
-// 		else
-// 	       app.isSP=false;
+		if($scope.type=='ServiceProvider')
+			app.isSP=true;
+		else
+	       app.isSP=false;
 
 
-//     });
+    });
+}
 
 
-
-  console.log("hi")
     $scope.coursez = indexSrv.get()
     var test ={};
     var y=$scope.coursez;
   var xx= {title:y.title}
-  console.log(xx)
-
-		
-
-    $scope.coursez = indexSrv.get()
 
 
   
@@ -160,54 +229,182 @@ test["announcements"]=app.data.announcements
 
 	}
 
-		
+	
 
 
+this.addCourse =function(data){
 
-	this.addCourse =function(data){
-
-		// data["token"]=app.SPtoken;
+	var startDate=app.data.startDate.getTime();
+	console.log(startDate);
+	var endDate=app.data.endDate.getTime();
+	if(startDate>endDate){
+		$scope.errorAddCourse=true;
+		$scope.errorAddCoursemessage="Please enter a vaild dates ";
+	}else{
 		businessServ.ServiceProviderAddCourse(app.data).then(function(response){
 			console.log(response)
-			console.log(app.data)
-
+			var flag=response.data;
+			var f=flag.type;
+			var m=flag.message;
+			if(f=="ERROR"){
+			$scope.errorAddCourse=true;
+			$scope.errorAddCoursemessage=m;
+			$scope.holdErrorAddCourseSuccess=true;
+		}
+		else
+			{
+				$scope.holdErrorAddCourseSuccess=false;
+				$scope.errorAddCourse=false;
+				$scope.errorAddCoursemessage=m;
+			}
 
 		})
 	}
+	}
+
+	$scope.goBackProtofolio = function(){
+	$location.path("/spPortofolio");
+}
+
+$scope.hideListOfEnrolledStudents=function(){
+	app.viewlistbutton=true;
+}
+$scope.viewSingleCourse=function(){
+	       	var xy = {
+				"title":$scope.title
+				};
+	        businessServ.viewOneCourse(xy).then(function(response){
+	        console.log("EL ONE COURSE");
+			console.log(response)
+			$scope.testCourse= response.data.content
+			var c =$scope.testCourse
+			console.log(c);
+			indexSrv.set(c);
+			console.log(c.title);
+
+		})
+	    }
+
+$scope.goBackProtofolio = function(){
+	$location.path("/spPortofolio");
+}
 
 
-// var heba="heba";
-//    $scope.coursez=indexSrv.set(heba)
-	this.OneCourse =function(data){
+$scope.removeCourse = function(){
+	$scope.removeCourse=indexSrv.get();
+	console.log("HENA");
+	var xy = {
+		"title":$scope.removeCourse.title
+	};
+courseServ.removeCourse(xy).then(function(res){
+ 	$location.path('/oneCourse');
+	
+})
+}
 
-            
-	        businessServ.viewOneCourse(app.data).then(function(response){
+
+$scope.viewListOfEnrolledStudents = function(){
+	var title=indexSrv.get();
+	console.log("viewListOfEnrolledStudents");
+	console.log(title.title);
+	var title=title.title;
+	console.log(title);
+	var xy = {
+		"title": title
+	};
+businessServ.viewListOfEnrolledStudents(xy).then(function(response){
+ 	console.log(response);
+ 	console.log("in the function");
+			var flag=response.data;
+			var f=flag.type;
+			console.log(f);
+			var m=flag.message;
+			if(f=="ERROR"){
+			app.viewlisterrormessage=false;
+			app.messagesha=m;
+		}else
+			{
+			app.ListOfEnrolledStudents=flag.content;
+			app.holderrormessage=true;
+			app.viewlistbutton=false;
+			app.viewlisterrormessage=true;
+			console.log('list of')
+			console.log(app.ListOfEnrolledStudents);
+			}	
+	})
+									}
+
+
+
+
+	app.redirectCourse=function(course){
+
+    var set=course;
+    indexSrv.set(set);
+    // console.log(set)
+    var coursejson={};
+    coursejson['title']=indexSrv.get();
+     businessServ.viewOneCourse(coursejson).then(function(response){
+
 			console.log(response)
 			$scope.oneCourse= response.data.content
 			var c =$scope.oneCourse
 			indexSrv.set(c);
-
-			//$location.path('/singleCourse')
-		        	//$scope.c="hi"
-                   //console.log(app.data)
-
+			$location.path('/coursesp');
 
 		})
+
+
+}
+
+
+
+// var heba="heba";
+//    $scope.coursez=indexSrv.set(heba)
+	this.OneCourse =function(){
+
+            var get=indexSrv.get();
+            console.log(get);
+	       
 	}
 	//////////////////////////////////////
 	this.newReg = function(data){
 		console.log(this.data);
 		  businessServ.ServiceProviderRegister(this.data).then(function(response){
-			console.log(response)
 
+			// console.log(response)
+
+			if(response.data.type=='SUCCESS'){
+				$scope.errorMsg='';
+                $scope.isErr=false;
+			$scope.isSuccess=true;
+			$scope.successMsg="You have registered Successfully , please wait for an email with your username and password in order to login";
+		}else
+		{
+
+			 $scope.isErr=true;
+			$scope.errorMsg=response.data.message;
+	
+		}
 			//$location.path('/register')
 		})
 	}
 	////////////////////////////////////
-	this.update = function(data){
-			businessServ.updatePortofolio(app.data).then(function(response){
+
+	
+		this.update = function(){
+
+			businessServ.updatePortofolio(this.updatedPortofolio).then(function(response){
 				console.log(response.data);
-				//$scope.newPortofolio = response.data.content;
+				if(response.data.type == "ERROR"){
+					
+					$scope.errorMessage = response.data.message;
+				} else {
+				
+					$scope.successMessage = response.data.message;
+
+				}
+
 			})
 		}
 
@@ -215,23 +412,32 @@ test["announcements"]=app.data.announcements
    // console.log( $scope.coursez)
 
 
-	
 
-		businessServ.ServiceProviderViewCourse().then(function(response){
+   
+if($scope.type=='ServiceProvider'){
+
+
+			businessServ.ServiceProviderViewCourse().then(function(response){
 			// console.log(response)
 			// console.log(response.data.content)
 			console.log("courses are:")
-		     console.log(response)
+			var array=[];
+		     console.log(response.data)
 			$scope.courses=response.data.content
-		
-	
-
-
+			if(response){
+			for(var i=0; i<$scope.courses.length;i++){
+				array[i]=$scope.courses[i].title;
+			}
+		}
+			console.log("titles");
+			$scope.titles=array;
+			console.log(array);
 		});
 
 
 
 		businessServ.ServiceProviderViewPortofolio().then(function(response){
+
 			//console.log(response)
 			console.log(response.data.content)
       if(response.data.content === undefined ||response.data.content ===null || response.data.content === ""){
@@ -245,6 +451,15 @@ test["announcements"]=app.data.announcements
         console.log("in 3");
 
           $scope.profile=response.data.content;
+          app.updatedPortofolio.field = $scope.profile.field;
+          	app.updatedPortofolio.description = $scope.profile.description;
+          	app.updatedPortofolio.username = $scope.profile.username;
+          	app.updatedPortofolio.organizationName = $scope.profile.organizationName;
+          	app.updatedPortofolio.mobileNumber = $scope.profile.mobileNumber;
+          	app.updatedPortofolio.email = $scope.profile.email;
+          	app.updatedPortofolio.address = $scope.profile.address;
+          	app.updatedPortofolio.polices = $scope.profile.polices;
+
 
       }
 
@@ -253,5 +468,7 @@ test["announcements"]=app.data.announcements
 		})
 
 
-})
+}
 
+
+})

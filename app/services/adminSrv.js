@@ -5,15 +5,19 @@ angular.module('adminSrv', [])
 // view all service provider
 getVerifiedServiceProvider: function(token){
 
+ // jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJNWU5LU0giLCJpYXQiOjE0NjA3NzIyOTQsImV4cCI6MTQ5MjMwODI5NSwiYXVkIjoid3d3LnNlY291cnNlLmNvbSIsInN1YiI6Ik1ZTktTSCBJYmVyaWEiLCJUZWFtIjoiTVlOS1NIIn0.hZxhv8XAcu1cARgcrtfb0l_crF1-Ic1tJt9eUhIL0qQ';
+
  var body = {
-   "token":token
- };
+
+"token":token
+
+};
+
     return $http.post('/home/viewreg',body);
 },
 
 // remove service provider
 declineSrvProvider: function(Email , token){
-
        var body = {
       "email": Email ,
       "token":token
@@ -23,7 +27,6 @@ declineSrvProvider: function(Email , token){
          return $http.post('/admin/declineSP',body);
 },
 getSpDetail: function(Email , token){
-
        var body = {
       "email": Email ,
       "token":token
@@ -36,7 +39,6 @@ getSpDetail: function(Email , token){
 
 //verify SP
 VerifySrvProvider: function(username,password,email, token){
-
        var body = {
       "username":username,
       "password":password,
@@ -53,6 +55,7 @@ VerifySrvProvider: function(username,password,email, token){
 },
 
 
+
 //view Unverify service provider
 viewUnSrvProvider: function(token){
 
@@ -64,6 +67,7 @@ viewUnSrvProvider: function(token){
      };
       return $http.post('/adminhomepage/viewunreg',body);
 },
+
 getNotifications : function(data){
  return  $http.post('/serviceprovider/getNotifications',data);
 

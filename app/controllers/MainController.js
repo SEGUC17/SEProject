@@ -12,6 +12,11 @@ angular.module('MainController', ['indexSrv','businessServ','uploadFileService',
 
 var app = this;
 
+$scope.errorMsg='';
+$scope.isErr=false;
+$scope.successMsg='';
+$scope.isSuccess=false;
+
 
 $scope.file = {};
     $scope.message = false;
@@ -58,11 +63,13 @@ $rootScope.$on('$routeChangeStart',function(){
 			 if($scope.type=='ServiceProvider')
 			 	app.isSP=true;
 			 else
-			    app.isSP=false;
+
+			    app.isSP=false; 	
 			 if($scope.type=='Student')
 			 	app.isST=true;
 			 else
-			    app.isST=false;
+			    app.isST=false; 	
+
 			         });
 			      }
 			         else
@@ -70,7 +77,11 @@ $rootScope.$on('$routeChangeStart',function(){
 			  console.log("user is not logged")
 			  	$scope.SPusername='';
               app.islogged = false;
+
+
+
 			    }
+
 })
 
 
@@ -82,7 +93,10 @@ $rootScope.$on('$routeChangeStart',function(){
 		 	//console.log(res.data)
 		  $scope.catalog=res.data.content;
 		})
+
+
 		}
+
 
 app.redirectCourse=function(course){
 
@@ -140,7 +154,6 @@ var test={};
 
 	this.OneCourse =function(data){
 
-
 	        businessServ.viewOneCourse(app.data).then(function(response){
 			console.log(app.data)
 
@@ -150,28 +163,41 @@ var test={};
 			console.log(c)
 
 			//$location.path('/coursepage')
-
+		        	
 
 		})
 	}
-
+	
 	this.login=function(data){
+
 		indexSrv.ServiceProviderLogin(app.data).then(function(response){
 			console.log(response.data)
 			//console.log("the token is: "+response.data.token)
-
+			
 			if(response.data.type=='SUCCESS'){
 			$location.path('/spPortofolio')
 			app.islogged = true;
+				$scope.errorMsg='';
+                $scope.isErr=false;
+			$scope.isSuccess=true;
+			$scope.successMsg=response.data.message;
+             //////////////////////////////
+            
+/////////////////////////////////////////////////////////////
 			}
 			else{
+
 			 app.islogged = false;
+			 $scope.isErr=true;
+			$scope.errorMsg=response.data.message;
+
 
 			}
 
 
 		})
 	}
+
 
 //student login
 this.Student_login=function(data){
@@ -179,6 +205,11 @@ this.Student_login=function(data){
 			console.log(response.data)
 			//console.log("the token is: "+response.data.token)
 			if(response.data.type=='SUCCESS'){
+
+				$scope.errorMsg='';
+                $scope.isErr=false;
+			$scope.isSuccess=true;
+			$scope.successMsg=response.data.message;
 			$location.path('/welcome')
 			app.islogged = true;
 
@@ -192,6 +223,11 @@ if(response.data.content.username=='Admin')	{
 		}
 			else{
 			 app.islogged = false;
+
+			  $scope.isErr=true;
+			$scope.errorMsg=response.data.message;
+
+
 
 			}
 
@@ -224,7 +260,5 @@ if(response.data.content.username=='Admin')	{
 
 
 	}
-
-
-
+ 
 });

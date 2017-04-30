@@ -1,49 +1,142 @@
 <div>
-<h1> SERVICE PROVIDER Adding Course  </h1>	
-</div>
+<h1> Adding Course  </h1> 
+<head>
+  <style>
+.alert {
+    padding: 20px;
+    background-color: #f44336;
+    color: white;
+    opacity: 1;
+    transition: opacity 0.6s;
+    margin-bottom: 15px;
+}
 
-<form ng-submit="spCon.addCourse(data)">
-	 <div class="form-group">
+.alert.success {background-color: #4CAF50;}
+.alert.info {background-color: #2196F3;}
+.alert.warning {background-color: #ff9800;}
+
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.closebtn:hover {
+    color: black;
+}
+.buttontransparent {
+    background: none;/*this for transparent button*/
+    border: 0.2px solid black;/* this is for button border*/
+    position: center;
+    left: 150px;
+    top: 80px;
+}
+</style>
+</head>
+
+
+<form ng-submit="spCon.addCourse(data)" >
+   <div class="form-group">
           <label>title</label>
-          <input type="text" class="form-control" ng-model="spCon.data.title">
+          <input type="text" class="form-control" ng-model="spCon.data.title"  required>
         </div> 
        
         <div class="form-group">
           <label>centerName</label>
-          <input type="text" class="form-control"  ng-model="spCon.data.centerName" >
+
+          <input type="text" class="form-control"  ng-model="spCon.data.centerName" required>
         </div>
         <div class="form-group">
           <label>centerLocation</label>
-          <input type="text" class="form-control" ng-model="spCon.data.centerLocation">
+          <input type="text" class="form-control" ng-model="spCon.data.centerLocation" required>
         </div>
-        <div class="form-group">
-          <label>type</label>
-          <input type="text" class="form-control" ng-model="spCon.data.type" >
+       
+
+
+<div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    type
+    <span class="caret"></span>
+  </button>
+  <ul ng-model="spCon.data.type" class="dropdown-menu" aria-labelledby="dropdownMenu1">
+  <select ng-model="spCon.data.type" class="selectpicker" >
+  <option value="Craft">Craft</option>
+  <option value="Science">Science</option>
+   <option value="Fun">Fun</option>
+     <option value="Education">Education</option>
+          <option value="Art">Art</option>
+          <option value="Computer Science">Computer Science</option>
+              <option value="Music">Music</option>
+  
+</select>
+
+    <!-- <li role="separator" class="divider"></li> -->
+
+  </ul>
+</div>
+
+
+ <div class="form-group">
+        
+        <div>
+          <input type="text" class="form-control" ng-model="spCon.data.type" required readonly>
         </div>
+
         
         <div class="form-group">
-          <label>description</label>
-          <input type="text" class="form-control" ng-model="spCon.data.description" >
+          <label>Description</label>
+          <input type="text" class="form-control" ng-model="spCon.data.description" required>
         </div>
-       <div class="form-group row">
+
+       <div class="form-group">
                   <label for="example-datetime-local-input" class="col-2 col-form-label" >Start Date and Time</label>
             <div class="col-10">
-                <input class="form-control"  ng-model="spCon.data.endDate"  type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input">
+                <input class="form-control"  ng-model="spCon.data.startDate"  type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input" required>
                </div>
-       
-                 <div class="form-group row">
+  
+                 <div class="form-group">
               <label for="example-datetime-local-input" class="col-2 col-form-label" >End Date and Time</label>
             <div class="col-10">
-                  <input class="form-control"  ng-model="spCon.data.endDate"  type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input">
+                  <input class="form-control"  ng-model="spCon.data.endDate"  type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input" required>
               </div>
+
         
                     <div class="form-group">
                     <label>Fees</label>
-            <input type="text" class="form-control" ng-model="spCon.data.fees" >
+            <input type="number" class="form-control" ng-model="spCon.data.fees" required >
+              </div>
+                       <div class="form-group">
+                    <label>Capacity</label>
+            <input type="number" class="form-control" ng-model="spCon.data.capacity" required >
               </div>
 
         
        
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-success">Submit</button>
+        <br>
+        <br>
 
 </form>
+
+<div class="alert" ng-show="errorAddCourse">
+  <span class="closebtn">&times;</span>  
+  <strong>Danger! {{errorAddCoursemessage}}</strong>
+</div>
+
+<div class="alert success" ng-hide="holdErrorAddCourseSuccess">
+  <span class="closebtn">&times;</span>  
+  <strong>Success! {{errorAddCoursemessage}}</strong> 
+</div>
+
+
+<div>
+    <button class="buttontransparent" ng-click="goBackProtofolio()">Go BACK</button>
+
+</div>
+
+</div>

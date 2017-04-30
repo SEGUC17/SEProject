@@ -24,44 +24,17 @@ angular.module('businessServ',[])
             return $http.post('/getCourse',data);
         }, updatePortofolio : function(data){
             return $http.post('/serviceprovider/updatePortofolio',data);
-        }
 
-    	// ServiceProviderLogin:function(data){
-    	//  return $http.post('/forbussinus/login',data).then(function(response){
-    	//  		  AuthToken.SetToken(response.data.token)
-    	//  		 //console.log(response.data.token)
-    	//  		 return response;
-    	//  });
-    	 
-
-    	//}
-
-    	// IsLoggedIn: function(){
-
-    	// 	if(AuthToken.GetToken()){
-    	// 		return true;
-    	// 	}else{
-    	// 		return false;
-    	// 	}
-
-    	// }
-
-
+        },
+      viewListOfEnrolledStudents:function(data){
+            return $http.post('/serviceprovider/viewAllEnrolledStudents',data).then(function(res){
+                console.log(res);
+                return res;
+            })
+        
+        } 
 
     
     };
 })
 
-// .factory('AuthToken',function($window){
-// 	return{
-
-// 		SetToken : function(token){
-// 			$window.localStorage.setItem('token',token)
-// 		},
-// 		// AuthToken.GetToken()
-// 		GetToken: function(){
-// 			return $window.localStorage.getItem('token')
-// 		}
-
-// 	}
-// })

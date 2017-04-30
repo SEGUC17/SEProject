@@ -1,89 +1,158 @@
- <html>
+<body ng-controller = "MainController"> 
 
- <style type ="text/css">
-body{ 
-/*background-image:url(Bouquet2.png);*/
-background-color:brown;
-background-repeat:no-repeat;
-/*background-position:50% 100px;*/
-}
-h1 {color:white; font-style:italic; font-weight:bold; text-align:center; position:relative;top:25px; }
-a:link { text-decoration:none;color:white;font-weight:bold;position:relative; top:40px; left:20px;}
-a:visited {color:black;}
-/*.gina {position:relative; top:200px; left:112px; }*/
-#home{position:absolute; top:125px; left:150px;}
-#bookcourse{position:absolute; top:125px; left:250px;}
-/*#removecourse{position:absolute; top:125px; left:450px;}*/
-#typeReviews{position:absolute; top:125px; left:450px;}
-#viewannouncement{position:absolute; top:125px; left:750px;}
-#viewreviews{position:absolute; top:125px; left:1000px;}
+    <!-- SCROLL TOP BUTTON -->
+    <a class="scrollToTop" href="#"></a>
+    <!-- END SCROLL TOP BUTTON -->
 
- /*h2 {color:white; font-style:italic;text-align:left; position:absolute;top:900px;left:100px; }*/
- 
- p {position:absolute;text-align:center;top:50%;left:20px;}
- #one {position:absolute; top:20%; left:10%;width:80%;}
- #two {position:absolute; top:30%; left:10%;width:80%;}
-.firstheader {color:white; font-style:italic;text-align:left; position:relative;top:200px;left:30px;}
-
-.secondheader {color:white; font-style:italic;text-align:left; position:relative;top:400px;left:30px;}
-.likes{position:absolute; top:1000px; left:900px}
-	.dislikes{position:absolute; top:1000px; left:700px;}
-</style>
-
-<!-- -//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
- 
- <body>
-<h1>COURSE DETAILS</h1>
-<hr id="one"></hr>
-<div id="home"><a href="#/home1" > HOME</a> </div>
-<div id="bookcourse"><a ng-show ="MainController.isST" href="#/" >BOOK and PAY</a></div>
-<!-- <div id="typeReviews"><a ng-show ="MainController.isST" href="#/typereview" >TYPE REVIEWS</a></div>
- --><div id="viewannouncement"><a ng-show ="MainController.isST" href="#/viewannouncements1" >ANNOUNCEMENTS</a></div>
-<div id="viewreviews"><a href="#/viewreviews" >REVIEWS</a></div>
-<div id="bookcourse"><a ng-show ="MainController.isST" href="#/charge" >BOOK and PAY</a></div>
-<hr id="two"></hr>
-<h2 class="firstheader"> ABOUT THE COURSE </h2>
-         <br>
-
-<div ng-controller="MainController">
-  
-<ul class="list-group">
-          <li class="list-group-item">title: {{coursez.title}}</li>
-          <li class="list-group-item">centerName: {{coursez.centerName}}</li>
-          <li class="list-group-item">centerLocation: {{coursez.centerLocation}}</li>
-          <li class="list-group-item">type: {{coursez.type}}</li>
-          <li class="list-group-item">description: {{coursez.description}}</li>
-          <li class="list-group-item">startDate: {{coursez.startDate|date}}</li>
-          <li class="list-group-item">endDate: {{coursez.endDate|date}}</li>
-          <li class="list-group-item">capacity: {{coursez.capacity}}</li>
-          <li class="list-group-item">fees: {{coursez.fees}}</li>
-
-
- 
-        </ul> 
    
+
+    <!--=========== BEGIN COURSE BANNER SECTION ================-->
+    
+      <h2>Course Details</h2>
+ 
+    <!--=========== END COURSE BANNER SECTION ================-->
+
+    
+    <!--=========== BEGIN COURSE BANNER SECTION ================-->
+    <section id="courseArchive">
+      <div class="container">
+        <div class="row">
+          <!-- start course content -->
+          <div class="col-lg-8 col-md-8 col-sm-8">
+            <div class="courseArchive_content">              
+             <div class="singlecourse_ferimg_area">
+              
+                <div class="singlecourse_bottom">
+                 
+                 
+                 
+                </div>
+             </div>
+             <div class="single_course_content" ng-controller="spCon">
+               <h2 class="firstheader">About The Course</h2>
+               <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>
+               <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+               <p>The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>
+
+</br>
+</br>
+                  <h2 class="secondheader"> Information </h2>
+
+               <table class="table table-striped course_table" ng-controller='spCon'>
+                <thead>
+                  <tr>          
+                    <th>Title</th>
+                    <th>Center Name</th>
+                    <th>Center Location</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                      <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Capacity</th>
+                     <th>Fees</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>          
+                   
+                    <td>{{coursez.title}}</td>
+                     <td> {{coursez.centerName}}</td>
+                      <td>{{coursez.centerLocation}}</td>
+                       <td>{{coursez.type}}</td>
+                        <td>{{coursez.description}}</td>
+
+                        <td>{{coursez.startDate|date}}</td>
+                       <td>{{coursez.endDate|date}}</td>
+                        <td>{{coursez.capacity}}</td>
+                        <td>{{coursez.fees}}</td>
+                   
+                  </tr>
+                  <tr>          
+                   
+                
+                </tbody>
+              </table>
+               
+             
+           </div>
+           
+              </div>
+            </div>
+            </div>
+
+          
+</div>
+  
+          <!-- End course content -->
+
+
+
+<hr id="one"></hr>
+
+<div ng-controller = "spCon">
+<div class="row show-hide-message" ng-show=errMessage>
+<div class="alert alert-danger">
+<strong>{{errMessage}}</strong> <a href="#/listOfCourses"> << Back to browse more courses</a>
+</div>
+
+</div>
+<div>
+   <div class="row show-hide-message" ng-show=succMessage>
+   <div class="alert alert-success">
+  <strong>{{succMessage}}</strong><p> You can now pay for the course ..
+</p>
+  <div>
+    <form ng-submit="StudentController.payment(data)" >
+     <div class="card" style="width: 40rem;">
+  <div class="card-block" ng-controller = 'spCon'>
+   
+  <script 
+    src="https://checkout.stripe.com/checkout.js"
+    class="stripe-button"
+    data-key = "pk_test_i6veODaVUVEsRWDggUEW8Lvt"
+    data-amount = {{coursez.fees}}
+    data-name = "Course Payment"
+    data-description = {{coursez.description}}
+    data-locale = "auto"
+    data-currency = "egy"
+    >
+        
+    </script>
+  </div>
+</div>            
+    
+    <input type="hidden" name="chargeAmount" value="75000">
+    </form>
+
+    <strong>Or you can go </strong>
+
+     <a href="#/listOfCourses"> << Back to browse more courses</a>
+
+</div>
+  </div> 
+     
+</div>
+
+
 
 
 </div>
-         
-   
-
-</br>
-</br>
-          <h2 class="secondheader"> INFORMATION </h2>
-         
-          <!-- <div ng-controller="spCon" class="rating">
-          <p class ="likes" ng-click="plusOne($index)">+
-          {{products.likes}} </p>
-          <p class ="dislikes" ng-click="minusOne($index)">+
-          {{product.dislikes}}</p>
-          </div> -->
-
-</br>
-         
 
 
+</div>
 
-</body>
+<div id="home"><a href="#/home1" > HOME</a> </div>
 
- </html>
+<div  ng-controller = "StudentController">
+<a ng-show ="MainController.isST" href="#/coursepage" ng-click= "spCon.bookCourse(data)">BOOK</a>
+</div>
+
+</div>
+<div id="viewannouncement"><a ng-show ="MainController.isST" href="#/viewannouncements1" >ANNOUNCEMENTS</a></div>
+<div id="viewreviews"><a href="#/viewreviesStudent" >REVIEWS</a></div>
+     <hr id="two"></hr>
+  
+  </body>
+</html>
+>>>>>>> master

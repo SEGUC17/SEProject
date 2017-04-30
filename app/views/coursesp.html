@@ -1,0 +1,112 @@
+ <html>
+
+ <style type ="text/css">
+body{ 
+/*background-image:url(Bouquet2.png);*/
+background-color:brown;
+background-repeat:no-repeat;
+/*background-position:50% 100px;*/
+}
+h1 {color:white; font-style:italic; font-weight:bold; text-align:center; position:relative;top:25px; }
+a:link { text-decoration:none;color:white;font-weight:bold;position:relative; top:40px; left:20px;}
+a:visited {color:black;}
+/*.gina {position:relative; top:200px; left:112px; }*/
+#home{position:absolute; top:125px; left:150px;}
+#updatecourse{position:absolute; top:125px; left:250px;}
+/*#removecourse{position:absolute; top:125px; left:450px;}*/
+#postannouncement{position:absolute; top:125px; left:450px;}
+#viewannouncement{position:absolute; top:125px; left:750px;}
+#viewreviews{position:absolute; top:125px; left:1000px;}
+#removeCourse{position:absolute; top:125px; left:1900px;}
+ /*h2 {color:white; font-style:italic;text-align:left; position:absolute;top:900px;left:100px; }*/
+ 
+ p {position:absolute;text-align:center;top:50%;left:20px;}
+ #one {position:absolute; top:20%; left:10%;width:80%;}
+ #two {position:absolute; top:30%; left:10%;width:80%;}
+.firstheader {color:white; font-style:italic;text-align:left; position:relative;top:200px;left:30px;}
+
+.secondheader {color:white; font-style:italic;text-align:left; position:relative;top:400px;left:30px;}
+.likes{position:absolute; top:1000px; left:900px}
+	.dislikes{position:absolute; top:1000px; left:700px;}
+</style>
+
+<!-- -//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+ 
+ <body ng-controller='spCon'>
+<p>COURSE DETAILS</p>
+<br>
+<br>
+<br>
+<hr id="one"></hr>
+<div id="home"><a href="#/home" > HOME</a> </div>
+<div id="updatecourse"><a href="#/updatecourse" >UPDATE COURSE</a></div>
+<!-- <div id="removecourse"><a href="removecourse.html" >DELETE COURSE</a></div> -->
+<div id="postannouncement"><a href="#/postannouncement" >POST ANNOUNCEMENT</a></div>
+<!-- <div id="viewannouncement"><a href="#/viewannouncements" >ANNOUNCEMENTS</a></div> -->
+ <!-- <form ng-submit="spCon.viewannouncements()">
+
+ <button id="viewannouncement" href= "#/viewannouncements" type="submit" class="btn btn-default">ANNOUNCEMENTS</button>
+        </form>  -->
+<button id="viewannouncement"  href= "#/viewannouncements" ng-click="viewannouncements()" type="button"> ANNOUNCEMENTS</button>
+<div id="viewreviews"><a href="#/viewreviews"  >REVIEWS</a></div>
+<div id="removeCourse"><a href="#/removeCourse" >REMOVE COURSE</a></div>
+
+
+<hr id="two"></hr>
+
+         <h2 class="firstheader"> ABOUT THE COURSE </h2>
+          <div ng-controller ="spCon">
+<br>
+<br>
+<br>
+
+    <ul class="list-group">
+          <li class="list-group-item">title: {{coursez.title}}</li> 
+          </br>
+          <li class="list-group-item">centerName: {{coursez.centerName}}</li>
+          </br>
+          <li class="list-group-item">centerLocation: {{coursez.centerLocation}}</li>
+          </br>
+          <li class="list-group-item">type: {{coursez.type}}</li>
+          </br>
+          <li class="list-group-item">description: {{coursez.description}}</li>
+          </br>
+          <li class="list-group-item">startDate: {{coursez.startDate|date}}</li>
+          </br>
+          <li class="list-group-item">endDate: {{coursez.endDate|date}}</li>
+          </br>
+          <li class="list-group-item">capacity: {{coursez.capacity}}</li>
+          </br>
+          <li class="list-group-item">fees: {{coursez.fees}}</li>
+
+
+
+ 
+        </ul> 
+   
+
+
+
+</div> 
+         <br>
+
+  <p>.</p>
+
+</br>
+</br>
+          <h2 class="secondheader"> INFORMATION </h2>
+          <div ng-controller="spCon" class="rating">
+          <p class ="likes" ng-click="plusOne($index)">+
+          {{products.likes}} </p>
+          <p class ="dislikes" ng-click="minusOne($index)">+
+          {{product.dislikes}}</p>
+          </div>
+
+</br>
+         
+
+
+
+</body>
+
+ </html>

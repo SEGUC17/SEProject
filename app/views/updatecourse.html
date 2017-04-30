@@ -1,0 +1,62 @@
+
+  <form  ng-submit="spCon.updatecourse(data)">
+	 <div class="form-group">
+
+        <div class="form-group">
+          <label> OLD Title</label>
+          <input type="text" class="form-control" placeholder="Enter the OLD title" ng-model="spCon.data.title" required>
+        </div>
+
+</br>
+        
+        <div class="form-group">
+          <label>Center Name</label>
+          <input type="text" class="form-control" placeholder=" Name" ng-model="spCon.data.centerName" >
+        </div>
+</br>
+        <div class="form-group">
+          <label>Center Location</label>
+          <input type="text" class="form-control" placeholder="Location" ng-model="spCon.data.centerLocation" >
+        </div>
+</br>
+
+        <div class="form-group">
+          <label>Type</label>
+          <input type="text" class="form-control" placeholder="Type" ng-model="spCon.data.type" >
+        </div>
+</br>
+
+        <div class="form-group">
+          <label>Description</label>
+          <input type="text" class="form-control"  placeholder="Description" ng-model="spCon.data.description" >
+        </div>
+
+</br>
+        <div class="form-group">
+          <label>Capacity</label>
+          <input type="text" class="form-control" placeholder="Capacity" ng-model="spCon.data.capacity" >
+        </div>
+</br>
+ 
+            <div class="form-group">
+          <label>Start Date</label>
+          <input type="text" class="form-control" placeholder="Start Date" ng-model="spCon.data.startDate">
+        </div> 
+       </br>
+        <div class="form-group">
+          <label>End Date</label>
+          <input type="text" class="form-control" placeholder="End Date" ng-model="spCon.data.endDate" >
+        </div>
+       
+        <div class="form-group">
+         <label>Fees</label>
+            <input type="text" class="form-control" placeholder=" Fees" ng-model="spCon.data.fees" >
+              </div>
+       </br>
+        <button type="submit" class="btn btn-primary">SAVE</button>
+        <li><a ng-show = !spCon.isSP href= "#/coursepageSP"> <button class="btn btn-primary" >BACK </button> </a></li>
+
+
+</form>
+
+

@@ -25,6 +25,14 @@
     <script src="/lib/angular-route.min.js"></script>
     <script src="/lib/bootstrap.min.js"></script>
     <script src="/lib/ui-bootstrap-tpls-1.2.5.min.js"></script>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+<!-- "Material Design" templates require angular-material templates as well as a small form-for CSS add-on -->
+<link rel="stylesheet" href="//rawgit.com/angular/bower-material/master/angular-material.min.css">
+<link rel="stylesheet" href="../bower_or_node_root/angular-form-for/dist/form-for.material.css">
+
+<!-- formFor's default templates require formFor CSS -->
+<link rel="stylesheet" href="../bower_or_node_root/angular-form-for/dist/form-for.css">
 <!-- Modules -->
 <script src="starter.js"></script>
 <script src="routes.js"></script>
@@ -34,9 +42,6 @@
 <script src="/controllers/serviceProviderController.js"></script>
 <script src="/controllers/StudentController.js"></script>
 <script src="/controllers/AdminController.js"></script>
-
-<script src="/controllers/PopupDemoCont.js"></script>
-
 
 <!-- services -->
 <script src="/services/indexSrv.js"></script>
@@ -63,10 +68,7 @@
       <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-briefcase"></span>EduDEV
       </a>
     </div>
-
-
-      <ul class="nav navbar-nav navbar-right">
-
+      <ul class="nav navbar-nav navbar-right"> 
 
      <li class="dropdown">
         <a ng-show ="!MainController.islogged" class="dropdown-toggle" data-toggle="dropdown" href="/forbusiness">For Business
@@ -83,6 +85,8 @@
  --><!--           <li><a href="#/c">course</a></li>
  -->          <li><a ng-show ="MainController.isSP"  href="#/spPortofolio">portofolio</a></li>
 
+
+
 <!--       <li><a href= "#/registeredSP">VIEW REGISTERED SP</a></li>    
  -->      <li><a ng-show ="!MainController.islogged" href="#/studentRegister">SIGNUP</a></li>
      <li><a ng-show ="!MainController.islogged" href="#/studentLogin">Login</a></li> 
@@ -94,15 +98,12 @@
        <ul class="nav navbar-nav navbar-left"> 
 
       <li><a href="#/listOfCourses" ng-click="MainController.viewCatalog()" >Catalog</a></li>
-
-        <li><a ng-show ="MainController.isST" href= "#/studentprofile" ng-click="indexSrv.getStudentProfile()">profile</a></li>  
-
+        <li><a ng-show ="MainController.isST" href= "#/studentprofile" ng-click="MainController.viewStudentProfile()">profile</a></li>  
       </ul>
        <form ng-submit ="MainController.search(data)" class="navbar-form navbar-left" role="search">
       <div class="form-group">
 
         <select   ng-model="MainController.data.searchBy" 
-
      data-ng-options="type as type.searchBy for type in types">
      <option value="">Search by</option>
 
@@ -115,12 +116,13 @@
   </div>
 
 </div>
+           
 
     <div ng-view>
-
+      
     </div>
 
 
-</body>
+</body>   
 </html>
 

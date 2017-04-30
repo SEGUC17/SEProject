@@ -1,38 +1,32 @@
 angular.module('StudentController',['stServ','indexSrv'])
 .controller('StudentController',function($scope,$http,$location,stServ,indexSrv){
 //console.log("student controllerrrrr");
-var app=this;
+
  //$scope.student="youmna";
 
 //  $scope.signUp=function(){
 
 // 	     $location.url('/signUp');
 // }
+var app =this;
+
+  console.log("hi")
+    $scope.coursez = indexSrv.get()
+    var test ={};
+    var y=$scope.coursez;
+  var xx= {title:y.title}
+  console.log(xx)
+
+		
+    
+
+
+    $scope.coursez = indexSrv.get()
+
 
   this.newStudent = function(data){
-  
-     // console.log("email to be submitted in the form")
-     // console.log(this.data.email);   
 
-	  stServ.studentRegister(app.data).then(function(response){
-		  	// console.log('resoonseeeeeeeeee')
-		  	var res=indexSrv.get();
-		  	$scope.message="";
-		  	$scope.message2="";
-		  	if(res.data.message=="USERNAME ALREADY EXIST")
-		  		$scope.message="Sorry this username is already taken, try another one !. "
-            else if(res.data.message=="You are registered successfully !")
-                  {
-                  
-                  	$scope.message2="Congratulations, You have successfully registered ! ."
-                     indexSrv.StudentLogin(app.data); 
-                     $location.url('/');
-                
-                 }
-		  	
-		});
-		// console.log("xxxxxxxxxx");
-		// console.log(x);
+		  stServ.studentRegister(this.data)
 		  	
 		
 	}
@@ -45,5 +39,17 @@ this.payement = function(){
 		});
  
 	}
+	
+	this.viewreviews = function(data){
+	stServ.viewreviews(this.data).then(function(res){
+		console.log(res);
+		$location.path('/viewreviesStudent');
+		if(res.data.content=='No reviews found !'){
+			$location.path('/home1');
+		}else{
+	$scope.yasso=res.data.content
+}
+})
+}
 
 });

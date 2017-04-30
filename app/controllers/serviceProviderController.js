@@ -34,7 +34,8 @@ this.viewannouncements = function(){
   
 
 courseServ.viewannouncements(xx).then(function(res){
-	$location.path('/viewannouncements');
+	// $location.path('/viewannouncements');
+	 $location.path('/viewreviews');
 		console.log(res.data.content)
 	console.log('bakrahaaaaakkkkkkkkkkkkkkk')
 	console.log(xx)
@@ -48,6 +49,13 @@ courseServ.viewannouncements(xx).then(function(res){
 	}
 })
 }
+this.viewreviews = function(data){
+courseServ.viewreviews(app.data).then(function(res){
+	console.log(res.data.content)
+	$location.path('/viewreviews');
+	$scope.heba=res.data.content
+})
+}
 // this.viewreviews = function(data){
 // courseServ.viewreviews(app.data).then(function(res){
 // 	console.log(app.data)
@@ -57,15 +65,15 @@ courseServ.viewannouncements(xx).then(function(res){
 // 	$scope.heba=res.data.content
 // })
 // }
-this.viewreviews = function(){
-courseServ.viewreviews(xx).then(function(res){
-	console.log(res.data.content)
-$location.path('/viewreviews');
-	console.log(res)
-	//$location.path('/viewreviews');
-	$scope.heba=res.data.content
-})
-}
+// this.viewreviews = function(){
+// courseServ.viewreviews(xx).then(function(res){
+// 	console.log(res.data.content)
+// $location.path('/viewreviews');
+// 	console.log(res)
+// 	//$location.path('/viewreviews');
+// 	$scope.heba=res.data.content
+// })
+// }
 this.viewannouncements1 = function(){
 	
   
@@ -73,7 +81,18 @@ this.viewannouncements1 = function(){
 courseServ.viewannouncements(xx).then(function(res){
 	console.log(res.data.content)
 	$location.path('/viewannouncements1');
+	
+		if(res.data.type=='ERROR'){
+				 $location.path('/popup');
+			}
+
+		if(res.data.type=='ERROR1'){
+				 $location.path('/popup1');
+			}
+
+	else{
 	$scope.gina1=res.data.content
+	}
 	
 })
 }
@@ -91,6 +110,9 @@ this.removeAnnouncements = function(data){
    var send=indexSrv.get();
 	
 indexSrv.removeAnnouncements(send).then(function(res){
+	if(res.data.type=='ERROR'){
+				 $location.path('/popup1');
+			}
   console.log("removeAnnouncements")
 	console.log(res)
 	// $location.path('/removeAnnouncements');
@@ -123,6 +145,13 @@ test["announcements"]=app.data.announcements
 			console.log(app.data)
 			
 			// console.log(test)
+			if(res.data.type=='ERROR'){
+				 $location.path('/popup1');
+			}
+
+		if(res.data.type=='ERROR1'){
+				 $location.path('/popup2');
+			}
 
 			if(response.data.type=='SUCCESS'){
 				 $location.path('/home');
@@ -138,7 +167,13 @@ test["announcements"]=app.data.announcements
 		courseServ.updatecourse(app.data).then(function(res){
 			console.log(app.data)
 			console.log(res)
-			
+			if(res.data.type=='ERROR1'){
+				 $location.path('/popup1');
+			}
+
+		if(res.data.type=='ERROR'){
+				 $location.path('/popup3');
+			}
 			if(res.data.type=='SUCCESS'){
 				 $location.path('/home');
 			}

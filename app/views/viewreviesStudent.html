@@ -1,34 +1,44 @@
 
-<style> h2{
-  font-family: 'Varela', sans-serif;  
-}
 
-h2 {
-  color: #313338;  
-  font-size: 30px;
-  font-weight: 700;
-  line-height: 40px;
-  margin: 0;
-  padding-bottom: 10px; 
-
-  display: inline-block;
-  float: left;
-  font-size: 18px;
-  margin-right: 20px;
-  padding-bottom: 0px;
- 
-}
+<style> 
+ #two{position:absolute; top:100px;left:170px;}
+ #one{position:absolute; top:100px;left:270px;}
 </style>
-<h2>REVIEWS</h2>
-<form ng-submit="StudentController.viewreviews(data)">
-	<div class="form-group">
-    <label>PLEASE ENTER THE COURSE TITLE</label>
-          <input type="text" class="form-control" ng-model="StudentController.data.title">
-        </div> 
 
- <button type="submit" class="btn btn-default">Submit</button>
+
+<!-- <h2>REVIEWS</h2> -->
+<form ng-submit="spCon.viewannouncements1()">
+   <!--<div class="form-group">
+    <label>PLEASE ENTER THE COURSE TITLE</label>
+          <input type="text" class="form-control" ng-model="spCon.data.title">
+        </div> 
+ -->
+ <button type="submit" class="btn btn-primary">Announcements</button>
         </form>
 
+<!-- <li><a href= "#/viewreviesStudent"> <button class="btn btn-primary" >Reviews </button> </a></li> -->
+ <div ng-repeat = "x in gina1" ng-controller="spCon">
+
+<ul class="list-group">
+          <li class="list-group-item"  ng-model="spCon.data.announcement">{{x}}</li>
+        
+
+        </ul>
+
+          
+
+
+        </div>
+
+
+<form ng-submit="StudentController.viewreviews(data)">
+	<!-- <div class="form-group">
+    <label>PLEASE ENTER THE COURSE TITLE</label>
+          <input type="text" class="form-control" ng-model="StudentController.data.title">
+        </div>  -->
+
+ <button id='two' type="submit" class="btn btn-primary">Reviews</button>
+        </form>
 
 
  <div ng-repeat = "x in yasso" ng-controller="StudentController">
@@ -43,4 +53,4 @@ h2 {
         </div>
 
 
-         <li><a ng-show = spCon.isSP href= "#/home1"> <button  class="btn btn-primary" >BACK </button> </a></li>
+         <li><a ng-show = !spCon.isSP href= "#/home1"> <button  id='one' class="btn btn-primary" >BACK </button> </a></li>

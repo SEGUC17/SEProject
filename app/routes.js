@@ -2,28 +2,7 @@ var myApp = angular.module('appRoutes',['ngRoute'])
 
 
 .config(function($routeProvider) {
-$routeProvider
-.when('/catalog',{
-
-  templateUrl:'views/catalog.html'
-
-  })
-  .when('/catalogedu',{
-
-templateUrl:'views/catalogedu.html'
-
-})
-.when('/catalogmusic',{
-
-templateUrl:'views/catalogmusic.html'
-
-})
-.when('/catalogfun',{
-
-templateUrl:'views/catalogfun.html'
-
-})
-
+  $routeProvider
 
   // route for the landingPage page
     .when('/', {
@@ -61,14 +40,30 @@ templateUrl:'views/catalogfun.html'
     controllerAs: 'MainController'
 
     })
-
 .when('/popup',{
 
-    templateUrl:'views/popup.html',
+    templateUrl:'views/popupANNOUN.html',
      
 
     })
+.when('/popup1',{
 
+    templateUrl:'views/popupaNoun.html',
+     
+
+    })
+.when('/popup2',{
+
+    templateUrl:'views/popupPOSTAN.html',
+     
+
+    })
+.when('/popup3',{
+
+    templateUrl:'views/popupUPDATE.html',
+     
+
+    })
     .when('/listOfCourses',{
 
     templateUrl:'views/listOfCourses.html',
@@ -225,7 +220,6 @@ templateUrl:'views/catalogfun.html'
     controllerAs: 'StudentController'
  
     })
-
  .when('/viewreviesStudent',{
 
     templateUrl:'views/viewreviesStudent.html',
@@ -233,7 +227,6 @@ templateUrl:'views/catalogfun.html'
     controllerAs: 'StudentController'
 
     })
-
  .when('/viewreviews',{
 
     templateUrl:'views/viewreviews.html',
@@ -242,6 +235,7 @@ templateUrl:'views/catalogfun.html'
 
     })
  .when('/home',{
+
     templateUrl:'views/coursepageSP.html',
       controller: 'spCon',
     controllerAs: 'spCon'
@@ -254,7 +248,6 @@ templateUrl:'views/catalogfun.html'
     controllerAs: 'spCon'
 
     })
-
  .when('/coursepageSP',{
 
     templateUrl:'views/coursepageSP.html'
@@ -293,9 +286,11 @@ templateUrl:'views/catalogfun.html'
     // controllerAs: 'AdminController'
 
     })
-
     .otherwise({
     redirectTo: "/"
   });
+
+    
+  
 
 });

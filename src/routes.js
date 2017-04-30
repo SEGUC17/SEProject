@@ -7,7 +7,6 @@ var StudentController = require('./controllers/StudentController');
 var ServiceProviderController = require('./controllers/ServiceProviderController');
 var AdminController = require('./controllers/AdminController');
 
-
 var app = require('./server.js');
 
 var path = require('path');
@@ -29,51 +28,38 @@ var upload = multer({storage : storage}); //check the path
 
 
 
-
 router.get('/',function (req,res){
-        res.sendFile(path.join(__dirname,'../','app','index.html'))
+        res.sendFile(path.join(__dirname,'../','app/views','index.html'))
 });
 
 
-router.get('/catalog',function(req,res){
-      StudentController.getAllCourses(req,res,(err,courses,type)=>{
-        if(type === "ERROR")
-          res.json(courses);
-        else
-          res.json(courses);
-      });
 
+router.post('/forbussinus/login', function(req,res){
+  ServiceProviderController.SPLogin(req,res,function(error,sp,type){
+     
+  if(type !="ERROR"){
+  //check if match username pwd 
+    var token = app.jwt.sign({ username: sp.username, id: sp._id, type:"ServiceProvider" }, app.app.get('super-secret'), {
+    });
+     
+
+
+    res.json({
+      type : type,
+      token : token,
+      message : "You are successfully logged in !",
+      content : sp
     });
 
-    router.get('/catalogedu',function(req,res){
-          StudentController.getAllEducationCourses(req,res,(err,courses,type)=>{
-            if(type === "ERROR")
-              res.json(courses);
-            else
-              res.json(courses);
-          });
+  } else 
+    res.json({
+      type : type,
+      message : sp
+    });
 
-        });
+  });
 
-            router.get('/catalogmusic',function(req,res){
-                  StudentController.getAllMusicCourses(req,res,(err,courses,type)=>{
-                    if(type === "ERROR")
-                      res.json(courses);
-                    else
-                      res.json(courses);
-                  });
-
-                });
-                router.get('/catalogfun',function(req,res){
-                      StudentController.getAllFunCourses(req,res,(err,courses,type)=>{
-                        if(type === "ERROR")
-                          res.json(courses);
-                        else
-                          res.json(courses);
-                      });
-
-                    });
-
+});
 
 
 
@@ -94,8 +80,26 @@ router.post('/student/viewreviews',function(req,res){
   })
 })
 
+router.get('/catalog',function(req,res){
+  StudentController.getAllCourses(req,res,(err,courses,type)=>{
+    if(type === "ERROR")
+      res.json({
+        type:type,
+        message:courses
+      });
+    else 
+      res.json({
+        type:type,
+        message:"ALL COURSES",
+        content:courses
+      });
+  });
+
+});
 
 
+
+// malhash lazma 
 router.post('/admin/clearUnverfiedSP',(req,res)=>{
   ServiceProviderController.clearUNverSP(req,res,(err,result,type)=>{
     if(type=="ERROR"){
@@ -199,9 +203,7 @@ router.post('/login', function(req,res){
           message : "You are successfully logged in !",
           content : message
         });
-
       else 
-
          res.json({
           token : token,
           type : "SUCCESS",
@@ -230,7 +232,7 @@ router.post('/register', function(req,res){
             message : "You are registered successfully !",
             content : student
           });
-
+        
 });
 
 });
@@ -254,28 +256,6 @@ router.post('/serviceprovider/register',function(req,res){
 
 });
 
-router.post('/home/search',function(req,res){
-
-  
-  StudentController.search(req,res,(err,course,type)=>{
-    if(type==="ERROR"){
-   res.json({
-   type:type,
-   message:course
-   });
-
-    }
-    
-    else {
-      res.json({
-     type:type,
-     content:course,
-     message:"course retrieved"
-      });
-    }
-  });
-
-});
 
 
 router.use(function(req,res,next){ //this middleware adds the decoded token the req before continuing to any other routes
@@ -317,10 +297,10 @@ router.post('/studentupload', upload.single('myfile'), function(req,res){
    StudentController.imgUpload(req,res);
 });
 
-
 router.post('/logoupload', upload.single('myfile'), function(req,res){
    ServiceProviderController.logoUpload(req,res);
 });
+
 
 
 
@@ -375,6 +355,28 @@ router.post('/adminhomepage/verify', function(req,res){
   }
 });
 
+// router.post('/student/viewreview',function())
+
+router.post('/serviceprovider/ViewReviews', function(req,res){
+  if(req.decoded.type == "ServiceProvider"){
+    ServiceProviderController.ViewReviews(req,res,function(err,reviews,type){
+        if(type === "ERROR")
+          res.json({
+            type : type,
+            message : reviews
+          });
+        else
+          res.json({
+            type : type,
+            content : reviews
+          });
+    });
+  }else
+    res.json({
+      type : "ERROR",
+      message : "You are not a service provider !"
+    });
+});
 
 
 router.post('/serviceprovider/courses/update', function(req,res){
@@ -387,6 +389,7 @@ ServiceProviderController.updateCourse(req,res,(err,message,type)=>{
       message:message
     });
   }else{
+    
     res.json({
       type:type,
       message:"COURSE HAS BEEN SUCCESSFULLY UPDATE",
@@ -450,7 +453,7 @@ router.post('/serviceprovider/courses/addCourse',function(req,res){
     type:"ERROR",
     message:"YOU ARE NOT A SERVICE PROVIDER"});
 }
-
+     
 });
 
 
@@ -462,14 +465,13 @@ router.get('/serviceprovider/courses',function(req,res){
         type : type,
         message : message
       });
-    else
+    else 
       res.json({
         type : type,
         content : message
       });
   });
 }else 
-
   res.json({
         type : "ERROR",
         message : "Yor are not a service provider !"
@@ -489,7 +491,6 @@ router.post('/serviceprovider/updatePortofolio',function(req,res){
           message : message
         });
       else 
-
         res.json({
           type : type,
           message : "Portofolio updated successfully !",
@@ -497,7 +498,6 @@ router.post('/serviceprovider/updatePortofolio',function(req,res){
         });
     });
   }else 
-
    res.json({
         type : "ERROR",
         message : "You are not a service provider !"
@@ -572,7 +572,7 @@ res.json({
   type:type,
   message:book
 });
-
+    
   }else{
     res.json({
       type:type,
@@ -605,7 +605,7 @@ router.post('/serviceprovider/viewAllEnrolledStudents', function(req,res){
           enrolledStudents : message
         });
     });
-  }else
+  }else 
     res.json({
       type : "ERROR",
       message : "You are not a service provider !"
@@ -710,7 +710,7 @@ router.post('/adminhomepage/getNotifications',function(req,res){
       type : "ERROR",
       message : "You are not an admin !"
     });
-
+  
 });
 
 
@@ -735,6 +735,7 @@ router.post('/serviceprovider/getNotifications',function(req,res){
       type : "ERROR",
       message : "You are not a service provider !"
     });
+  
 });
 
 
@@ -775,27 +776,19 @@ router.post('/studentprofile/review',function(req,res){
         res.json(review);
 
     });
-  }else
+  }else 
     res.json("You are not a student !");
 });
 
 
 
-router.get('/studentprofile',function(req,res){
-  StudentController.getStudentProfile(req,res,(err,courses,type)=>{
-    if(type === "ERROR")
-      res.json(courses);
-    else 
-      res.json(courses);
-  });
 
-});
 
 
 
 router.post('/home/search',function(req,res){
 
-
+  
   StudentController.search(req,res,(err,course,type)=>{
     if(type==="ERROR"){
    res.json({
@@ -804,7 +797,7 @@ router.post('/home/search',function(req,res){
    });
 
     }
-
+    
     else {
       res.json({
      type:type,
@@ -816,6 +809,11 @@ router.post('/home/search',function(req,res){
 
 
 });
+
+
+//  router.get('*',function (req,res){
+//         res.sendFile(path.join(__dirname,'../','app','index.html'))
+// })
 
 
 module.exports =router;

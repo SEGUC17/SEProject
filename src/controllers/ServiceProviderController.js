@@ -296,7 +296,7 @@ logoUpload: function(req,res){
 		    courseFound.announcements.push(newAnnouncement);
 		    courseFound.save((err,result)=>{
 		    	if(err){
-		    		cb(err,"SORRY CANT SAVE THE NEW ANNOUNCMET TO THE COURSE");
+		    		cb(err,"SORRY CANT SAVE THE NEW ANNOUNCMET TO THE COURSE","ERROR1");
 		    	}else{
 		    		cb(err,result,"SUCCESS");
 		    	}
@@ -352,7 +352,7 @@ logoUpload: function(req,res){
 		var Coursetitle=req.body.title;
 		Course.findOne({title:Coursetitle},(err,result)=>{
 			if(err){
-				cb(err,"COURSE NOT FOUND","ERROR");
+				cb(err,"COURSE NOT FOUND","ERROR1");
 			}var array = result.announcements;
             if(array.length == 0)
               cb(err,"No announcements found !", "ERROR");
@@ -390,7 +390,7 @@ logoUpload: function(req,res){
 			else{
            			Course.findOne({title:title},(err,result)=>{
            				if(err){
-             				cb(err,"CAN NOT FIND COURSE","ERROR");
+             				cb(err,"CAN NOT FIND COURSE","ERROR1");
              			}else{
              				cb(err,result,"SUCCESS");
              			}

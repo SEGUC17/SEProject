@@ -809,6 +809,15 @@ router.post('/home/search',function(req,res){
 
 
 });
+router.get('/studentprofile',function(req,res){
+  StudentController.getStudentProfile(req,res,(err,courses,type)=>{
+    if(type === "ERROR")
+      res.json(courses);
+    else 
+      res.json(courses);
+  });
+
+});
 
 
 //  router.get('*',function (req,res){

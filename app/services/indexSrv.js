@@ -31,6 +31,15 @@ myApp.factory('indexSrv', function($http,AuthToken) {
          getCatalog : function(){
                   return $http.get('/catalog');
           },
+          getCatalogedu : function(){
+                   return $http.get('/catalogedu');
+           },
+           getCatalogmusic : function(){
+                    return $http.get('/catalogmusic');
+            },
+            getCatalogfun : function(){
+                     return $http.get('/catalogfun');
+             },
        //      getStudentProfile:function(){
        //        return $http.get('/studentprofile');
        

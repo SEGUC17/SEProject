@@ -224,18 +224,75 @@ imgUpload: function(req,res){
       }
  
   },
- // getAllCourses function Display all provided courses
+// getAllCourses function Display all provided courses
  getAllCourses:function(req,res,cb){
- 
-      Course.find(function(err, courses){
- 
-           if(err)
-           cb(err,"ERROR","ERROR");
-          else
-        cb(err,courses,"SUCCESS");
-      });
-    },
- 
+
+       Course.find(function(err, courses){
+  var array=[];
+  for(var i=0;i<courses.length;i++){
+   array[i]=["Title: ",courses[i].title ,"Type: ",courses[i].type ,"Provided By: ",courses[i].centerName] ;
+
+  }
+            if(err)
+            cb(err,"ERROR","ERROR");
+            else if(courses == null){
+              cb(err,"No Available Courses for This Type","ERROR");
+            }
+           else
+         cb(err,array,"SUCCESS");
+       });
+     },
+     getAllEducationCourses:function(req,res,cb){
+
+           Course.find({type:"education"},function(err, courses){
+      var array=[];
+      for(var i=0;i<courses.length;i++){
+       array[i]=["Title: ",courses[i].title ,"Type: ",courses[i].type ,"Provided By: ",courses[i].centerName] ;
+
+      }
+                if(err)
+                cb(err,"ERROR","ERROR");
+                else if(courses == null){
+                  cb(err,"No Available Courses for This Type","ERROR");
+                }
+               else
+             cb(err,array,"SUCCESS");
+           });
+         },
+         getAllMusicCourses:function(req,res,cb){
+
+               Course.find({type:"music"},function(err, courses){
+          var array=[];
+          for(var i=0;i<courses.length;i++){
+           array[i]=["Title: ",courses[i].title ,"Type: ",courses[i].type ,"Provided By: ",courses[i].centerName] ;
+
+          }
+                    if(err)
+                    cb(err,"ERROR","ERROR");
+                    else if(courses == null){
+                      cb(err,"No Available Courses for This Type","ERROR");
+                    }
+                   else
+                 cb(err,array,"SUCCESS");
+               });
+             },
+             getAllFunCourses:function(req,res,cb){
+
+                   Course.find({type:"fun"},function(err, courses){
+              var array=[];
+              for(var i=0;i<courses.length;i++){
+               array[i]=["Title: ",courses[i].title ,"Type: ",courses[i].type ,"Provided By: ",courses[i].centerName] ;
+
+              }
+                        if(err)
+                        cb(err,"ERROR","ERROR");
+                        else if(courses ==null){
+                          cb(err,"No Available Courses for This Type","ERROR");
+                        }
+                       else
+                     cb(err,array,"SUCCESS");
+                   });
+                 },
 //getStudentProfile function displays for the student his username,profile pictures and his list of courses
      //var courses =[];
    getStudentProfile : function(req,res,cb) {

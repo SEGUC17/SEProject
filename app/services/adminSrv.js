@@ -11,7 +11,7 @@ getVerifiedServiceProvider: function(token){
 "token":token
 
 };
-    return $http.post('/adminhomepage/verify',body);
+    return $http.post('/home/viewreg',body);
 },
 
 // remove service provider
@@ -24,6 +24,16 @@ declineSrvProvider: function(Email , token){
       }; console.log("declineSrvProvider");
          console.log(Email);
          return $http.post('/admin/declineSP',body);
+},
+getSpDetail: function(Email , token){
+       // jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJNWU5LU0giLCJpYXQiOjE0NjA3NzIyOTQsImV4cCI6MTQ5MjMwODI5NSwiYXVkIjoid3d3LnNlY291cnNlLmNvbSIsInN1YiI6Ik1ZTktTSCBJYmVyaWEiLCJUZWFtIjoiTVlOS1NIIn0.hZxhv8XAcu1cARgcrtfb0l_crF1-Ic1tJt9eUhIL0qQ';
+       var body = {
+      "email": Email ,
+      "token":token
+
+      };
+
+         return $http.post('/ServiceProvider/viewPortofolioByAdmin',body);
 },
 
 
@@ -75,6 +85,7 @@ viewUnSrvProvider: function(token){
 getSP: function() {
     return this.SP;
 },
+
 setSP: function(value) {
     this.SP = value;
 },
@@ -83,15 +94,15 @@ getEmail: function() {
     return this.Email;
 },
 
-getNotifications :function(){
-  console.log("adminSrv notificationssss")
-  
- return  $http.post('/adminhomepage/getNotifications');
-
-}
-,
 setEmail: function(value) {
     this.Email = value;
+},
+getSpProfile: function() {
+    return this.SpProfile;
+},
+
+setSpProfile: function(value) {
+    this.SpProfile = value;
 }
 
     };

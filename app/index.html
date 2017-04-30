@@ -35,9 +35,6 @@
 <script src="/controllers/StudentController.js"></script>
 <script src="/controllers/AdminController.js"></script>
 
-<script src="/controllers/PopupDemoCont.js"></script>
-
-
 <!-- services -->
 <script src="/services/indexSrv.js"></script>
 <script src="/services/forBusinessServ.js"></script>
@@ -63,10 +60,7 @@
       <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-briefcase"></span>EduDEV
       </a>
     </div>
-
-
-      <ul class="nav navbar-nav navbar-right">
-
+      <ul class="nav navbar-nav navbar-right"> 
 
      <li class="dropdown">
         <a ng-show ="!MainController.islogged" class="dropdown-toggle" data-toggle="dropdown" href="/forbusiness">For Business
@@ -78,15 +72,16 @@
         </ul>
       </li>
       <li><a ng-show ="MainController.islogged" href= "#/logout" ng-click="MainController.logout()">logout</a></li>    
-      <li><a href= "#/test">test</a></li>    
 <!--      <li><a href="#/addCourse">addCourse</a></li>
  --><!--           <li><a href="#/c">course</a></li>
  -->          <li><a ng-show ="MainController.isSP"  href="#/spPortofolio">portofolio</a></li>
 
+
+
 <!--       <li><a href= "#/registeredSP">VIEW REGISTERED SP</a></li>    
  -->      <li><a ng-show ="!MainController.islogged" href="#/studentRegister">SIGNUP</a></li>
      <li><a ng-show ="!MainController.islogged" href="#/studentLogin">Login</a></li> 
- <li><a href= "#/coursepage">VIEW coursepage</a></li>
+ <!-- <li><a href= "#/coursepage">VIEW coursepage</a></li> -->
 
     
 
@@ -94,15 +89,12 @@
        <ul class="nav navbar-nav navbar-left"> 
 
       <li><a href="#/listOfCourses" ng-click="MainController.viewCatalog()" >Catalog</a></li>
-
-        <li><a ng-show ="MainController.isST" href= "#/studentprofile" ng-click="indexSrv.getStudentProfile()">profile</a></li>  
-
+        <li><a ng-show ="MainController.isST" href= "#/studentprofile" ng-click="MainController.viewStudentProfile()">profile</a></li>  
       </ul>
        <form ng-submit ="MainController.search(data)" class="navbar-form navbar-left" role="search">
       <div class="form-group">
 
         <select   ng-model="MainController.data.searchBy" 
-
      data-ng-options="type as type.searchBy for type in types">
      <option value="">Search by</option>
 
@@ -115,12 +107,13 @@
   </div>
 
 </div>
+           
 
     <div ng-view>
-
+      
     </div>
 
 
-</body>
+</body>   
 </html>
 

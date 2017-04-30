@@ -1,12 +1,11 @@
-angular.module('stServ',['indexSrv'])
-.factory('stServ',function($http,indexSrv){
+angular.module('stServ',[])
+.factory('stServ',function($http){
 	
 return{
 
    studentRegister : function(data){
    	return $http.post('/register',data).then(function(response){
-   	 indexSrv.set(response);
-         
+   		//console.log("inside service")
    		console.log(response)
    	});
    	}
@@ -14,16 +13,30 @@ return{
      studentPayment: function(data){
       return $http.post('/charge',data).then(function(response){
       	console.log("HENAAA");
-         indexSrv.set(response);
          console.log(response);
       });
    },
-   viewreviews:function(data){
+      viewreviews:function(data){
       return $http.post('/student/viewreviews',data).then(function(response){
          console.log('WALHII HENAA');
          console.log(response)
          return response;
       })
    }
-}
+   ,
+   bookCourse : function(data){
+      console.log("baraa");
+       return $http.post('/coursepage/bookcourse',data);
+      
+   }
+
+
+
+
+
+   }
+
+
+
+
 });

@@ -64,6 +64,10 @@ viewUnSrvProvider: function(token){
      };
       return $http.post('/adminhomepage/viewunreg',body);
 },
+getNotifications : function(data){
+ return  $http.post('/serviceprovider/getNotifications',data);
+
+},
 
 getSP: function() {
     return this.SP;

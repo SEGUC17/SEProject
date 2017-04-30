@@ -48,8 +48,6 @@ $scope.file = {};
 
 $rootScope.$on('$routeChangeStart',function(){
 
-
-
 			if(indexSrv.IsLoggedIn()){
 			console.log("success user is logged in")
 			indexSrv.GetCurrentUser().then(function(data){
@@ -60,14 +58,11 @@ $rootScope.$on('$routeChangeStart',function(){
 			 if($scope.type=='ServiceProvider')
 			 	app.isSP=true;
 			 else
-			    app.isSP=false; 	
+			    app.isSP=false;
 			 if($scope.type=='Student')
 			 	app.isST=true;
 			 else
-			    app.isST=false; 	
-
-
-
+			    app.isST=false;
 			         });
 			      }
 			         else
@@ -75,13 +70,7 @@ $rootScope.$on('$routeChangeStart',function(){
 			  console.log("user is not logged")
 			  	$scope.SPusername='';
               app.islogged = false;
-
-
 			    }
-
-
-
-
 })
 
 
@@ -93,10 +82,7 @@ $rootScope.$on('$routeChangeStart',function(){
 		 	//console.log(res.data)
 		  $scope.catalog=res.data.content;
 		})
-
 		}
-
-
 
 app.redirectCourse=function(course){
 
@@ -105,9 +91,6 @@ app.redirectCourse=function(course){
  $location.path('/studentprofile/review')
 
 }
-
-
-			
 
 
 this.viewStudentProfile=function(){
@@ -157,7 +140,7 @@ var test={};
 
 	this.OneCourse =function(data){
 
-            
+
 	        businessServ.viewOneCourse(app.data).then(function(response){
 			console.log(app.data)
 
@@ -167,11 +150,11 @@ var test={};
 			console.log(c)
 
 			//$location.path('/coursepage')
-		        	
+
 
 		})
 	}
-	
+
 	this.login=function(data){
 		indexSrv.ServiceProviderLogin(app.data).then(function(response){
 			console.log(response.data)
@@ -180,9 +163,6 @@ var test={};
 			if(response.data.type=='SUCCESS'){
 			$location.path('/spPortofolio')
 			app.islogged = true;
-             //////////////////////////////
-            
-/////////////////////////////////////////////////////////////
 			}
 			else{
 			 app.islogged = false;
@@ -246,6 +226,5 @@ if(response.data.content.username=='Admin')	{
 	}
 
 
-  
+
 });
-	

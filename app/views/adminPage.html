@@ -2,14 +2,14 @@
        <div class="container"><br>
          <h2>Admin 👑 </h2>
        </div>
-     </div>
+ </div>
 <br>
 
 <section ng-init="tab=1">
   <ul class="nav nav-tabs" >
   <li><a href ng-click="tab=1" ng-class="{ active:tab ===1 }">verify Table </a></li>
   <li><a href ng-click="tab=2" ng-class="{ active:tab ===2 }">Un-Verify Table</a></li>
-  <li><a href ng-click="tab=3" ng-class="{ active:tab ===3 }">Notification </a></li>
+  <li><a href ng-click="tab=3" ng-class="{ active:tab ===3 }">Notifications </a></li>
 </ul>
 <br>
 <div id="myTabContent" class="tab-content">
@@ -71,6 +71,29 @@
 
 
   <div class="panel" ng-show="tab === 3">
-    <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit.</p>
-  </div>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <div class="container">
+  <table class="table" ng-controller="AdminController">
+    <thead>
+      <tr>
+        <th>Organization Name</th>
+        <th>List Of Notifications</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="danger" ng-repeat="sp in Notifications">
+          <td>{{sp.organizationName}}</td>
+          <td>{{sp.listOfNotification}}</td>
+        </tr>
+
+    </tbody>
+  </table>
 </div>
+</div>
+</section>

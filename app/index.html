@@ -89,7 +89,7 @@
        <ul class="nav navbar-nav navbar-left"> 
 
       <li><a href="#/listOfCourses" ng-click="MainController.viewCatalog()" >Catalog</a></li>
-        <li><a ng-show ="MainController.isST" href= "#/studentprofile" ng-click="MainController.viewStudentProfile()">profile</a></li>  
+        <li><a ng-show ="MainController.isST" href= "#/studentprofile" ng-click="indexSrv.getStudentProfile()">profile</a></li>  
       </ul>
        <form ng-submit ="MainController.search(data)" class="navbar-form navbar-left" role="search">
       <div class="form-group">

@@ -21,12 +21,11 @@ myApp.factory('indexSrv', function($http,AuthToken) {
        return savedData;
     },
 
-    	 getStudentProfile:function(data){
-              return $http.post('/studentprofile',data).then(function(res){
-                console.log(res)
-                return res;
-              });
-       
+    	 
+    	 getStudentProfile:function(){
+              return $http.get('/studentprofile');
+               
+           
        },
          getCatalog : function(){
                   return $http.get('/catalog');

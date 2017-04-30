@@ -1,5 +1,5 @@
 angular.module('MainController', ['indexSrv','businessServ','uploadFileService','fileModelDirective'])
-.controller('MainController',function($scope,indexSrv,$location,$rootScope,businessServ,uploadFile) {
+.controller('MainController',function($route,$scope,$timeout,indexSrv,$location,$rootScope,businessServ,uploadFile) {
 
 
 ///////////////////////////////////////////
@@ -9,6 +9,25 @@ angular.module('MainController', ['indexSrv','businessServ','uploadFileService',
 // 	})
 // }
 //////////////////////////////////////////////////////
+
+
+$scope.studentcourses=[];
+indexSrv.getStudentProfile().then(function(res){
+  $scope.username=res.data[0];
+  $scope.profilepicture=res.data[1];
+  console.log($scope.username)
+
+  console.log(res)
+  var i=2;
+  var j=0;
+  while(i<res.data.length){
+$scope.studentcourses[j]=res.data[i];
+i++;
+j++;
+  }
+})
+
+
 
 var app = this;
 $scope.errorMsg='';
@@ -101,44 +120,6 @@ $rootScope.$on('$routeChangeStart',function(){
 
 
 
-app.redirectCourse=function(course){
-
-    var set=course;
-    indexSrv.set(set);
- $location.path('/studentprofile/review')
-
-}
-
-
-			
-
-
-this.viewStudentProfile=function(){
-
-
-$scope.studentcourses=[];
-indexSrv.getStudentProfile().then(function(res){
-  $scope.username=res.data.content[0];
-  $scope.profilepicture=res.data.content[1];
-  console.log($scope.username)
-
-  console.log(res)
-  var i=2;
-  var j=0;
-  while(i<res.data.content.length){
-$scope.studentcourses[j]=res.data.content[i];
-i++;
-j++;
-  }
-})
-
-
-}
-
-
- $scope.coursez=indexSrv.get()
-
-
 this.addReview=function(data){
 var test={};
 	console.log("hellooooo")
@@ -147,15 +128,89 @@ var test={};
  test['review']=app.data.review;
  test['isNeg']=app.data.isNeg;
  console.log(test)
+ $scope.errorMessage=false;
+ $scope.loading=true;
 	// data.courseTitle=indexSrv.get();
 	//console.log( data['courseTitle']);
 	// console.log(data);
+	if(app.data.review!=null && app.data.isNeg!=null){
+	
 	indexSrv.postReview(test).then(function(res){
-     console.log("my resss")
-     console.log(res)
-   $scope.listofreviews=res.data;
+    $timeout(function(){
+    $scope.loading=false;
+    $scope.successMessage="Thank You :) Your Review has been submitted.";
+	
+},1000);
+        $timeout(function(){
+ $('#review').modal('hide');
+ $route.reload();
+},1500);
 
-   })}
+	
+	
+ })
+
+}
+/*else{
+
+$scope.errorMessage="Please Enter Your Review Correctly !";
+$scope.loading=false;
+
+}*/
+
+if(app.data.review==null && app.data.isNeg!=null){
+$scope.errorMessage="Please Leave Your Comment !";
+$scope.loading=false;
+}
+
+if(app.data.review!=null && app.data.isNeg==null){
+$scope.errorMessage="Please Choose Like or Dislike !";
+$scope.loading=false;
+}
+
+
+if(app.data.review==null && app.data.isNeg==null){
+app.errorMessage="Please Enter Your Review Correctly !";
+$scope.loading=false;
+}
+
+
+  
+}
+
+
+
+
+
+
+
+app.redirectCourse=function(course){
+
+    var set=course;
+    indexSrv.set(set);
+
+
+ $scope.coursez=indexSrv.get();
+
+ //$location.path('/studentprofile/review')
+
+}
+
+
+			
+
+
+
+
+
+
+
+
+
+
+ $scope.coursez=indexSrv.get()
+
+
 
 
 	this.OneCourse =function(data){

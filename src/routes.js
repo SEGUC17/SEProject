@@ -780,6 +780,16 @@ router.post('/studentprofile/review',function(req,res){
     res.json("You are not a student !");
 });
 
+router.get('/studentprofile',function(req,res){
+  StudentController.getStudentProfile(req,res,(err,courses,type)=>{
+    if(type === "ERROR")
+      res.json(courses);
+    else 
+      res.json(courses);
+  });
+
+});
+
 
 
 

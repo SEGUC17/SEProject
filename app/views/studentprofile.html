@@ -1,36 +1,196 @@
 
+    <style media="screen">
+         {
+            font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-weight: bolder;
+        }
 
-<body  ng-controller="MainController">
-   <br>
-   <br> 
-  <p>your username: {{username}}</p>
-  <img ng-src= "{{picture}}">
-   <!-- <img class = "mythumbnail" ng-src="{{ thumbnail.dataUrl || 'uploads/default.jpg'}}"> -->
+        .row {
+            margin: 0;
+        }
 
-    <input type="file" file-model="file.upload" name="myfile"/>
-    <button ng-click = "Submit()">upload me</button>
+        .navbar-default {
+            height: 100px;
+            padding-top: 23px;
+            padding-left: 70px;
+            border: 0;
+            border-radius: 0 !important;
+            background: #2c3e50;
+        }
 
-     <div ng-show="message">
-        <div ng-class="{{alert}}"> {{ message }}</div>
-     </div>
+        .navbar-default .navbar-brand {
+            text-transform: uppercase;
+            font-size: 2em;
+            text-decoration: none;
+            color: white;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .navbar-default .navbar-brand:hover {
+            color: #18bc9c;
+            transition: color 0.3s ease;
+        }
+
+        .card {
+            padding: 10px;
+            padding-top: 20px;
+            background: #2c3e50;
+            border: 1px #c8c3ff solid;
+            border-radius: 5px;
+            text-align: center;
+            margin: 10px 3% 1% 3%;
+            height: 190px;
+            width: calc(80% * (1/3));
+        }
+
+        .card .card-title {
+            color: white;
+            font-size: 2em;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        .card .card-link {
+            margin-top: 40px;
+            font-size: 1.1em;
+            font-weight: bold;
+            width: 90%;
+            border: 2px solid white;
+            color: white;
+            background: transparent;
+            transition: background-color 0.5s ease;
+        }
+
+        .card .card-link:hover {
+            color: #8B0000;
+            background: white;
+            transition: background-color 0.5s ease;
+        }
+
+        .form-container {
+            height: 400px;
+            border-left: 1px solid gray;
+            padding-left: 30px;
+        }
+
+        .form-control {
+            width: 90%;
+        }
+    </style>
+</head>
+
+<body>
+<h2 class="bold">{{username}}</h2>
+
+  <p>{{profilepicture}}</p>
+
+<div class="well">
+ <!--    <div ng-show="uploading" class="progress">
+  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+</div> -->
+
+<form action = "/studentprofile" method="post" enctype="multipart/form-data">
+    <label class="btn btn-success">
+      Browse
+    <input name="myfile" type="file" style="display: none;">
+
+     <!-- <input  type="file" ng-disabled="uploading" file-model= "file.upload" name="myfile" style="display: none;" onchange="angular.element(this).scope().photoChanged(this.files)"> -->
+    </label>
+    <br>
+    <br>
+    <button type="submit" class="btn btn-primary" > Upload</button>
+
+  </form>
+
+  <br>
+  <!-- <img class = "mythumbnail" ng-src="{{ thumbnail.dataUrl || 'uploads/default.jpg'}}"> -->
+
+  <br>
+  <br>
+ </div>
+</div>
+
+<h2 class="title text-center">My Courses</h2>
+
+ <div class="vertical-center sun">
+  <div class="row">
+        <div class="col-xs-12 col-md-8">
+            <div class="row">
+                  <div ng-repeat="res in studentcourses"  ng-controller="MainController">
+                    <div class="card col-xs-4">
 
 
-<h2>Courses that you are enrolled in :</h2>
-<div ng-repeat="res in studentcourses" >
+                        <h4 class="card-title">{{res}}
+                                                 </h4>
+                        <button  data-toggle="modal" data-target="#review" ng-click="MainController.redirectCourse(res)" type="button" style:"margin:auto" class="btn btn-danger" >Review</button>
+                    </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal" id="review">
+
+<div class="modal-dialog">
+
+<div class="modal-content">
+<div class="modal-header">
+<h2> Your review is important </h2>
+</div>
+
+<div class="modal-body">
+<div ng-controller="MainController" >
+
+<form ng-submit="MainController.addReview(data)" >
+
+  <textarea rows="4" cols="20" placeholder="Please Type Your Review Here :)" ng-model="MainController.data.review" ></textarea> 
+<!-- <input type="text" placeholder="Type the course title"  ng-model="MainController.data.courseTitle"></input><br>
+ -->
+   <button ng-click="MainController.data.isNeg=0" type="button" class="btn btn-default" >
+   <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></button>
+   <button ng-click="MainController.data.isNeg=1" type="button" class="btn btn-default" >
+   <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span></button> <br>
   
-         <ul class="list-group">
-          <li class="list-group-item">
- 
- {{res}}
-          
-<button  ng-click="MainController.redirectCourse(res)" type="button" >Review</button>
+        <button type="submit" class="btn btn-default" >SUBMIT</button>
 
-          </li>
-        
+</form>
 
-        </ul>
 
-       
+
+<br>
+
+<div class="jumbotron text-center" ng-show="loading" style="background-color:white">
+<span class="glyphicon glyphicon-repeat spinner"></span>
+
+<p> Loading ...</p>
+</div>
+
+<br>
+<div class="row show-hide-message" ng-show="successMessage">
+<div class="alert alert-success">{{successMessage}}</div>
+</div>
+<br>
+<div class="row show-hide-message" ng-show="errorMessage">
+<div class="alert alert-danger">{{errorMessage}}</div>
+</div>
+    
+
+
+</div>
+</div>
+
+
+</div>
+
+
+
+</div>
+
+
 </div>
 
 </body>
+
+

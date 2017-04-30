@@ -11,10 +11,12 @@ angular.module('MainController', ['indexSrv','businessServ','uploadFileService',
 //////////////////////////////////////////////////////
 
 var app = this;
+
 $scope.errorMsg='';
 $scope.isErr=false;
 $scope.successMsg='';
 $scope.isSuccess=false;
+
 
 $scope.file = {};
     $scope.message = false;
@@ -51,8 +53,6 @@ $scope.file = {};
 
 $rootScope.$on('$routeChangeStart',function(){
 
-
-
 			if(indexSrv.IsLoggedIn()){
 			console.log("success user is logged in")
 			indexSrv.GetCurrentUser().then(function(data){
@@ -63,13 +63,12 @@ $rootScope.$on('$routeChangeStart',function(){
 			 if($scope.type=='ServiceProvider')
 			 	app.isSP=true;
 			 else
+
 			    app.isSP=false; 	
 			 if($scope.type=='Student')
 			 	app.isST=true;
 			 else
 			    app.isST=false; 	
-
-
 
 			         });
 			      }
@@ -80,10 +79,8 @@ $rootScope.$on('$routeChangeStart',function(){
               app.islogged = false;
 
 
+
 			    }
-
-
-
 
 })
 
@@ -97,8 +94,8 @@ $rootScope.$on('$routeChangeStart',function(){
 		  $scope.catalog=res.data.content;
 		})
 
-		}
 
+		}
 
 
 app.redirectCourse=function(course){
@@ -108,9 +105,6 @@ app.redirectCourse=function(course){
  $location.path('/studentprofile/review')
 
 }
-
-
-			
 
 
 this.viewStudentProfile=function(){
@@ -160,7 +154,6 @@ var test={};
 
 	this.OneCourse =function(data){
 
-            
 	        businessServ.viewOneCourse(app.data).then(function(response){
 			console.log(app.data)
 
@@ -198,13 +191,12 @@ var test={};
 			 $scope.isErr=true;
 			$scope.errorMsg=response.data.message;
 
+
 			}
 
 
 		})
 	}
-
-
 
 
 //student login
@@ -213,6 +205,7 @@ this.Student_login=function(data){
 			console.log(response.data)
 			//console.log("the token is: "+response.data.token)
 			if(response.data.type=='SUCCESS'){
+
 				$scope.errorMsg='';
                 $scope.isErr=false;
 			$scope.isSuccess=true;
@@ -230,8 +223,10 @@ if(response.data.content.username=='Admin')	{
 		}
 			else{
 			 app.islogged = false;
+
 			  $scope.isErr=true;
 			$scope.errorMsg=response.data.message;
+
 
 
 			}
@@ -265,8 +260,5 @@ if(response.data.content.username=='Admin')	{
 
 
 	}
-
-
-  
+ 
 });
-	

@@ -1,3 +1,4 @@
+
 angular.module('spctr',['businessServ','indexSrv','courseServ','adminSrv','stServ'])
 
 // data  dy el object eli b5do mn el user w 3shn a access 7aga mo3yna mmkn a3ml data.field msln
@@ -43,22 +44,6 @@ this.updatedPortofolio = {
 
 
 
-	// businessServ.ServiceProviderViewPortofolio().then(function(response){
-
- //          $scope.profile=response.data.content;
- //          	app.updatedPortofolio.field = $scope.profile.field;
- //          	app.updatedPortofolio.description = $scope.profile.description;
- //          	app.updatedPortofolio.username = $scope.profile.username;
- //          	app.updatedPortofolio.organizationName = $scope.profile.organizationName;
- //          	app.updatedPortofolio.mobileNumber = $scope.profile.mobileNumber;
- //          	app.updatedPortofolio.email = $scope.profile.email;
- //          	app.updatedPortofolio.address = $scope.profile.address;
- //          	app.updatedPortofolio.polices = $scope.profile.polices;
-
-
-
-          	
- //    });
 
 if(indexSrv.get().type == "ERROR")
 this.errMessage=indexSrv.get().message;
@@ -107,12 +92,6 @@ indexSrv.GetCurrentUser().then(function(data){
     });
 }
 
-
-// $scope.he='jjj';
-// this.view=function(){
-// 	console.log('inside');
-//    $scope.he='heba';
-// }
 
     $scope.coursez = indexSrv.get()
     var test ={};
@@ -250,10 +229,7 @@ test["announcements"]=app.data.announcements
 
 	}
 
-		
-
-
-
+	
 
 
 this.addCourse =function(data){
@@ -369,6 +345,7 @@ businessServ.viewListOfEnrolledStudents(xy).then(function(response){
     var coursejson={};
     coursejson['title']=indexSrv.get();
      businessServ.viewOneCourse(coursejson).then(function(response){
+
 			console.log(response)
 			$scope.oneCourse= response.data.content
 			var c =$scope.oneCourse
@@ -394,6 +371,7 @@ businessServ.viewListOfEnrolledStudents(xy).then(function(response){
 	this.newReg = function(data){
 		console.log(this.data);
 		  businessServ.ServiceProviderRegister(this.data).then(function(response){
+
 			// console.log(response)
 
 			if(response.data.type=='SUCCESS'){
@@ -408,12 +386,11 @@ businessServ.viewListOfEnrolledStudents(xy).then(function(response){
 			$scope.errorMsg=response.data.message;
 	
 		}
-
-
 			//$location.path('/register')
 		})
 	}
 	////////////////////////////////////
+
 	
 		this.update = function(){
 
@@ -427,6 +404,7 @@ businessServ.viewListOfEnrolledStudents(xy).then(function(response){
 					$scope.successMessage = response.data.message;
 
 				}
+
 			})
 		}
 
@@ -434,7 +412,6 @@ businessServ.viewListOfEnrolledStudents(xy).then(function(response){
    // console.log( $scope.coursez)
 
 
-	
 
    
 if($scope.type=='ServiceProvider'){
@@ -455,14 +432,7 @@ if($scope.type=='ServiceProvider'){
 			console.log("titles");
 			$scope.titles=array;
 			console.log(array);
-		
-	
-
-
 		});
-
-		
-
 
 
 
@@ -497,12 +467,8 @@ if($scope.type=='ServiceProvider'){
 
 		})
 
+
 }
 
 
-
-
-
-
 })
-

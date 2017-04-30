@@ -2,101 +2,98 @@
        <div class="container"><br>
          <h2>Admin 👑 </h2>
        </div>
-     </div>
+ </div>
 <br>
-    <!-- <div class="main" ng-controller ="AdminController">
-      <div class="container-fluid">
-       <div class="scrollmenu">
-          <h2>{{ title }}</h2>
-          <div class="w3-container">
-              <button class="w3-button w3-xlarge w3-circle w3-red w3-card-4" ng-click="ShowHide()" >+</button>Verified SP<br/>
-              <div class="jumbotron">
-                 <h2>Jumbotron</h2>
-                  <p><a href="html_images.asp">HTML Images</a>
-              </div>
 
-           </div>
-       </div>
-      </div>
-    </div> -->
-
-
-
-      <tbody>
-          <form name="myform">
-    <!-- <h4  ng-repeat="x in SrvProviders" >  {{x.email}} <button class="w3-button w3-xlarge w3-circle w3-red w3-card-4" ng-click="removeSrvProvider(x.email)" >+</button>Remove</h4> -->
-<div class="container-fluid">
-  <table class="w3-table" ng-controller="AdminController" border="1">
-          <thead class="text-danger">
-            <th>username 👱 / 👩 </th>
+<section ng-init="tab=1">
+  <ul class="nav nav-tabs" >
+  <li><a href ng-click="tab=1" ng-class="{ active:tab ===1 }">verify Table </a></li>
+  <li><a href ng-click="tab=2" ng-class="{ active:tab ===2 }">Un-Verify Table</a></li>
+  <li><a href ng-click="tab=3" ng-class="{ active:tab ===3 }">Notifications </a></li>
+</ul>
+<br>
+<div id="myTabContent" class="tab-content">
+    <div class="col-sm-10" ng-show="tab === 1">
+      <table table class="table table-striped table-hover " ng-controller="AdminController" border="1">
+        <thead class="text-danger">
+          <tr>
+            <th>username 👱/👩 </th>
             <th>Email</th>
-            <th>mobileNumber</th>
-            <th>SP Status</th>
-            <th>SP Status</th>
-
-          </thead>
-          <div>
-           <a class="w3-button w3-medium w3-circle w3-red w3-card-4" href="#/Dashboard" >🙅</a><br> Dashboard</h4>
-           </div>
-          <tr ng-repeat="sps in SrvProviders.content" >
-            <td>{{sps.username}}</td>
-              <td>{{sps.email}}</td>
-              <td>{{sps.mobileNumber}}</td>
-              <td>
-              <button class="w3-button w3-medium w3-circle w3-blue w3-card-4" ng-click="GoToSPpage(sps.email);" >🕵</button>  Details</h4>
-              </td>
-              <td>
-              <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="declineSrvProvider(sps.email) ; displaySrvProviders (); " >🙅</button> Delete</h4>
-            </td>
-
+            <th>Mobile No</th>
+            <th>Status</th>
           </tr>
+        </thead>
+          <tbody>
+              <tr class="success" ng-repeat="sps in SrvProviders.content" >
+                <td>{{sps.username}}</td>
+                  <td>{{sps.email}}</td>
+                  <td>{{sps.mobileNumber}}</td>
+                  <td>
+                  <button class="w3-button w3-medium w3-circle w3-blue w3-card-4" ng-click="GoToSPpage(sps.email);" >🕵</button>  Details</h4>
+                  <br></br>
+                  <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="declineSrvProvider(sps.email) ; displaySrvProviders (); " >🙅</button> Delete</h4>
+                  </td>
+              </tr>
+            </tbody>
         </table>
-        </div>
-<br>
-        <div class="container-fluid">
-          <table class="w3-table" ng-controller="AdminController" border="1">
-                  <thead class="text-danger">
-                    <th>OrganizationName</th>
-                    <th>Email</th>
+      </div>
 
-                    <th>mobileNumber</th>
-                    <th>description</th>
-                    <!-- <th>field</th>
-                    <th>address</th>
-                    <th>polices</th> -->
-                    <th>Enter Info</th>
-
-                    <th> UnRegister SP</th>
-                    <th> UnRegister SP</th>
-                  </thead>
-                  <tr ng-repeat="UNsps in unRegisterSP.content" >
-                    <td>{{UNsps.organizationName}}</td>
-                    <td> {{UNsps.email}}</td>
-                    <td>{{UNsps.mobileNumber}}</td>
-                    <td> {{UNsps.description}}</td>
-                    <!-- <td>{{UNsps.field}}</td>
-                    <td> {{UNsps.address}}</td>
-                    <td>{{UNsps.polices}}</td> -->
-                    <td>
-                      <form action="">
-                      Username: <input type="text" name="username" ng-model="UNsps.username"><br>
-                      Password: <input type="password" name="password" ng-model="UNsps.password">
-                      </form>
-                    </td>
-
-                    <td>
-                      <button class="w3-button w3-medium w3-circle w3-green w3-card-4" ng-click="VerifySrvProvider(UNsps.username,UNsps.password,UNsps.email) ;displaySrvProviders();" >🏃🏻</button>  Accept </h4>
-                    </td>
-
-                    <td>
-                      <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="declineSrvProvider(UNsps.email) ;" >🙅🏻</button>  Decline </h4>
-                    </td>
-                  </tr>
-            </table>
-          </div>
+    <div class="col-sm-10" ng-show="tab === 2">
+      <table table class="table table-striped table-hover " ng-controller="AdminController" border="1">
+              <thead class="text-danger">
+                <th>OrganizationName</th>
+                <th>personal info</th>
+                <th>description</th>
+                <th>Enter Info</th>
+                <th> UnRegister SP</th>
+              </thead>
+            <tr class="danger" ng-repeat="UNsps in unRegisterSP.content">
+                <td>{{UNsps.organizationName}}</td>
+                <td> Email:{{UNsps.email}}<br>
+                  Mob:{{UNsps.mobileNumber}}<br>
+                  Adress:{{UNsps.address}}</td>
+                <td> Description:{{UNsps.description}}<br> Field:{{UNsps.field}}<br>
+                Policy:{{UNsps.polices}}</td>
+                <td>
+                  <form action=""><br>
+                  Username<font color="red" >*</font>:</font><input type="text" name="username" ng-model="UNsps.username"placeholder="Letters Only"><br><br>
+                  Password<font color="red" >*</font>:</font> <input type="password" name="password" ng-model="UNsps.password" placeholder="minimum 4" min="4">
+                  </form>
+                </td>
+                <td>
+                  <button class="w3-button w3-medium w3-circle w3-green w3-card-4" ng-click="VerifySrvProvider(UNsps.username,UNsps.password,UNsps.email) ;displaySrvProviders();" >🏃🏻</button>  Accept </h4>
+                  <br></br>
+                    <button class="w3-button w3-medium w3-circle w3-red w3-card-4" ng-click="declineSrvProvider(UNsps.email) ;" >🙅🏻</button>  Decline </h4>
+                </td>
+              </tr>
+        </table>
+      </div>
 
 
-      </form>
+  <div class="panel" ng-show="tab === 3">
 
-    <!-- <h1>  {{SrvProviders.content[0]}}  </h1> -->
-</tbody>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <div class="container">
+  <table class="table" ng-controller="AdminController">
+    <thead>
+      <tr>
+        <th>Organization Name</th>
+        <th>List Of Notifications</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="danger" ng-repeat="sp in Notifications">
+          <td>{{sp.organizationName}}</td>
+          <td>{{sp.listOfNotification}}</td>
+        </tr>
+
+    </tbody>
+  </table>
+</div>
+</div>
+</section>

@@ -1,0 +1,49 @@
+<div>
+	 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</div>
+
+<div ng-controller ="spCon">
+
+
+<h2>Courses that you have :</h2>
+<br>
+<div ng-repeat="res in titles" >
+  
+<div class="container">
+
+                                                                                        
+  <div class="table-responsive">          
+  <table class="table">
+    <thead>
+    <tr>
+        <th>Course Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>{{res}} </b></td>
+        <td><button class="btn btn-primary btn-md" ng-click="spCon.redirectCourse(res)" type="button" > go to Course Page</button>
+</td>
+        
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+</div>
+
+
+       
+</div>	
+
+</div>
+
+
+
+
+

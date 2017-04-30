@@ -15,7 +15,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "angular-form-for": "^4.1.11",
     "bcrypt-nodejs": "*",
     "bcryptjs": "*",
     "body-parser": "^1.17.1",

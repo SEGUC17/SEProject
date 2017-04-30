@@ -1,5 +1,5 @@
 angular.module('MainController', ['indexSrv','businessServ','uploadFileService','fileModelDirective'])
-.controller('MainController',function($route,$scope,$timeout,indexSrv,$location,$rootScope,businessServ,uploadFile) {
+.controller('MainController',function($scope,indexSrv,$location,$rootScope,businessServ,uploadFile) {
 
 
 ///////////////////////////////////////////
@@ -8,28 +8,17 @@ angular.module('MainController', ['indexSrv','businessServ','uploadFileService',
 // 		$scope.title=res.data
 // 	})
 // }
-/////////////////////////////////////////////////////
+//////////////////////////////////////////////////////
 
-$scope.studentcourses=[];
-indexSrv.getStudentProfile().then(function(res){
-  $scope.username=res.data[0];
-  $scope.profilepicture=res.data[1];
-  console.log($scope.username)
+var app = this;
+$scope.errorMsg='';
+$scope.isErr=false;
+$scope.successMsg='';
+$scope.isSuccess=false;
 
-  console.log(res)
-  var i=2;
-  var j=0;
-  while(i<res.data.length){
-$scope.studentcourses[j]=res.data[i];
-i++;
-j++;
-  }
-})
-
-    $scope.file = {};
+$scope.file = {};
     $scope.message = false;
     $scope.alert = '';
-    $scope.picture = "/uploads/avatar.png"
     //$scope.default = 'https://thebenclark.files.wordpress.com/2014/03/facebook-default-no-profile-pic.jpg';
 
     $scope.Submit = function() {
@@ -38,36 +27,27 @@ j++;
                 $scope.alert = 'alert alert-success';
                 $scope.message = data.data.message;
                 $scope.file = {};
-                $scope.picture = "uploads/"+data.data.img;
             } else {
                 $scope.alert = 'alert alert-danger';
                 $scope.message = data.data.message;
                 $scope.file = {};
-                $scope.picture = "/uploads/avatar.png"
             }
         });
     };
 
-    $scope.logoSubmit = function() {
+    $scope.Submitlogo = function() {
         uploadFile.logoUpload($scope.file).then(function(data) {
             if (data.data.success) {
                 $scope.alert = 'alert alert-success';
                 $scope.message = data.data.message;
                 $scope.file = {};
-                $scope.picture = "uploads/"+data.data.img;
             } else {
                 $scope.alert = 'alert alert-danger';
                 $scope.message = data.data.message;
                 $scope.file = {};
-                $scope.picture = "/uploads/avatar.png"
             }
         });
     };
-});
-
-var app = this;
-
-
 
 $rootScope.$on('$routeChangeStart',function(){
 
@@ -121,6 +101,43 @@ $rootScope.$on('$routeChangeStart',function(){
 
 
 
+app.redirectCourse=function(course){
+
+    var set=course;
+    indexSrv.set(set);
+ $location.path('/studentprofile/review')
+
+}
+
+
+			
+
+
+this.viewStudentProfile=function(){
+
+
+$scope.studentcourses=[];
+indexSrv.getStudentProfile().then(function(res){
+  $scope.username=res.data.content[0];
+  $scope.profilepicture=res.data.content[1];
+  console.log($scope.username)
+
+  console.log(res)
+  var i=2;
+  var j=0;
+  while(i<res.data.content.length){
+$scope.studentcourses[j]=res.data.content[i];
+i++;
+j++;
+  }
+})
+
+
+}
+
+
+ $scope.coursez=indexSrv.get()
+
 
 this.addReview=function(data){
 var test={};
@@ -130,86 +147,15 @@ var test={};
  test['review']=app.data.review;
  test['isNeg']=app.data.isNeg;
  console.log(test)
- $scope.errorMessage=false;
- $scope.loading=true;
 	// data.courseTitle=indexSrv.get();
 	//console.log( data['courseTitle']);
 	// console.log(data);
-	if(app.data.review!=null && app.data.isNeg!=null){
-	
 	indexSrv.postReview(test).then(function(res){
-    $timeout(function(){
-    $scope.loading=false;
-    $scope.successMessage="Thank You :) Your Review has been submitted.";
-	
-},1000);
-        $timeout(function(){
- $('#review').modal('hide');
- $route.reload();
-},1500);
+     console.log("my resss")
+     console.log(res)
+   $scope.listofreviews=res.data;
 
-	
-	
- })
-
-}
-/*else{
-
-$scope.errorMessage="Please Enter Your Review Correctly !";
-$scope.loading=false;
-
-}*/
-
-if(app.data.review==null && app.data.isNeg!=null){
-$scope.errorMessage="Please Leave Your Comment !";
-$scope.loading=false;
-}
-
-if(app.data.review!=null && app.data.isNeg==null){
-$scope.errorMessage="Please Choose Like or Dislike !";
-$scope.loading=false;
-}
-
-
-if(app.data.review==null && app.data.isNeg==null){
-$scope.errorMessage="Please Enter Your Review Correctly !";
-$scope.loading=false;
-}
-
-
-  
-}
-
-
-
-
-
-
-
-app.redirectCourse=function(course){
-
-    var set=course;
-    indexSrv.set(set);
-
-
- $scope.coursez=indexSrv.get();
-
- //$location.path('/studentprofile/review')
-
-}
-
-
-			
-
-
-
-
-
-
-
-
- $scope.coursez=indexSrv.get()
-
+   })}
 
 
 	this.OneCourse =function(data){
@@ -230,19 +176,27 @@ app.redirectCourse=function(course){
 	}
 	
 	this.login=function(data){
+
 		indexSrv.ServiceProviderLogin(app.data).then(function(response){
 			console.log(response.data)
 			//console.log("the token is: "+response.data.token)
-
+			
 			if(response.data.type=='SUCCESS'){
 			$location.path('/spPortofolio')
 			app.islogged = true;
+				$scope.errorMsg='';
+                $scope.isErr=false;
+			$scope.isSuccess=true;
+			$scope.successMsg=response.data.message;
              //////////////////////////////
             
 /////////////////////////////////////////////////////////////
 			}
 			else{
+
 			 app.islogged = false;
+			 $scope.isErr=true;
+			$scope.errorMsg=response.data.message;
 
 			}
 
@@ -250,12 +204,19 @@ app.redirectCourse=function(course){
 		})
 	}
 
+
+
+
 //student login
 this.Student_login=function(data){
 		indexSrv.StudentLogin(app.data).then(function(response){
 			console.log(response.data)
 			//console.log("the token is: "+response.data.token)
 			if(response.data.type=='SUCCESS'){
+				$scope.errorMsg='';
+                $scope.isErr=false;
+			$scope.isSuccess=true;
+			$scope.successMsg=response.data.message;
 			$location.path('/welcome')
 			app.islogged = true;
 
@@ -269,6 +230,9 @@ if(response.data.content.username=='Admin')	{
 		}
 			else{
 			 app.islogged = false;
+			  $scope.isErr=true;
+			$scope.errorMsg=response.data.message;
+
 
 			}
 
@@ -303,23 +267,6 @@ if(response.data.content.username=='Admin')	{
 	}
 
 
-  indexSrv.getCatalog().then(function(res){
-      $scope.catalog=res.data;
-    })
-    indexSrv.getCatalogedu().then(function(res){
-      $scope.catalogedu=res.data;
-    })
-
-    indexSrv.getCatalogmusic().then(function(res){
-      $scope.catalogmusic=res.data;
-    })
-    indexSrv.getCatalogfun().then(function(res){
-      $scope.catalogfun=res.data;
-        $scope.errorMessage=res;
-
-      if(catalogfun.length()==0){
-        $scope.errorMessage="Unfortunately, No Courses Available For This Type";
-      }
-    })
-  });
-
+  
+});
+	

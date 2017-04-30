@@ -24,7 +24,14 @@ angular.module('businessServ',[])
             return $http.post('/getCourse',data);
         }, updatePortofolio : function(data){
             return $http.post('/serviceprovider/updatePortofolio',data);
-        }
+        },
+      viewListOfEnrolledStudents:function(data){
+            return $http.post('/serviceprovider/viewAllEnrolledStudents',data).then(function(res){
+                console.log(res);
+                return res;
+            })
+        
+        } 
 
     	// ServiceProviderLogin:function(data){
     	//  return $http.post('/forbussinus/login',data).then(function(response){

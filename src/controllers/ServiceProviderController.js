@@ -55,29 +55,41 @@ logoUpload: function(req,res){
     },
 
     viewCourses : function(req,res,cb){
+
+    
 		var ServiceProviderID = req.decoded.id; 
     	ServiceProvider.findById(ServiceProviderID, function(err,docs){
     		if(docs){
     			for(var i = 0; i < docs.listOfCourses.length; i++){
     				Course.findById(docs.listOfCourses[i],function(err,doc){
     					array.push(doc);
+    				
     				});
+    				
     			}
 
-    		}else
-    			cb(err,"Service Provider not found !", "ERROR");
-
-    		if(array.length == 0)
-	    		cb(err,"No courses are found !", "ERROR");
-	    	else 
-	    		cb(err, array,"SUCCESS");
-
-	    	while(array.length > 0){
+    		}
+    		console.log(array);
+    	
+    		if(array.length != 0){
+    			var temp = [];
+    			for(var i = 0; i < array.length; i++)
+    				temp[i] = array[i];
+    				while(array.length > 0){
 	    		array.pop();
 	    	}
+	    		cb(err, temp,"SUCCESS");
+
+	    	
+    		}
+			else 		
+				cb(err,"No courses are found !", "ERROR");
+	    	
+	    
 
     	});
 
+    	
 
 
     },
@@ -134,7 +146,7 @@ logoUpload: function(req,res){
 	},
 
 	//the service provider can add a course and passing his Id 
-    addCourse:function(req,res,cb){
+     addCourse:function(req,res,cb){
      
     	//uncomment before submission//uncomment ends here
      
@@ -145,19 +157,19 @@ logoUpload: function(req,res){
      
     		//for submitting uncomment
     		var newCourse=new Course({
-    				title:req.body.title,
-    				centerName:req.body.centerName,
-    				centerLocation:req.body.centerLocation,
+    				title :req.body.title,
+    				centerName :req.body.centerName,
+    				centerLocation :req.body.centerLocation,
     				type:req.body.type,
-    				description:req.body.description,
-    				startDate:req.body.startDate,
-    				endDate:req.body.endDate,
-    				capacity:req.body.capacity,
-    				announcement:req.body.announcement,
-    				fees:req.body.fees,
-    				enrolledStudents:req.body.enrolledStudents,
-    				serviceProviderID:serciveProviderIDSession
-     
+    				description :req.body.description,
+    				"startDate" :req.body.startDate,
+    				"endDate" :req.body.endDate,
+    				"capacity":req.body.capacity,
+    				"announcements":[],
+    				"fees" :req.body.fees,
+    				"enrolledStudentsIDs" : [],
+    				"serviceProviderID" :serciveProviderIDSession,
+    				"ReviewsIDs":[]
     			});
     		//uncomment ends here
      
@@ -165,7 +177,6 @@ logoUpload: function(req,res){
      
     	newCourse.save((err,savedCourse)=>{
     		if(err){
-    			
     			console.log('Cant save the Course');
     			cb(err,"THIS COURSE HAS BEEN ADDED BEFORE SAVE","ERROR");
     		}else{
@@ -353,10 +364,7 @@ logoUpload: function(req,res){
 		Course.findOne({title:Coursetitle},(err,result)=>{
 			if(err){
 				cb(err,"COURSE NOT FOUND","ERROR");
-			}var array = result.announcements;
-            if(array.length == 0)
-              cb(err,"No announcements found !", "ERROR");
-			else{
+			}else{
 				cb(err,result.announcements,"SUCCESS");
 			}
 		});
@@ -421,12 +429,7 @@ logoUpload: function(req,res){
 	},
 //lsa
 //the service provider could view all the enroller students in the course by passing the course titile 
-	viewAllEnrolledStudents : function(req,res,cb){
-		
-    	//array.clear();
-
-    	//array.splice(0, array.length);
-		
+	viewAllEnrolledStudents : function(req,res,cb){	
 		var x = 0;
 
 		if(req.decoded.type == "ServiceProvider"){
@@ -455,14 +458,8 @@ logoUpload: function(req,res){
 						});
 
 					}
-					
-					
-					// for(var y = array.length-1; y > x; y--)
-					// 		array.pop();
-										
-					//console.log(array);
 					if(array.length == 0)
-						cb(err, "No students found", "SUCCESS");
+						cb(err, "No students enrollered in the course yet ! ", "ERROR");
 					else 
 						cb(err, array, "SUCCESS");
 

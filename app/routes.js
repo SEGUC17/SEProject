@@ -10,6 +10,27 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     // controller: 'MainController',
     // controllerAs: 'MainController'
                })
+  
+   .when('/catalog',{
+
+  templateUrl:'views/catalog.html'
+
+  })
+  .when('/catalogedu',{
+
+templateUrl:'views/catalogedu.html'
+
+})
+.when('/catalogmusic',{
+
+templateUrl:'views/catalogmusic.html'
+
+})
+.when('/catalogfun',{
+
+templateUrl:'views/catalogfun.html'
+
+})
   .when('/welcome',{
 
     templateUrl:'views/welcome.html',

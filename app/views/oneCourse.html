@@ -11,13 +11,12 @@
 <h1> one course </h1>	
 </div>
 
-
 <div  ng-controller= "spCon">
-<div ng-click="spCon.OneCourse(data)">
+<div ng-click="spCon.viewSingleCourse()">
 
 <p>Select a course:</p>
 <div>
-  <select ng-model="spCon.data" ng-options="x.title for x in courses">
+  <select ng-model="spCon.data.title" ng-change="viewSingleCourse()" ng-options="x for x in courseArray">
 </select>
 
 <h1>You selected: {{spCon.data.title}}</h1>
@@ -29,6 +28,8 @@
 
 </div>
 
+	
+
 </div>
 
 <div>
@@ -36,3 +37,27 @@
     <li><a href= "#/coursesp"> <button b >COURSE PAGE </button> </a></li>
 
 </div>
+
+<!-- <div ng-controller ="spCon">
+
+	  <ul class="list-group">
+          <li class="list-group-item">title: {{oneCourse.title}}</li>
+          <li class="list-group-item">centerName: {{oneCourse.centerName}}</li>
+          <li class="list-group-item">centerLocation: {{oneCourse.centerLocation}}</li>
+          <li class="list-group-item">type: {{oneCourse.type}}</li>
+          <li class="list-group-item">description: {{oneCourse.description}}</li>
+          <li class="list-group-item">startDate: {{oneCourse.startDate|date}}</li>
+          <li class="list-group-item">endDate: {{oneCourse.endDate}}</li>
+          <li class="list-group-item">capacity: {{oneCourse.capacity}}</li>
+          <li class="list-group-item">fees: {{oneCourse.fees}}</li>
+
+
+ 
+        </ul> 
+   
+
+
+
+</div>
+ -->
+<!--  <div class="row show-hide-message" ng-show="main.successMsg || main.errorMsg || facebook.errorMsg || twitter.errorMsg || google.errorMsg"> -->

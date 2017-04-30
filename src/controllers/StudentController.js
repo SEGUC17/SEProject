@@ -21,10 +21,11 @@ imgUpload: function(req,res){
         return;
       }
 
-      if (!req.file) 
+      if (!req.file) {
          res.json({ success: false, message: 'No file was selected' });
-     
-
+      } else {
+         res.json({ success: true, message: 'File uploaded!' });
+      }
 
       student.profilePicture = req.file.filename;
        console.log(student);
@@ -32,7 +33,7 @@ imgUpload: function(req,res){
         if(err)
           console.log(err);
         else
-          res.json({ success: true, message: 'File uploaded!', img:req.file.filename});
+          console.log("done");
       });
      });
   },//getting the list of reviews of a specific course which is provided by this service provider
@@ -49,7 +50,7 @@ imgUpload: function(req,res){
 
                             
                   if(array.length == 0)
-                    cb(err,"No reviews found !", "SUCCESS");
+                    cb(err,"No reviews found !", "ERROR");
                   else 
                     cb(err,array,"SUCCESS");
 
@@ -224,75 +225,18 @@ imgUpload: function(req,res){
       }
  
   },
-// getAllCourses function Display all provided courses
+ // getAllCourses function Display all provided courses
  getAllCourses:function(req,res,cb){
-
-       Course.find(function(err, courses){
-  var array=[];
-  for(var i=0;i<courses.length;i++){
-   array[i]=["Title: ",courses[i].title ,"Type: ",courses[i].type ,"Provided By: ",courses[i].centerName] ;
-
-  }
-            if(err)
-            cb(err,"ERROR","ERROR");
-            else if(courses == null){
-              cb(err,"No Available Courses for This Type","ERROR");
-            }
-           else
-         cb(err,array,"SUCCESS");
-       });
-     },
-     getAllEducationCourses:function(req,res,cb){
-
-           Course.find({type:"education"},function(err, courses){
-      var array=[];
-      for(var i=0;i<courses.length;i++){
-       array[i]=["Title: ",courses[i].title ,"Type: ",courses[i].type ,"Provided By: ",courses[i].centerName] ;
-
-      }
-                if(err)
-                cb(err,"ERROR","ERROR");
-                else if(courses == null){
-                  cb(err,"No Available Courses for This Type","ERROR");
-                }
-               else
-             cb(err,array,"SUCCESS");
-           });
-         },
-         getAllMusicCourses:function(req,res,cb){
-
-               Course.find({type:"music"},function(err, courses){
-          var array=[];
-          for(var i=0;i<courses.length;i++){
-           array[i]=["Title: ",courses[i].title ,"Type: ",courses[i].type ,"Provided By: ",courses[i].centerName] ;
-
-          }
-                    if(err)
-                    cb(err,"ERROR","ERROR");
-                    else if(courses == null){
-                      cb(err,"No Available Courses for This Type","ERROR");
-                    }
-                   else
-                 cb(err,array,"SUCCESS");
-               });
-             },
-             getAllFunCourses:function(req,res,cb){
-
-                   Course.find({type:"fun"},function(err, courses){
-              var array=[];
-              for(var i=0;i<courses.length;i++){
-               array[i]=["Title: ",courses[i].title ,"Type: ",courses[i].type ,"Provided By: ",courses[i].centerName] ;
-
-              }
-                        if(err)
-                        cb(err,"ERROR","ERROR");
-                        else if(courses ==null){
-                          cb(err,"No Available Courses for This Type","ERROR");
-                        }
-                       else
-                     cb(err,array,"SUCCESS");
-                   });
-                 },
+ 
+      Course.find(function(err, courses){
+ 
+           if(err)
+           cb(err,"ERROR","ERROR");
+          else
+        cb(err,courses,"SUCCESS");
+      });
+    },
+ 
 //getStudentProfile function displays for the student his username,profile pictures and his list of courses
      //var courses =[];
    getStudentProfile : function(req,res,cb) {
@@ -521,18 +465,17 @@ else
       if (!student) {
           var newStudent = new Student
             ({
-              username: req.body.username,
-              password: req.body.password,
-              email:req.body.email,
-              birthdate:req.body.birthdate ,
-              ListOfCourses:[],
-              profilePicture:"/uploads/avatar.png"
- 
+              "username": req.body.username,
+              "password": req.body.password,
+              "email":req.body.email,
+              "birthdate":req.body.birthdate ,
+              "ListOfCourses":[],
+              "profilePicture":req.body.profilePicture
             });
- 
         newStudent.save(function(err,student){
           if(err)
-            cb(err2,"ERROR CAN NOT SAVE ","ERROR"); 
+            throw err;
+           // cb(err,"ERROR CAN NOT SAVE ","ERROR"); 
         else
         cb(err,student,"SUCCESS");
       });

@@ -15,22 +15,7 @@ return{
       	console.log("HENAAA");
          console.log(response);
       });
-
-   },
-      viewreviews:function(data){
-      return $http.post('/student/viewreviews',data).then(function(response){
-         console.log('WALHII HENAA');
-         console.log(response)
-         return response;
-      })
    }
-   ,
-   bookCourse : function(data){
-      console.log("baraa");
-       return $http.post('/coursepage/bookcourse',data);
-      
-   }
-
    }
 
 

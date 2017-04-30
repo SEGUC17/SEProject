@@ -1,98 +1,68 @@
- <html>
-
- <style type ="text/css">
-body{ 
-/*background-image:url(Bouquet2.png);*/
-background-color:brown;
-background-repeat:no-repeat;
-/*background-position:50% 100px;*/
+<div>
+<head>
+  <style>
+.alert {
+    padding: 10px;
+    background-color: #f44336;
+    color: white;
+    opacity: 1;
+    transition: opacity 0.6s;
+    margin-bottom: 15px;
 }
-h1 {color:white; font-style:italic; font-weight:bold; text-align:center; position:relative;top:25px; }
-a:link { text-decoration:none;color:white;font-weight:bold;position:relative; top:40px; left:20px;}
-a:visited {color:black;}
-/*.gina {position:relative; top:200px; left:112px; }*/
-#home{position:absolute; top:125px; left:150px;}
-#updatecourse{position:absolute; top:125px; left:250px;}
-/*#removecourse{position:absolute; top:125px; left:450px;}*/
-#postannouncement{position:absolute; top:125px; left:450px;}
-#viewannouncement{position:absolute; top:125px; left:750px;}
-#viewreviews{position:absolute; top:125px; left:1000px;}
-#removeCourse{position:absolute; top:125px; left:1900px;}
- /*h2 {color:white; font-style:italic;text-align:left; position:absolute;top:900px;left:100px; }*/
- 
- p {position:absolute;text-align:center;top:50%;left:20px;}
- #one {position:absolute; top:20%; left:10%;width:80%;}
- #two {position:absolute; top:30%; left:10%;width:80%;}
-.firstheader {color:white; font-style:italic;text-align:left; position:relative;top:200px;left:30px;}
 
-.secondheader {color:white; font-style:italic;text-align:left; position:relative;top:400px;left:30px;}
-.likes{position:absolute; top:1000px; left:900px}
-	.dislikes{position:absolute; top:1000px; left:700px;}
+.alert.success {background-color: #4CAF50;}
+.alert.info {background-color: #2196F3;}
+.alert.warning {background-color: #ff9800;height: 100px;
+    width: 50%;}
+.alert.enrolled{background-color:#212d8d;height: 100px;
+    width: 30%; display:inline-block; float:right; margin-right: 10px; margin-bottom:10px; margin-left: 10px}
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.closebtn:hover {
+    color: black;
+}
+.buttontransparent {
+    background: none;/*this for transparent button*/
+    border: 0.2px solid black;/* this is for button border*/
+    position: center;
+    left: 150px;
+    top: 80px;
+}
 </style>
+</head>
 
- <body>
-<p>COURSE DETAILS</p>
-<br>
-<br>
-<br>
-<hr id="one"></hr>
-<div id="home"><a href="#/home" > HOME</a> </div>
-<div id="updatecourse"><a href="#/updatecourse" >UPDATE COURSE</a></div>
-<!-- <div id="removecourse"><a href="removecourse.html" >DELETE COURSE</a></div> -->
-<div id="postannouncement"><a href="#/postannouncement" >POST ANNOUNCEMENT</a></div>
-<div id="viewannouncement"><a href="#/viewannouncements" >ANNOUNCEMENTS</a></div>
-<div id="viewreviews"><a href="#/viewreviews" >REVIEWS</a></div>
-<div id="removeCourse"><a href="#/removeCourse" >REMOVE COURSE</a></div>
+<button ng-controller ="spCon" type="submit" class="btn btn-danger" ng-click="removeCourse()">Delete Course</button> 
 
-<a href="#/yasmin" >view enrolled students and delete course</a>
+ <br>
+ <br>
+  <button  type="submit" class="btn btn-danger" ng-show='spCon.viewlistbutton' ng-click="viewListOfEnrolledStudents()">View list of students</button>
 
 
-<hr id="two"></hr>
+ <br>
+ <br>
 
-         <h2 class="firstheader"> ABOUT THE COURSE </h2>
-          <div ng-controller ="spCon">
-<br>
-<br>
-<br>
-
-    <ul class="list-group">
-          <li class="list-group-item">title: {{coursez.title}}</li>
-          <li class="list-group-item">centerName: {{coursez.centerName}}</li>
-          <li class="list-group-item">centerLocation: {{coursez.centerLocation}}</li>
-          <li class="list-group-item">type: {{coursez.type}}</li>
-          <li class="list-group-item">description: {{coursez.description}}</li>
-          <li class="list-group-item">startDate: {{coursez.startDate|date}}</li>
-          <li class="list-group-item">endDate: {{coursez.endDate|date}}</li>
-          <li class="list-group-item">capacity: {{coursez.capacity}}</li>
-          <li class="list-group-item">fees: {{coursez.fees}}</li>
-
-
- 
-        </ul> 
+   <button  type="submit" class="btn btn-danger" ng-hide='spCon.viewlistbutton' ng-click="hideListOfEnrolledStudents()">Hide list of students</button>
    
+<div class="alert warning" ng-hide="spCon.viewlisterrormessage">
+  <span class="closebtn">&times;</span>  
+  <strong>Success! {{spCon.messagesha}}</strong> 
+</div>
+<div ng-repeat="student in spCon.ListOfEnrolledStudents ">
 
+<div ng-hide='spCon.viewlistbutton' class="alert enrolled" ng-show="spCon.holderrormessage"> 
+  <strong>username : {{student.username}}</strong>
+  <br>
+  <strong>email : {{student.email}}</strong> 
+</div>
 
-
-</div> 
-         <br>
-
-  <p>.</p>
-
-</br>
-</br>
-          <h2 class="secondheader"> INFORMATION </h2>
-          <div ng-controller="spCon" class="rating">
-          <p class ="likes" ng-click="plusOne($index)">+
-          {{products.likes}} </p>
-          <p class ="dislikes" ng-click="minusOne($index)">+
-          {{product.dislikes}}</p>
-          </div>
-
-</br>
-         
-
-
-
-</body>
-
- </html>
+</div>
+</div>

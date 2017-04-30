@@ -21,23 +21,16 @@ myApp.factory('indexSrv', function($http,AuthToken) {
        return savedData;
     },
 
-     getStudentProfile:function(){
-              return $http.get('/studentprofile');
-               
-           
+    	 getStudentProfile:function(data){
+              return $http.post('/studentprofile',data).then(function(res){
+                console.log(res)
+                return res;
+              });
+       
        },
          getCatalog : function(){
                   return $http.get('/catalog');
           },
-          getCatalogedu : function(){
-                   return $http.get('/catalogedu');
-           },
-           getCatalogmusic : function(){
-                    return $http.get('/catalogmusic');
-            },
-            getCatalogfun : function(){
-                     return $http.get('/catalogfun');
-             },
        //      getStudentProfile:function(){
        //        return $http.get('/studentprofile');
        

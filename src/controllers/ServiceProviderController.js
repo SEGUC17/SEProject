@@ -22,7 +22,9 @@ logoUpload: function(req,res){
 
       if (!req.file) {
          res.json({ success: false, message: 'No file was selected' });
-      } 
+      } else {
+         res.json({ success: true, message: 'File uploaded!' });
+      }
 
       sp.logo = req.file.filename;
        console.log(sp);
@@ -30,7 +32,7 @@ logoUpload: function(req,res){
         if(err)
           console.log(err);
         else
-           res.json({ success: true, message: 'File uploaded!', img: req.file.filename});
+          console.log("done");
       });
      });
   },
@@ -53,41 +55,39 @@ logoUpload: function(req,res){
     },
 
     viewCourses : function(req,res,cb){
-
-    
+    	console.log("GOWAAA")
 		var ServiceProviderID = req.decoded.id; 
+		console.log(ServiceProviderID);
     	ServiceProvider.findById(ServiceProviderID, function(err,docs){
     		if(docs){
     			for(var i = 0; i < docs.listOfCourses.length; i++){
     				Course.findById(docs.listOfCourses[i],function(err,doc){
-    					array.push(doc);
     				
+    						if(doc){
+    						array[i] = doc;
+    						console.log(doc);	
+    					}
+    					
     				});
-    				
     			}
 
+    		}else{
+	    		cb(err,"Could Not find the user !", "ERROR");
+	    		console.log("BA3AT");
     		}
-    		console.log(array);
-    	
-    		if(array.length != 0){
-    			var temp = [];
-    			for(var i = 0; i < array.length; i++)
-    				temp[i] = array[i];
-    				while(array.length > 0){
-	    		array.pop();
-	    	}
-	    		cb(err, temp,"SUCCESS");
-
-	    	
-    		}
-			else 		
-				cb(err,"No courses are found !", "ERROR");
-	    	
-	    
+	    	if(array.length>0){
+	    		console.log(array);
+	    		cb(err, array,"SUCCESS");
+				}
+				else{
+					cb(err, array,"SUCCESS");
+					// cb(err,"No courses are found !", "ERROR");
+				}
 
     	});
+    			while(array.length > 0)
+							array.pop();
 
-    	
 
 
     },
@@ -144,7 +144,7 @@ logoUpload: function(req,res){
 	},
 
 	//the service provider can add a course and passing his Id 
-     addCourse:function(req,res,cb){
+    addCourse:function(req,res,cb){
      
     	//uncomment before submission//uncomment ends here
      
@@ -472,7 +472,6 @@ logoUpload: function(req,res){
 			cb("", "You are not a Service Provider","ERROR");
 	},
 
-
 //the servicde provider could register to the system by passing the field 
        spRegister: function(req,res,cb){
     //checks first tht this Service provider was not perviously registered to the system
@@ -498,7 +497,9 @@ logoUpload: function(req,res){
     							        email : req.body.email ,
     							        address: req.body.address,
     							        polices :req.body.polices,
-    							        logo :req.body.logo
+    							        logo :req.body.logo,
+    							        listOfCourses:[], 
+										listOfNotification: []
      
     	    						}); 
      

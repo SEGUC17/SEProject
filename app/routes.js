@@ -10,27 +10,6 @@ var myApp = angular.module('appRoutes',['ngRoute'])
     // controller: 'MainController',
     // controllerAs: 'MainController'
                })
-  
-   .when('/catalog',{
-
-  templateUrl:'views/catalog.html'
-
-  })
-  .when('/catalogedu',{
-
-templateUrl:'views/catalogedu.html'
-
-})
-.when('/catalogmusic',{
-
-templateUrl:'views/catalogmusic.html'
-
-})
-.when('/catalogfun',{
-
-templateUrl:'views/catalogfun.html'
-
-})
   .when('/welcome',{
 
     templateUrl:'views/welcome.html',
@@ -45,7 +24,7 @@ templateUrl:'views/catalogfun.html'
     controllerAs: 'MainController'
 
     })
-
+  ////////////////////////
   .when('/adminPage',{
 
     templateUrl:'views/adminPage.html',
@@ -53,7 +32,7 @@ templateUrl:'views/catalogfun.html'
     controllerAs: 'AdminController'
 
     })
-
+  ///////////////////////
 .when('/studentprofile',{
 
     templateUrl:'views/studentprofile.html',
@@ -72,7 +51,7 @@ templateUrl:'views/catalogfun.html'
   .when('/search',{
 
     templateUrl:'views/search.html',
-
+   
 
     })
   .when('/updatePortofolio',{
@@ -86,25 +65,6 @@ templateUrl:'views/catalogfun.html'
    .when('/spPortofolio',{
 
     templateUrl:'views/spPortofolio.html',
-
-        controller: 'spCon',
-    controllerAs: 'spCon'
-   
-
-    })
-   .when('/newPortofolio',{
-
-    templateUrl:'views/newPortofolio.html',
-        controller: 'spCon',
-    controllerAs: 'spCon'
-   
-
-    })
-   .when('/courseDemo',{
-
-    templateUrl:'views/courseDemo.html',
-        controller: 'spCon',
-    controllerAs: 'spCon'
    
 
     })
@@ -152,22 +112,6 @@ templateUrl:'views/catalogfun.html'
     controllerAs: 'spCon'
 
     })
-
-    .when('/yasmin',{
-
-    templateUrl:'views/yasmin.html',
-      controller: 'spCon',
-    controllerAs: 'spCon'
-
-    })
-    .when('/oneCourse',{
-
-    templateUrl:'views/oneCourse.html',
-      controller: 'spCon',
-    controllerAs: 'spCon'
-
-    })
-
      .when('/singleCourse',{
 
     templateUrl:'views/singleCourse.html',
@@ -214,9 +158,7 @@ templateUrl:'views/catalogfun.html'
 
     templateUrl:'views/coursepage.html',
     controller: 'spCon',
-
     controllerAs:'spCon' 
-
 
     })
     .when('/updatecourse',{
@@ -226,7 +168,7 @@ templateUrl:'views/catalogfun.html'
       controllerAs: 'spCon'
 
     })
-
+   
     .when('/postannouncement',{
 
     templateUrl:'views/postannouncement.html',
@@ -278,16 +220,16 @@ templateUrl:'views/catalogfun.html'
     })
  .when('/coursesp',{
 
-    templateUrl:'views/coursesp.html'
-    //   controller: 'StudentController',
-    // controllerAs: 'StudentController'
+    templateUrl:'views/coursesp.html',
+     controller: 'spCon',
+    controllerAs: 'spCon'
 
     })
    .when('/test',{
 
-    templateUrl:'views/test.html',
-    controller: 'spCon',
-    controllerAs: 'spCon'
+    templateUrl:'views/test.html'
+    
+
     })
     .when('/login',{
 
@@ -295,7 +237,7 @@ templateUrl:'views/catalogfun.html'
     //   controller: 'MainController',
     // controllerAs: 'MainController'
 
-
+    
 
     })
     .when('/logout',{
@@ -304,6 +246,7 @@ templateUrl:'views/catalogfun.html'
     //   controller: 'MainController',
     // controllerAs: 'MainController'
 
+    
 
     })
     .when('/Dashboard',{
@@ -313,18 +256,11 @@ templateUrl:'views/catalogfun.html'
     // controllerAs: 'AdminController'
 
     })
-
-    .when('/bookCourse',{
-
-    templateUrl:'views/bookCourse.html',
-      controller: 'spCon',
-    controllerAs: 'spCon'
-
-    })
-
     .otherwise({
     redirectTo: "/"
   });
 
+    
+  
 
 });

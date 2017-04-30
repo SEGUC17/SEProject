@@ -32,6 +32,44 @@ router.get('/',function (req,res){
         res.sendFile(path.join(__dirname,'../','app','index.html'))
 });
 
+router.get('/catalog',function(req,res){
+      StudentController.getAllCourses(req,res,(err,courses,type)=>{
+        if(type === "ERROR")
+          res.json(courses);
+        else
+          res.json(courses);
+      });
+
+    });
+
+    router.get('/catalogedu',function(req,res){
+          StudentController.getAllEducationCourses(req,res,(err,courses,type)=>{
+            if(type === "ERROR")
+              res.json(courses);
+            else
+              res.json(courses);
+          });
+
+        });
+
+            router.get('/catalogmusic',function(req,res){
+                  StudentController.getAllMusicCourses(req,res,(err,courses,type)=>{
+                    if(type === "ERROR")
+                      res.json(courses);
+                    else
+                      res.json(courses);
+                  });
+
+                });
+                router.get('/catalogfun',function(req,res){
+                      StudentController.getAllFunCourses(req,res,(err,courses,type)=>{
+                        if(type === "ERROR")
+                          res.json(courses);
+                        else
+                          res.json(courses);
+                      });
+
+                    });
 
 
 router.post('/forbussinus/login', function(req,res){
